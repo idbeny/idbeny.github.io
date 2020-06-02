@@ -31,13 +31,58 @@
     
     
     <entry>
-      <title>Hello World</title>
-      <link href="/2020/05/31/hello-world/"/>
-      <url>/2020/05/31/hello-world/</url>
+      <title>【VSCode】如何使用Vue的template模板</title>
+      <link href="/2019/06/02/vscode-vuetemplate/"/>
+      <url>/2019/06/02/vscode-vuetemplate/</url>
       
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+        <content type="html"><![CDATA[<p>使用Vue开发项目的时候经常会用到template模板，在webstorm中新建文件有VueComponent模板，那么VSCode是否也有这样的模板呢？有的，不过不像webstorm插件那样方便，在VSCode中需要自己配置，本质其实就是代码片段。</p><a id="more"></a><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p><img src="http://blog.idbeny.com/zdj9b.png" alt="第一种"></p><p><img src="http://blog.idbeny.com/e7xtd.png" alt="第二种"></p><h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>选择新建代码片段<br><img src="http://blog.idbeny.com/y48w2.png" alt="创建代码片段"></p><h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p>输入代码片段名称（例：VueTemplate）<br><img src="http://blog.idbeny.com/ul53p.png" alt="创建代码片段"></p><h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p>创建完成后看到一个空的模板文件<br><img src="http://blog.idbeny.com/z5ldf.png" alt="创建代码片段"><br>把需要的模板代码写入到该文件即可</p><ul><li><code>/t</code>：一个<code>tab</code>缩进–具体看VSCode配置；</li><li><code>\n</code>：换行</li><li><code>prefix</code>：快捷键（创建代码的时候用到）<br><img src="http://blog.idbeny.com/ao82p.png" alt="创建代码片段"></li></ul><p>具体代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;Vue-Template&quot;: &#123;</span><br><span class="line">    &quot;prefix&quot;: &quot;vuetem&quot;,</span><br><span class="line">    &quot;body&quot;: [</span><br><span class="line">&quot;&lt;template&gt;\n&quot;,</span><br><span class="line">&quot;&lt;&#x2F;template&gt;\n&quot;,</span><br><span class="line">&quot;&lt;script&gt;&quot;,</span><br><span class="line">&quot;\texport default &#123;&quot;,</span><br><span class="line">  &quot;\t\tname: &#39;App&#39;&quot;,</span><br><span class="line">&quot;\t&#125;&quot;,</span><br><span class="line">&quot;&lt;&#x2F;script&gt;\n&quot;,</span><br><span class="line">&quot;&lt;style scoped&gt;\n&quot;,</span><br><span class="line">&quot;&lt;&#x2F;style&gt;&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;description&quot;: &quot;快速创建vue组件模板&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>保存后，新建Vue文件后，在代码区输入之前定义的<code>prefix</code>快捷键然后按下<code>tab</code>即可（本例快捷键：<code>vuetem</code>）。</p>]]></content>
       
       
+      <categories>
+          
+          <category> Vue </category>
+          
+          <category> JS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> VSCode </tag>
+            
+            <tag> Vue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【Xcode】配置包iOS13.* 、iOS12.* 、iOS11.* 、iOS10.* 、iOS9.* 等 could not find developer disk image</title>
+      <link href="/2018/04/02/xcode-devicesupport-config/"/>
+      <url>/2018/04/02/xcode-devicesupport-config/</url>
+      
+        <content type="html"><![CDATA[<p><strong>最新版本13.0</strong></p><a id="more"></a><ol><li><p>在<code>Finder</code>状态下前往文件夹，快捷键：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shift+command+G</span><br></pre></td></tr></table></figure></li><li><p>填写路径</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Applications&#x2F;Xcode.app&#x2F;Contents&#x2F;Developer&#x2F;Platforms&#x2F;iPhoneOS.platform&#x2F;DeviceSupport</span><br></pre></td></tr></table></figure><p><img src="http://blog.idbeny.com/sfyfg.png" alt=""></p></li><li><p>点击前往<br><img src="http://blog.idbeny.com/klj59.png" alt=""></p></li></ol><p>这时候我们把资源包放在<code>DeviceSupport</code>文件夹下面，<strong>重启Xcode</strong>即可</p><blockquote><p>GitHub地址： <a href="https://github.com/idbeny/DeviceSupport" target="_blank" rel="noopener">https://github.com/idbeny/DeviceSupport</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tool </category>
+          
+          <category> iOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Xcode </tag>
+            
+            <tag> iOS </tag>
+            
+        </tags>
       
     </entry>
     
@@ -73,13 +118,81 @@
     
     
     <entry>
-      <title>你好啊-1024</title>
-      <link href="/2010/05/31/%E4%BD%A0%E5%A5%BD%E5%95%8A-1024/"/>
-      <url>/2010/05/31/%E4%BD%A0%E5%A5%BD%E5%95%8A-1024/</url>
+      <title>【Alcatraz】如何安装和使用Alcatraz</title>
+      <link href="/2017/05/29/alcatraz-install-used/"/>
+      <url>/2017/05/29/alcatraz-install-used/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>开发过程中为了提高开发效率我们经常会使用到很多Xcode插件，有时候为了方便能不能出个像<code>cocoapods</code>那样的插件管理工具呢？</p><a id="more"></a><p>接下来就为大家介绍一下灰常牛逼的一款插件管理工具：<a href="https://link.jianshu.com/?t=https://github.com/alcatraz/Alcatraz" target="_blank" rel="noopener">Alcatraz</a></p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol><li><p>在终端输入：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;alcatraz&#x2F;Alcatraz&#x2F;master&#x2F;Scripts&#x2F;install.sh | sh</span><br></pre></td></tr></table></figure><p><img src="http://blog.idbeny.com/kwtpk.png" alt=""></p></li><li><p>安装成功后重启Xcode</p></li><li><p>重新打开Xcode后提示如下：选择<code>Load Bundle</code><br><img src="http://blog.idbeny.com/586k1.png" alt=""></p></li><li><p>查看是否安装成功<br>进入<code>Xcode</code>菜单导航界面选择<code>Window</code>，出现<code>Package Manager</code>即安装成功<br><img src="http://blog.idbeny.com/oytsb.png" alt=""></p></li></ol><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ol><li><p>我们可以接上一步骤直接鼠标点击打开，或快捷键：<code>command+shift+9</code></p></li><li><p>点击<code>Installed</code>以及<code>Plugins</code>可以看到之前已经安装好的插件<br><img src="http://blog.idbeny.com/fvzno.png" alt=""></p></li><li><p>安装插件只需搜索相关插件即可，以<a href="https://link.jianshu.com/?t=https://github.com/ksuther/KSImageNamed-Xcode" target="_blank" rel="noopener">KSImageNamed</a>为例</p></li><li><p>点击<code>INSTALL</code>，等待安装，安装过程中<code>INSTALL</code>会变成<code>INSTALLING</code>，安装成功后显示<code>REMOVE **</code><br><img src="http://blog.idbeny.com/el25l.png" alt=""></p></li><li><p>安装成功后，若想立即使用刚才下载的插件需要<strong>重启Xcode</strong>，再次打开后勾选<code>Load Bundle</code><br><img src="http://blog.idbeny.com/g6dka.png" alt=""></p></li><li><p>若想移除相关插件点击<code>REMOVE</code>即可<br><img src="http://blog.idbeny.com/yl81i.png" alt=""></p></li><li><p>移除所有插件，在终端输入：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~&#x2F;Library&#x2F;Application\ Support&#x2F;Alcatraz&#x2F;</span><br></pre></td></tr></table></figure></li></ol><h3 id="移除工具"><a href="#移除工具" class="headerlink" title="移除工具"></a>移除工具</h3><p>删除Alcatraz 只需在终端输入：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~&#x2F;Library&#x2F;Application\ Support&#x2F;Developer&#x2F;Shared&#x2F;Xcode&#x2F;Plug-ins&#x2F;Alcatraz.xcplugin</span><br></pre></td></tr></table></figure><blockquote><p>注意：目前Alcatraz仅支持Xcode7.0+</p></blockquote>]]></content>
       
       
+      <categories>
+          
+          <category> Xcode </category>
+          
+          <category> iOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Alcatraz </tag>
+            
+            <tag> Xcode </tag>
+            
+            <tag> Plugin </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【Mac】Terminal(终端)命令不能用</title>
+      <link href="/2017/03/11/mac-terminal-not-work/"/>
+      <url>/2017/03/11/mac-terminal-not-work/</url>
+      
+        <content type="html"><![CDATA[<p>最近一次在用终端敲命令的时候发现命令总是不执行(只有cd命令可以正常执行)，返回命令未识别的错误<code>-bash: source: command not found</code>，相信很多朋友也会遇到类似的问题。</p><a id="more"></a><p>解决步骤：</p><ol><li><p>命令行输入下面命令（这样可以保证命令行命令暂时能够使用。这行命令执行完后不要关闭终端）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;usr&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;bin:&#x2F;sbin:&#x2F;usr&#x2F;X11R6&#x2F;bin</span><br></pre></td></tr></table></figure></li><li><p>进入当前Home目录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;</span><br></pre></td></tr></table></figure></li><li><p>创建<code>bash_profile</code>执行命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .bash_profile</span><br></pre></td></tr></table></figure></li><li><p>文件内容是你之前配置过的path，把全部内容删除(将自己有用的部分备份，Terminal修复后再加到里面)，加入PATH：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;usr&#x2F;bin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin</span><br></pre></td></tr></table></figure></li></ol><p><em>保存文件并退出(不要退出Terminal)</em></p><ol start="5"><li>继续执行命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source .bash_profile</span><br></pre></td></tr></table></figure></li></ol><p>重启Terminal即可，完毕！</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tool </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【Git】Git的基本使用</title>
+      <link href="/2016/01/19/git-basic/"/>
+      <url>/2016/01/19/git-basic/</url>
+      
+        <content type="html"><![CDATA[<h3 id="什么是Git？"><a href="#什么是Git？" class="headerlink" title="什么是Git？"></a>什么是Git？</h3><p>版本控制系统（VCS：Version Control System）</p><a id="more"></a><h3 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h3><ul><li>分布式版本控制</li><li>多个开发人员协调工作</li><li>有效监听谁做的修改</li><li>本地及远程操作</li></ul><h3 id="下载Git："><a href="#下载Git：" class="headerlink" title="下载Git："></a>下载Git：</h3><ul><li>Mac：<a href="https://git-scm.com/download/mac" target="_blank" rel="noopener">https://git-scm.com/download/mac</a></li><li>Windows：<a href="https://git-scm.com/downloadwin" target="_blank" rel="noopener">https://git-scm.com/downloadwin</a></li></ul><h3 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h3><ul><li><code>git init</code> 初始化本地git仓库</li><li><code>git add &lt;file&gt;</code> 添加文件</li><li><code>git status</code> 查看状态</li><li><code>git commit</code> 提交</li><li><code>git push</code> 推送到仓库</li><li><code>git pull</code> 从远程仓库拉取数据</li><li><code>git clone</code> 从远程仓库拷贝数据</li></ul><h3 id="初始化-amp-提交代码"><a href="#初始化-amp-提交代码" class="headerlink" title="初始化&amp;提交代码"></a>初始化&amp;提交代码</h3><ol><li><p>创建好项目后，初始化仓库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></li><li><p>全局配置用户名</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &#39;用户名&#39;</span><br></pre></td></tr></table></figure></li><li><p>全局配置邮箱</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &#39;邮箱地址&#39;</span><br></pre></td></tr></table></figure></li><li><p>添加代码到缓存区</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add 文件名</span><br></pre></td></tr></table></figure><p>例：git add index.html</p></li></ol><ul><li>添加某一类文件： git add *.html</li><li>添加所有文件： git add .</li><li>如果文件添加缓存区后又修改了内容，再次git add 文件名即可</li></ul><ol start="5"><li>移除已缓存文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached &lt;file&gt;</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：git rm –cached index.html</li></ul><ol start="6"><li>查看工作区和缓冲区文件状态<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure></li></ol><ul><li>添加/修改/移除等内容后，一般要配合git status使用，以便及时看到每个文件的状态</li></ul><ol start="7"><li>放弃工作区文件修改（工作区和缓存区有同一个文件时）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git restore &lt;file&gt;</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：git restore index.html</li></ul><ol start="8"><li>提交代码到本地仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit</span><br></pre></td></tr></table></figure></li></ol><ul><li>命令输完后，在新的界面填写本次提交描述，然后保存退出即可</li><li>完整命令： git commit -m ‘提交描述’</li></ul><h3 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h3><ol><li><p>创建忽略文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore</span><br></pre></td></tr></table></figure></li><li><p>编辑.gitignore</p></li></ol><ul><li>忽略具体文件：直接把文件全名写上即可（注意路径和扩展名），例：log.txt</li><li>忽略具体文件夹：填写文件夹路径，例：/dir</li></ul><h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><ol><li>新建分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch 分支名</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：git branch login</li></ul><ol start="2"><li>切换分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 分支名</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：git checkout login</li></ul><ol start="3"><li>合并分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge 待合并的分支名</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：把login分支合并到master上，先把分支切换到master上，然后开始合并git merge login</li></ul><h3 id="推送远端仓库"><a href="#推送远端仓库" class="headerlink" title="推送远端仓库"></a>推送远端仓库</h3><ol><li>添加远程仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin 远端仓库地址</span><br></pre></td></tr></table></figure></li></ol><ul><li>例：<a href="mailto:git@github.com">git@github.com</a>:idbeny/homework.git</li></ul><ol start="2"><li><p>连接远程仓库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure></li><li><p>推送到远程仓库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure></li></ol><ul><li>连上远程仓库后，推送只需要git push</li></ul><h3 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure><ul><li>例：git clone <a href="mailto:git@github.com">git@github.com</a>:idbeny/homework.git</li></ul><h3 id="Git和Github区别"><a href="#Git和Github区别" class="headerlink" title="Git和Github区别"></a>Git和Github区别</h3><ul><li>Git是代码管理工具</li><li>Github是基于Git实现的代码托管平台</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tool </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
       
     </entry>
     
