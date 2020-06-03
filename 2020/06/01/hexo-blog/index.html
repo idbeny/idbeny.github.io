@@ -100,22 +100,22 @@
 <meta property="og:url" content="http://idbeny.com/2020/06/01/hexo-blog/index.html">
 <meta property="og:site_name" content="1024星球">
 <meta property="og:description" content="先前书写CSDN、简书等平台，到后来购买云虚拟主机、ECS、也都尝试搭建自己的一套Blog系统，Wordpress、自己打包上传build包等形式都已尝试过。越往后越觉得累，也觉得没有这个必要了。主要原因还是自己的服务器需要各种安全防御，否则各种病毒和蛀虫就开始肆虐了，有段时间因为工作忙，等准备写文章的时候发现，服务器已经宕机了。更有意思的是，有一次因为自己忘记续费，也没有快照，然后……你懂得……">
-<meta property="og:image" content="http://blog.idbeny.com/assets/ifmjk.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/57fka.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/qg97x.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/f0m3c.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/mxyfe.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/si4gm.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/jf23y.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/b0yeu.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/fij4q.png">
-<meta property="og:image" content="http://blog.idbeny.com/assets/nydar.png">
+<meta property="og:image" content="http://blog.idbeny.com/assets/ifmjk.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/57fka.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/qg97x.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/f0m3c.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/mxyfe.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/si4gm.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/jf23y.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/b0yeu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/fij4q.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/assets/nydar.png@normal">
 <meta property="article:published_time" content="2020-06-01T14:46:25.000Z">
-<meta property="article:modified_time" content="2020-06-02T13:52:25.573Z">
+<meta property="article:modified_time" content="2020-06-03T13:30:44.567Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.idbeny.com/assets/ifmjk.png">
+<meta name="twitter:image" content="http://blog.idbeny.com/assets/ifmjk.png@normal">
 
 
 
@@ -423,7 +423,8 @@
           
             <div class="post-wordcount">
               
-                <!---->
+                
+                <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-file-word-o"></i>
                 </span>
@@ -481,10 +482,10 @@
 
 <p>开启hexo服务器</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-<p><img src="http://blog.idbeny.com/assets/ifmjk.png" alt=""><br><em>补充：<code>hexo s</code>是<code>hexo server</code>的一种简写</em></p>
-<p>打开<code>http://localhost:4000</code>在本地预览界面<br><img src="http://blog.idbeny.com/assets/57fka.png" alt=""></p>
+<p><img src="http://blog.idbeny.com/assets/ifmjk.png@normal" alt=""><br><em>补充：<code>hexo s</code>是<code>hexo server</code>的一种简写</em></p>
+<p>打开<code>http://localhost:4000</code>在本地预览界面<br><img src="http://blog.idbeny.com/assets/57fka.png@normal" alt=""></p>
 <h3 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h3><ol>
-<li>使用<code>vim</code>或者直接用编辑器打开blog根目录下的<code>_config.yml</code>文件，修改如下配置（在文件最下方）<br><img src="http://blog.idbeny.com/assets/qg97x.png" alt=""></li>
+<li>使用<code>vim</code>或者直接用编辑器打开blog根目录下的<code>_config.yml</code>文件，修改如下配置（在文件最下方）<br><img src="http://blog.idbeny.com/assets/qg97x.png@normal" alt=""></li>
 </ol>
 <p><em>注意：repository是在github上已经初始化的项目地址</em></p>
 <ol start="2">
@@ -501,7 +502,7 @@
 <p>再次执行<code>hexo d</code>即可</p>
 </blockquote>
 <ol start="4">
-<li>鉴权github<br><img src="http://blog.idbeny.com/assets/f0m3c.png" alt=""></li>
+<li>鉴权github<br><img src="http://blog.idbeny.com/assets/f0m3c.png@normal" alt=""></li>
 </ol>
 <h3 id="生产"><a href="#生产" class="headerlink" title="生产"></a>生产</h3><ol>
 <li>在blog文件夹下，执行新建文章命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;helloworld&quot;</span><br></pre></td></tr></table></figure></li>
@@ -519,11 +520,11 @@
 <p>补充：新建-部署文章三步走</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean		&#x2F;&#x2F;清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br><span class="line">$ hexo g		&#x2F;&#x2F;生成缓存和静态文件</span><br><span class="line">$ hexo d		&#x2F;&#x2F;重新部署到服务器</span><br></pre></td></tr></table></figure>
 
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>要想页面漂亮并规范一点，可以配置个主题。我们一般在Hexo官网中搜索喜欢的主题，我们以<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT主题</a>为例。<br><img src="http://blog.idbeny.com/assets/mxyfe.png" alt=""></p>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>要想页面漂亮并规范一点，可以配置个主题。我们一般在Hexo官网中搜索喜欢的主题，我们以<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT主题</a>为例。<br><img src="http://blog.idbeny.com/assets/mxyfe.png@normal" alt=""></p>
 <p>把主题下载到<code>blog/themes/next</code>目录下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;iissnan&#x2F;hexo-theme-next</span><br></pre></td></tr></table></figure>
 
-<p>修改<code>_config.yml</code>里的<code>theme</code>为<code>next</code><br><img src="http://blog.idbeny.com/assets/si4gm.png" alt=""></p>
+<p>修改<code>_config.yml</code>里的<code>theme</code>为<code>next</code><br><img src="http://blog.idbeny.com/assets/si4gm.png@normal" alt=""></p>
 <p>主题的名称、描述等属性修改在<code>blog/themes/next/_config.yml</code>文件中，具体可参考<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">文档</a>。</p>
 <h3 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h3><p>如果觉得github的二级域名使用不方便，我们可以通过绑定自己的一级域名来直接访问（实际上就是做了一次CDN跳转）</p>
 <ul>
@@ -555,15 +556,15 @@
 <p><em>注意：记录值<code>idbeny.github.io.</code>结尾有一个点<code>.</code></em></p>
 <h3 id="快速访问"><a href="#快速访问" class="headerlink" title="快速访问"></a>快速访问</h3><p>Github是国外网站，所以我们在天朝访问的时候总是有点慢，甚至有时候打不开，这时候我们就可以把文章同时部署到国内的托管平台（<a href="https://gitee.com/" target="_blank" rel="noopener">码云</a> | <a href="https://coding.net/" target="_blank" rel="noopener">Coding</a>等）。同时也能够保证突然某一天其中一个平台的大变动（当然，不管是哪一种，一定要在本地备份，一定要在本地备份，血的教训……）。</p>
 <ol>
-<li><p>首先到码云上注册并新建一个项目（步骤同<code>Github</code>），项目名称和用户个性后缀相同（方便二级域名访问博客），然后配置<code>Gitee Pages</code>服务；<br><img src="http://blog.idbeny.com/assets/jf23y.png" alt=""></p>
+<li><p>首先到码云上注册并新建一个项目（步骤同<code>Github</code>），项目名称和用户个性后缀相同（方便二级域名访问博客），然后配置<code>Gitee Pages</code>服务；<br><img src="http://blog.idbeny.com/assets/jf23y.png@normal" alt=""></p>
 </li>
-<li><p>直接点击启动即可（需要绑定手机号，如果没有绑定，不能启动）<br><img src="http://blog.idbeny.com/assets/b0yeu.png" alt=""></p>
+<li><p>直接点击启动即可（需要绑定手机号，如果没有绑定，不能启动）<br><img src="http://blog.idbeny.com/assets/b0yeu.png@normal" alt=""></p>
 </li>
-<li><p>启动完成后，会提示已开启服务<br><img src="http://blog.idbeny.com/assets/fij4q.png" alt=""></p>
+<li><p>启动完成后，会提示已开启服务<br><img src="http://blog.idbeny.com/assets/fij4q.png@normal" alt=""></p>
 </li>
 </ol>
 <ol start="4">
-<li><p>打开本地<code>blog</code>目录下的<code>_config.yml</code>文件，修改如下（之后的步骤和Github一致）：<br><img src="http://blog.idbeny.com/assets/nydar.png" alt=""></p>
+<li><p>打开本地<code>blog</code>目录下的<code>_config.yml</code>文件，修改如下（之后的步骤和Github一致）：<br><img src="http://blog.idbeny.com/assets/nydar.png@normal" alt=""></p>
 </li>
 <li><p>部署三步走（<code>clean - d - g</code>）</p>
 </li>
@@ -646,8 +647,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/02/vscode-vuetemplate/" rel="next" title="【VSCode】如何使用Vue的template模板">
-                <i class="fa fa-chevron-left"></i> 【VSCode】如何使用Vue的template模板
+              <a href="/2020/03/23/flutter-widget-image-note/" rel="next" title="【Flutter】图片组件注意事项">
+                <i class="fa fa-chevron-left"></i> 【Flutter】图片组件注意事项
               </a>
             
           </div>
@@ -731,7 +732,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -742,7 +743,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -753,7 +754,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

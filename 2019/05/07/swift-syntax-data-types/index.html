@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Swift,Swift数据类型," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="如果你习惯了OC的语法，第一次接触Swift的语法可能会有点抗拒，因为Swift的语法有点怪。但如果你有前端的基础，学Swift可能会有点吃力，如果你有C++的基础可能会学得比较快点。不管你有什么样的语法基础，学会Swift后你都会觉得这是门优秀的语言，总之相比哥哥OC更简洁，更高效。现在Swift的ABI版本已经到5.2了，总体趋于稳定，社区也很活跃，是系统学习的好时机。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift基本语法之数据类型">
+<meta property="og:url" content="http://idbeny.com/2019/05/07/swift-syntax-data-types/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="如果你习惯了OC的语法，第一次接触Swift的语法可能会有点抗拒，因为Swift的语法有点怪。但如果你有前端的基础，学Swift可能会有点吃力，如果你有C++的基础可能会学得比较快点。不管你有什么样的语法基础，学会Swift后你都会觉得这是门优秀的语言，总之相比哥哥OC更简洁，更高效。现在Swift的ABI版本已经到5.2了，总体趋于稳定，社区也很活跃，是系统学习的好时机。">
+<meta property="og:image" content="http://blog.idbeny.com/vyrvz.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/vygjz.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/oh0dx.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zhf7n.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/33lcc.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/n6rd9.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ygvsq.png@normal">
+<meta property="article:published_time" content="2019-05-07T13:43:32.000Z">
+<meta property="article:modified_time" content="2020-06-03T14:07:33.427Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Swift数据类型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/vyrvz.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/05/07/swift-syntax-data-types/"/>
+
+
+
+
+
+  <title>【iOS】Swift基本语法之数据类型 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/05/07/swift-syntax-data-types/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift基本语法之数据类型</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-07T21:43:32+08:00">
+                2019-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果你习惯了OC的语法，第一次接触Swift的语法可能会有点抗拒，因为Swift的语法有点怪。但如果你有前端的基础，学Swift可能会有点吃力，如果你有C++的基础可能会学得比较快点。不管你有什么样的语法基础，学会Swift后你都会觉得这是门优秀的语言，总之相比哥哥OC更简洁，更高效。现在Swift的ABI版本已经到5.2了，总体趋于稳定，社区也很活跃，是系统学习的好时机。</p>
+<a id="more"></a>
+<h3 id="打印（print）"><a href="#打印（print）" class="headerlink" title="打印（print）"></a>打印（print）</h3><p>可以认为是C的扩展写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let word &#x3D; &quot;world&quot;</span><br><span class="line">print(&quot;print output&quot;) &#x2F;&#x2F; 输出：print output</span><br><span class="line">print(&quot;hello \(word)&quot;) &#x2F;&#x2F; 输出：hello world</span><br></pre></td></tr></table></figure>
+<ul>
+<li>以往OC中打印变量使用<code>NSLog(&quot;hello_%@&quot;,var)</code>,Swift使用<code>\(变量)</code></li>
+</ul>
+<h3 id="分号"><a href="#分号" class="headerlink" title="分号"></a>分号</h3><ul>
+<li>一句代码尾部可以省略分号（;）</li>
+<li>多句代码写到同一行时必须用分号（;）</li>
+</ul>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
+<li>单行注释（//）</li>
+<li>多行注释–支持多行嵌套，但必须是双标签（/**/）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 单行注释</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> 多行注释</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> 1.多行注释</span><br><span class="line"> &#x2F;* 多行注释的嵌套 *&#x2F;</span><br><span class="line"> 2.多行注释</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Playground的注释支持markup语法（和markdown相似）<br>如何开启markup语法预览？</p>
+</blockquote>
+<ul>
+<li>选中当前行 -&gt; 菜单栏 -&gt; Editor -&gt; Show Rendered Markup</li>
+<li>开启渲染：Show Rendered Markup</li>
+<li>关闭渲染：Show Raw Markup</li>
+<li><font style="color:red">注意</font>：markup语法只在Playground中有效<br><img src="http://blog.idbeny.com/vyrvz.png@normal" alt=""></li>
+</ul>
+<h3 id="Markup语法"><a href="#Markup语法" class="headerlink" title="Markup语法"></a>Markup语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;: # 一级标题</span><br><span class="line">&#x2F;&#x2F;: ## 二级标题</span><br><span class="line"></span><br><span class="line">&#x2F;*:</span><br><span class="line"> # 一级标题</span><br><span class="line"> </span><br><span class="line"> ## 无序列表</span><br><span class="line"> - 第一个元素</span><br><span class="line"> - 第二个元素</span><br><span class="line"> </span><br><span class="line"> ## 有序列表</span><br><span class="line"> 1. 第一个元素</span><br><span class="line"> 2. 第二个元素</span><br><span class="line"> </span><br><span class="line"> ## 笔记</span><br><span class="line"> &gt; 这是一个笔记</span><br><span class="line"></span><br><span class="line"> ## 分割线</span><br><span class="line"> ---</span><br><span class="line"> </span><br><span class="line"> ## 图片</span><br><span class="line"> ![图片描述](图片链接)</span><br><span class="line"> </span><br><span class="line"> ## 链接</span><br><span class="line"> [链接标题](链接地址)</span><br><span class="line"> </span><br><span class="line"> ## 粗体&#x2F;斜体</span><br><span class="line"> 这是**粗体**，这是*斜体*</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/vygjz.png@normal" alt=""></p>
+<ul>
+<li>单行注释时，冒号前面不能有空格，后面必须有空格</li>
+<li>多行注释时，冒号前面不能有空格，后面不能有内容，必须另起一行</li>
+</ul>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><ul>
+<li>标识符（比如常量名、变量名、函数名）几乎可以使用任何字符</li>
+<li>标识符不能以数字开头，不能包含空白字符、制表符（Tab）、箭头（-&gt;）等特殊字符</li>
+</ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>Swift没有基本数据类型的概念，数据类型分为两大类<br><strong>值类型（value-type）</strong></p>
+<ul>
+<li>枚举（enum）<ul>
+<li>Optional</li>
+</ul>
+</li>
+<li>结构体（struct）<ul>
+<li>Bool、Int、Float、Double、Character</li>
+<li>String、Array、Dictionary、Set</li>
+</ul>
+</li>
+</ul>
+<p><strong>引用类型（reference type）</strong></p>
+<ul>
+<li>类（class）<br><img src="http://blog.idbeny.com/oh0dx.png@normal" alt=""></li>
+</ul>
+<p><em>通过官方简介即可看出，Int是用struct描述的</em></p>
+<p><strong>整数类型</strong></p>
+<ul>
+<li>Int8、Int16、Int32、Int64、UInt8、UInt16、UInt32、UInt64</li>
+<li>在32bit平台，Int等价于Int32、Int等价于Int64，所以一般情况下都是直接使用Int即可</li>
+<li>整数的最值：UInt8.max、Int16.min</li>
+</ul>
+<p><strong>浮点类型：</strong></p>
+<ul>
+<li>Float，32位，精度只有6位</li>
+<li>Double，64位，精度至少15位</li>
+</ul>
+<p><strong>字面量：</strong></p>
+<ul>
+<li>布尔类型值在OC中是0和1，但Swift中是true和false（和大部分语言一样）</li>
+<li>字符串类型值用双引号</li>
+<li>字符类型值和字符串一样都是用双引号括起来，但是字符变量必须用Character修饰，否则会默认是字符串</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; 布尔</span><br><span class="line">let bool &#x3D; true</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 字符串</span><br><span class="line">let string &#x3D; &quot;1024星球&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 字符</span><br><span class="line">let character: Character &#x3D; &quot;🌎&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 整数</span><br><span class="line">let intDecimal &#x3D; 20</span><br><span class="line">let intBinary &#x3D; 0b10001</span><br><span class="line">let intOctal &#x3D; 0o21</span><br><span class="line">let intHexDecimal &#x3D; 0x11</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 浮点数</span><br><span class="line">let doubleDecimal &#x3D; 125.0 &#x2F;&#x2F; 十进制，等价于1.25e2，例：0.0125 &lt;&#x3D;&gt; 1.25e-2</span><br><span class="line"></span><br><span class="line">let doubleHexDecimal1 &#x3D; 0xFp2 &#x2F;&#x2F; 十六进制，意味着15x2^2，相当于十进制的60.0</span><br><span class="line"></span><br><span class="line">let doubleHexDecimal2 &#x3D; 0xFp-2 &#x2F;&#x2F; 十六进制，意味着15x2^-2，相当于十进制的3.75</span><br><span class="line"></span><br><span class="line">&#x2F;* 以下都是表示12.1875</span><br><span class="line"> 十进制：12.1875、1.21875e1</span><br><span class="line"> 十六进制：0xC.3p0</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F; 数组</span><br><span class="line">let array &#x3D; [1, 2, 3, 4, 5]</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 字典</span><br><span class="line">let dictionary &#x3D; [&quot;age&quot; : 20, &quot;height&quot; : 1.88]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>整数和浮点数可以添加额外的零或者添加下划线来增强可读性<ul>
+<li>100_0000、1_000_000.000_000_1、000123.456</li>
+</ul>
+</li>
+</ul>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p><strong>整数转换</strong></p>
+<p>在Swift中不同类型之间是不能运算的，否则编译器会报错<br><img src="http://blog.idbeny.com/zhf7n.png@normal" alt=""></p>
+<p>正确做法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let int1: UInt16 &#x3D; 2_000</span><br><span class="line">let int2: UInt8 &#x3D; 1</span><br><span class="line">let int3 &#x3D; int1 + UInt16(int2)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>把低类型转为高类型（为什么？字节占用）</li>
+</ul>
+<p><strong>整数、浮点数转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let int1: UInt16 &#x3D; 2_000</span><br><span class="line">let int2: UInt8 &#x3D; 1</span><br><span class="line">let int3 &#x3D; int1 + UInt16(int2)</span><br><span class="line"></span><br><span class="line">let int &#x3D; 3</span><br><span class="line">let double &#x3D; 0.1415926</span><br><span class="line">let pi &#x3D; Double(int) + double</span><br><span class="line">print(pi) &#x2F;&#x2F; 输出：3.1415926</span><br><span class="line">let intPi &#x3D; int + Int(double)</span><br><span class="line">print(intPi) &#x2F;&#x2F; 输出：3</span><br></pre></td></tr></table></figure>
+<ul>
+<li>浮点转为整形是会把小数点后放弃，只取浮点整数部分</li>
+</ul>
+<p><em>思考：每次都需要转换，对于未知类型的数据（服务器返回的数据）怎么办？</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 字面量可以直接相加，因为数字字面量本身没有明确类型</span><br><span class="line">let result &#x3D; 3 + 0.1415926</span><br><span class="line">print(result) &#x2F;&#x2F; 输出：3.1415926</span><br></pre></td></tr></table></figure>
+
+<h3 id="var和let"><a href="#var和let" class="headerlink" title="var和let"></a>var和let</h3><ul>
+<li>let代表常量，var代表变量（variable缩写）</li>
+<li>编译器能自动推断出变量/常量的类型</li>
+<li>两个使用前必须初始化（和其他语言不一样，编译时可以不用初始化），否则编译报错<br><img src="http://blog.idbeny.com/33lcc.png@normal" alt=""><br><img src="http://blog.idbeny.com/n6rd9.png@normal" alt=""><br><img src="http://blog.idbeny.com/ygvsq.png@normal" alt=""></li>
+</ul>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let 变量名: 变量类型 &#x3D; 变量值;</span><br><span class="line"></span><br><span class="line">var 变量名: 变量类型 &#x3D; 变量值;</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let age: Int &#x3D; 10;</span><br><span class="line">print(age) &#x2F;&#x2F; 输出：10</span><br><span class="line"></span><br><span class="line">var name: String &#x3D; &quot;idbeny&quot;;</span><br><span class="line">print(name) &#x2F;&#x2F; 输出：idbeny</span><br></pre></td></tr></table></figure>
+
+<h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><p>元组是借鉴C++中的概念（Python中也有此类型）</p>
+<ul>
+<li>元组与列表类似，不同之处在于元组的元素不能修改。</li>
+<li>元组使用小括号，列表使用方括号。</li>
+<li>元组创建很简单，只需要在括号中添加元素，并使用逗号隔开即可（无限的）。</li>
+<li>元组解构用法时，变量名不能和其他同作用域的常规定义变量冲突</li>
+</ul>
+<p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> 格式一：常规</span><br><span class="line"> 读取格式：变量名.索引</span><br><span class="line"> *&#x2F; </span><br><span class="line">变量修饰符 变量名 &#x3D; (元素值，多个逗号分隔)</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> 格式二：解构</span><br><span class="line"> 变量修饰符 (元组值对应的变量名称，位置要一一对应) &#x3D; 已定义元组变量</span><br><span class="line"> 读取格式：变量名称</span><br><span class="line"> *&#x2F; </span><br><span class="line">变量修饰符 (元组值对应的变量名称，位置要一一对应) &#x3D; 已定义元组变量</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 解构扩展：对应位置不需要的时候可用下划线代替</span><br><span class="line">变量修饰符 (元组值对应的变量名称，_) &#x3D; 已定义元组变量</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> 格式三：key-value</span><br><span class="line"> 读取格式：1. 变量名.索引 2. 变量名.元素变量名 </span><br><span class="line"> *&#x2F; </span><br><span class="line">变量修饰符 变量名 &#x3D; (元素变量名：元素值，……)</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let tup1 &#x3D; (404, &quot;Not Found&quot;, &quot;moreParas&quot;)</span><br><span class="line">print(tup1.0,tup1.1,tup1.2) &#x2F;&#x2F; 输出：404 Not Found moreParas</span><br><span class="line"></span><br><span class="line">let (statusCode, statusDesc, paras) &#x3D; tup1</span><br><span class="line">print(statusCode, statusDesc, paras) &#x2F;&#x2F; 输出：404 Not Found moreParas</span><br><span class="line"></span><br><span class="line">let (tempStatusCode, _, _) &#x3D; tup1</span><br><span class="line">print(tempStatusCode) &#x2F;&#x2F; 输出：404</span><br><span class="line"></span><br><span class="line">let httpStatus &#x3D; (statusCode: 404, statusDesc: &quot;Not Found&quot;, paras: &quot;moreParas&quot;)</span><br><span class="line">print(httpStatus.statusCode, httpStatus.statusDesc, httpStatus.paras) &#x2F;&#x2F; 输出：404 Not Found moreParas</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/05/07/swift-syntax-data-types/" title="【iOS】Swift基本语法之数据类型">http://idbeny.com/2019/05/07/swift-syntax-data-types/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/Swift%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="tag"># Swift数据类型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/16/compiler-llvm-clang/" rel="next" title="【LLVM】clang插件开发">
+                <i class="fa fa-chevron-left"></i> 【LLVM】clang插件开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/08/swift-syntax-loop/" rel="prev" title="【iOS】Swift基本语法之循环控制">
+                【iOS】Swift基本语法之循环控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#打印（print）"><span class="nav-number">1.</span> <span class="nav-text">打印（print）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分号"><span class="nav-number">2.</span> <span class="nav-text">分号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Markup语法"><span class="nav-number">4.</span> <span class="nav-text">Markup语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">5.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">6.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">7.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#var和let"><span class="nav-number">8.</span> <span class="nav-text">var和let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元组"><span class="nav-number">9.</span> <span class="nav-text">元组</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
