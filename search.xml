@@ -31,6 +31,35 @@
     
     
     <entry>
+      <title>【CocoaPods】CDN trunk URL couldn’t be downloaded:https://raw.githubusercontent.com/CocoaPods/</title>
+      <link href="/2019/10/15/pod-download-issues/"/>
+      <url>/2019/10/15/pod-download-issues/</url>
+      
+        <content type="html"><![CDATA[<p>首次遇到Pods的<code>CDN</code>问题，后来才知道是1.8版本后<code>CocoaPods</code>为了开发者更快速的体验，进行了<code>CDN</code>加速处理，同时也让<code>Podfile</code>更加规范了。</p><a id="more"></a><p>使用<code>pod install</code>后出现报错<br><img src="http://blog.idbeny.com/6trvm.png" alt=""></p><p>怎么办呢？根据报错原因猜想是CDN没找到对应的仓库地址，然后将<code>Podfile</code>指定了源地址<code>source &#39;https://github.com/CocoaPods/Specs.git&#39;</code>，之后继续<code>install</code>，依然报错，无奈之下手动将<code>Specs</code>的仓库clone到本地Pods目录下<code>cd ~/.cocoapods/repos/</code><br><img src="http://blog.idbeny.com/p4vjm.png" alt=""></p><p>完成上面操作后，继续<code>pod install</code>，出现了我们熟悉的颜色，等待安装就行了<br><img src="http://blog.idbeny.com/k9plq.png" alt=""></p><p>如果搜索某一个库的时候，例 <code>pod search AFNetworking</code>，出现文章刚开始的错误，只需要<code>pod repo remove trunk</code>即可。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tool </category>
+          
+          <category> iOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> iOS </tag>
+            
+            <tag> CocoaPods </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【VSCode】如何使用Vue的template模板</title>
       <link href="/2019/06/02/vscode-vuetemplate/"/>
       <url>/2019/06/02/vscode-vuetemplate/</url>
@@ -40,9 +69,9 @@
       
       <categories>
           
-          <category> Vue </category>
-          
           <category> JS </category>
+          
+          <category> Vue </category>
           
       </categories>
       
@@ -78,9 +107,9 @@
       
         <tags>
             
-            <tag> iOS </tag>
-            
             <tag> Xcode </tag>
+            
+            <tag> iOS </tag>
             
         </tags>
       
@@ -206,9 +235,9 @@
       
       <categories>
           
-          <category> iOS </category>
-          
           <category> Xcode </category>
+          
+          <category> iOS </category>
           
       </categories>
       
