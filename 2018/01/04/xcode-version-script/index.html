@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -176,7 +176,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -338,7 +338,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  504 字
+                  396 字
                 </span>
               
 
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  1 分钟
                 </span>
               
             </div>
@@ -465,17 +465,17 @@
 <h3 id="添加代码"><a href="#添加代码" class="headerlink" title="添加代码"></a>添加代码</h3><blockquote>
 <p>跟随时间变化（release和Debug不同情况）</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">&#x2F;&#x2F; 判断是哪个configuration</span><br><span class="line">&#x2F;&#x2F; Release Debug 或者只自定义的配置</span><br><span class="line">if [ &quot;Release&quot; !&#x3D; &quot;$&#123;CONFIGURATION&#125;&quot; ]</span><br><span class="line">&#x2F;&#x2F; 如果是Release做哪些事情</span><br><span class="line">then</span><br><span class="line">&#x2F;&#x2F; 如果不是Release做哪些事情</span><br><span class="line">    &#x2F;&#x2F; exit 0 退出 不执行下面的代码</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取info.plist信息 CFBundleVersion 可以更改为想获取的信息的名字</span><br><span class="line">buildNumber&#x3D;$(&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Print :CFBundleVersion&quot; &quot;$&#123;PROJECT_DIR&#125;&#x2F;$&#123;INFOPLIST_FILE&#125;&quot;)  </span><br><span class="line">shortVersion&#x3D;$(&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Print :CFBundleShortVersionString&quot; &quot;$&#123;PROJECT_DIR&#125;&#x2F;$&#123;INFOPLIST_FILE&#125;&quot;)  </span><br><span class="line">buildNumber&#x3D;&#96;date +&quot;%Y%m%d%H%M%S&quot;&#96;  </span><br><span class="line">buildNumber&#x3D;&quot;$shortVersion.$buildNumber&quot;  </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置info.plist</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;PROJECT_DIR&#125;&#x2F;$&#123;INFOPLIST_FILE&#125;&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">// 判断是哪个configuration</span><br><span class="line">// Release Debug 或者只自定义的配置</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"Release"</span> != <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> ]</span><br><span class="line">// 如果是Release做哪些事情</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">// 如果不是Release做哪些事情</span><br><span class="line">    // <span class="built_in">exit</span> 0 退出 不执行下面的代码</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">// 获取info.plist信息 CFBundleVersion 可以更改为想获取的信息的名字</span><br><span class="line">buildNumber=$(/usr/libexec/PlistBuddy -c <span class="string">"Print :CFBundleVersion"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)  </span><br><span class="line">shortVersion=$(/usr/libexec/PlistBuddy -c <span class="string">"Print :CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)  </span><br><span class="line">buildNumber=`date +<span class="string">"%Y%m%d%H%M%S"</span>`  </span><br><span class="line">buildNumber=<span class="string">"<span class="variable">$shortVersion</span>.<span class="variable">$buildNumber</span>"</span>  </span><br><span class="line"></span><br><span class="line">// 设置info.plist</span><br><span class="line">/usr/libexec/PlistBuddy -c <span class="string">"Set :CFBundleVersion <span class="variable">$buildNumber</span>"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>自动+1</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">buildNumber&#x3D;$(&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$INFOPLIST_FILE&quot;)</span><br><span class="line">buildNumber&#x3D;$(($buildNumber + 1))</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$INFOPLIST_FILE&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">buildNumber=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleVersion"</span> <span class="string">"<span class="variable">$INFOPLIST_FILE</span>"</span>)</span><br><span class="line">buildNumber=$((<span class="variable">$buildNumber</span> + 1))</span><br><span class="line">/usr/libexec/PlistBuddy -c <span class="string">"Set :CFBundleVersion <span class="variable">$buildNumber</span>"</span> <span class="string">"<span class="variable">$INFOPLIST_FILE</span>"</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>修改项目显示名称为版本号（适用于不同版本号装到一个机器里面，便于区分是哪个版本）</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#&#x2F;bin&#x2F;bash</span><br><span class="line">if [ &quot;Release&quot; !&#x3D; &quot;$&#123;CONFIGURATION&#125;&quot; ]; then</span><br><span class="line"></span><br><span class="line">DisplayName&#x3D;$(&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Print CFBundleShortVersionString&quot; &quot;$INFOPLIST_FILE&quot;)</span><br><span class="line">DisplayName&#x3D;&quot;ep$&#123;DisplayName&#125;-I&quot;</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Set :CFBundleDisplayName $DisplayName&quot; &quot;$INFOPLIST_FILE&quot;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">DisplayName&#x3D;&quot;真正的项目名称&quot;</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c &quot;Set :CFBundleDisplayName $DisplayName&quot; &quot;$INFOPLIST_FILE&quot;</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"Release"</span> != <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> ]; then</span><br><span class="line"></span><br><span class="line"><span class="attribute">DisplayName</span>=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$INFOPLIST_FILE</span>"</span>)</span><br><span class="line"><span class="attribute">DisplayName</span>=<span class="string">"ep<span class="variable">$&#123;DisplayName&#125;</span>-I"</span></span><br><span class="line">/usr/libexec/PlistBuddy -c <span class="string">"Set :CFBundleDisplayName <span class="variable">$DisplayName</span>"</span> <span class="string">"<span class="variable">$INFOPLIST_FILE</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">DisplayName</span>=<span class="string">"真正的项目名称"</span></span><br><span class="line">/usr/libexec/PlistBuddy -c <span class="string">"Set :CFBundleDisplayName <span class="variable">$DisplayName</span>"</span> <span class="string">"<span class="variable">$INFOPLIST_FILE</span>"</span></span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>贴上我用的脚本（版本号+日期）</p>
@@ -598,20 +598,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -706,22 +697,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#新增脚本"><span class="nav-number">1.</span> <span class="nav-text">新增脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改脚本位置和名称"><span class="nav-number">2.</span> <span class="nav-text">修改脚本位置和名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加代码"><span class="nav-number">3.</span> <span class="nav-text">添加代码</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -743,18 +718,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

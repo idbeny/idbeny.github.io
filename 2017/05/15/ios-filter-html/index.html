@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -170,7 +170,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -332,7 +332,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -411,7 +411,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  251 字
+                  222 字
                 </span>
               
 
@@ -451,7 +451,7 @@
         <p>文字(UI或分享时的标题(描述))展示给用户的时候，可能需要过滤掉html标签，有的开发团队可能把过滤操作放在后端处理，其实放在前端做相对来说比较合理(灵活性)。</p>
 <a id="more"></a>
 <p>那么怎样才能高效有效的过滤这些标签呢？首先想到的就是使用<strong>正则</strong>……我们我可以写一个<code>NSString</code>的分类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+ (NSString *)getNormalStringFilterHTMLString:(NSString *)htmlStr&#123;</span><br><span class="line">    NSString *normalStr &#x3D; htmlStr.copy;</span><br><span class="line">    &#x2F;&#x2F;判断字符串是否有效</span><br><span class="line">    if (!normalStr || normalStr.length &#x3D;&#x3D; 0 || [normalStr isEqual:[NSNull null]]) return nil;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;过滤正常标签</span><br><span class="line">    NSRegularExpression *regularExpression&#x3D;[NSRegularExpression regularExpressionWithPattern:@&quot;&lt;[^&gt;]*&gt;&quot; options:NSRegularExpressionCaseInsensitive error:nil];</span><br><span class="line">    normalStr &#x3D; [regularExpression stringByReplacingMatchesInString:normalStr options:NSMatchingReportProgress range:NSMakeRange(0, normalStr.length) withTemplate:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;过滤占位符</span><br><span class="line">    NSRegularExpression *plExpression&#x3D;[NSRegularExpression regularExpressionWithPattern:@&quot;&amp;[^;]+;&quot; options:NSRegularExpressionCaseInsensitive error:nil];</span><br><span class="line">    normalStr &#x3D; [plExpression stringByReplacingMatchesInString:normalStr options:NSMatchingReportProgress range:NSMakeRange(0, normalStr.length) withTemplate:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;过滤空格</span><br><span class="line">    NSRegularExpression *spaceExpression&#x3D;[NSRegularExpression regularExpressionWithPattern:@&quot;^\\s*|\\s*$&quot; options:NSRegularExpressionCaseInsensitive error:nil];</span><br><span class="line">    normalStr &#x3D; [spaceExpression stringByReplacingMatchesInString:normalStr options:NSMatchingReportProgress range:NSMakeRange(0, normalStr.length) withTemplate:@&quot;&quot;];</span><br><span class="line"></span><br><span class="line">    return normalStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+ (NSString *)<span class="string">getNormalStringFilterHTMLString:</span>(NSString *)htmlStr&#123;</span><br><span class="line">    NSString *normalStr = htmlStr.copy;</span><br><span class="line">    <span class="comment">//判断字符串是否有效</span></span><br><span class="line">    <span class="keyword">if</span> (!normalStr || normalStr.length == <span class="number">0</span> || [normalStr <span class="string">isEqual:</span>[NSNull <span class="literal">null</span>]]) <span class="keyword">return</span> nil;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//过滤正常标签</span></span><br><span class="line">    NSRegularExpression *regularExpression=[NSRegularExpression <span class="string">regularExpressionWithPattern:</span>@<span class="string">"&lt;[^&gt;]*&gt;"</span> <span class="string">options:</span>NSRegularExpressionCaseInsensitive <span class="string">error:</span>nil];</span><br><span class="line">    normalStr = [regularExpression <span class="string">stringByReplacingMatchesInString:</span>normalStr <span class="string">options:</span>NSMatchingReportProgress <span class="string">range:</span>NSMakeRange(<span class="number">0</span>, normalStr.length) <span class="string">withTemplate:</span>@<span class="string">""</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//过滤占位符</span></span><br><span class="line">    NSRegularExpression *plExpression=[NSRegularExpression <span class="string">regularExpressionWithPattern:</span>@<span class="string">"&amp;[^;]+;"</span> <span class="string">options:</span>NSRegularExpressionCaseInsensitive <span class="string">error:</span>nil];</span><br><span class="line">    normalStr = [plExpression <span class="string">stringByReplacingMatchesInString:</span>normalStr <span class="string">options:</span>NSMatchingReportProgress <span class="string">range:</span>NSMakeRange(<span class="number">0</span>, normalStr.length) <span class="string">withTemplate:</span>@<span class="string">""</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//过滤空格</span></span><br><span class="line">    NSRegularExpression *spaceExpression=[NSRegularExpression <span class="string">regularExpressionWithPattern:</span>@<span class="string">"^\\s*|\\s*$"</span> <span class="string">options:</span>NSRegularExpressionCaseInsensitive <span class="string">error:</span>nil];</span><br><span class="line">    normalStr = [spaceExpression <span class="string">stringByReplacingMatchesInString:</span>normalStr <span class="string">options:</span>NSMatchingReportProgress <span class="string">range:</span>NSMakeRange(<span class="number">0</span>, normalStr.length) <span class="string">withTemplate:</span>@<span class="string">""</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> normalStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -569,7 +569,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -685,18 +685,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

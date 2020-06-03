@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="AVPlayer,iOS,播放器,自定义播放器," />
+  <meta name="keywords" content="iOS,AVPlayer,播放器,自定义播放器," />
 
 
 
@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -103,8 +103,8 @@
 <meta property="article:published_time" content="2017-05-25T14:10:15.000Z">
 <meta property="article:modified_time" content="2020-06-03T13:30:44.568Z">
 <meta property="article:author" content="idbeny">
-<meta property="article:tag" content="AVPlayer">
 <meta property="article:tag" content="iOS">
+<meta property="article:tag" content="AVPlayer">
 <meta property="article:tag" content="播放器">
 <meta property="article:tag" content="自定义播放器">
 <meta name="twitter:card" content="summary">
@@ -172,7 +172,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -334,7 +334,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -413,7 +413,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  709 字
+                  703 字
                 </span>
               
 
@@ -454,10 +454,10 @@
 <a id="more"></a>
 <h3 id="AVPlayer"><a href="#AVPlayer" class="headerlink" title="AVPlayer"></a>AVPlayer</h3><ol>
 <li><p>为当前<code>AVPlayerItem</code>添加播放结束的通知<code>AVPlayerItemDidPlayToEndTimeNotification</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;监听视频是否已经播放完毕，然后实现KVO的方法：</span><br><span class="line">[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaPlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//监听视频是否已经播放完毕，然后实现KVO的方法：</span></span><br><span class="line">[[NSNotificationCenter defaultCenter] <span class="string">addObserver:</span>self <span class="string">selector:</span><span class="meta">@selector</span>(<span class="string">mediaPlayDidEnd:</span>) <span class="string">name:</span>AVPlayerItemDidPlayToEndTimeNotification <span class="string">object:</span>self.playerItem];</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>实现监听方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;视频播放结束通知</span><br><span class="line">- (void)mediaPlayDidEnd:(NSNotification *)notification&#123;</span><br><span class="line">  &#x2F;&#x2F;在此实现切换相应集数的逻辑，例如：刷新UI、切换播放地址等</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//视频播放结束通知</span></span><br><span class="line">- (<span class="keyword">void</span>)<span class="string">mediaPlayDidEnd:</span>(NSNotification *)notification&#123;</span><br><span class="line">  <span class="comment">//在此实现切换相应集数的逻辑，例如：刷新UI、切换播放地址等</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -469,25 +469,25 @@
 <p>翻译：<code>AVQueuePlayer</code>是<code>AVPlayer</code>被用来依次播放的子类。用这个类你能够创建和管理一个播放或文件下载的队列，例如<code>QuickTime</code>格式的视频或MP3音频文件，同样还支持流媒体的使用。</p>
 <ul>
 <li><p>创建队列对象的方法有两种，都是根据数组创建的，数组元素类型是<code>AVPlayerItem</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)queuePlayerWithItems:(NSArray&lt;AVPlayerItem *&gt; *)items;</span><br><span class="line"></span><br><span class="line">- (AVQueuePlayer *)initWithItems:(NSArray&lt;AVPlayerItem *&gt; *)items;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">instancetype</span>)queuePlayerWithItems:(<span class="built_in">NSArray</span>&lt;<span class="built_in">AVPlayerItem</span> *&gt; *)items;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">AVQueuePlayer</span> *)initWithItems:(<span class="built_in">NSArray</span>&lt;<span class="built_in">AVPlayerItem</span> *&gt; *)items;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>获取当前存在于队列里元素的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (NSArray&lt;AVPlayerItem *&gt; *)items;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="name">NSArray&lt;AVPlayerItem</span> *&gt; *)items<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>结束当前播放并播放下一集(将当前item从队列中移除)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)advanceToNextItem;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="name">void</span>)advanceToNextItem<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>判断是否能够在队列中追加播放资源（需要注意的是，不支持队列中存在多个相同的播放资源，即<code>AVPlayerItem</code>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)canInsertItem:(AVPlayerItem *)item afterItem:(nullable AVPlayerItem *)afterItem;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)canInsertItem:(<span class="built_in">AVPlayerItem</span> *)item afterItem:(<span class="keyword">nullable</span> <span class="built_in">AVPlayerItem</span> *)afterItem;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在指定位置插入一条播放资源（如果元素是空的则自动会过滤掉）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)insertItem:(AVPlayerItem *)item afterItem:(nullable AVPlayerItem *)afterItem;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)insertItem:(<span class="built_in">AVPlayerItem</span> *)item afterItem:(<span class="keyword">nullable</span> <span class="built_in">AVPlayerItem</span> *)afterItem;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>从队列中移除播放资源（如果移除的是当前正在播放的元素，则会自动执行advanceToNextItem播放下一集）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)removeItem:(AVPlayerItem *)item;</span><br></pre></td></tr></table></figure>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- <span class="params">(void)</span>removeItem:<span class="params">(AVPlayerItem *)</span>item;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>清除所有播放资源（当执行这一操作后，将会暂停播放）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)removeAllItems;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="name">void</span>)removeAllItems<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -528,9 +528,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/AVPlayer/" rel="tag"># AVPlayer</a>
-          
             <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/AVPlayer/" rel="tag"># AVPlayer</a>
           
             <a href="/tags/%E6%92%AD%E6%94%BE%E5%99%A8/" rel="tag"># 播放器</a>
           
@@ -611,20 +611,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -719,22 +710,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#AVPlayer"><span class="nav-number">1.</span> <span class="nav-text">AVPlayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVQueuePlayer"><span class="nav-number">2.</span> <span class="nav-text">AVQueuePlayer</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -756,18 +731,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

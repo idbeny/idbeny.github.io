@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -171,7 +171,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -333,7 +333,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -412,7 +412,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  252 字
+                  245 字
                 </span>
               
 
@@ -452,11 +452,11 @@
         <p><code>UIWebView</code>加载一个带播放器的html页面的时候，当视频在播放中我们退出当前页面的时候发现还在继续播放。</p>
 <a id="more"></a>
 <p>解决思路网上很多说法，说的最多的一种就是退出页面的时候加载一个空页面。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;about:blank&quot;]]];</span><br></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">self.webView</span> loadRequest:[<span class="name">NSURLRequest</span> requestWithURL:[<span class="name">NSURL</span> URLWithString:@<span class="string">"about:blank"</span>]]]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 <p>很多人在退出页面的时候加上这样一句代码就会发现播放器确实暂停播放了，但是如果继续回到这个页面(pop形式)发现是个空白页面。即使再次加载对应的URL能够解决当前问题，但对用户来说体验很不友好，怎么办呢？</p>
 <p>用OC调用JS方法使播放器停止播放</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewWillDisappear:(BOOL)animated&#123;</span><br><span class="line">    [super viewWillDisappear:animated];</span><br><span class="line"></span><br><span class="line">    NSString *videoPauseJSStr &#x3D; @&quot;document.documentElement.getElementsByTagName(\&quot;video\&quot;)[0].pause()&quot;;</span><br><span class="line">    [self.mWebView stringByEvaluatingJavaScriptFromString:videoPauseJSStr];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)<span class="string">viewWillDisappear:</span>(BOOL)animated&#123;</span><br><span class="line">    [<span class="keyword">super</span> <span class="string">viewWillDisappear:</span>animated];</span><br><span class="line"></span><br><span class="line">    NSString *videoPauseJSStr = @<span class="string">"document.documentElement.getElementsByTagName(\"video\")[0].pause()"</span>;</span><br><span class="line">    [self.mWebView <span class="string">stringByEvaluatingJavaScriptFromString:</span>videoPauseJSStr];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这时候发现退出当前页面就暂停播放了<del>~</del></p>
 <blockquote>
@@ -582,7 +582,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -698,18 +698,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

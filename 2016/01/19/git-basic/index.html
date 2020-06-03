@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -169,7 +169,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -331,7 +331,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  626 字
+                  622 字
                 </span>
               
 
@@ -470,16 +470,16 @@
 </ul>
 <h3 id="初始化-amp-提交代码"><a href="#初始化-amp-提交代码" class="headerlink" title="初始化&amp;提交代码"></a>初始化&amp;提交代码</h3><ol>
 <li><p>创建好项目后，初始化仓库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git init</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>全局配置用户名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &#39;用户名&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git<span class="built_in"> config </span>--global user.name <span class="string">'用户名'</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>全局配置邮箱</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &#39;邮箱地址&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git<span class="built_in"> config </span>--global user.email <span class="string">'邮箱地址'</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>添加代码到缓存区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add 文件名</span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">add</span><span class="bash"> 文件名</span></span><br></pre></td></tr></table></figure>
 <p>例：git add index.html</p>
 </li>
 </ol>
@@ -489,25 +489,25 @@
 <li>如果文件添加缓存区后又修改了内容，再次git add 文件名即可</li>
 </ul>
 <ol start="5">
-<li>移除已缓存文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached &lt;file&gt;</span><br></pre></td></tr></table></figure></li>
+<li>移除已缓存文件<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">rm</span> --cached &lt;<span class="keyword">file</span>&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：git rm –cached index.html</li>
 </ul>
 <ol start="6">
-<li>查看工作区和缓冲区文件状态<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure></li>
+<li>查看工作区和缓冲区文件状态<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git status</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>添加/修改/移除等内容后，一般要配合git status使用，以便及时看到每个文件的状态</li>
 </ul>
 <ol start="7">
-<li>放弃工作区文件修改（工作区和缓存区有同一个文件时）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git restore &lt;file&gt;</span><br></pre></td></tr></table></figure></li>
+<li>放弃工作区文件修改（工作区和缓存区有同一个文件时）<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">restore</span> &lt;<span class="keyword">file</span>&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：git restore index.html</li>
 </ul>
 <ol start="8">
-<li>提交代码到本地仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit</span><br></pre></td></tr></table></figure></li>
+<li>提交代码到本地仓库<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git commit</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>命令输完后，在新的界面填写本次提交描述，然后保存退出即可</li>
@@ -515,7 +515,7 @@
 </ul>
 <h3 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h3><ol>
 <li><p>创建忽略文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">touch</span> <span class="selector-class">.gitignore</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编辑.gitignore</p>
 </li>
@@ -525,40 +525,40 @@
 <li>忽略具体文件夹：填写文件夹路径，例：/dir</li>
 </ul>
 <h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><ol>
-<li>新建分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch 分支名</span><br></pre></td></tr></table></figure></li>
+<li>新建分支<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> <span class="keyword">branch </span>分支名</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：git branch login</li>
 </ul>
 <ol start="2">
-<li>切换分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 分支名</span><br></pre></td></tr></table></figure></li>
+<li>切换分支<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git</span> checkout 分支名</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：git checkout login</li>
 </ul>
 <ol start="3">
-<li>合并分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge 待合并的分支名</span><br></pre></td></tr></table></figure></li>
+<li>合并分支<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">merge</span> 待合并的分支名</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：把login分支合并到master上，先把分支切换到master上，然后开始合并git merge login</li>
 </ul>
 <h3 id="推送远端仓库"><a href="#推送远端仓库" class="headerlink" title="推送远端仓库"></a>推送远端仓库</h3><ol>
-<li>添加远程仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin 远端仓库地址</span><br></pre></td></tr></table></figure></li>
+<li>添加远程仓库<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote <span class="keyword">add</span><span class="bash"> origin 远端仓库地址</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>例：<a href="mailto:git@github.com">git@github.com</a>:idbeny/homework.git</li>
 </ul>
 <ol start="2">
 <li><p>连接远程仓库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git remote</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>推送到远程仓库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">push</span> -u <span class="built_in">origin</span> master</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>连上远程仓库后，推送只需要git push</li>
 </ul>
-<h3 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone 仓库地址</span><br></pre></td></tr></table></figure>
+<h3 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">仓库地址</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>例：git clone <a href="mailto:git@github.com">git@github.com</a>:idbeny/homework.git</li>
 </ul>
@@ -674,20 +674,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -782,22 +773,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Git？"><span class="nav-number">1.</span> <span class="nav-text">什么是Git？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用："><span class="nav-number">2.</span> <span class="nav-text">作用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载Git："><span class="nav-number">3.</span> <span class="nav-text">下载Git：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础命令"><span class="nav-number">4.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化-amp-提交代码"><span class="nav-number">5.</span> <span class="nav-text">初始化&amp;提交代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#忽略文件"><span class="nav-number">6.</span> <span class="nav-text">忽略文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支"><span class="nav-number">7.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推送远端仓库"><span class="nav-number">8.</span> <span class="nav-text">推送远端仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#克隆远程仓库"><span class="nav-number">9.</span> <span class="nav-text">克隆远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git和Github区别"><span class="nav-number">10.</span> <span class="nav-text">Git和Github区别</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -819,18 +794,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

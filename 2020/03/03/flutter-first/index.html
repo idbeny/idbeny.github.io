@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -176,7 +176,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -338,7 +338,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -487,7 +487,7 @@
 </ul>
 <p><strong>响应式框架</strong></p>
 <ul>
-<li>使用Flutter的现代、响应式框架，和一系列基础widget，轻松构建您的用户界面。使用功能强大且灵活的API（针对2D、动画、手势、效果等）解决艰难的UI挑战。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class CounterState extends State&lt;Counter&gt; &#123;</span><br><span class="line">  int counter &#x3D; 0;</span><br><span class="line"></span><br><span class="line">  void increment() &#123;</span><br><span class="line">    &#x2F;&#x2F; 告诉Flutter state已经改变, Flutter会调用build()，更新显示</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      counter++;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    &#x2F;&#x2F; 当 setState 被调用时，这个方法都会重新执行.</span><br><span class="line">    &#x2F;&#x2F; Flutter 对此方法做了优化，使重新执行变的很快</span><br><span class="line">    &#x2F;&#x2F; 所以你可以重新构建任何需要更新的东西，而无需分别去修改各个widget</span><br><span class="line">    return new Row(</span><br><span class="line">      children: &lt;Widget&gt;[</span><br><span class="line">        new RaisedButton(</span><br><span class="line">          onPressed: increment,</span><br><span class="line">          child: new Text(&#39;Increment&#39;),</span><br><span class="line">        ),</span><br><span class="line">        new Text(&#39;Count: $counter&#39;),</span><br><span class="line">      ],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>使用Flutter的现代、响应式框架，和一系列基础widget，轻松构建您的用户界面。使用功能强大且灵活的API（针对2D、动画、手势、效果等）解决艰难的UI挑战。<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CounterState</span> <span class="keyword">extends</span> <span class="title">State&lt;Counter&gt;</span> </span>&#123;</span><br><span class="line">  int counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  void increment() &#123;</span><br><span class="line">    <span class="comment">// 告诉Flutter state已经改变, Flutter会调用build()，更新显示</span></span><br><span class="line">    setState(() &#123;</span><br><span class="line">      counter++;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="type">Widget</span> build(<span class="type">BuildContext</span> context) &#123;</span><br><span class="line">    <span class="comment">// 当 setState 被调用时，这个方法都会重新执行.</span></span><br><span class="line">    <span class="comment">// Flutter 对此方法做了优化，使重新执行变的很快</span></span><br><span class="line">    <span class="comment">// 所以你可以重新构建任何需要更新的东西，而无需分别去修改各个widget</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Row</span>(</span><br><span class="line">      children: &lt;<span class="type">Widget</span>&gt;[</span><br><span class="line">        <span class="keyword">new</span> <span class="type">RaisedButton</span>(</span><br><span class="line">          onPressed: increment,</span><br><span class="line">          child: <span class="keyword">new</span> <span class="type">Text</span>(<span class="symbol">'Incremen</span>t'),</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> <span class="type">Text</span>(<span class="symbol">'Count</span>: $counter'),</span><br><span class="line">      ],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -521,15 +521,15 @@
 <li><a href="https://flutter.dev/docs/development/tools/sdk/releases" target="_blank" rel="noopener">https://flutter.dev/docs/development/tools/sdk/releases</a></li>
 </ul>
 <p><strong>环境变量配置（以Mac为例）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export FLUTTER_HOME&#x3D;&#x2F;Applications&#x2F;flutter</span><br><span class="line">export PATH&#x3D;$PATH:$FLUTTER_HOME&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$FLUTTER_HOME&#x2F;bin&#x2F;cache&#x2F;dart-sdk&#x2F;bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">FLUTTER_HOME</span>=/Applications/flutter</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$FLUTTER_HOME/bin</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$FLUTTER_HOME/bin/cache/dart-sdk/bin</span><br></pre></td></tr></table></figure>
 
 <p><strong>配置镜像</strong></p>
 <ul>
-<li>由于在国内访问Flutter有时可能会受到限制，Flutter官方为中国开发者搭建了临时镜像，大家可以将如下环境变量加入到用户环境变量中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PUB_HOSTED_URL&#x3D;https:&#x2F;&#x2F;pub.flutter-io.cn</span><br><span class="line">export FLUTTER_STORAGE_BASE_URL&#x3D; https:&#x2F;&#x2F;storage.flutter-io.cn</span><br></pre></td></tr></table></figure></li>
+<li>由于在国内访问Flutter有时可能会受到限制，Flutter官方为中国开发者搭建了临时镜像，大家可以将如下环境变量加入到用户环境变量中<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> PUB_HOSTED_URL=https:<span class="comment">//pub.flutter-io.cn</span></span><br><span class="line"><span class="keyword">export</span> FLUTTER_STORAGE_BASE_URL= https:<span class="comment">//storage.flutter-io.cn</span></span><br></pre></td></tr></table></figure></li>
 <li>参考：<a href="https://flutterchina.club/get-started/install/" target="_blank" rel="noopener">https://flutterchina.club/get-started/install/</a></li>
 </ul>
 <p>可参考本机环境变量配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;Users&#x2F;Developer&#x2F;Applications&#x2F;flutter&#x2F;flutter&#x2F;bin:$PATH</span><br><span class="line"></span><br><span class="line">#android sdk目录，替换为你自己的即可</span><br><span class="line">export ANDROID_HOME&#x3D;&quot;&#x2F;Users&#x2F;Developer&#x2F;Applications&#x2F;android_sdk&quot;</span><br><span class="line">export PATH&#x3D;$&#123;PATH&#125;:$&#123;ANDROID_HOME&#125;&#x2F;tools</span><br><span class="line">export PATH&#x3D;$&#123;PATH&#125;:$&#123;ANDROID_HOME&#125;&#x2F;platform-tools</span><br><span class="line">export PUB_HOSTED_URL&#x3D;https:&#x2F;&#x2F;pub.flutter-io.cn</span><br><span class="line">export FLUTTER_STORAGE_BASE_URL&#x3D;https:&#x2F;&#x2F;storage.flutter-io.cn</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=/Users/Developer/Applications/flutter/flutter/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="comment">#android sdk目录，替换为你自己的即可</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">ANDROID_HOME</span>=<span class="string">"/Users/Developer/Applications/android_sdk"</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$&#123;PATH&#125;</span>:$&#123;ANDROID_HOME&#125;/tools</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$&#123;PATH&#125;</span>:$&#123;ANDROID_HOME&#125;/platform-tools</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PUB_HOSTED_URL</span>=https://pub.flutter-io.cn</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">FLUTTER_STORAGE_BASE_URL</span>=https://storage.flutter-io.cn</span><br></pre></td></tr></table></figure>
 
 <h3 id="五、开发工具选择"><a href="#五、开发工具选择" class="headerlink" title="五、开发工具选择"></a>五、开发工具选择</h3><ul>
 <li>官方推荐：Android Studio 和 VSCode</li>
@@ -664,20 +664,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -772,22 +763,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Flutter是什么？"><span class="nav-number">1.</span> <span class="nav-text">一、Flutter是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Flutter的特点"><span class="nav-number">2.</span> <span class="nav-text">二、Flutter的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、跨平台解决方案"><span class="nav-number">3.</span> <span class="nav-text">三、跨平台解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、Flutter环境配置及安装"><span class="nav-number">4.</span> <span class="nav-text">四、Flutter环境配置及安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、开发工具选择"><span class="nav-number">5.</span> <span class="nav-text">五、开发工具选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、创建Flutter项目"><span class="nav-number">6.</span> <span class="nav-text">六、创建Flutter项目</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -809,18 +784,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

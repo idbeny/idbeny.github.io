@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -184,7 +184,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -346,7 +346,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -568,43 +568,43 @@
 <p><strong>官方语法参考</strong><br><a href="https://llvm.org/docs/LangRef.html" target="_blank" rel="noopener">https://llvm.org/docs/LangRef.html</a></p>
 <h3 id="九、源码下载"><a href="#九、源码下载" class="headerlink" title="九、源码下载"></a>九、源码下载</h3><ol>
 <li><p>下载LLVM（大小795MB，仅供参考）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;git.llvm.org&#x2F;git&#x2F;llvm.git&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">https</span>://git.llvm.org/git/llvm.git/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>下载Clang（一定要等到LLVM下载完成后再操作，大小272.4MB，仅供参考）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm&#x2F;tools</span><br><span class="line">$ git clone https:&#x2F;&#x2F;git.llvm.org&#x2F;git&#x2F;clang.git&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>cd llvm/tools</span><br><span class="line"><span class="variable">$ </span>git clone <span class="symbol">https:</span>/<span class="regexp">/git.llvm.org/git</span><span class="regexp">/clang.git/</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Clang没有下载的时候，为什么也能使用？是因为Xcode内置了该工具<br><img src="http://blog.idbeny.com/ke2kw.png@normal" alt=""><br>之所以再次下载，是为了我们能够编译成自己需要的Clang（定制化）</p>
 </li>
 </ol>
 <h3 id="十、源码编译"><a href="#十、源码编译" class="headerlink" title="十、源码编译"></a>十、源码编译</h3><ol>
-<li>安装cmake和ninja（先安装brew，<a href="https://brew.sh/）" target="_blank" rel="noopener">https://brew.sh/）</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew install cmake</span><br><span class="line">$ brew install ninja</span><br></pre></td></tr></table></figure>
+<li>安装cmake和ninja（先安装brew，<a href="https://brew.sh/）" target="_blank" rel="noopener">https://brew.sh/）</a><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">brew </span><span class="keyword">install </span>cmake</span><br><span class="line">$ <span class="keyword">brew </span><span class="keyword">install </span>ninja</span><br></pre></td></tr></table></figure>
 <ul>
 <li>ninja如果安装失败，可以直接从<a href="https://github.com/ninja-build/ninja/release" target="_blank" rel="noopener">Github</a>获取release版本放入<code>/usr/local/bin</code></li>
 </ul>
 </li>
 </ol>
 <ol start="2">
-<li>生成模板：在LLVM源码同级目录下新建一个<code>llvm_build</code>目录（最终会在<code>llvm_build</code>目录下生成<code>build.ninja</code>）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_build</span><br><span class="line">$ cmake -G Ninja ..&#x2F;llvm -DCMAKE_INSTALL_PREFIX&#x3D;LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
+<li>生成模板：在LLVM源码同级目录下新建一个<code>llvm_build</code>目录（最终会在<code>llvm_build</code>目录下生成<code>build.ninja</code>）<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_build</span><br><span class="line">$ cmake -G Ninja <span class="built_in">..</span>/llvm <span class="attribute">-DCMAKE_INSTALL_PREFIX</span>=LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>更多cmake相关选项，可以参考：<a href="https://llvm.org/docs/CMake.html" target="_blank" rel="noopener">https://llvm.org/docs/CMake.html</a></li>
 </ul>
 <ol start="3">
 <li><p>执行编译指令（编译完毕后，<code>llvm_build</code>目录大概21.05GB（仅供参考））</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ninja</span><br></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>ninja</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>执行安装指令（在<code>llvm_build</code>同级目录创建一个<code>llvm_release</code>目录，安装完毕后，安装目录大概11.92GB（仅供参考））</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ninja install</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ninja <span class="keyword">install</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
 <li>完成之后在可以看到clang执行文件（<code>llvm_release/bin/clang</code>）</li>
 </ul>
 <hr>
 <ol start="5">
-<li>另外一种编译方式：生成Xcode项目，然后用Xcode编译（速度很慢很慢很慢~）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_build</span><br><span class="line">$ cmake -G Ninja ..&#x2F;llvm -DCMAKE_INSTALL_PREFIX&#x3D;LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
+<li>另外一种编译方式：生成Xcode项目，然后用Xcode编译（速度很慢很慢很慢~）<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_build</span><br><span class="line">$ cmake -G Ninja <span class="built_in">..</span>/llvm <span class="attribute">-DCMAKE_INSTALL_PREFIX</span>=LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
 </ol>
 <ul>
-<li>新建<code>llvm_xcode</code>目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_xcode</span><br><span class="line">$ cmake -G XCODE ..&#x2F;llvm -DCMAKE_INSTALL_PREFIX&#x3D;LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
+<li>新建<code>llvm_xcode</code>目录<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd llvm_xcode</span><br><span class="line">$ cmake -G XCODE <span class="built_in">..</span>/llvm <span class="attribute">-DCMAKE_INSTALL_PREFIX</span>=LLVM的安装路径</span><br></pre></td></tr></table></figure></li>
 <li>生成之后，可以看到执行文件，用Xcode打开之后选择Scheme<code>ALL_BUILD</code>，开始编译，之后在<code>llvm_xcode/Debug/bin</code>可以看到编译后的文件。</li>
 </ul>
 <h3 id="十一、应用与实践"><a href="#十一、应用与实践" class="headerlink" title="十一、应用与实践"></a>十一、应用与实践</h3><h4 id="LLVM相关工具：libclang、libTooling"><a href="#LLVM相关工具：libclang、libTooling" class="headerlink" title="LLVM相关工具：libclang、libTooling"></a>LLVM相关工具：libclang、libTooling</h4><ul>
@@ -741,20 +741,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -849,22 +840,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是LLVM？"><span class="nav-number">1.</span> <span class="nav-text">什么是LLVM？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#官网：https-llvm-org"><span class="nav-number">1.1.</span> <span class="nav-text">官网：https:&#x2F;&#x2F;llvm.org</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、传统的编译器架构："><span class="nav-number">1.2.</span> <span class="nav-text">一、传统的编译器架构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、LLVM架构"><span class="nav-number">1.3.</span> <span class="nav-text">二、LLVM架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、什么是Clang？"><span class="nav-number">1.4.</span> <span class="nav-text">三、什么是Clang？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、Clang与LLVM"><span class="nav-number">1.5.</span> <span class="nav-text">四、Clang与LLVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、OC源文件的编译过程"><span class="nav-number">1.6.</span> <span class="nav-text">五、OC源文件的编译过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、词法分析"><span class="nav-number">1.7.</span> <span class="nav-text">六、词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、语法树-AST"><span class="nav-number">1.8.</span> <span class="nav-text">七、语法树-AST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、LLVM-IR"><span class="nav-number">1.9.</span> <span class="nav-text">八、LLVM IR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、源码下载"><span class="nav-number">1.10.</span> <span class="nav-text">九、源码下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十、源码编译"><span class="nav-number">1.11.</span> <span class="nav-text">十、源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十一、应用与实践"><span class="nav-number">1.12.</span> <span class="nav-text">十一、应用与实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LLVM相关工具：libclang、libTooling"><span class="nav-number">1.12.1.</span> <span class="nav-text">LLVM相关工具：libclang、libTooling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Clang插件开发"><span class="nav-number">1.12.2.</span> <span class="nav-text">Clang插件开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pass开发"><span class="nav-number">1.12.3.</span> <span class="nav-text">Pass开发</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -886,18 +861,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -177,7 +177,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -339,7 +339,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  287 字
+                  252 字
                 </span>
               
 
@@ -479,7 +479,7 @@
 <li><code>prefix</code>：快捷键（创建代码的时候用到）<br><img src="http://blog.idbeny.com/ao82p.png@normal" alt="创建代码片段"></li>
 </ul>
 <p>具体代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;Vue-Template&quot;: &#123;</span><br><span class="line">    &quot;prefix&quot;: &quot;vuetem&quot;,</span><br><span class="line">    &quot;body&quot;: [</span><br><span class="line">			&quot;&lt;template&gt;\n&quot;,</span><br><span class="line">			&quot;&lt;&#x2F;template&gt;\n&quot;,</span><br><span class="line">			&quot;&lt;script&gt;&quot;,</span><br><span class="line">			&quot;\texport default &#123;&quot;,</span><br><span class="line">  		&quot;\t\tname: &#39;App&#39;&quot;,</span><br><span class="line">			&quot;\t&#125;&quot;,</span><br><span class="line">			&quot;&lt;&#x2F;script&gt;\n&quot;,</span><br><span class="line">			&quot;&lt;style scoped&gt;\n&quot;,</span><br><span class="line">			&quot;&lt;&#x2F;style&gt;&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;description&quot;: &quot;快速创建vue组件模板&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"Vue-Template"</span>: &#123;</span><br><span class="line">    <span class="attr">"prefix"</span>: <span class="string">"vuetem"</span>,</span><br><span class="line">    <span class="attr">"body"</span>: [</span><br><span class="line">			<span class="string">"&lt;template&gt;\n"</span>,</span><br><span class="line">			<span class="string">"&lt;/template&gt;\n"</span>,</span><br><span class="line">			<span class="string">"&lt;script&gt;"</span>,</span><br><span class="line">			<span class="string">"\texport default &#123;"</span>,</span><br><span class="line">  		<span class="string">"\t\tname: 'App'"</span>,</span><br><span class="line">			<span class="string">"\t&#125;"</span>,</span><br><span class="line">			<span class="string">"&lt;/script&gt;\n"</span>,</span><br><span class="line">			<span class="string">"&lt;style scoped&gt;\n"</span>,</span><br><span class="line">			<span class="string">"&lt;/style&gt;"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"快速创建vue组件模板"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>保存后，新建Vue文件后，在代码区输入之前定义的<code>prefix</code>快捷键然后按下<code>tab</code>即可（本例快捷键：<code>vuetem</code>）。</p>
 
@@ -596,20 +596,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -704,22 +695,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步"><span class="nav-number">1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步"><span class="nav-number">2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步"><span class="nav-number">3.</span> <span class="nav-text">第三步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四步"><span class="nav-number">4.</span> <span class="nav-text">第四步</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -741,18 +716,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 

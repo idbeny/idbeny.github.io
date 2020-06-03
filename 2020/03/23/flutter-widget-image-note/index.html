@@ -87,7 +87,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -176,7 +176,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -338,7 +338,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  512 字
+                  510 字
                 </span>
               
 
@@ -462,7 +462,7 @@
 </ul>
 </li>
 <li>必须在<code>pubspec.yaml</code>配置文件中配置<code>assets</code>，如下：<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assets:</span><br><span class="line">    - assets&#x2F;images&#x2F;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">assets:</span></span><br><span class="line">    - assets<span class="meta-keyword">/images/</span></span><br></pre></td></tr></table></figure></li>
 <li>新建工程时，系统默认把assets相关配置注释掉，我们只需要把注释打开然后修改为我们需要的路径即可；</li>
 <li>注意点：assets前面一定不要有空格，否则打包会报错；</li>
 <li>最后点击<code>Android Studio</code>上面的<code>Packages get</code><br><img src="http://blog.idbeny.com/7gk7s.png@normal" alt=""></li>
@@ -611,20 +611,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -719,22 +710,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Image"><span class="nav-number">1.</span> <span class="nav-text">Image</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ImageProvider"><span class="nav-number">1.1.</span> <span class="nav-text">ImageProvider</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Widget"><span class="nav-number">1.2.</span> <span class="nav-text">Widget</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片缓存"><span class="nav-number">1.3.</span> <span class="nav-text">图片缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Icon"><span class="nav-number">2.</span> <span class="nav-text">Icon</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -756,18 +731,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 
