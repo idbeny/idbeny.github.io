@@ -69,9 +69,9 @@
       
       <categories>
           
-          <category> JS </category>
-          
           <category> Vue </category>
+          
+          <category> JS </category>
           
       </categories>
       
@@ -273,9 +273,9 @@
       
         <tags>
             
-            <tag> AVPlayer </tag>
-            
             <tag> iOS </tag>
+            
+            <tag> AVPlayer </tag>
             
             <tag> 播放器 </tag>
             
