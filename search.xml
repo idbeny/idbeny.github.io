@@ -56,7 +56,7 @@
     
     
     <entry>
-      <title>dart-syntax-02</title>
+      <title>【Dart】Dart基本语法（二）</title>
       <link href="/2020/03/06/dart-syntax-02/"/>
       <url>/2020/03/06/dart-syntax-02/</url>
       
@@ -72,9 +72,9 @@
       
         <tags>
             
-            <tag> Flutter </tag>
-            
             <tag> Dart </tag>
+            
+            <tag> Flutter </tag>
             
         </tags>
       
@@ -99,9 +99,9 @@
       
         <tags>
             
-            <tag> Flutter </tag>
-            
             <tag> Dart </tag>
+            
+            <tag> Flutter </tag>
             
         </tags>
       
@@ -110,7 +110,7 @@
     
     
     <entry>
-      <title>flutter-first</title>
+      <title>【Flutter】初识Flutter</title>
       <link href="/2020/03/03/flutter-first/"/>
       <url>/2020/03/03/flutter-first/</url>
       
@@ -588,9 +588,9 @@
       
         <tags>
             
-            <tag> iOS </tag>
-            
             <tag> AVPlayer </tag>
+            
+            <tag> iOS </tag>
             
             <tag> 播放器 </tag>
             
