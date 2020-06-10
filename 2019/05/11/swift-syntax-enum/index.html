@@ -89,7 +89,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
 
 
 
@@ -117,7 +117,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -671,8 +671,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://blog.idbeny.com/avatar.jpg@origin"
@@ -769,6 +778,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#typealias-别名"><span class="nav-number">1.</span> <span class="nav-text">typealias(别名)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">2.</span> <span class="nav-text">枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联值"><span class="nav-number">2.2.</span> <span class="nav-text">关联值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原始值"><span class="nav-number">2.3.</span> <span class="nav-text">原始值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归枚举"><span class="nav-number">2.4.</span> <span class="nav-text">递归枚举</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存布局"><span class="nav-number">3.</span> <span class="nav-text">内存布局</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
