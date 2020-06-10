@@ -11,6 +11,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
 
 
 
@@ -87,7 +89,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
 
 
 
@@ -117,7 +119,7 @@
 <meta property="og:image" content="http://blog.idbeny.com/et3bn.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/3hvo3.png@normal">
 <meta property="article:published_time" content="2016-03-07T09:58:30.000Z">
-<meta property="article:modified_time" content="2020-06-10T05:57:43.262Z">
+<meta property="article:modified_time" content="2020-06-10T06:11:40.882Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="变量">
@@ -160,6 +162,19 @@
 
 
 
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
   <title>【C】C语言基本语法（一） | 1024星球</title>
   
 
@@ -190,7 +205,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -352,7 +367,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="idbeny">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -431,7 +446,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  6.1k 字
+                  5.8k 字
                 </span>
               
 
@@ -447,7 +462,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  24 分钟
+                  22 分钟
                 </span>
               
             </div>
@@ -497,7 +512,7 @@
 <h2 id="程序的结构"><a href="#程序的结构" class="headerlink" title="程序的结构"></a>程序的结构</h2><p>任何一个C语言程序都由一个或多个函数构成，每个函数都由自己的功能，所以以后编写的C语言代码，基本上都是写在函数中</p>
 <h3 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h3><p>每一个函数都有自己的名称（标识符），并且每一个函数的名称都是唯一的。</p>
 <p>大部分程序运行时都有一个入口，而这个入口就是<code>main</code>函数，C语言就是这样，如果没有main函数，程序就无法运行。</p>
-<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    printf(&quot;Hello World&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>printf</code> ：将双引号中的文字显示到屏幕上</li>
 </ul>
@@ -546,7 +561,7 @@
 <li>单行注释</li>
 <li>多行注释</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 导入C语言基础库（这是一段单行注释）</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;*</span><br><span class="line"> 这是程序入口函数</span><br><span class="line"> 函数运行后会打印一段文字</span><br><span class="line"> （这就是多行注释）</span><br><span class="line"> *&#x2F;</span><br><span class="line">int main() &#123;</span><br><span class="line">    printf(&quot;Hello World&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入C语言基础库（这是一段单行注释）</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 这是程序入口函数</span></span><br><span class="line"><span class="comment"> 函数运行后会打印一段文字</span></span><br><span class="line"><span class="comment"> （这就是多行注释）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>写注释的好处：</p>
 <ul>
@@ -560,39 +575,39 @@
 </ul>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>变量的作用，可以存储程序运行过程中会变化的数据</p>
 <h3 id="如何声明一个变量？"><a href="#如何声明一个变量？" class="headerlink" title="如何声明一个变量？"></a>如何声明一个变量？</h3><p>格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量类型 变量名;</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量类型 变量名<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int year;</span><br><span class="line">int month;</span><br><span class="line">int day</span><br></pre></td></tr></table></figure>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">year</span>;</span><br><span class="line"><span class="built_in">int</span> <span class="built_in">month</span>;</span><br><span class="line"><span class="built_in">int</span> <span class="built_in">day</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>变量类型决定了变量能够存储什么类型的数据（上面的示例：int类型决定了变量能够存储整数）</li>
 </ul>
 <h3 id="如何给变量赋值？"><a href="#如何给变量赋值？" class="headerlink" title="如何给变量赋值？"></a>如何给变量赋值？</h3><ul>
 <li><p>赋值：将数据交给变量去存储</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量名 &#x3D; 数据;</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量名 = 数据<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>这个等号表示赋值，会把右边的数据赋值给左边的变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int month &#x3D; 12</span><br><span class="line">int day &#x3D; 30</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> month = <span class="number">12</span></span><br><span class="line"><span class="built_in">int</span> day = <span class="number">30</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在变量声明完成后，直接通过变量名访问变量（不需要再带上变量类型（也不能带上变量类型））</p>
 </li>
 <li><p>变量可以被多次赋值，新值会覆盖旧值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int num &#x3D; 10;</span><br><span class="line">num &#x3D; 20;</span><br><span class="line">printf(&quot;%d&quot;, num); &#x2F;&#x2F; 输出：20</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">num</span> = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">num</span> = <span class="number">20</span>;</span><br><span class="line">printf(<span class="string">"%d"</span>, <span class="built_in">num</span>); <span class="comment">// 输出：20</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>变量的第一次赋值，一般叫做初始化（init）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 声明一个变量，未初始化</span><br><span class="line">int num;</span><br><span class="line">&#x2F;&#x2F; 初始化</span><br><span class="line">num &#x3D; 20;</span><br><span class="line">&#x2F;&#x2F; 不是初始化，是赋值</span><br><span class="line">num &#x3D; 30;</span><br><span class="line">printf(&quot;%d&quot;, num); &#x2F;&#x2F; 输出：30</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个变量，未初始化</span></span><br><span class="line"><span class="built_in">int</span> <span class="built_in">num</span>;</span><br><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="built_in">num</span> = <span class="number">20</span>;</span><br><span class="line"><span class="comment">// 不是初始化，是赋值</span></span><br><span class="line"><span class="built_in">num</span> = <span class="number">30</span>;</span><br><span class="line">printf(<span class="string">"%d"</span>, <span class="built_in">num</span>); <span class="comment">// 输出：30</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>变量声明的同时也可以进行初始化（开发中大部分操作）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 声明变量num，并对变量进行初始化，变量初始值为10</span><br><span class="line">int num &#x3D; 10;</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明变量num，并对变量进行初始化，变量初始值为10</span></span><br><span class="line"><span class="built_in">int</span> num = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>变量在未初始化之前，他的值是不确定的</p>
 </li>
 <li><p>变量在使用之前必须先进行初始化</p>
 </li>
 <li><p>可以同时声明多个同类型的变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int year, month, day &#x3D; 30;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">year</span>, <span class="built_in">month</span>, <span class="built_in">day</span> = <span class="number">30</span>;</span><br></pre></td></tr></table></figure></li>
 <li><p>可以将一个变量的值赋给另一个变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int num1 &#x3D; 10;</span><br><span class="line">int num2 &#x3D; 20;</span><br><span class="line">num1 &#x3D; num2;</span><br><span class="line">printf(&quot;%d--%d&quot;, num1, num2); &#x2F;&#x2F; 输出：20--20</span><br></pre></td></tr></table></figure>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num1 = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> num2 = <span class="number">20</span>;</span><br><span class="line">num1 = num2;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">"%d--%d"</span>, num1, num2); <span class="regexp">//</span> 输出：<span class="number">20</span>--<span class="number">20</span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -604,10 +619,10 @@
 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串由若干个字符组成的一串数据</p>
 <ul>
 <li><p>字符串用双引号包裹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(&quot;Hello World&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">"Hello World"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>如果字符串中出现了变量名，是不会去访问变量的，使用字符串时，会保留原来的字符内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int day &#x3D; 30;</span><br><span class="line">printf(&quot;day &#x3D; %d&quot;, day); &#x2F;&#x2F; 输出：day &#x3D; 30</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">day</span> = <span class="number">30</span>;</span><br><span class="line">printf(<span class="string">"day = %d"</span>, <span class="built_in">day</span>); // 输出：<span class="built_in">day</span> = <span class="number">30</span></span><br></pre></td></tr></table></figure></li>
 <li><p>字符串中的<code>%d</code>，是整数的占位符，到时会用对应的整数取代占位符，生成一个新的字符串</p>
 </li>
 </ul>
@@ -627,7 +642,7 @@
 <li>下划线连接，<code>my_name_and_age</code>，也有大写<code>MY_NAME_AND_AGE</code></li>
 </ul>
 <h2 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h2><p>顾名思义，就是一个固定值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int age &#x3D; 20;</span><br><span class="line">double height &#x3D; 1.88;</span><br><span class="line">char word &#x3D; &quot;a&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">double</span> <span class="built_in">height</span> = <span class="number">1.88</span>;</span><br><span class="line"><span class="keyword">char</span> <span class="keyword">word</span> = <span class="string">"a"</span>;</span><br></pre></td></tr></table></figure>
 <p>上面的代码中，等号右边的固定值都叫做字面量。</p>
 <h2 id="硬盘和内存"><a href="#硬盘和内存" class="headerlink" title="硬盘和内存"></a>硬盘和内存</h2><p><img src="http://blog.idbeny.com/z8l07.png@normal" alt=""></p>
 <p><em>在CPU、硬盘、内存3者之中，对我们开发者来说，最需要关注的内存，因为内存在程序运行过程中才执行的，而程序是运行在内存中的</em></p>
@@ -722,7 +737,7 @@
 <ul>
 <li>但是部分编译器支持，比如GCC规定以0b或0B开头的是二进制</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i1 &#x3D; 20; &#x2F;&#x2F; 十进制</span><br><span class="line">int i2 &#x3D; 024; &#x2F;&#x2F; 八进制</span><br><span class="line">int i3 &#x3D; 0x14; &#x2F;&#x2F; 十六进制</span><br><span class="line">int i4 &#x3D; 0b10100; &#x2F;&#x2F; 二进制</span><br><span class="line">printf(&quot;%d %d %d %d&quot;, i1, i2, i3, i4) &#x2F;&#x2F; 输出：20 20 20 20</span><br></pre></td></tr></table></figure>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int <span class="built_in">i1</span> = <span class="number">20</span>; // 十进制</span><br><span class="line">int i2 = <span class="number">024</span>; // 八进制</span><br><span class="line">int i3 = <span class="number">0x14</span>; // 十六进制</span><br><span class="line">int i4 = <span class="number">0b10100</span>; // 二进制</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d %d %d"</span>, <span class="built_in">i1</span>, i2, i3, i4) // 输出：<span class="number">20</span> <span class="number">20</span> <span class="number">20</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="存储单位"><a href="#存储单位" class="headerlink" title="存储单位"></a>存储单位</h2><p>字节（Byte，B）是一种基本存储单位（在计算机领域用来计量存储容量）</p>
 <p>单位换算：<br>1字 = 2B（字的英文是word，1字等于2字节）</p>
@@ -760,9 +775,9 @@
 </ul>
 <p>在C语言中，怎么查看变量占用了多少内存空间呢？</p>
 <h3 id="sizeof运算符"><a href="#sizeof运算符" class="headerlink" title="sizeof运算符"></a>sizeof运算符</h3><p>使用<code>sizeof</code>可以获得某一数据类型的大小（所占多少字节的内存空间）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int age &#x3D; 20;</span><br><span class="line">printf(&quot;%d&quot;, sizeof(age)); &#x2F;&#x2F; 输出：4</span><br><span class="line">printf(&quot;%d&quot;, sizeof age); &#x2F;&#x2F; 输出：4</span><br><span class="line">printf(&quot;%d&quot;, sizeof(int)); &#x2F;&#x2F; 输出：4</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span>(age)); <span class="comment">// 输出：4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span> age); <span class="comment">// 输出：4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)); <span class="comment">// 输出：4</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="变量的内存地址"><a href="#变量的内存地址" class="headerlink" title="变量的内存地址"></a>变量的内存地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 10;</span><br><span class="line">int b &#x3D; 20;</span><br><span class="line">printf(&quot;%p\n&quot;, &amp;a); &#x2F;&#x2F; 输出：0x00bff578</span><br><span class="line">printf(&quot;%p\n&quot;, &amp;b); &#x2F;&#x2F; 输出：0x00bff574</span><br></pre></td></tr></table></figure>
+<h3 id="变量的内存地址"><a href="#变量的内存地址" class="headerlink" title="变量的内存地址"></a>变量的内存地址</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;a); <span class="comment">// 输出：0x00bff578</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;b); <span class="comment">// 输出：0x00bff574</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://blog.idbeny.com/ksahr.png@normal" alt=""></p>
 <ul>
 <li>变量的内存地址：变量首字节（地址值最小的那个字节）的内存地址</li>
@@ -775,7 +790,7 @@
 </ul>
 <h3 id="有符号数的二进制表示方法"><a href="#有符号数的二进制表示方法" class="headerlink" title="有符号数的二进制表示方法"></a>有符号数的二进制表示方法</h3><p><code>int</code>类型属于有符号整数类型</p>
 <ul>
-<li>可以表示正数、负数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 20;</span><br><span class="line">int b &#x3D; -20;</span><br></pre></td></tr></table></figure></li>
+<li>可以表示正数、负数<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">int</span> b = <span class="number">-20</span>;</span><br></pre></td></tr></table></figure></li>
 <li>有符号数的二进制有3种表示方法：源码、反码、补码</li>
 <li>三种表示方法均有<strong>符号位</strong>和<strong>数值位</strong>两部分<ul>
 <li>符号位：最高位作为符号位，用0表示“正”，用1表示“负”</li>
@@ -800,7 +815,7 @@
 </ul>
 <p><img src="http://blog.idbeny.com/4rvt6.png@normal" alt=""></p>
 <p>在计算机中，数值一律用补码来表示和存储。<br>比如，下面2个变量在内存中存储的二进制数值是（假设<code>int</code>类型的变量占用4字节）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 20; </span><br><span class="line">int b &#x3D; -20;</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a = <span class="number">20</span>; </span><br><span class="line"><span class="built_in">int</span> b = <span class="number">-20</span>;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>a: 0000 0000 0000 0000 0000 0000 0001 0100</li>
 <li>b: 1111 1111 1111 1111 1111 1111 1110 1100</li>
@@ -827,7 +842,7 @@
 <li><p>字符用单引号</p>
 </li>
 <li><p>打印的占位符：<code>%c</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char c1 &#x3D; &#39;k&#39;;</span><br><span class="line">char c2 &#x3D; &#39;9&#39;;</span><br><span class="line">printf(&quot;%c %c&quot;, c1, c2); &#x2F;&#x2F; 输出：k 9</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c1 = <span class="string">'k'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'9'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c %c"</span>, c1, c2); <span class="comment">// 输出：k 9</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>一个<code>char</code>类型的变量占用1个字节的内存，所以它只能存储1个单字节字符</p>
 </li>
@@ -835,7 +850,7 @@
 </li>
 </ul>
 <p>下面的代码有问题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 不能存储超过1个单字节字符</span><br><span class="line">char c1 &#x3D; &#39;idbeny&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 一个中文字符至少占用2个字节</span><br><span class="line">char c2 &#x3D; &#39;你&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 字符串是双引号，字符是用单引号</span><br><span class="line">char c3 &#x3D; &quot;i&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不能存储超过1个单字节字符</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'idbeny'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一个中文字符至少占用2个字节</span></span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'你'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串是双引号，字符是用单引号</span></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">"i"</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="字符的存储细节"><a href="#字符的存储细节" class="headerlink" title="字符的存储细节"></a>字符的存储细节</h3><p>计算机中的数据都是以二进制形式存储的，字符数据也不例外。每一个字符都会被转化成对应的整数值进行存储。</p>
 <p>在1967年，美国发布了ASCII码表，里面规定了128个单字节字符对应的整数值（ASCII码值）。</p>
@@ -844,7 +859,7 @@
 <li>大写字母A对应的码值是65</li>
 <li>小写字母a对应的码值是97</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 97;</span><br><span class="line">char c1 &#x3D; &#39;0&#39;;</span><br><span class="line">char c2 &#x3D; &#39;a&#39;;</span><br><span class="line">char c3 &#x3D; &#39;A&#39;;</span><br><span class="line">printf(&quot; %p\n %p\n %p\n %p\n&quot;, &amp;i, &amp;c1, &amp;c2, &amp;c3); </span><br><span class="line">&#x2F;*</span><br><span class="line"> 输出：</span><br><span class="line"> 0x00b7EC19</span><br><span class="line"> 0x00b7EC1A</span><br><span class="line"> 0x00b7EC1B</span><br><span class="line"> 0x00b7EC2C</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">97</span>;</span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'0'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'a'</span>;</span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'A'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">" %p\n %p\n %p\n %p\n"</span>, &amp;i, &amp;c1, &amp;c2, &amp;c3); </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0x00b7EC19</span></span><br><span class="line"><span class="comment"> 0x00b7EC1A</span></span><br><span class="line"><span class="comment"> 0x00b7EC1B</span></span><br><span class="line"><span class="comment"> 0x00b7EC2C</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://blog.idbeny.com/27jp7.png@normal" alt=""></p>
 <h3 id="ASCII码表"><a href="#ASCII码表" class="headerlink" title="ASCII码表"></a>ASCII码表</h3><p>ASCII被译为“美国信息交换标准码”，是一种标准的单字节字符编码方案。</p>
 <p>共128个字符，码值范围：0~127（也就是0x00 ~ 0x7F）</p>
@@ -872,12 +887,12 @@
 <li>阿拉伯数字0的ASCII码值：48</li>
 </ul>
 <p><strong>注意使用细节：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">char c1 &#x3D; &#39;a&#39;;</span><br><span class="line">char c2 &#x3D; &#39;A&#39;;</span><br><span class="line">printf(&quot;%d %d\n&quot;, c1, c2); &#x2F;&#x2F; 输出：97 65</span><br><span class="line"></span><br><span class="line">int i1 &#x3D; 97;</span><br><span class="line">int i2 &#x3D; 65;</span><br><span class="line">printf(&quot;%c %c\n&quot;, i1, i2); &#x2F;&#x2F; 输出：a A</span><br><span class="line"></span><br><span class="line">char c3 &#x3D; &#39;A&#39;;</span><br><span class="line">printf(&quot;%d\n&quot;, c3 + 10); &#x2F;&#x2F; 输出：75</span><br><span class="line"></span><br><span class="line">int i3 &#x3D; 67;</span><br><span class="line">printf(&quot;%c\n&quot;, i3 + 10); &#x2F;&#x2F; 输出：M</span><br><span class="line"></span><br><span class="line">int i4 &#x3D; &#39;a&#39;;</span><br><span class="line">char c4 &#x3D; 97;</span><br><span class="line">printf(&quot;%d %d\n&quot;, i4, c4); &#x2F;&#x2F; 输出：97 97</span><br><span class="line">printf(&quot;%c %c\n&quot;, i4, c4); &#x2F;&#x2F; 输出：a a</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 完全可以将char类型当做整数类型来使用</span><br><span class="line">char c5 &#x3D; 10;</span><br><span class="line">char c6 &#x3D; c5 + 20;</span><br><span class="line">char c7 &#x3D; c5 + c6 + 30;</span><br><span class="line">printf(&quot;%d&quot;, c7); &#x2F;&#x2F; 输出：70</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c1 = <span class="string">'a'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'A'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, c1, c2); <span class="comment">// 输出：97 65</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i1 = <span class="number">97</span>;</span><br><span class="line"><span class="keyword">int</span> i2 = <span class="number">65</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c %c\n"</span>, i1, i2); <span class="comment">// 输出：a A</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'A'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, c3 + <span class="number">10</span>); <span class="comment">// 输出：75</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i3 = <span class="number">67</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c\n"</span>, i3 + <span class="number">10</span>); <span class="comment">// 输出：M</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i4 = <span class="string">'a'</span>;</span><br><span class="line"><span class="keyword">char</span> c4 = <span class="number">97</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, i4, c4); <span class="comment">// 输出：97 97</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c %c\n"</span>, i4, c4); <span class="comment">// 输出：a a</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 完全可以将char类型当做整数类型来使用</span></span><br><span class="line"><span class="keyword">char</span> c5 = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">char</span> c6 = c5 + <span class="number">20</span>;</span><br><span class="line"><span class="keyword">char</span> c7 = c5 + c6 + <span class="number">30</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, c7); <span class="comment">// 输出：70</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>大小写字母之间的转换</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char c1 &#x3D; &#39;n&#39;;</span><br><span class="line">char c2 &#x3D; c1 - 32;</span><br><span class="line"></span><br><span class="line">char c3 &#x3D; &#39;Q&#39;;</span><br><span class="line">char c4 &#x3D; c3 + 32;</span><br><span class="line">printf(&quot;%c %c&quot;, c2, c4); &#x2F;&#x2F; 输出：N q</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c1 = <span class="string">'n'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = c1 - <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'Q'</span>;</span><br><span class="line"><span class="keyword">char</span> c4 = c3 + <span class="number">32</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c %c"</span>, c2, c4); <span class="comment">// 输出：N q</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="数字整数、数字字符在内存中的区别"><a href="#数字整数、数字字符在内存中的区别" class="headerlink" title="数字整数、数字字符在内存中的区别"></a>数字整数、数字字符在内存中的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 9;</span><br><span class="line">char c &#x3D; &#39;9&#39;;</span><br><span class="line">printf(&quot;%d %d&quot;, i, c); &#x2F;&#x2F; 输出：9 57</span><br></pre></td></tr></table></figure>
+<h3 id="数字整数、数字字符在内存中的区别"><a href="#数字整数、数字字符在内存中的区别" class="headerlink" title="数字整数、数字字符在内存中的区别"></a>数字整数、数字字符在内存中的区别</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">9</span>;</span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'9'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, i, c); <span class="comment">// 输出：9 57</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="http://blog.idbeny.com/et3bn.png@normal" alt=""></p>
 <ul>
@@ -888,13 +903,13 @@
 <p>疑问：中文、日文、韩文等非英文字符是如何存储在计算机中的？<br>可以肯定的是，必然是以二进制的形式存储在计算机中的，只是每个字符对应的二进制数值取决于具体的编码方案（GBK、UTF-8、Unicode等），<br>GBK主要支持的是CJK汉字字符（C-中国、J-日本、K-朝鲜），而UTF-8支持几乎世界上所有的字符。</p>
 </blockquote>
 <h2 id="转义序列"><a href="#转义序列" class="headerlink" title="转义序列"></a>转义序列</h2><p>转义序列，一般也叫作转义字符，是一些有特殊含义的字符<br><img src="http://blog.idbeny.com/3hvo3.png@normal" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">printf(&quot;我叫&#39;idbeny&#39;，在\&quot;1024星球\&quot;等你&quot;); &#x2F;&#x2F; 输出：我叫&#39;idbeny&#39;，在&quot;1024星球&quot;等你</span><br><span class="line">char c1 &#x3D; &#39;\&#39;&#39;;</span><br><span class="line">char c2 &#x3D; &#39;&quot;&#39;;</span><br><span class="line">printf(&quot;\n%c\t%c\\&quot;, c1, c2); &#x2F;&#x2F; 输出：&#39;    &quot;\</span><br><span class="line"></span><br><span class="line">char c3 &#x3D; &#39;\063&#39;;</span><br><span class="line">printf(&quot;%d %c&quot;, c3, c3); &#x2F;&#x2F; 输出：51 3</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &quot;\0115&quot;是&quot;\011&quot;和&quot;5&quot;的组合</span><br><span class="line">&#x2F;&#x2F; &quot;\011&quot;就是水平制表符&quot;\t&quot;</span><br><span class="line">printf(&quot;\0115&quot;); &#x2F;&#x2F; 输出：	5</span><br><span class="line"></span><br><span class="line">错误写法：</span><br><span class="line">char c1 &#x3D; &#39;\X4A&#39;; &#x2F;&#x2F; 不能是大写X</span><br><span class="line">char c1 &#x3D; &#39;\0x4A&#39;; &#x2F;&#x2F; 不能是0x</span><br><span class="line">char c1 &#x3D; &#39;\0X4A&#39;; &#x2F;&#x2F; 不能是0X</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">"我叫'idbeny'，在\"1024星球\"等你"</span>); <span class="comment">// 输出：我叫'idbeny'，在"1024星球"等你</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\''</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'"'</span>;</span><br><span class="line">printf(<span class="string">"\n%c\t%c\\"</span>, c1, c2); <span class="comment">// 输出：'    "\</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'\063'</span>;</span><br><span class="line">printf(<span class="string">"%d %c"</span>, c3, c3); <span class="comment">// 输出：51 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// "\0115"是"\011"和"5"的组合</span></span><br><span class="line"><span class="comment">// "\011"就是水平制表符"\t"</span></span><br><span class="line">printf(<span class="string">"\0115"</span>); <span class="comment">// 输出：	5</span></span><br><span class="line"></span><br><span class="line">错误写法：</span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\X4A'</span>; <span class="comment">// 不能是大写X</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\0x4A'</span>; <span class="comment">// 不能是0x</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\0X4A'</span>; <span class="comment">// 不能是0X</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="scanf函数"><a href="#scanf函数" class="headerlink" title="scanf函数"></a>scanf函数</h2><ul>
 <li><p><code>printf</code>函数的功能是：输出（output），将数据显示在屏幕上</p>
 </li>
 <li><p><code>scanf</code>函数的功能是：输入（input），读取数据（比如读取通过键盘输入的数据）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int age &#x3D; 10;</span><br><span class="line">scanf(&quot;%d&quot;, &amp;age); &#x2F;&#x2F; 终端输入：20</span><br><span class="line">printf(&quot;age: %d&quot;, age); &#x2F;&#x2F; 输出：age: 20</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;age); <span class="comment">// 终端输入：20</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age: %d"</span>, age); <span class="comment">// 输出：age: 20</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>scanf函数开始执行后，会等待用户输入</p>
 <ul>
@@ -904,7 +919,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="匹配的细节"><a href="#匹配的细节" class="headerlink" title="匹配的细节"></a>匹配的细节</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">int i &#x3D; 10;</span><br><span class="line">scanf(&quot;%d&quot;, &amp;i);</span><br><span class="line">printf(&quot;你输入的整数是: %d&quot;, i);</span><br><span class="line">&#x2F;*</span><br><span class="line">  输入：30idbeny</span><br><span class="line">  输出：你输入的整数是: 30</span><br><span class="line">  </span><br><span class="line">  输入：22.88</span><br><span class="line">  输出：你输入的整数是: 22</span><br><span class="line">  </span><br><span class="line">  输入：a</span><br><span class="line">  输出：你输入的整数是: 10 &#x2F;&#x2F; 原因：变量i默认值是10</span><br><span class="line">  </span><br><span class="line">  输入：你好1024</span><br><span class="line">  输出：你输入的整数是: 10</span><br><span class="line">  *&#x2F;</span><br><span class="line"></span><br><span class="line">char c &#x3D; &#39;a&#39;;</span><br><span class="line">scanf(&quot;%c&quot;, &amp;c);</span><br><span class="line">printf(&quot;你输入的字母是：%c\n&quot;, c);</span><br><span class="line">printf(&quot;对应ASCII码值是：%d&quot;, c);</span><br><span class="line">&#x2F;*</span><br><span class="line">  输入：i</span><br><span class="line">  输出：</span><br><span class="line">      你输入的字母是：i</span><br><span class="line">      对应ASCII码值是：105</span><br><span class="line"></span><br><span class="line">  输入：hello</span><br><span class="line">  输出：</span><br><span class="line">      你输入的字母是：h</span><br><span class="line">      对应ASCII码值是：104</span><br><span class="line"></span><br><span class="line">  输入：97</span><br><span class="line">  输出：</span><br><span class="line">      你输入的字母是：9</span><br><span class="line">      对应ASCII码值是：57</span><br><span class="line">  *&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="匹配的细节"><a href="#匹配的细节" class="headerlink" title="匹配的细节"></a>匹配的细节</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的整数是: %d"</span>, i);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30idbeny</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 30</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：22.88</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 22</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：a</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10 // 原因：变量i默认值是10</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：你好1024</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'a'</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%c"</span>, &amp;c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的字母是：%c\n"</span>, c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"对应ASCII码值是：%d"</span>, c);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：i</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：i</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：105</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：hello</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：h</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：104</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：97</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：9</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：57</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
 <p>总结：</p>
 <ul>
 <li>从左到右开始字符匹配，当中途匹配失败时，将结束匹配</li>
@@ -913,10 +928,10 @@
 <h3 id="scanf函数的空白字符"><a href="#scanf函数的空白字符" class="headerlink" title="scanf函数的空白字符"></a>scanf函数的空白字符</h3><p>空白字符包括：空格（’ ‘）、Tab（’\t’）、Enter（’\n’）</p>
 <ul>
 <li><p>如果在输入整数的开头，有一段任意长（长度≥0）连续空白字符，是不需要与格式化字符串中的字符进行匹配的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int age &#x3D; 10;</span><br><span class="line">scanf(&quot;%d&quot;, &amp;age);</span><br><span class="line">printf(&quot;age is %d&quot;, age);</span><br><span class="line">&#x2F;*</span><br><span class="line">  输入：        30</span><br><span class="line">  输出：age is 30</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;age);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d"</span>, age);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：        30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在格式化字符串中，任意长（长度≥0）连续空白字符，能匹配输入的任意长（长度≥0）连续空白字符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int age &#x3D; 10;</span><br><span class="line">scanf(&quot;  %d&quot;, &amp;age); &#x2F;&#x2F; %d左边有空格</span><br><span class="line">printf(&quot;age is %d&quot;, age);</span><br><span class="line">&#x2F;*</span><br><span class="line">  输入：        30</span><br><span class="line">  输出：age is 30</span><br><span class="line">*&#x2F;</span><br><span class="line"></span><br><span class="line">int age &#x3D; 20;</span><br><span class="line">scanf(&quot;%d   &quot;, &amp;age); &#x2F;&#x2F; %d右边有空格</span><br><span class="line">printf(&quot;age is %d&quot;, age);</span><br><span class="line">&#x2F;*</span><br><span class="line">  输入：        30</span><br><span class="line">  输出：age is 30</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"  %d"</span>, &amp;age); <span class="comment">// %d左边有空格</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d"</span>, age);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：        30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d   "</span>, &amp;age); <span class="comment">// %d右边有空格</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d"</span>, age);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：        30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
@@ -1039,20 +1054,11 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://blog.idbeny.com/avatar.jpg"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
                alt="idbeny" />
           <p class="site-author-name" itemprop="name">idbeny</p>
            
@@ -1064,7 +1070,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1086,7 +1092,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1147,22 +1153,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言的标准"><span class="nav-number">1.</span> <span class="nav-text">C语言的标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言的用途"><span class="nav-number">2.</span> <span class="nav-text">C语言的用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发工具"><span class="nav-number">3.</span> <span class="nav-text">开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的结构"><span class="nav-number">4.</span> <span class="nav-text">程序的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main函数"><span class="nav-number">4.1.</span> <span class="nav-text">main函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">5.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法须知"><span class="nav-number">6.</span> <span class="nav-text">语法须知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机0和1由来"><span class="nav-number">7.</span> <span class="nav-text">计算机0和1由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机如何识别C语言代码"><span class="nav-number">8.</span> <span class="nav-text">计算机如何识别C语言代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的C语言编译器（已内置链接器）"><span class="nav-number">8.1.</span> <span class="nav-text">常见的C语言编译器（已内置链接器）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-number">9.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是BUG？"><span class="nav-number">10.</span> <span class="nav-text">什么是BUG？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">11.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何声明一个变量？"><span class="nav-number">11.1.</span> <span class="nav-text">如何声明一个变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何给变量赋值？"><span class="nav-number">11.2.</span> <span class="nav-text">如何给变量赋值？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的作用域"><span class="nav-number">11.3.</span> <span class="nav-text">变量的作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">12.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标识符"><span class="nav-number">13.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字面量"><span class="nav-number">14.</span> <span class="nav-text">字面量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘和内存"><span class="nav-number">15.</span> <span class="nav-text">硬盘和内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进制"><span class="nav-number">16.</span> <span class="nav-text">进制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制（逢十进一）"><span class="nav-number">16.1.</span> <span class="nav-text">十进制（逢十进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八进制（逢八进一）"><span class="nav-number">16.2.</span> <span class="nav-text">八进制（逢八进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制（逢二进一）"><span class="nav-number">16.3.</span> <span class="nav-text">二进制（逢二进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十六进制（逢十六进一）"><span class="nav-number">16.4.</span> <span class="nav-text">十六进制（逢十六进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基数"><span class="nav-number">16.5.</span> <span class="nav-text">基数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进制转换（任意R进制-gt-十进制）"><span class="nav-number">16.6.</span> <span class="nav-text">进制转换（任意R进制 -&gt; 十进制）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制-gt-任意R进制"><span class="nav-number">16.7.</span> <span class="nav-text">十进制 -&gt; 任意R进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制与十六进制之间的转换"><span class="nav-number">16.8.</span> <span class="nav-text">二进制与十六进制之间的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制与八进制之间的转换"><span class="nav-number">16.9.</span> <span class="nav-text">二进制与八进制之间的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码中的进制书写形式"><span class="nav-number">16.10.</span> <span class="nav-text">代码中的进制书写形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储单位"><span class="nav-number">17.</span> <span class="nav-text">存储单位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存"><span class="nav-number">18.</span> <span class="nav-text">内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的存储空间"><span class="nav-number">18.1.</span> <span class="nav-text">变量的存储空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof运算符"><span class="nav-number">18.2.</span> <span class="nav-text">sizeof运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的内存地址"><span class="nav-number">18.3.</span> <span class="nav-text">变量的内存地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位（Bit）"><span class="nav-number">19.</span> <span class="nav-text">位（Bit）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有符号数的二进制表示方法"><span class="nav-number">19.1.</span> <span class="nav-text">有符号数的二进制表示方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原码"><span class="nav-number">19.2.</span> <span class="nav-text">原码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反码"><span class="nav-number">19.3.</span> <span class="nav-text">反码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补码"><span class="nav-number">19.4.</span> <span class="nav-text">补码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大小端模式"><span class="nav-number">20.</span> <span class="nav-text">大小端模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#char类型"><span class="nav-number">21.</span> <span class="nav-text">char类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符的存储细节"><span class="nav-number">21.1.</span> <span class="nav-text">字符的存储细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASCII码表"><span class="nav-number">21.2.</span> <span class="nav-text">ASCII码表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字整数、数字字符在内存中的区别"><span class="nav-number">21.3.</span> <span class="nav-text">数字整数、数字字符在内存中的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转义序列"><span class="nav-number">22.</span> <span class="nav-text">转义序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scanf函数"><span class="nav-number">23.</span> <span class="nav-text">scanf函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配的细节"><span class="nav-number">23.1.</span> <span class="nav-text">匹配的细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scanf函数的空白字符"><span class="nav-number">23.2.</span> <span class="nav-text">scanf函数的空白字符</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -1184,18 +1174,6 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">idbeny</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
 </div>
 
 
