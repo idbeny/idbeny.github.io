@@ -135,6 +135,33 @@
     
     
     <entry>
+      <title>【Git】Git的基本使用</title>
+      <link href="/2019/10/19/dev-any/"/>
+      <url>/2019/10/19/dev-any/</url>
+      
+        <content type="html"><![CDATA[<h2 id="图床软件-iPic破解"><a href="#图床软件-iPic破解" class="headerlink" title="图床软件-iPic破解"></a>图床软件-iPic破解</h2><p><a href="https://toolinbox.net/" target="_blank" rel="noopener">iPic</a>仅支持试用7天，试用期校验采取的是本地验证。</p><p>打开如下位置plist文件</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Users/y</span>ourname<span class="regexp">/Library/</span>Containers<span class="regexp">/net.toolinbox.ipic/</span>Data<span class="regexp">/Library/</span>SyncedPreferences<span class="regexp">/net.toolinbox.ipic.plist</span></span><br></pre></td></tr></table></figure><p>将<code>values</code> -&gt; <code>Markdown Flag</code> -&gt; <code>value</code>更换为七天之内的时间戳即可实现无限试用</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 开发小记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+            <tag> 日常开发 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【CocoaPods】CDN trunk URL couldn’t be downloaded:https://raw.githubusercontent.com/CocoaPods/</title>
       <link href="/2019/10/15/pod-download-issues/"/>
       <url>/2019/10/15/pod-download-issues/</url>
@@ -1036,6 +1063,64 @@
         <tags>
             
             <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【iOS】imageNamed和imageWithContentsOfFile的区别</title>
+      <link href="/2015/07/23/ios-image-loadstyle/"/>
+      <url>/2015/07/23/ios-image-loadstyle/</url>
+      
+        <content type="html"><![CDATA[<p>本地图片的加载方式，我们都很熟悉，而且我们经常用<code>imageNamed</code>，偶尔看到<code>imageWithContentsOfFile</code>，那么这两者在使用方式上有什么区别呢？</p><a id="more"></a><h3 id="imageNamed"><a href="#imageNamed" class="headerlink" title="imageNamed:"></a>imageNamed:</h3><p><code>[UIImage imageNamed:]</code>加载时，图片使用完毕后会缓存到内存中，内存会累加，而且无法释放内存，但加载速度快，不会重复加载相同的图片。这是因为该方法使用了缓存机制，每次使用该图片时，会优先从缓存读取，CPU开销基本忽略。</p><h3 id="imageWithContentsOfFile"><a href="#imageWithContentsOfFile" class="headerlink" title="imageWithContentsOfFile:"></a>imageWithContentsOfFile:</h3><p><code>[UIImage imageWithContentsOfFile:]</code>，图片直接从bundle根目录读取并加载到内存中，当不需要使用的时候，就会随对象一起从内存中释放掉，缺点就是加载速度慢（其实相对于正常开发来讲可以忽略），而且相同的图片会被重复加载到内存当中，CPU开销不断增大。</p><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>其实这两者没有本质的使用界限，但如果图片是在<code>Assets.xcassets</code>中，则只能使用<code>imageNamed:</code>。而<code>imageWithContentsOfFile:</code>只能从指定的本地路径读取。</p><ul><li>如果有些图片时需要重复加载的，且图片较小，建议使用<code>imageNamed:</code>，因为速度快，用户体验好；</li><li>如果图片只用到一两次，且图片较大，建议使用<code>imageWithContentsOfFile:</code>，因为不会占用内存。</li></ul><h4 id="模拟器"><a href="#模拟器" class="headerlink" title="模拟器"></a>模拟器</h4><h5 id="imageNamed-1"><a href="#imageNamed-1" class="headerlink" title="imageNamed"></a>imageNamed</h5><p><img src="http://blog.idbeny.com/ug1ll.png@normal" alt="模拟器-imageNamed"></p><h5 id="imageWithContentsOfFile-1"><a href="#imageWithContentsOfFile-1" class="headerlink" title="imageWithContentsOfFile"></a>imageWithContentsOfFile</h5><p><img src="http://blog.idbeny.com/4esiu.png@normal" alt="模拟器-imageWithContentsOfFile"></p><h4 id="真机"><a href="#真机" class="headerlink" title="真机"></a>真机</h4><h5 id="imageNamed-2"><a href="#imageNamed-2" class="headerlink" title="imageNamed"></a>imageNamed</h5><p><img src="http://blog.idbeny.com/eawy5.png@normal" alt="真机-imageNamed"></p><h5 id="imageWithContentsOfFile-2"><a href="#imageWithContentsOfFile-2" class="headerlink" title="imageWithContentsOfFile"></a>imageWithContentsOfFile</h5><p><img src="http://blog.idbeny.com/g28dh.png@normal" alt="真机-imageWithContentsOfFile"></p><h3 id="推荐使用"><a href="#推荐使用" class="headerlink" title="推荐使用"></a>推荐使用</h3><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="name">UIImage</span> *)imageWithContentsOfFile:(NSString *)path</span><br></pre></td></tr></table></figure><p>在开发中我们可以通过添加<code>UIImage</code>分类的形式重写<code>imageNamed:</code>的方法。但不建议这样做，因为这样会把所有的图片加载方式都统一处理了。在某些地方还是需要使用<code>imageNamed:</code>加载图片的，此时我们可以扩展一个加载bundle根目录图片的方法。</p><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span>(<span class="title">YBImage</span>) </span></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">UIImage</span>*)imageFromMainBundleFile:(<span class="built_in">NSString</span>*)aFileName; &#123;</span><br><span class="line">    <span class="built_in">NSString</span>* bundlePath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:aFileName ofType:<span class="literal">nil</span>];</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">UIImage</span> imageWithContentsOfFile:bundlePath];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> iOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> iOS </tag>
+            
+            <tag> UIImage </tag>
+            
+            <tag> imageWithContentsOfFile </tag>
+            
+            <tag> imageNamed </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【iOS】instancetype和id的区别</title>
+      <link href="/2015/07/19/ios-instancetype-id/"/>
+      <url>/2015/07/19/ios-instancetype-id/</url>
+      
+        <content type="html"><![CDATA[<p>在很早之前编译器没有提供<code>instancetype</code>关键字，我们在写函数/方法返回值时都用的是<code>id</code>。clang编译器有了<code>instancetype</code>之后，让我们的代码能够更加严谨且高效。</p><a id="more"></a><p><code>instancetype</code>和<code>id</code>的最大区别就是编译时期的类型检测，而且<code>instancetype</code>不能作为参数类型传递。</p><h3 id="类型检测"><a href="#类型检测" class="headerlink" title="类型检测"></a>类型检测</h3><p>例：</p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明类</span></span><br><span class="line"><span class="variable">@interface</span> <span class="attribute">YBPerson </span>: NSObject</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (nonatomic,   copy) NSString *name; <span class="comment">// 姓名</span></span><br><span class="line"><span class="variable">@property</span> (nonatomic, assign) NSInteger  age; <span class="comment">// 年龄</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化方法</span></span><br><span class="line"><span class="comment"> * @param name 姓名</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="selector-tag">-</span> (id)<span class="selector-tag">initWithName</span><span class="selector-pseudo">:(NSString</span> *)<span class="selector-tag">name</span>;</span><br><span class="line"></span><br><span class="line">@<span class="selector-tag">end</span></span><br></pre></td></tr></table></figure><p><strong>方式一（使用id）：</strong></p><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YBPerson</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过姓名初始化</span></span><br><span class="line">- (<span class="keyword">id</span>)initWithName:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure><ul><li><p>使用NSArray类型指针接收</p><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSArray</span> *person = [[<span class="symbol">YBPerson</span> alloc] initWithName:@<span class="string">"idbeny"</span>];</span><br><span class="line"><span class="symbol">NSLog</span>(@<span class="string">"%ld"</span>, [person count]);</span><br></pre></td></tr></table></figure></li><li><p>编译，没问题</p></li><li><p>运行，崩溃（因为YBPerson的实例没有找到count这个方法）</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[YBPerson count]: unrecognized selector sent <span class="keyword">to</span><span class="built_in"> instance </span>0x60000382ca40</span><br></pre></td></tr></table></figure></li></ul><p>方式一（改造）：</p><ul><li><p>使用YBPerson类型指针接收</p><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSArray</span> *person = [[<span class="symbol">YBPerson</span> alloc] initWithName:@<span class="string">"idbeny"</span>];</span><br><span class="line"><span class="symbol">NSLog</span>(@<span class="string">"%ld"</span>, [person count]);</span><br></pre></td></tr></table></figure></li><li><p>编译器警告</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Incompatible pointer types initializing <span class="string">'NSArray *'</span> with an expression of<span class="built_in"> type </span><span class="string">'YBPerson *'</span></span><br></pre></td></tr></table></figure></li><li><p>运行，崩溃（因为YBPerson的实例没有找到count这个方法）</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[YBPerson count]: unrecognized selector sent <span class="keyword">to</span><span class="built_in"> instance </span>0x60000382ca40</span><br></pre></td></tr></table></figure></li></ul><p><strong>方式二（使用instancetype）：</strong></p><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YBPerson</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过姓名初始化</span></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithName:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure><ul><li><p>使用NSArray指针接收：</p><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSArray</span> *person = [[<span class="symbol">YBPerson</span> alloc] initWithName:@<span class="string">"idbeny"</span>];</span><br><span class="line"><span class="symbol">NSLog</span>(@<span class="string">"%ld"</span>, [person count]);</span><br></pre></td></tr></table></figure></li><li><p>编译器警告</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Incompatible pointer types initializing <span class="string">'NSArray *'</span> with an expression of<span class="built_in"> type </span><span class="string">'YBPerson *'</span></span><br></pre></td></tr></table></figure></li><li><p>运行，崩溃（因为YBPerson的实例没有找到count这个方法）</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[YBPerson count]: unrecognized selector sent <span class="keyword">to</span><span class="built_in"> instance </span>0x60000382ca40</span><br></pre></td></tr></table></figure></li></ul><p>通过上面的案例说明，使用<code>id</code>和<code>instancetype</code>都可以作为返回值使用，<code>instancetype</code>可以在编写代码时就能检测类型匹配问题，而<code>id</code>是不可以的。</p><h3 id="参数类型传递"><a href="#参数类型传递" class="headerlink" title="参数类型传递"></a>参数类型传递</h3><p><strong><code>instancetype</code>作为参数类型</strong></p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (instance<span class="keyword">type</span>)initWithName:(instancetype)name;</span><br></pre></td></tr></table></figure><p>编译报错</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Expected a type</span><br><span class="line">Type name requires a specifier <span class="keyword">or</span> qualifier</span><br></pre></td></tr></table></figure><p><strong><code>id</code>作为参数类型</strong></p><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (instance<span class="keyword">type</span>)initWithName:(id)name;</span><br></pre></td></tr></table></figure><p>编译，运行，都没有问题。所以，<code>id</code>可以作为参数的类型传递，<code>instancetype</code>不可以。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> iOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> iOS </tag>
+            
+            <tag> instancetype </tag>
             
         </tags>
       
