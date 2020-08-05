@@ -145,7 +145,7 @@
 <meta property="og:image" content="http://blog.idbeny.com/jlckz.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/6y1p5.png@normal">
 <meta property="article:published_time" content="2018-06-30T14:39:12.000Z">
-<meta property="article:modified_time" content="2020-08-03T02:56:27.670Z">
+<meta property="article:modified_time" content="2020-08-04T01:16:38.358Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="布局">
@@ -535,7 +535,7 @@
 <p><strong>案例二（场景：红色view位于屏幕右下角且宽高均为100；蓝色view右边距离红色view的左边间距为30且宽高和红色view相等）</strong></p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">UIView *redView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> init];</span><br><span class="line">CGFloat redView_w = <span class="number">100</span>;</span><br><span class="line">CGFloat redView_h = <span class="number">100</span>;</span><br><span class="line">redView.frame = <span class="constructor">CGRectMake(<span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">width</span>-<span class="params">redView_w</span>, <span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">height</span>-<span class="params">redView_h</span>, <span class="params">redView_w</span>, <span class="params">redView_h</span>)</span>;</span><br><span class="line">redView.backgroundColor = <span class="literal">[UIC<span class="identifier">olor</span> <span class="identifier">redColor</span>]</span>;</span><br><span class="line">redView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin <span class="pattern-match">| <span class="constructor">UIViewAutoresizingFlexibleTopMargin</span>;</span></span><br><span class="line"><span class="pattern-match">[self.view add<span class="constructor">Subview</span>:red<span class="constructor">View</span>];</span></span><br><span class="line"><span class="pattern-match"></span></span><br><span class="line"><span class="pattern-match"><span class="constructor">UIView</span> <span class="operator">*</span>blue<span class="constructor">View</span> = [[<span class="constructor">UIView</span> alloc] init];</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> space = 30;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_w</span> = <span class="constructor">CGRectGetWidth(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_h</span> = <span class="constructor">CGRectGetHeight(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_x</span> = <span class="constructor">CGRectGetMinX(<span class="params">redView</span>.<span class="params">frame</span>)</span>-space-blue<span class="constructor">View_w</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_y</span> = <span class="constructor">CGRectGetMinY(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.frame = <span class="constructor">CGRectMake(<span class="params">blueView_x</span>, <span class="params">blueView_y</span>, <span class="params">blueView_w</span>, <span class="params">blueView_h</span>)</span>;</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.background<span class="constructor">Color</span> = [<span class="constructor">UIColor</span> blue<span class="constructor">Color</span>];</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.autoresizing<span class="constructor">Mask</span> = <span class="constructor">UIViewAutoresizingFlexibleLeftMargin</span> | <span class="constructor">UIViewAutoresizingFlexibleTopMargin</span>;</span></span><br><span class="line"><span class="pattern-match">[self.view add<span class="constructor">Subview</span>:blue<span class="constructor">View</span>];</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://blog.idbeny.com/0zfvd.gif@normal" alt="兄弟关系-代码-autoresizing"></p>
-<h2 id="AutoLayout"><a href="#AutoLayout" class="headerlink" title="AutoLayout"></a>AutoLayout</h2><p>如果项目允许可视化编程（<code>Interface Builder</code>），<code>AutoLayout</code>必然会被用到，这也是整个<code>IB</code>的精髓。苹果官方也建议开发者使用<code>AutoLayout</code>进行UI布局，因为它确实很高效。由于使用代码实现<code>AutoLayout</code>会非常繁琐，所以我们一般也只在<code>IB</code>中使用。当然，纯代码方式推荐使用第三方框架<a href="https://github.com/desandro/masonry" target="_blank" rel="noopener">Masonry</a>。</p>
+<h2 id="AutoLayout"><a href="#AutoLayout" class="headerlink" title="AutoLayout"></a>AutoLayout</h2><p>如果项目允许可视化编程（<code>Interface Builder</code>），<code>AutoLayout</code>必然会被用到，这也是整个<code>IB</code>的精髓。苹果官方也建议开发者使用<code>AutoLayout</code>进行UI布局，因为它确实很高效。由于使用代码实现<code>AutoLayout</code>会非常繁琐，所以我们一般也只在<code>IB</code>中使用。当然，纯代码方式推荐使用第三方框架<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="noopener">Masonry</a>。</p>
 <p><code>AutoLayout</code>有两个核心概念：</p>
 <ul>
 <li>约束：通过给控件添加约束，来决定控件的位置和尺寸</li>
@@ -892,7 +892,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -914,7 +914,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
