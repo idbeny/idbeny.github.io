@@ -1337,7 +1337,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  76 字
+                  886 字
                 </span>
               
 
@@ -1353,7 +1353,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  4 分钟
                 </span>
               
             </div>
@@ -1381,6 +1381,51 @@
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Users/y</span>ourname<span class="regexp">/Library/</span>Containers<span class="regexp">/net.toolinbox.ipic/</span>Data<span class="regexp">/Library/</span>SyncedPreferences<span class="regexp">/net.toolinbox.ipic.plist</span></span><br></pre></td></tr></table></figure>
 
 <p>将<code>values</code> -&gt; <code>Markdown Flag</code> -&gt; <code>value</code>更换为七天之内的时间戳即可实现无限试用</p>
+<h2 id="FileMerge-文件比较"><a href="#FileMerge-文件比较" class="headerlink" title="FileMerge-文件比较"></a>FileMerge-文件比较</h2><p>Xcode自带的工具，用于文件比较、合并等。可以单独打开，也可以在Xcode的工具箱中找到。<br><img src="http://blog.idbeny.com/lzclr.png@normal" alt=""></p>
+<h2 id="数学编辑软件"><a href="#数学编辑软件" class="headerlink" title="数学编辑软件"></a>数学编辑软件</h2><h3 id="Grapher"><a href="#Grapher" class="headerlink" title="Grapher"></a>Grapher</h3><p>Mac自带的工具，可以编写2D、3D等常用数学方程。而且有动画自动演示功能。<br><img src="http://blog.idbeny.com/l1f2p.png@normal" alt=""></p>
+<h3 id="Word"><a href="#Word" class="headerlink" title="Word"></a>Word</h3><p>WPS的Word中包含<em>LaTeX</em>公式，常用数学运算和函数公式基本覆盖。而且支持Markdown，直接复制粘贴就可以，非常便捷。<br><img src="http://blog.idbeny.com/6smkl.png@normal" alt=""></p>
+<h3 id="常用LaTeX公式"><a href="#常用LaTeX公式" class="headerlink" title="常用LaTeX公式"></a>常用LaTeX公式</h3><h4 id="1-起止符"><a href="#1-起止符" class="headerlink" title="1. 起止符"></a>1. 起止符</h4><p>1.1. 行内公式（不会换行）使用$作为起止符：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">$a</span>$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$m+n$</p>
+<p>1.2. 块级公式（单独一行）使用$$作为起止符：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$$m+n$$</p>
+<h4 id="2-角标"><a href="#2-角标" class="headerlink" title="2. 角标"></a>2. 角标</h4><p>2.1. 上标使用^表示，上标长度大于一时，使用{}包围：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^<span class="number">2</span><span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^&#123;<span class="number">1</span>+<span class="number">1</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a^2$、$a^{m+n}$</p>
+<p>2.2. 下标使用_表示，下标长度大于一时，使用{}包围：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_2<span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_&#123;<span class="number">1</span>+<span class="number">1</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a_2$、$a_{m+n}$</p>
+<p>2.3. 上下标可以同时使用，相互嵌套：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_2^<span class="number">2</span><span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^<span class="number">2</span>_2<span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^&#123;b^<span class="number">2</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a_2^2$、$a_{m+n}^{i+j}$、$a^{b^2}_{m+n}$</p>
+<h4 id="3-符号"><a href="#3-符号" class="headerlink" title="3. 符号"></a>3. 符号</h4><p>符号一般由\和英文缩写组成<br>3.1. 根式使用\sqrt[指数]{表达式}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\<span class="built-in">sqrt</span>[<span class="number">2</span>]&#123;a+b&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\sqrt[3]{6+3}$、$\sqrt[3]{(6+3)^2}^3$</p>
+<p>3.2. 分式使用\frac{分子}{分母}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\<span class="built-in">frac</span>&#123;dy&#125;&#123;dx&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\frac{4}{5}$、$({\frac{i+j}{(m+n)^2}})^2$</p>
+<p>3.3. 求和使用\sum_{下限}^{上限}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\sum_&#123;i=<span class="number">1</span>&#125;^&#123;i=<span class="number">10</span>&#125;a_i<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\sum$、$\sum_{i=1}^{i=10}a_i$</p>
+<p>3.4. 负无穷使用-\infty表示，正无穷使用+\infty表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\sum_&#123;i=-\infty&#125;^&#123;i=+\infty&#125;a_i<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\infty$、$\sum_{i=-\infty}^{i=+\infty}a_i$</p>
+<p>3.5. 积分使用\int_{下限}^{上限}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\int_&#123;-\infty&#125;^<span class="number">0</span>\<span class="built-in">frac</span>&#123;<span class="number">1</span>&#125;&#123;x&#125;dx<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\int$、$\int_{10}^0\frac{1}{x}dx$</p>
+<h4 id="4-矩阵"><a href="#4-矩阵" class="headerlink" title="4. 矩阵"></a>4. 矩阵</h4><p>4.1. 矩阵使用\begin{matrix}和\end{matrix}作为起止符，使用&amp;表示空格，使用\表示换行：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">   <span class="number">1</span> &amp; <span class="number">0</span> &amp; <span class="number">0</span> \\</span><br><span class="line">   <span class="number">0</span> &amp; <span class="number">1</span> &amp; <span class="number">0</span> \\</span><br><span class="line">   <span class="number">0</span> &amp; <span class="number">0</span> &amp; <span class="number">1</span></span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>$</p>
+<p>4.2. 使用\left符号 和\right符号 作为起止符，包围矩阵，可以为矩阵添加括号：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">   <span class="number">1</span> &amp; <span class="number">0</span> &amp; <span class="number">0</span> \\</span><br><span class="line">   <span class="number">0</span> &amp; <span class="number">1</span> &amp; <span class="number">0</span> \\</span><br><span class="line">   <span class="number">0</span> &amp; <span class="number">0</span> &amp; <span class="number">1</span></span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$\left[ a \right]$、$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right]<br>$</p>
+<p>4.3. 需要注意的是，如果想使用{}括号，需要在其前面添加反斜杠：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="formula">$$</span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">left</span></span><span class="tag">\<span class="name">&#123;</span></span></span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">begin</span><span class="string">&#123;matrix&#125;</span></span></span></span><br><span class="line"><span class="formula">   1 &amp; 0 &amp; 0 <span class="tag">\<span class="name">\</span></span></span></span><br><span class="line"><span class="formula">   0 &amp; 1 &amp; 0 <span class="tag">\<span class="name">\</span></span></span></span><br><span class="line"><span class="formula">   0 &amp; 0 &amp; 1</span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">end</span><span class="string">&#123;matrix&#125;</span></span></span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">right</span></span><span class="tag">\<span class="name">&#125;</span></span></span></span><br><span class="line"><span class="formula">$$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\left{ a \right}$、$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right]<br>$</p>
+<h4 id="5-公式号"><a href="#5-公式号" class="headerlink" title="5. 公式号"></a>5. 公式号</h4><p>5.1. 我们可能需要给块级公式末尾添加公式号，只需要使用\tag{编号}即可，仅在块级有效，行内会报错：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="formula">$$</span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">left</span></span><span class="tag">\<span class="name">&#123;</span></span></span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">begin</span><span class="string">&#123;matrix&#125;</span></span></span></span><br><span class="line"><span class="formula">   1 &amp; 0 &amp; 0 <span class="tag">\<span class="name">\</span></span></span></span><br><span class="line"><span class="formula">   0 &amp; 1 &amp; 0 <span class="tag">\<span class="name">\</span></span></span></span><br><span class="line"><span class="formula">   0 &amp; 0 &amp; 1</span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">end</span><span class="string">&#123;matrix&#125;</span></span></span></span><br><span class="line"><span class="formula"><span class="tag">\<span class="name">right</span></span><span class="tag">\<span class="name">&#125;</span></span> <span class="tag">\<span class="name">tag</span><span class="string">&#123;1&#125;</span></span></span></span><br><span class="line"><span class="formula">$$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right] \tag{1.1}<br>$$</p>
 
           
         
