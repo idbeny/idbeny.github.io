@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,布局,Autoresizing,AutoLayout,VFL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="布局千变万化，但万变不离其宗。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Autoresizing、AutoLayout、VFL">
+<meta property="og:url" content="http://idbeny.com/2018/06/30/ios-layout/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="布局千变万化，但万变不离其宗。">
+<meta property="og:image" content="http://blog.idbeny.com/aznyd.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/knq9v.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6psl0.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/bmzb7.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mqjog.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/w1j4h.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/0zfvd.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/qr471.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/pc8qe.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/f50er.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/rnu8o.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/id6ld.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mqttm.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/imh8j.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/p3swl.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/bxx4y.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zeg73.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/g5u58.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/2xx4a.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/74d0w.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/5nttq.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/vru4d.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/9yzx3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mbxuh.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ynovt.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/dt9e2.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/h4ip8.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/qujlu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/l8dne.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/uvx9k.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/pxosr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8djrb.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/xjmkr.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/0i8db.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/nk6gr.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8euaz.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ezbw0.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6x64k.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/lsmu5.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/99sup.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/jlckz.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6y1p5.png@normal">
+<meta property="article:published_time" content="2018-06-30T14:39:12.000Z">
+<meta property="article:modified_time" content="2020-08-15T02:41:11.951Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="布局">
+<meta property="article:tag" content="Autoresizing">
+<meta property="article:tag" content="AutoLayout">
+<meta property="article:tag" content="VFL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/aznyd.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/06/30/ios-layout/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Autoresizing、AutoLayout、VFL | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/06/30/ios-layout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Autoresizing、AutoLayout、VFL</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-30T22:39:12+08:00">
+                2018-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  5.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  21 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>布局千变万化，但万变不离其宗。</p>
+<a id="more"></a>
+<h2 id="历史背景"><a href="#历史背景" class="headerlink" title="历史背景"></a>历史背景</h2><p><code>iPhone4s</code>及以前的设备尺寸都是固定<code>320*480</code>（为什么这么设计呢？乔帮主认为这是人类手持设备最适合的尺寸），但随着时间推移及技术发展，不同设备尺寸层出不穷。</p>
+<p><code>iPhone5</code>出来后开发者就要做界面适配了，因为设备尺寸变成<code>320*568</code>了。<code>Autoresizing</code>其实主要是为了解决<code>iPad</code>的界面适配（横竖屏），iPhone也是适用的，但<code>Autoresizing</code>局限性较大，它只能设置自身和父控件的关系，对于一些复杂的界面根本无法完成 。<code>iPhone5（iOS6）</code>已经发布了<code>AutoLayout</code>技术，主要是为了解决移动端屏幕适配问题，比<code>Autoresizing</code>更丰富，但当时开发工具版本是<code>Xcode4</code>，对<code>Autolayout</code>的支持很不友好，再加上需要往下兼容<code>iOS5</code>甚至<code>iOS4</code>的系统，所以很少有开发者使用它。</p>
+<p><code>iPhone6</code>及<code>iPhone6Plus</code>发布后，开发工具也随之升级到<code>Xcode5</code>，<code>Autolayout</code>的开发效率也有很大提升，苹果官方也推荐使用<code>Autolayout</code>来布局UI界面。因为它可以很轻松解决屏幕适配问题（解决任何控件之间的相对关系），开发者才开始逐步使用<code>Autolayout</code>。 </p>
+<blockquote>
+<p><code>iOS8</code>之后又推出了<code>Sizeclasses</code>，可以理解为<code>AutoLayout</code>的升级版。但我觉得后面苹果应该会往<strong>声明式编程</strong>的大前端行进，<code>Flex</code>布局也会一统天下，到那时界面布局应该会稳定下来吧……</p>
+</blockquote>
+<h2 id="Autoresizing"><a href="#Autoresizing" class="headerlink" title="Autoresizing"></a>Autoresizing</h2><p><code>Autoresizing</code>其实很简单，因为它只能约束子控件和父控件之间的关系，不能约束兄弟控件的关系，这也是它最大的壁垒。我们先通过Storyboard演示下<code>Autoresizing</code>是如何使用的，然后再看纯代码的写法。</p>
+<h3 id="Storyboard"><a href="#Storyboard" class="headerlink" title="Storyboard"></a>Storyboard</h3><p>由于<code>Autoresizing</code>和<code>AutoLayout</code>是互斥的，所以如果你的开发工具是Xcode8以下的，需要选择<code>Main.storyboard</code>后点击右边文件简介区顶部的第一个按钮（<em>Show the File inspector</em>），将<strong>Use Auto Layout</strong>和<strong>User Size Classes</strong>两个复选框取消勾选（默认是勾选的）。当取消勾选<strong>Use Auto Layout</strong>时系统会弹出标题为<strong>Using Size Classes Requires Auto Layout</strong>的弹框，选择<strong>Disable Size Classes</strong>即可（此时<strong>User Size Classes</strong>会自动取消勾选）。Xcode8及以上不需要做任何改动。</p>
+<h4 id="案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）"><a href="#案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）" class="headerlink" title="案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）"></a>案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）</h4><p><strong>添加view</strong><br><img src="http://blog.idbeny.com/aznyd.png@normal" alt="添加view"></p>
+<p>添加完成后预览，在8Plus上展示没有问题，但我们在4s（只是作为不同尺寸屏幕预览而已）上面看到刚才添加的红色view没有展示（也可以通过旋转屏幕查看view是否正常显示）。原因是红色view是相对于8Plus设置的frame，也就是view的x坐标是(414-100=314)，y坐标(736-100=636)，但是4s的屏幕尺寸是320*480，不在屏幕范围内，所以不显示。</p>
+<p><strong>修改<code>Autoresizing</code></strong><br>我们看到修改尺寸下面有个<code>Autoresizing</code>栏目，光标移到对应位置还会有动画效果。左边有一个可操作区（默认连接左边和上边），里面外围每一条线代表距离父视图是固定间距。如果点亮右边和下边的线，意味着该view距离父视图右边和下边都是固定间距。内围有两条线，水平方向代表宽度是否伸缩，垂直方向代表高度是否伸缩。每改变一次连线状态，都能在右边看到预览动画。<br><img src="http://blog.idbeny.com/knq9v.gif@normal" alt="改变连线状态-IB-autoresizing"></p>
+<p>选中红色view，取消上和左的连接状态，连接右和下，这时候看到在两个不同尺寸屏幕上都正常显示。<br><img src="http://blog.idbeny.com/6psl0.png@normal" alt="连线右和下-IB-autoresizing"></p>
+<p>选中水平和垂直，宽度和高度将会根据屏幕自动伸缩。<br><img src="http://blog.idbeny.com/bmzb7.png@normal" alt="选中水平和垂直-IB-autoresizing"></p>
+<p>新增一个蓝色view位于屏幕左下角，宽高和红色view相等。<br><img src="http://blog.idbeny.com/mqjog.png@normal" alt="兄弟关系-IB-autoresizing"><br>可以看到，蓝色view和红色view是兄弟关系，但只能设置相对父视图的位置和伸缩尺寸，无法设置兄弟之间的关系。</p>
+<p><em>思考：如果四条线都勾选会怎么样呢？</em><br>view会被展示到左上角，因为四条线的相对方向是有互斥性及优先级的，左 &gt; 右，上 &gt; 下。</p>
+<h3 id="纯代码"><a href="#纯代码" class="headerlink" title="纯代码"></a>纯代码</h3><p><code>UIView</code>有一个<code>autoresizingMask</code>属性可以设置<code>Autoresizing</code>。<code>autoresizingMask</code>是一个<code>UIViewAutoresizing</code>类型的枚举值，默认值是<code>UIViewAutoresizingNone</code>。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> NS_OPTIONS(NSUInteger, UIViewAutoresizing) &#123;</span><br><span class="line">    UIViewAutoresizingNone                 = <span class="number">0</span>,      <span class="comment">// 默认值</span></span><br><span class="line">    UIViewAutoresizingFlexibleLeftMargin   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>, <span class="comment">// 相对于父控件左边距弹性布局（即右边距固定）</span></span><br><span class="line">    UIViewAutoresizingFlexibleWidth        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>, <span class="comment">// 相对于父控件宽度弹性布局（即宽度根据父控件大小自动拉伸）</span></span><br><span class="line">    UIViewAutoresizingFlexibleRightMargin  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>, <span class="comment">// 相对于父控件右边距弹性布局（即左边距固定）</span></span><br><span class="line">    UIViewAutoresizingFlexibleTopMargin    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>, <span class="comment">// 相对于父控件上边距弹性布局（即下边距固定）</span></span><br><span class="line">    UIViewAutoresizingFlexibleHeight       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>, <span class="comment">// 相对于父控件高度弹性布局（即高度根据父控件大小自动拉伸）</span></span><br><span class="line">    UIViewAutoresizingFlexibleBottomMargin = <span class="number">1</span> &lt;&lt; <span class="number">5</span>  <span class="comment">// 相对于父控件下边距弹性布局（即上边距固定）</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）</strong></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UIView *redView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> init];</span><br><span class="line">CGFloat redView_w = <span class="number">100</span>;</span><br><span class="line">CGFloat redView_h = <span class="number">100</span>;</span><br><span class="line">redView.frame = <span class="constructor">CGRectMake(<span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">width</span>-<span class="params">redView_w</span>, <span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">height</span>-<span class="params">redView_h</span>, <span class="params">redView_w</span>, <span class="params">redView_h</span>)</span>;</span><br><span class="line">redView.backgroundColor = <span class="literal">[UIC<span class="identifier">olor</span> <span class="identifier">redColor</span>]</span>;</span><br><span class="line">redView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin <span class="pattern-match">| <span class="constructor">UIViewAutoresizingFlexibleTopMargin</span> | <span class="constructor">UIViewAutoresizingFlexibleWidth</span> | <span class="constructor">UIViewAutoresizingFlexibleHeight</span>;</span></span><br><span class="line"><span class="pattern-match">[self.view add<span class="constructor">Subview</span>:red<span class="constructor">View</span>];</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/w1j4h.gif@normal" alt="代码-autoresizing"></p>
+<p><strong>案例二（场景：红色view位于屏幕右下角且宽高均为100；蓝色view右边距离红色view的左边间距为30且宽高和红色view相等）</strong></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">UIView *redView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> init];</span><br><span class="line">CGFloat redView_w = <span class="number">100</span>;</span><br><span class="line">CGFloat redView_h = <span class="number">100</span>;</span><br><span class="line">redView.frame = <span class="constructor">CGRectMake(<span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">width</span>-<span class="params">redView_w</span>, <span class="params">self</span>.<span class="params">view</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">height</span>-<span class="params">redView_h</span>, <span class="params">redView_w</span>, <span class="params">redView_h</span>)</span>;</span><br><span class="line">redView.backgroundColor = <span class="literal">[UIC<span class="identifier">olor</span> <span class="identifier">redColor</span>]</span>;</span><br><span class="line">redView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin <span class="pattern-match">| <span class="constructor">UIViewAutoresizingFlexibleTopMargin</span>;</span></span><br><span class="line"><span class="pattern-match">[self.view add<span class="constructor">Subview</span>:red<span class="constructor">View</span>];</span></span><br><span class="line"><span class="pattern-match"></span></span><br><span class="line"><span class="pattern-match"><span class="constructor">UIView</span> <span class="operator">*</span>blue<span class="constructor">View</span> = [[<span class="constructor">UIView</span> alloc] init];</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> space = 30;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_w</span> = <span class="constructor">CGRectGetWidth(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_h</span> = <span class="constructor">CGRectGetHeight(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_x</span> = <span class="constructor">CGRectGetMinX(<span class="params">redView</span>.<span class="params">frame</span>)</span>-space-blue<span class="constructor">View_w</span>;</span></span><br><span class="line"><span class="pattern-match"><span class="constructor">CGFloat</span> blue<span class="constructor">View_y</span> = <span class="constructor">CGRectGetMinY(<span class="params">redView</span>.<span class="params">frame</span>)</span>;</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.frame = <span class="constructor">CGRectMake(<span class="params">blueView_x</span>, <span class="params">blueView_y</span>, <span class="params">blueView_w</span>, <span class="params">blueView_h</span>)</span>;</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.background<span class="constructor">Color</span> = [<span class="constructor">UIColor</span> blue<span class="constructor">Color</span>];</span></span><br><span class="line"><span class="pattern-match">blue<span class="constructor">View</span>.autoresizing<span class="constructor">Mask</span> = <span class="constructor">UIViewAutoresizingFlexibleLeftMargin</span> | <span class="constructor">UIViewAutoresizingFlexibleTopMargin</span>;</span></span><br><span class="line"><span class="pattern-match">[self.view add<span class="constructor">Subview</span>:blue<span class="constructor">View</span>];</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/0zfvd.gif@normal" alt="兄弟关系-代码-autoresizing"></p>
+<h2 id="AutoLayout"><a href="#AutoLayout" class="headerlink" title="AutoLayout"></a>AutoLayout</h2><p>如果项目允许可视化编程（<code>Interface Builder</code>），<code>AutoLayout</code>必然会被用到，这也是整个<code>IB</code>的精髓。苹果官方也建议开发者使用<code>AutoLayout</code>进行UI布局，因为它确实很高效。由于使用代码实现<code>AutoLayout</code>会非常繁琐，所以我们一般也只在<code>IB</code>中使用。当然，纯代码方式推荐使用第三方框架<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="noopener">Masonry</a>。</p>
+<p><code>AutoLayout</code>有两个核心概念：</p>
+<ul>
+<li>约束：通过给控件添加约束，来决定控件的位置和尺寸</li>
+<li>参照：添加约束时，是依据谁来添加（可以是父控件或者兄弟控件）</li>
+</ul>
+<p>自动布局的核心计算公式：<code>obj1.property1 = (obj2.property2 * multiplier) * constant value</code>，先记住公式即可，接下来我们通过案例来慢慢了解他。</p>
+<p>官网指南：<a href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/LayoutUsingStackViews.html#//apple_ref/doc/uid/TP40010853-CH11-SW1" target="_blank" rel="noopener">Auto Layout Guide</a></p>
+<h3 id="Storyboard-1"><a href="#Storyboard-1" class="headerlink" title="Storyboard"></a>Storyboard</h3><p>打开<code>Storyboard</code>，创建一个view并选中，在操作区下方有一个添加约束的按钮，点击之后会出现约束条件，有一个<code>Contrain to margins</code>复选框，取消勾选（每次都要这样做，为什么？这是苹果官方推荐的边距尺寸，视图和跟控制器的边距是20pt，父子之间是8pt，其实我们没必要使用它）。<br><img src="http://blog.idbeny.com/qr471.png@normal" alt="autolayout界面"></p>
+<h4 id="添加约束"><a href="#添加约束" class="headerlink" title="添加约束"></a>添加约束</h4><p>约束条件上面的四个边距和<code>autoresizing</code>很相似，默认设置相对于最近一个视图的上下左右边距，下面的就很好理解了，设置宽度和高度。设置完成后一定要点击最后的<code>Add 4 Contraints</code>，这样才能将约束添加到对应的视图上。</p>
+<p>可以用鼠标点击对应数值框修改，也可以按顺序使用键盘<code>Tab</code>键，每次值变化后都会默认选中对应约束条件。添加约束完成后会自动更新IB界面，Xcode9之前都需要我们手动更新。<br><img src="http://blog.idbeny.com/pc8qe.png@normal" alt="添加约束"></p>
+<p>约束添加完成，预览发现，不同尺寸或横竖屏展示的效果都一样。<br><img src="http://blog.idbeny.com/f50er.png@normal" alt="约束完成"></p>
+<p>注意：<strong>约束不能重复添加</strong>，否则会报错。比如我们需要把红色view的宽和高修改为150，直接添加一个宽高150的约束。<br><img src="http://blog.idbeny.com/rnu8o.png@normal" alt="约束冲突"><br>系统提示约束错误，我们根据系统提示把需要删除的约束删除即可。</p>
+<h3 id="修改-更新约束"><a href="#修改-更新约束" class="headerlink" title="修改/更新约束"></a>修改/更新约束</h3><h4 id="1-删除之前约束，添加新的约束"><a href="#1-删除之前约束，添加新的约束" class="headerlink" title="1. 删除之前约束，添加新的约束"></a>1. 删除之前约束，添加新的约束</h4><p>选中操作元素（即红色view），点击约束区<code>Resolve Auto Layout Issues</code>按钮。选择<code>Clear Constraints</code>，这时候就把view的所有约束都清除掉了，添加新的约束即可。<br><img src="http://blog.idbeny.com/id6ld.png@normal" alt="清除约束"></p>
+<p>清除约束时，慎重点击<code>Clear Constraints</code>，该操作的对象是整个根视图内的所有约束。从上图可以看到，系统已经对这些操作做了分组处理，一般情况下我们只需要关注<code>Selected Views</code>分区就行。</p>
+<h4 id="2-左边栏"><a href="#2-左边栏" class="headerlink" title="2. 左边栏"></a>2. 左边栏</h4><p>展开左栏view的约束，点击需要修改的约束，在右边栏的<code>Constant</code>输入框内输入需要修改的值，回车。<br><img src="http://blog.idbeny.com/mqttm.png@normal" alt="修改约束"></p>
+<h4 id="3-双击view的约束线条（不建议，触控范围太小）"><a href="#3-双击view的约束线条（不建议，触控范围太小）" class="headerlink" title="3. 双击view的约束线条（不建议，触控范围太小）"></a>3. 双击view的约束线条（不建议，触控范围太小）</h4><p>双击需要修改的约束线条，在弹出框内修改<code>Constant</code>的值，然后点击回车。<br><img src="http://blog.idbeny.com/imh8j.png@normal" alt="修改约束"></p>
+<h4 id="4-右边栏"><a href="#4-右边栏" class="headerlink" title="4. 右边栏"></a>4. 右边栏</h4><p>通过右侧的尺寸区域修改约束条件，两种选择方式选其一即可（不同方式可修改的条件不一样）。<br><img src="http://blog.idbeny.com/p3swl.png@normal" alt="修改约束"></p>
+<h4 id="5-更新约束"><a href="#5-更新约束" class="headerlink" title="5. 更新约束"></a>5. 更新约束</h4><p>有时候我们在操作界面拖动了已经添加好约束的视图，发现约束线条颜色变黄，而且左上角多了一个警告按钮，这时候只需要把约束更新下就可以了。<br><img src="http://blog.idbeny.com/bxx4y.png@normal" alt="更新约束"></p>
+<h4 id="6-约束失效"><a href="#6-约束失效" class="headerlink" title="6. 约束失效"></a>6. 约束失效</h4><p>如果我们需要添加一个新的约束，仅仅是看下效果，又不想删除之前的约束，就可以用这种方法–约束失效。选择待失效的约束，把右边栏的<code>installed</code>复选框取消勾选（默认都是勾选）。如果想要恢复之前的约束，把<code>installed</code>再次选中即可。选中约束直接按<code>delete</code>，约束将会被完全删除。<br><img src="http://blog.idbeny.com/zeg73.png@normal" alt="约束失效"></p>
+<h3 id="约束参照"><a href="#约束参照" class="headerlink" title="约束参照"></a>约束参照</h3><p>在添加约束的时候，我们可以看到约束值的旁边有一个三角按钮，表示有可选项，有哪些内容呢？他们的作用是什么?</p>
+<p>新添加一个view，放到右下角，然后开始添加约束条件，点击右边约束的三角按钮看到默认选中了一个选项<code>Safe Area（current distance = 0）</code>。意思很简单，当前这个view的约束条件参照物是安全区域（安全区域是刘海屏的概念—即iPhoneX以上系列，简单的说就是空出上面的状态栏和下面的Home指示条，剩余的就是安全区域），并且目前距离安全区域的右边距是0。<br><img src="http://blog.idbeny.com/g5u58.png@normal" alt="约束参照"></p>
+<p>例：view展示到屏幕右上角，不同的参照物，可能位置也会不一样。<br><img src="http://blog.idbeny.com/2xx4a.png@normal" alt=""></p>
+<p>约束辅助参照对应的还有<code>Top Layout Guide</code>和<code>Bottom Layout Guide</code>，在Xcode10以上需要手动把<code>Use Safe Area Layout Guides</code>取消（默认勾选），才能显示。具体不再介绍，原理和<code>Safe Area</code>类似。</p>
+<p>兄弟之间、父子之间的对齐方式<br><img src="http://blog.idbeny.com/74d0w.png@normal" alt="对齐方式"></p>
+<h4 id="案例一（兄弟关系-等宽等高）"><a href="#案例一（兄弟关系-等宽等高）" class="headerlink" title="案例一（兄弟关系-等宽等高）"></a>案例一（兄弟关系-等宽等高）</h4><p>场景：在Controller中添加两个等宽等高（高度50）的view，左边红色，右边蓝色，父控件左边、右边、下边及连个view之间的间距都是相等的（间距30）。</p>
+<p><img src="http://blog.idbeny.com/5nttq.png@normal" alt="案例一"></p>
+<p>操作技巧：</p>
+<ul>
+<li>command可以选择多个控件（可以设置等宽等高、对齐方式等）；</li>
+<li>选中控件，按住control，往关联控件内拖就可以设置关联属性；</li>
+<li>如果设置左右边距的时候发现找不到红色或蓝色view作为参照，很大原因是因为两个在水平方向上没有交集，这时候拖动任意一个到同一个方向即可。</li>
+</ul>
+<h4 id="案例二（兄弟关系-中心对齐）"><a href="#案例二（兄弟关系-中心对齐）" class="headerlink" title="案例二（兄弟关系-中心对齐）"></a>案例二（兄弟关系-中心对齐）</h4><p>场景：在Controller中添加一个红色view，左右边距和高度都为50，父视图中心点对齐，一个蓝色view，宽度为红色的一半，高度和红色一致，底部距离红色顶部50。</p>
+<p><img src="http://blog.idbeny.com/vru4d.png@normal" alt="案例二"></p>
+<p>操作技巧：</p>
+<ul>
+<li>约束添加完成后，如果界面没有变化也没有警告报错，可以尝试主动修改约束的常量值（<code>Constant</code>）。</li>
+</ul>
+<h4 id="案例三（父子关系-等宽等高及对齐）"><a href="#案例三（父子关系-等宽等高及对齐）" class="headerlink" title="案例三（父子关系-等宽等高及对齐）"></a>案例三（父子关系-等宽等高及对齐）</h4><p>场景：4个view进行2*2排列占满屏幕，每个view都有一个距离自己四边距30的子view。</p>
+<p><img src="http://blog.idbeny.com/9yzx3.png@normal" alt="案例三"></p>
+<p>操作技巧：</p>
+<ul>
+<li>当视图比较多的时候，可以给每个view打上一个标签名，这样就很容易区分；</li>
+<li>视图约束参照物默认选择距离最近的一个。</li>
+</ul>
+<h4 id="案例四（UILabel内容伸缩）"><a href="#案例四（UILabel内容伸缩）" class="headerlink" title="案例四（UILabel内容伸缩）"></a>案例四（UILabel内容伸缩）</h4><p>场景：UILabel根据文字多少自动计算宽高。</p>
+<ul>
+<li>没有<code>AutoLayout</code>之前，<code>UILabel</code>的文字内容总是居中显示，导致顶部和底部会有一大片空白区域；</li>
+<li>有了<code>AutoLayout</code>只后，<code>UILabel</code>的<code>bounds</code>默认会自动包住所有的文字内容，顶部和底部也没有空白区域。<ul>
+<li>这是因为<code>UILabel</code>设置约束后会根据内容的多少自动计算需要显示多少行，并且根据字体大小计算每行文字的高度，计算完成后会把内容高度赋值给<code>UILabel</code>，这时候看到的效果就是<code>UILabel</code>高度会随着文字的多少自动计算。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>添加一个<code>UILabel</code>到控制器上，如果不加任何约束，文字垂直居中水平居左展示。<br><img src="http://blog.idbeny.com/mbxuh.png@normal" alt=""></p>
+</li>
+<li><p>多行文字，也只在<code>UILabel</code>的范围内尽可能的展示（需要设置行数为0，即不限制行数），但仍然显示不全。<br><img src="http://blog.idbeny.com/ynovt.png@normal" alt=""></p>
+</li>
+<li><p>给<code>UILabel</code>添加居中显示的约束。<br><img src="http://blog.idbeny.com/dt9e2.png@normal" alt=""></p>
+</li>
+<li><p><code>UILabel</code>添加约束后和其他控件不太一样，由于没有设置宽度和高度，Xcode也没有报错或警告，仅仅文字由之前的多行变成了单行显示。这是因为<code>UILabel</code>没有设置宽度，系统只能根据当前文字大小无限制的展示一行，所以高度也只是一行文字的高。<br><img src="http://blog.idbeny.com/h4ip8.png@normal" alt=""><br>我们可以看到如果不设置宽度，仅设置居中对齐的话，<code>UILabel</code>的X坐标和宽都会随着文字的多少而变化，就算超出屏幕也一样。<br><img src="http://blog.idbeny.com/qujlu.png@normal" alt=""></p>
+</li>
+<li><p>如果我们添加宽度约束，并把约束修改为小于等于300(<code>Less Than or Equal</code>)，就会发现<code>UILabel</code>可以正常显示了。<br>5.1. 添加宽度约束<br><img src="http://blog.idbeny.com/l8dne.png@normal" alt=""></p>
+<p>5.2. 修改宽度并设置约束关系为小于等于<br><img src="http://blog.idbeny.com/uvx9k.png@normal" alt=""></p>
+<p>5.3. 可以自动计算高度<br><img src="http://blog.idbeny.com/pxosr.png@normal" alt=""></p>
+</li>
+</ol>
+<blockquote>
+<p>思考：为什么设置<code>Less Than or Equal</code>？设置其他关系就不可以么？</p>
+</blockquote>
+<p>约束关系共有三种：</p>
+<ul>
+<li><code>Less Than or Equal</code> 小于等于(&lt;=)</li>
+<li><code>Equal</code> 等于(=)</li>
+<li><code>Greater Than or Equal</code> 大于等于(&gt;=)</li>
+</ul>
+<p><code>Less Than or Equal</code>的意思是最大值不能超过多少。我们设置了宽度300，如果文字很少的情况下，Label会包裹内容显示；如果文字超过300，就会换行显示。</p>
+<p>如果设置为<code>Equal</code>，意思就是宽度只能是300，文字很少情况下，Label不会包裹内容显示，宽度一直是300；文字超过300时，同样还会换行显示的。</p>
+<p>如果设置为<code>Greater Than or Equal</code>，意思是宽度最小是300，文字很少情况下，Label不会包裹内容显示，宽度一直是300；文字超过300时，也不会换行。</p>
+<p>操作技巧：</p>
+<ul>
+<li>UILabel包裹内容三要素：<ul>
+<li>设置约束</li>
+<li>设置宽度（小于等于或等于）</li>
+<li>不要设置高度</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例五（父视图随子视图内容伸缩-–-朋友圈-微博）"><a href="#案例五（父视图随子视图内容伸缩-–-朋友圈-微博）" class="headerlink" title="案例五（父视图随子视图内容伸缩 – 朋友圈/微博）"></a>案例五（父视图随子视图内容伸缩 – 朋友圈/微博）</h4><p>场景：模拟一条微信朋友圈信息。</p>
+<p>查看下面的约束，重点是time的顶部约束等于content的底部约束加上10的间距，根视图view的底部和time的底部对齐，并且有8间距。<br><img src="http://blog.idbeny.com/8djrb.png@normal" alt=""></p>
+<p>修改内容，查看效果</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> <span class="built_in">UILabel</span> *contentLabel;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="built_in">BOOL</span> isChanged;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="keyword">self</span>.isChanged = !<span class="keyword">self</span>.isChanged;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *content = <span class="string">@"1024星球"</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.isChanged) &#123;</span><br><span class="line">        content = <span class="string">@"1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球1024星球"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.contentLabel.text = content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/xjmkr.gif@normal" alt=""></p>
+<p>操作技巧：</p>
+<ul>
+<li>记住万能公式</li>
+</ul>
+<h3 id="约束优先级"><a href="#约束优先级" class="headerlink" title="约束优先级"></a>约束优先级</h3><p>如何根据不同情况设置不同的约束？可以设置约束的优先级，系统在<code>IB</code>中给我们提供了三种优先级选择，纯代码方式提供了7个常量，其实我们都可以设置<code>(0, 1000]</code>范围内任意值。</p>
+<p>特点：优先级值越高，优先生效。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>场景：三个view，并行排列（尺寸、间距都相同），移除中间一个view，最后的view自动往前移动到被删除view的位置。</p>
+<ol>
+<li><p>添加三个view并设置约束；<br><img src="http://blog.idbeny.com/0i8db.png@normal" alt=""></p>
+</li>
+<li><p>把中间的view移除；</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> ViewController ()</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (weak, nonatomic) IBOutlet UIView *middleView;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br><span class="line"></span><br><span class="line">- (void)<span class="attribute">touchesBegan</span>:(NSSet&lt;UITouch *&gt; *)touches <span class="attribute">withEvent</span>:(UIEvent *)event &#123;</span><br><span class="line">    <span class="selector-attr">[self.middleView removeFromSuperview]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除后，右边的view并没有向前移动。当中间的view被移除后，约束就不存了，右边的view约束又参照于中间的view，所以也没有约束了，最后两个都不显示了；<br><img src="http://blog.idbeny.com/nk6gr.gif@normal" alt=""></p>
+</li>
+<li><p>右边的view添加新的约束（以左边的view为参照）并设置约束优先级；<br><img src="http://blog.idbeny.com/8euaz.png@normal" alt=""></p>
+</li>
+<li><p>约束优先级生效。<br><img src="http://blog.idbeny.com/ezbw0.gif@normal" alt=""></p>
+</li>
+</ol>
+<p>操作技巧：</p>
+<ul>
+<li>优先级低的约束，会用虚线框连接或包裹</li>
+</ul>
+<h3 id="约束动画"><a href="#约束动画" class="headerlink" title="约束动画"></a>约束动画</h3><p>正常线性动画只需要变换<code>frame</code>即可，但是如果是约束怎么办呢？苹果规定使用约束后在修改控件尺寸和位置就不能使用<code>frame</code>，应该继续使用约束。</p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><p>场景：点击屏幕修改view的宽度，动画显示，动画时长持续2s。</p>
+<ol>
+<li><p>添加view并设置约束；<br><img src="http://blog.idbeny.com/6x64k.png@normal" alt=""></p>
+</li>
+<li><p>修改宽度约束值；</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> ViewController ()</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)<span class="attribute">touchesBegan</span>:(NSSet&lt;UITouch *&gt; *)touches <span class="attribute">withEvent</span>:(UIEvent *)event &#123;</span><br><span class="line">    <span class="selector-attr">[UIView animateWithDuration:2.0 animations:^&#123;</span></span><br><span class="line"><span class="selector-attr">        self.widthConstraint.constant = 150;</span></span><br><span class="line"><span class="selector-attr">    &#125;]</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动画没有生效；<br><img src="http://blog.idbeny.com/lsmu5.gif@normal" alt=""></p>
+</li>
+<li><p>使用强制刷新；</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="keyword">self</span>.widthConstraint.constant = <span class="number">150</span>;</span><br><span class="line">    [<span class="built_in">UIView</span> animateWithDuration:<span class="number">2.0</span> animations:^&#123;</span><br><span class="line">        [<span class="keyword">self</span>.view layoutIfNeeded];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动画生效，为什么这样就可以了呢？因为约束的本质也是转化为<code>frame</code>，此时修改约束时，我们并不知道什么时候计算<code>frame</code>，设置<code>layoutIfNeeded</code>后，等待下次屏幕刷新时就会按照动画形式刷新view。<br><img src="http://blog.idbeny.com/99sup.gif@normal" alt=""></p>
+</li>
+</ol>
+<h4 id="常见警告和错误"><a href="#常见警告和错误" class="headerlink" title="常见警告和错误"></a>常见警告和错误</h4><ul>
+<li><p>警告：控件的frame不匹配所添加的约束</p>
+<ul>
+<li>约束和显示不一致<ul>
+<li>例：约束控件的宽度为100，而控件现在的宽度是110</li>
+</ul>
+</li>
+<li>解决方案<ul>
+<li>更新约束</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>错误：</p>
+<ul>
+<li><p>缺乏必要的约束</p>
+<ul>
+<li>例：之约束了宽度和高度，没有约束具体位置</li>
+<li>解决方案<ul>
+<li>添加缺失的约束条件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>两个约束冲突</p>
+<ul>
+<li>例：1个约束控件的宽度为100，1个约束控件的宽度为110</li>
+<li>解决方案<ul>
+<li>删除其中一个约束或使其失效</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="纯代码-1"><a href="#纯代码-1" class="headerlink" title="纯代码"></a>纯代码</h3><p><code>AutoLayout</code>一般用在<code>IB</code>上，纯代码非常繁琐。如果使用<code>AutoLayout</code>则必须放弃<code>frame</code>，因为<code>AutoLayout</code>的底层实现还是设置<code>frame</code>，如果设置了<code>frame</code>会发生很多冲突甚至未知性错误。</p>
+<p><code>AutoLayout</code>和<code>Autoresizing</code>是互斥的，但<code>UIView</code>的<code>Autoresizing</code>功能是默认开启的，如果想用<code>AutoLayout</code>布局UI，则必须把对应控件的<code>translatesAutoresizingMaskIntoConstraints</code>设置为NO。</p>
+<p>每一条约束其实就是一个对象，所以用代码创建约束的时候就是创建很多约束对象。</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><p>场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 添加约束方法：对比万能公式理解</span></span><br><span class="line"><span class="comment"> * view1：约束的控件1</span></span><br><span class="line"><span class="comment"> * attr1：约束的属性（NSLayoutAttribute枚举类型）</span></span><br><span class="line"><span class="comment"> * relation：控件1和控件2的约束关系（NSLayoutRelation枚举类型）</span></span><br><span class="line"><span class="comment"> * view2：参照物控件2</span></span><br><span class="line"><span class="comment"> * attr2：参照控件2的约束属性</span></span><br><span class="line"><span class="comment"> * multiplier：约束值得倍数</span></span><br><span class="line"><span class="comment"> * c：约束常量值</span></span><br><span class="line"><span class="comment"> * @return 返回一个约束对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">+ (instancetype)<span class="string">constraintWithItem:</span>(id)view1 <span class="string">attribute:</span>(NSLayoutAttribute)attr1 <span class="string">relatedBy:</span>(NSLayoutRelation)relation <span class="string">toItem:</span>(nullable id)view2 <span class="string">attribute:</span>(NSLayoutAttribute)attr2 <span class="string">multiplier:</span>(CGFloat)multiplier <span class="string">constant:</span>(CGFloat)c;</span><br><span class="line"></span><br><span class="line">UIView *redView = [[UIView alloc] init];</span><br><span class="line">redView.translatesAutoresizingMaskIntoConstraints = NO;</span><br><span class="line">redView.backgroundColor = [UIColor redColor];</span><br><span class="line">[self.view <span class="string">addSubview:</span>redView];</span><br><span class="line"></span><br><span class="line">NSLayoutConstraint *widthConstraint = [NSLayoutConstraint <span class="string">constraintWithItem:</span>redView <span class="string">attribute:</span>NSLayoutAttributeWidth <span class="string">relatedBy:</span>NSLayoutRelationEqual <span class="string">toItem:</span>nil <span class="string">attribute:</span>NSLayoutAttributeNotAnAttribute <span class="string">multiplier:</span><span class="number">0</span> <span class="string">constant:</span><span class="number">100</span>];</span><br><span class="line">[redView <span class="string">addConstraint:</span>widthConstraint];</span><br><span class="line"></span><br><span class="line">NSLayoutConstraint *heightConstraint = [NSLayoutConstraint <span class="string">constraintWithItem:</span>redView <span class="string">attribute:</span>NSLayoutAttributeHeight <span class="string">relatedBy:</span>NSLayoutRelationEqual <span class="string">toItem:</span>nil <span class="string">attribute:</span>NSLayoutAttributeNotAnAttribute <span class="string">multiplier:</span><span class="number">0</span> <span class="string">constant:</span><span class="number">100</span>];</span><br><span class="line">[redView <span class="string">addConstraint:</span>heightConstraint];</span><br><span class="line"></span><br><span class="line">NSLayoutConstraint *rightConstraint = [NSLayoutConstraint <span class="string">constraintWithItem:</span>redView <span class="string">attribute:</span>NSLayoutAttributeRight <span class="string">relatedBy:</span>NSLayoutRelationEqual <span class="string">toItem:</span>self.view  <span class="string">attribute:</span>NSLayoutAttributeRight <span class="string">multiplier:</span><span class="number">1.0</span> <span class="string">constant:</span><span class="number">0.0</span>];</span><br><span class="line">NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint <span class="string">constraintWithItem:</span>redView <span class="string">attribute:</span>NSLayoutAttributeBottom <span class="string">relatedBy:</span>NSLayoutRelationEqual <span class="string">toItem:</span>self.view <span class="string">attribute:</span>NSLayoutAttributeBottom <span class="string">multiplier:</span><span class="number">1.0</span> <span class="string">constant:</span><span class="number">0.0</span>];</span><br><span class="line">[self.view <span class="string">addConstraints:</span>@[rightConstraint, bottomConstraint]];</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/jlckz.png@normal" alt=""></p>
+<p><strong>约束应该添加到哪个视图上面？</strong><br>添加约束原则：</p>
+<ul>
+<li>两个同层级关系的控件，约束添加到他们的父视图上；</li>
+<li>两个不同层级关系的控件，添加到他们最近的共同父视图上；</li>
+<li>有层级关系的控件，添加到层次较高的父view上。</li>
+</ul>
+<p>对比上面的简单视图使用<code>AutoLayout</code>的纯代码方式实现起来很繁琐，代码量也很大，即使约束有冲突编译也不会报错。所以，平时开发尽量使用IB。</p>
+<h2 id="VFL"><a href="#VFL" class="headerlink" title="VFL"></a>VFL</h2><p>VFL（<em>Visual Format Language</em>），翻译为“可视化格式语言”，是苹果公司为了简化AutoLayout的编码而推出的抽象语言。</p>
+<p>VFL只有水平方向（<code>H</code>:<em>Horizontal</em>）和垂直方向（<code>V</code>:<em>Vertical</em>）的约束，在水平方向上控件名后面的常量是宽度，垂直方向代表高度。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><ul>
+<li><p><code>H:[控件名1(宽)]-间距-[控件名2(宽)]</code></p>
+<ul>
+<li>示例：<code>H:[redView(20)]-10-[blueView(30)]</code></li>
+<li>含义：水平方向上，控件redView的宽是20，控件blueView的宽度是30，他们之间的间距是10。</li>
+</ul>
+</li>
+<li><p><code>H:[控件名(&gt;=宽度@优先级)]</code></p>
+<ul>
+<li>示例：<code>H:[redView(&gt;=20@700)]</code></li>
+<li>含义：水平方向上，控件redView的宽大于等于20，该约束条件优先级为700（优先级最大值是1000，优先满足优先级高的约束）。</li>
+</ul>
+</li>
+<li><p><code>H:|-间距-[控件名1(宽)]-[控件名2(&gt;=宽度)]-|</code></p>
+<ul>
+<li>示例：<code>H:|-10-[redView(&gt;=20)]-[blueView(30)]-|</code></li>
+<li>含义：水平方向上，控件redView的宽大于等于20，距离父控件左间距10；控件blueView的宽是30，紧靠redView的右边，距离父控件右间距为0。</li>
+</ul>
+</li>
+</ul>
+<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h3><p>场景：红色view位于屏幕右下角（边距均为20）且宽高均为100，根据屏幕自适应位置及尺寸。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 添加VFL约束</span></span><br><span class="line"><span class="comment"> * format：VFL语句</span></span><br><span class="line"><span class="comment"> * options：NSLayoutFormatOptions的枚举，填写一些约束关系条件</span></span><br><span class="line"><span class="comment"> * metrics：参数配置，可以把一些常量参数做一个映射，把名称放到VFL中即可，方便维护</span></span><br><span class="line"><span class="comment"> * views：控件关系映射，key作为VFL中的控件名，value是控件对象</span></span><br><span class="line"><span class="comment"> * @return 返回一个数组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">+ (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSLayoutConstraint</span> *&gt; *)constraintsWithVisualFormat:(<span class="built_in">NSString</span> *)format options:(<span class="built_in">NSLayoutFormatOptions</span>)opts metrics:(<span class="keyword">nullable</span> <span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *, <span class="keyword">id</span>&gt; *)metrics views:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *, <span class="keyword">id</span>&gt; *)views;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span> *redView = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">redView.translatesAutoresizingMaskIntoConstraints = <span class="literal">NO</span>;</span><br><span class="line">redView.backgroundColor = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">[<span class="keyword">self</span>.view addSubview:redView];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *views = @&#123;<span class="string">@"redView"</span> : redView&#125;;</span><br><span class="line"><span class="built_in">NSDictionary</span> *metrics = @&#123;<span class="string">@"space"</span> : @<span class="number">20</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSString</span> *h_VFL = <span class="string">@"H:[redView(100)]-space-|"</span>;</span><br><span class="line"><span class="built_in">NSArray</span> *h_constraint = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:h_VFL options:kNilOptions metrics:metrics views:views];</span><br><span class="line">[<span class="keyword">self</span>.view addConstraints:h_constraint];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSString</span> *v_VFL = <span class="string">@"V:[redView(100)]-space-|"</span>;</span><br><span class="line"><span class="built_in">NSArray</span> *v_constraint = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:v_VFL options:kNilOptions metrics:metrics views:views];</span><br><span class="line">[<span class="keyword">self</span>.view addConstraints:v_constraint];</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/6y1p5.png@normal" alt=""></p>
+<p>操作技巧：<br>如果views的映射一般情况下都和对象的指针名称一致，其实没有必要做映射，使用系统提供的宏定义即可。<code>NSDictionaryOfVariableBindings(...)</code>，例如：<code>NSDictionary *views = NSDictionaryOfVariableBindings(redView, blueView)</code>。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/06/30/ios-layout/" title="【iOS】Autoresizing、AutoLayout、VFL">http://idbeny.com/2018/06/30/ios-layout/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%B8%83%E5%B1%80/" rel="tag"># 布局</a>
+          
+            <a href="/tags/Autoresizing/" rel="tag"># Autoresizing</a>
+          
+            <a href="/tags/AutoLayout/" rel="tag"># AutoLayout</a>
+          
+            <a href="/tags/VFL/" rel="tag"># VFL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/ios-pch/" rel="next" title="【iOS】PCH预编译文件">
+                <i class="fa fa-chevron-left"></i> 【iOS】PCH预编译文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/05/ios-initnib/" rel="prev" title="【iOS】initWithNibName原理">
+                【iOS】initWithNibName原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#历史背景"><span class="nav-number">1.</span> <span class="nav-text">历史背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autoresizing"><span class="nav-number">2.</span> <span class="nav-text">Autoresizing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Storyboard"><span class="nav-number">2.1.</span> <span class="nav-text">Storyboard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）"><span class="nav-number">2.1.1.</span> <span class="nav-text">案例一（场景：红色view位于屏幕右下角且宽高均为100，根据屏幕自适应位置及尺寸）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯代码"><span class="nav-number">2.2.</span> <span class="nav-text">纯代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoLayout"><span class="nav-number">3.</span> <span class="nav-text">AutoLayout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Storyboard-1"><span class="nav-number">3.1.</span> <span class="nav-text">Storyboard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加约束"><span class="nav-number">3.1.1.</span> <span class="nav-text">添加约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改-更新约束"><span class="nav-number">3.2.</span> <span class="nav-text">修改&#x2F;更新约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-删除之前约束，添加新的约束"><span class="nav-number">3.2.1.</span> <span class="nav-text">1. 删除之前约束，添加新的约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-左边栏"><span class="nav-number">3.2.2.</span> <span class="nav-text">2. 左边栏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-双击view的约束线条（不建议，触控范围太小）"><span class="nav-number">3.2.3.</span> <span class="nav-text">3. 双击view的约束线条（不建议，触控范围太小）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-右边栏"><span class="nav-number">3.2.4.</span> <span class="nav-text">4. 右边栏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-更新约束"><span class="nav-number">3.2.5.</span> <span class="nav-text">5. 更新约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-约束失效"><span class="nav-number">3.2.6.</span> <span class="nav-text">6. 约束失效</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约束参照"><span class="nav-number">3.3.</span> <span class="nav-text">约束参照</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#案例一（兄弟关系-等宽等高）"><span class="nav-number">3.3.1.</span> <span class="nav-text">案例一（兄弟关系-等宽等高）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#案例二（兄弟关系-中心对齐）"><span class="nav-number">3.3.2.</span> <span class="nav-text">案例二（兄弟关系-中心对齐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#案例三（父子关系-等宽等高及对齐）"><span class="nav-number">3.3.3.</span> <span class="nav-text">案例三（父子关系-等宽等高及对齐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#案例四（UILabel内容伸缩）"><span class="nav-number">3.3.4.</span> <span class="nav-text">案例四（UILabel内容伸缩）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#案例五（父视图随子视图内容伸缩-–-朋友圈-微博）"><span class="nav-number">3.3.5.</span> <span class="nav-text">案例五（父视图随子视图内容伸缩 – 朋友圈&#x2F;微博）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约束优先级"><span class="nav-number">3.4.</span> <span class="nav-text">约束优先级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">3.4.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约束动画"><span class="nav-number">3.5.</span> <span class="nav-text">约束动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见警告和错误"><span class="nav-number">3.5.2.</span> <span class="nav-text">常见警告和错误</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯代码-1"><span class="nav-number">3.6.</span> <span class="nav-text">纯代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-2"><span class="nav-number">3.7.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VFL"><span class="nav-number">4.</span> <span class="nav-text">VFL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#格式"><span class="nav-number">4.1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-3"><span class="nav-number">4.2.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C," />
+  <meta name="keywords" content="C,变量,进制,内存,位," />
 
 
 
@@ -89,7 +89,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
 
 
 
@@ -119,9 +119,13 @@
 <meta property="og:image" content="http://blog.idbeny.com/et3bn.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/3hvo3.png@normal">
 <meta property="article:published_time" content="2016-03-07T09:58:30.000Z">
-<meta property="article:modified_time" content="2020-06-07T10:00:17.241Z">
+<meta property="article:modified_time" content="2020-09-20T03:25:53.354Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="C">
+<meta property="article:tag" content="变量">
+<meta property="article:tag" content="进制">
+<meta property="article:tag" content="内存">
+<meta property="article:tag" content="位">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.idbeny.com/z8l07.png@normal">
 
@@ -132,7 +136,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -442,7 +446,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  5.8k 字
+                  5.9k 字
                 </span>
               
 
@@ -481,11 +485,11 @@
       
         <p>C语言是全世界最流行的编程语言之一，再过去是几年中长期霸占语言热度排行榜前3名（TIOBE）</p>
 <a id="more"></a>
-<h3 id="C语言的标准"><a href="#C语言的标准" class="headerlink" title="C语言的标准"></a>C语言的标准</h3><ul>
+<h2 id="一、认识C语言"><a href="#一、认识C语言" class="headerlink" title="一、认识C语言"></a>一、认识C语言</h2><h3 id="1-1-标准"><a href="#1-1-标准" class="headerlink" title="1.1. 标准"></a>1.1. 标准</h3><ul>
 <li>目前最新的标准是：<code>ISO/IEC 9899:2011</code>，简称为<code>C11</code>标准</li>
 <li>还有部分开发人员在使用<code>ISO/IEC 9899:1999</code>，简称为<code>C99</code>标准</li>
 </ul>
-<h3 id="C语言的用途"><a href="#C语言的用途" class="headerlink" title="C语言的用途"></a>C语言的用途</h3><p>基本上大部分的计算机语言都是基于C语言进行扩展的，它的性能极其优越，其他编程语言无法取代</p>
+<h3 id="1-2-用途"><a href="#1-2-用途" class="headerlink" title="1.2. 用途"></a>1.2. 用途</h3><p>基本上大部分的计算机语言都是基于C语言进行扩展的，它的性能极其优越，其他编程语言无法取代</p>
 <ul>
 <li>操作系统（Linux、Unix等操作系统就是利用C语言编写的）</li>
 <li>数据库开发</li>
@@ -494,7 +498,7 @@
 <li>游戏开发</li>
 <li>……</li>
 </ul>
-<h3 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h3><ul>
+<h3 id="1-3-开发工具"><a href="#1-3-开发工具" class="headerlink" title="1.3. 开发工具"></a>1.3. 开发工具</h3><ul>
 <li>记事本（txt）<ul>
 <li>功能单一、体验差、易出错、开发效率低</li>
 </ul>
@@ -505,83 +509,82 @@
 </ul>
 </li>
 </ul>
-<h3 id="程序的结构"><a href="#程序的结构" class="headerlink" title="程序的结构"></a>程序的结构</h3><p>任何一个C语言程序都由一个或多个函数构成，每个函数都由自己的功能，所以以后编写的C语言代码，基本上都是写在函数中</p>
-<h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><p>每一个函数都有自己的名称（标识符），并且每一个函数的名称都是唯一的。</p>
+<h2 id="二、程序的结构"><a href="#二、程序的结构" class="headerlink" title="二、程序的结构"></a>二、程序的结构</h2><p>任何一个C语言程序都由一个或多个函数构成，每个函数都由自己的功能，所以以后编写的C语言代码，基本上都是写在函数中。</p>
+<h3 id="2-1-main函数"><a href="#2-1-main函数" class="headerlink" title="2.1. main函数"></a>2.1. main函数</h3><p>每一个函数都有自己的名称（标识符），并且每一个函数的名称都是唯一的。</p>
 <p>大部分程序运行时都有一个入口，而这个入口就是<code>main</code>函数，C语言就是这样，如果没有main函数，程序就无法运行。</p>
-<h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-Hello-World"><a href="#2-2-Hello-World" class="headerlink" title="2.2. Hello World"></a>2.2. Hello World</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>printf</code> ：将双引号中的文字显示到屏幕上</li>
+<li><code>printf</code> ：将双引号中的文字显示到屏幕上。</li>
 </ul>
-<h3 id="语法须知"><a href="#语法须知" class="headerlink" title="语法须知"></a>语法须知</h3><ul>
-<li>C语言源代码文件的扩展名是<code>.c</code></li>
-<li>每一条语句后面都要以分号<code>;</code>结尾</li>
-<li>括号都是成对出现的，小括号<code>()</code>，中括号<code>[]</code>，大/花括号<code>{}</code></li>
-<li>区分大小写</li>
-<li>代码中的符号必须是英文符号（注释、字符、字符串等内容除外，其实所有编程语言代码中的符号都是只支持英文符号的，除了易语言）</li>
+<h3 id="2-3-语法须知"><a href="#2-3-语法须知" class="headerlink" title="2.3. 语法须知"></a>2.3. 语法须知</h3><ul>
+<li>C语言源代码文件的扩展名是<code>.c</code>；</li>
+<li>每一条语句后面都要以分号<code>;</code>结尾；</li>
+<li>括号都是成对出现的，小括号<code>()</code>，中括号<code>[]</code>，大/花括号<code>{}</code>；</li>
+<li>区分大小写；</li>
+<li>代码中的符号必须是英文符号（注释、字符、字符串等内容除外，其实所有编程语言代码中的符号都是只支持英文符号的，除了易语言）。</li>
 </ul>
-<h3 id="计算机0和1由来"><a href="#计算机0和1由来" class="headerlink" title="计算机0和1由来"></a>计算机0和1由来</h3><p>计算机是由电路机演变而来的，电路的逻辑只有0和1两种状态，0表示低电平，1表示高电平，因此现在的电子计算机只能识别0和1。</p>
+<h2 id="三、计算机关联"><a href="#三、计算机关联" class="headerlink" title="三、计算机关联"></a>三、计算机关联</h2><h3 id="3-1-计算机0和1由来"><a href="#3-1-计算机0和1由来" class="headerlink" title="3.1. 计算机0和1由来"></a>3.1. 计算机0和1由来</h3><p>计算机是由电路机演变而来的，电路的逻辑只有0和1两种状态，0表示低电平，1表示高电平，因此现在的电子计算机只能识别0和1。</p>
 <ul>
 <li>除了电子计算机、还有光子计算机、量子计算机、生物计算机、纳米计算机等高精端计算机（这些高端计算机不是只能识别0和1的）</li>
 <li>我们平时说的计算机，就是指的电子计算机</li>
 </ul>
-<h3 id="计算机如何识别C语言代码"><a href="#计算机如何识别C语言代码" class="headerlink" title="计算机如何识别C语言代码"></a>计算机如何识别C语言代码</h3><p>我们编写好的代码交给计算机后，计算机是怎么识别出的？</p>
-<p>上面提到计算机只能识别0和1，要想计算机能够正常识别代码，就需要经过以下流程</p>
+<h3 id="3-2-计算机如何识别C语言代码"><a href="#3-2-计算机如何识别C语言代码" class="headerlink" title="3.2. 计算机如何识别C语言代码"></a>3.2. 计算机如何识别C语言代码</h3><p>我们编写好的代码交给计算机后，计算机是怎么识别出的？</p>
+<p>上面提到计算机只能识别0和1，要想计算机能够正常识别代码，就需要经过以下流程：</p>
 <blockquote>
 <p>源代码(<em>.c) -&gt; 编译(compile) -&gt; 编译文件(</em>.o) -&gt; 链接(link) -&gt; 可执行文件(*.exe)</p>
 </blockquote>
 <ul>
-<li>编译：将C语言源代码文件编译成目标文件（二进制文件），由编译器完成</li>
-<li>链接：将所有的目标文件以及所需要的库文件合并成一个可执行文件，由链接器完成</li>
+<li>编译：将C语言源代码文件编译成目标文件（二进制文件），由编译器完成；</li>
+<li>链接：将所有的目标文件以及所需要的库文件合并成一个可执行文件，由链接器完成。</li>
 </ul>
-<h4 id="常见的C语言编译器（已内置链接器）"><a href="#常见的C语言编译器（已内置链接器）" class="headerlink" title="常见的C语言编译器（已内置链接器）"></a>常见的C语言编译器（已内置链接器）</h4><ul>
+<h3 id="3-3-常见的C语言编译器（已内置链接器）"><a href="#3-3-常见的C语言编译器（已内置链接器）" class="headerlink" title="3.3. 常见的C语言编译器（已内置链接器）"></a>3.3. 常见的C语言编译器（已内置链接器）</h3><ul>
 <li>MSVC：微软出品（用在Windows中）</li>
 <li>GCC：GNU Compiler Collection缩写，GNU出品</li>
 <li>MinGW：Minimalist GNU for windows的缩写，GNU出品</li>
 <li>LLVM：常用在苹果开发工具中</li>
 <li>……</li>
 </ul>
-<p>同一分源代码，用不同的编译器编译出来的目标文件是不一样的，主要体现在体积、格式、运行效率等</p>
-<p>不同操作系统最后链接产生的可执行文件（应用程序）格式也是不同的</p>
+<p>同一分源代码，用不同的编译器编译出来的目标文件是不一样的，主要体现在体积、格式、运行效率等。</p>
+<p>不同操作系统最后链接产生的可执行文件（应用程序）格式也是不同的：</p>
 <ul>
 <li>Windows：PE格式（常以<code>.exe</code>作为文件扩展名）</li>
 <li>Linux：ELF格式</li>
 <li>Mac：Mach-O格式</li>
 </ul>
-<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>什么是注释？</p>
-<ul>
+<h3 id="3-4-什么是BUG？"><a href="#3-4-什么是BUG？" class="headerlink" title="3.4. 什么是BUG？"></a>3.4. 什么是BUG？</h3><ul>
+<li>BUG一般指的是程序漏洞、缺陷、错误，程序出现Bug后可能会导致程序无法正常运行；</li>
+<li>来源：很早之前一位计算机科学家在调试设备时出现了故障，后来发现是有只飞蛾跑进了设备内部，卡住了机器的电路，导致机器无法运行，于是后来就把程序故障成为Bug（臭虫），排除程序故障排叫做DeBug。</li>
+</ul>
+<h3 id="3-5-硬盘和内存"><a href="#3-5-硬盘和内存" class="headerlink" title="3.5. 硬盘和内存"></a>3.5. 硬盘和内存</h3><p><img src="http://blog.idbeny.com/z8l07.png@normal" alt=""></p>
+<p><em>在CPU、硬盘、内存3者之中，对我们开发者来说，最需要关注的内存，因为内存在程序运行过程中才执行的，而程序是运行在内存中的</em></p>
+<h2 id="四、注释"><a href="#四、注释" class="headerlink" title="四、注释"></a>四、注释</h2><h3 id="4-1-什么是注释？"><a href="#4-1-什么是注释？" class="headerlink" title="4.1. 什么是注释？"></a>4.1. 什么是注释？</h3><ul>
 <li>注释常用来解释某段代码的具体含义、作用</li>
 <li>注释并不会被当做正常代码进行编译</li>
 </ul>
-<p>注释有2中书写格式</p>
-<ul>
+<h3 id="4-2-注释有2种书写格式"><a href="#4-2-注释有2种书写格式" class="headerlink" title="4.2. 注释有2种书写格式"></a>4.2. 注释有2种书写格式</h3><ul>
 <li>单行注释</li>
 <li>多行注释</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入C语言基础库（这是一段单行注释）</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 这是程序入口函数</span></span><br><span class="line"><span class="comment"> 函数运行后会打印一段文字</span></span><br><span class="line"><span class="comment"> （这就是多行注释）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>写注释的好处：</p>
-<ul>
+<h3 id="4-3-写注释的好处："><a href="#4-3-写注释的好处：" class="headerlink" title="4.3. 写注释的好处："></a>4.3. 写注释的好处：</h3><ul>
 <li>方便回忆，检查旧代码</li>
 <li>方便程序员之间团队协作，提高开发效率</li>
 <li>方便旧项目的交接</li>
 </ul>
-<h3 id="什么是BUG？"><a href="#什么是BUG？" class="headerlink" title="什么是BUG？"></a>什么是BUG？</h3><ul>
-<li>BUG一般指的是程序漏洞、缺陷、错误，程序出现Bug后可能会导致程序无法正常运行</li>
-<li>来源：很早之前一位计算机科学家在调试设备时出现了故障，后来发现是有只飞蛾跑进了设备内部，卡住了机器的电路，导致机器无法运行，于是后来就把程序故障成为Bug（臭虫），排除程序故障排叫做DeBug</li>
-</ul>
-<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量的作用，可以存储程序运行过程中会变化的数据</p>
-<h4 id="如何声明一个变量？"><a href="#如何声明一个变量？" class="headerlink" title="如何声明一个变量？"></a>如何声明一个变量？</h4><p>格式：</p>
+<h2 id="五、变量"><a href="#五、变量" class="headerlink" title="五、变量"></a>五、变量</h2><p>变量的作用，可以存储程序运行过程中会变化的数据。</p>
+<h3 id="5-1-如何声明一个变量？"><a href="#5-1-如何声明一个变量？" class="headerlink" title="5.1. 如何声明一个变量？"></a>5.1. 如何声明一个变量？</h3><p>格式：</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量类型 变量名<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 <p>示例：</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">year</span>;</span><br><span class="line"><span class="built_in">int</span> <span class="built_in">month</span>;</span><br><span class="line"><span class="built_in">int</span> <span class="built_in">day</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>变量类型决定了变量能够存储什么类型的数据（上面的示例：int类型决定了变量能够存储整数）</li>
+<li>变量类型决定了变量能够存储什么类型的数据（上面的示例：int类型决定了变量能够存储整数）。</li>
 </ul>
-<h4 id="如何给变量赋值？"><a href="#如何给变量赋值？" class="headerlink" title="如何给变量赋值？"></a>如何给变量赋值？</h4><ul>
-<li><p>赋值：将数据交给变量去存储</p>
+<h3 id="5-2-如何给变量赋值？"><a href="#5-2-如何给变量赋值？" class="headerlink" title="5.2. 如何给变量赋值？"></a>5.2. 如何给变量赋值？</h3><p>赋值：将数据交给变量去存储</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量名 = 数据<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-</li>
+
+<ul>
 <li><p>这个等号表示赋值，会把右边的数据赋值给左边的变量</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> month = <span class="number">12</span></span><br><span class="line"><span class="built_in">int</span> day = <span class="number">30</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -607,12 +610,12 @@
 
 </li>
 </ul>
-<h4 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h4><p>变量的作用域，就是指变量的作用范围，有效使用范围</p>
+<h3 id="5-3-变量的作用域"><a href="#5-3-变量的作用域" class="headerlink" title="5.3. 变量的作用域"></a>5.3. 变量的作用域</h3><p>变量的作用域，就是指变量的作用范围，有效使用范围</p>
 <ul>
 <li>从声明变量的那条语句开始，直到变量所在的大括号结束</li>
 <li>在同一个作用域内，不允许有同名的变量</li>
 </ul>
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>字符串由若干个字符组成的一串数据</p>
+<h2 id="六、字符串"><a href="#六、字符串" class="headerlink" title="六、字符串"></a>六、字符串</h2><p>字符串由若干个字符组成的一串数据。</p>
 <ul>
 <li><p>字符串用双引号包裹</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">"Hello World"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
@@ -622,32 +625,28 @@
 <li><p>字符串中的<code>%d</code>，是整数的占位符，到时会用对应的整数取代占位符，生成一个新的字符串</p>
 </li>
 </ul>
-<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>标识符，由开发者自定义的一些名称（比如变量名、函数名等）</p>
-<p>标识符的命名规则如下：</p>
-<ul>
+<h2 id="七、标识符"><a href="#七、标识符" class="headerlink" title="七、标识符"></a>七、标识符</h2><p>标识符，由开发者自定义的一些名称（比如变量名、函数名等）。</p>
+<h3 id="7-1-标识符的命名规则如下："><a href="#7-1-标识符的命名规则如下：" class="headerlink" title="7.1. 标识符的命名规则如下："></a>7.1. 标识符的命名规则如下：</h3><ul>
 <li>不限长度</li>
 <li>可以使用数字、下划线、英文字符</li>
 <li>可以使用\u及\U转义记号指定的Unicode字符（C99开始）</li>
 <li>不能以数字开头</li>
 <li>不能使用关键字（关键字，也叫做保留字，是编程语言内部已经定义好的一些有特殊含义的符号）</li>
 </ul>
-<p>命名规范：</p>
-<ul>
+<h3 id="7-2-命名规范："><a href="#7-2-命名规范：" class="headerlink" title="7.2. 命名规范："></a>7.2. 命名规范：</h3><ul>
 <li>小驼峰（第一个单词的首字母小写，其他单词的首字母大写），<code>myNameAndAge</code></li>
 <li>大驼峰（所有单词的首字母大写），<code>MyNameAndAge</code></li>
 <li>下划线连接，<code>my_name_and_age</code>，也有大写<code>MY_NAME_AND_AGE</code></li>
 </ul>
-<h3 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h3><p>顾名思义，就是一个固定值。</p>
+<h2 id="八、字面量"><a href="#八、字面量" class="headerlink" title="八、字面量"></a>八、字面量</h2><p>顾名思义，就是一个固定值。</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">double</span> <span class="built_in">height</span> = <span class="number">1.88</span>;</span><br><span class="line"><span class="keyword">char</span> <span class="keyword">word</span> = <span class="string">"a"</span>;</span><br></pre></td></tr></table></figure>
 <p>上面的代码中，等号右边的固定值都叫做字面量。</p>
-<h3 id="硬盘和内存"><a href="#硬盘和内存" class="headerlink" title="硬盘和内存"></a>硬盘和内存</h3><p><img src="http://blog.idbeny.com/z8l07.png@normal" alt=""></p>
-<p><em>在CPU、硬盘、内存3者之中，对我们开发者来说，最需要关注的内存，因为内存在程序运行过程中才执行的，而程序是运行在内存中的</em></p>
-<h3 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h3><p>什么是进制？进制是一种数字的表示形式；是一种带进位的计数方法</p>
-<p>计算机领域常见的进制有：十进制、二进制、八进制、十六进制</p>
-<h4 id="十进制（逢十进一）"><a href="#十进制（逢十进一）" class="headerlink" title="十进制（逢十进一）"></a>十进制（逢十进一）</h4><p>由十个数字符号构成所有的数值：0、1、2、3、4、5、6、7、8、9</p>
-<h4 id="八进制（逢八进一）"><a href="#八进制（逢八进一）" class="headerlink" title="八进制（逢八进一）"></a>八进制（逢八进一）</h4><p>由八个数字符号构成所有的数值：0、1、2、3、4、5、6、7</p>
-<h4 id="二进制（逢二进一）"><a href="#二进制（逢二进一）" class="headerlink" title="二进制（逢二进一）"></a>二进制（逢二进一）</h4><p>由两个数字符号构成所有的数值：0、1</p>
-<h4 id="十六进制（逢十六进一）"><a href="#十六进制（逢十六进一）" class="headerlink" title="十六进制（逢十六进一）"></a>十六进制（逢十六进一）</h4><p>由十六个数字及字母符号构成所有的数值：0、1、2、3、4、5、6、7、8、9、A、B、C、D、E、F</p>
+<h2 id="九、进制"><a href="#九、进制" class="headerlink" title="九、进制"></a>九、进制</h2><p>什么是进制？进制是一种数字的表示形式；是一种带进位的计数方法。</p>
+<p>计算机领域常见的进制有：十进制、二进制、八进制、十六进制。</p>
+<h3 id="9-1-十进制（逢十进一）"><a href="#9-1-十进制（逢十进一）" class="headerlink" title="9.1. 十进制（逢十进一）"></a>9.1. 十进制（逢十进一）</h3><p>由十个数字符号构成所有的数值：0、1、2、3、4、5、6、7、8、9</p>
+<h3 id="9-2-八进制（逢八进一）"><a href="#9-2-八进制（逢八进一）" class="headerlink" title="9.2. 八进制（逢八进一）"></a>9.2. 八进制（逢八进一）</h3><p>由八个数字符号构成所有的数值：0、1、2、3、4、5、6、7</p>
+<h3 id="9-3-二进制（逢二进一）"><a href="#9-3-二进制（逢二进一）" class="headerlink" title="9.3. 二进制（逢二进一）"></a>9.3. 二进制（逢二进一）</h3><p>由两个数字符号构成所有的数值：0、1</p>
+<h3 id="9-4-十六进制（逢十六进一）"><a href="#9-4-十六进制（逢十六进一）" class="headerlink" title="9.4. 十六进制（逢十六进一）"></a>9.4. 十六进制（逢十六进一）</h3><p>由十六个数字及字母符号构成所有的数值：0、1、2、3、4、5、6、7、8、9、A、B、C、D、E、F。</p>
 <ul>
 <li>A、B、C、D、E、F分别表示十、十一、十二、十三、十四、十五</li>
 <li>也可以用小写字母表示：a、b、c、c、e、f</li>
@@ -659,12 +658,12 @@
 <li>八进制：41</li>
 <li>十六进制：21</li>
 </ul>
-<h4 id="基数"><a href="#基数" class="headerlink" title="基数"></a>基数</h4><p>进制中有个叫“基数”（或者底数）的概念</p>
+<h3 id="9-5-基数"><a href="#9-5-基数" class="headerlink" title="9.5. 基数"></a>9.5. 基数</h3><p>进制中有个叫“基数”（或者底数）的概念</p>
 <ul>
 <li>基数是指可以使用的数字符号的数目</li>
 <li>十进制的基数是十、二进制的基数是二、八进制的基数是八、十六进制的基数是十六</li>
 </ul>
-<h4 id="进制转换（任意R进制-gt-十进制）"><a href="#进制转换（任意R进制-gt-十进制）" class="headerlink" title="进制转换（任意R进制 -&gt; 十进制）"></a>进制转换（任意R进制 -&gt; 十进制）</h4><p>一个R进制表示的数转为十进制：$$ k_3 k_2 k_1 k_0.s_1 s_2 s_3 $$</p>
+<h3 id="9-6-进制转换（任意R进制-gt-十进制）"><a href="#9-6-进制转换（任意R进制-gt-十进制）" class="headerlink" title="9.6. 进制转换（任意R进制 -&gt; 十进制）"></a>9.6. 进制转换（任意R进制 -&gt; 十进制）</h3><p>一个R进制表示的数转为十进制：$ k_3 k_2 k_1 k_0.s_1 s_2 s_3 $</p>
 <ul>
 <li><p>公式：$$ (k_3 * R^3) + (k_2 * R^2) + (k_1 * R^1) + (k_0 * R^0) + (s_1 * R^{-1}) + (s_2 * R^{-2}) + (s_3 * R^{-3})$$</p>
 </li>
@@ -684,46 +683,46 @@
 </ul>
 </li>
 </ul>
-<h4 id="十进制-gt-任意R进制"><a href="#十进制-gt-任意R进制" class="headerlink" title="十进制 -&gt; 任意R进制"></a>十进制 -&gt; 任意R进制</h4><p>十进制数转换成R进制数，须将整数部分和小数部分分别转换</p>
+<h3 id="9-7-十进制-gt-任意R进制"><a href="#9-7-十进制-gt-任意R进制" class="headerlink" title="9.7. 十进制 -&gt; 任意R进制"></a>9.7. 十进制 -&gt; 任意R进制</h3><p>十进制数转换成R进制数，须将整数部分和小数部分分别转换</p>
 <ul>
-<li>整数转换（除R取余法）<ul>
-<li>用十进制数的整数部分除以R、取余数作为转换后的R进制数据的整数部分最低位数字</li>
-<li>再用所得的商除以R、取余数作为转换后的R进制数据的高一位数字</li>
-<li>重复上面第二次的操作，一直到商为0结束</li>
+<li><strong>整数转换（除R取余法）</strong><ul>
+<li>用十进制数的整数部分除以R、取余数作为转换后的R进制数据的整数部分最低位数字；</li>
+<li>再用所得的商除以R、取余数作为转换后的R进制数据的高一位数字；</li>
+<li>重复上面第二次的操作，一直到商为0结束。</li>
 </ul>
 </li>
 </ul>
 <p>求115的二进制：$$115 = (1110011)_2$$<br><img src="http://blog.idbeny.com/jzmkq.png@normal" alt=""></p>
 <ul>
-<li>小数转换（乘R取整法）<ul>
-<li>十进制数的小数部分乘以R、取乘积的整数部分作为转换后R进制数据的小数点后第一位数字</li>
-<li>再用所得的乘积的小数部分乘以R、然后取新乘积的整数部分作为转换后的R进制小数的低一位数字</li>
-<li>重复上面第二次的操作，一直到乘积的小数部分为0为止，或者一直到已得到要求的精度数位为止</li>
+<li><strong>小数转换（乘R取整法）</strong><ul>
+<li>十进制数的小数部分乘以R、取乘积的整数部分作为转换后R进制数据的小数点后第一位数字；</li>
+<li>再用所得的乘积的小数部分乘以R、然后取新乘积的整数部分作为转换后的R进制小数的低一位数字；</li>
+<li>重复上面第二次的操作，一直到乘积的小数部分为0为止，或者一直到已得到要求的精度数位为止。</li>
 </ul>
 </li>
 </ul>
 <p>求0.625的二进制：$$0.625 \approx (0.101)_2$$<br><img src="http://blog.idbeny.com/j6khg.png@normal" alt=""></p>
 <ul>
-<li>小数转换（整数退位法）<ul>
+<li><strong>小数转换（整数退位法）</strong><ul>
 <li>0.321换成二进制数，保留7位<br>$$0.321 * 2^7 = 41.088$$</li>
 <li>取整数41 $$41 = (101001)_2$$</li>
 <li>只有6位但要求保留7位，退位，在前面补0，所以是0.0101001</li>
 </ul>
 </li>
 </ul>
-<h4 id="二进制与十六进制之间的转换"><a href="#二进制与十六进制之间的转换" class="headerlink" title="二进制与十六进制之间的转换"></a>二进制与十六进制之间的转换</h4><p>4位二进制数恰好有16种组合状态，也就是说，1位十六进制数与4位二进制数是一一对应的<br><img src="http://blog.idbeny.com/abm5i.png@normal" alt=""></p>
+<h3 id="9-8-二进制与十六进制之间的转换"><a href="#9-8-二进制与十六进制之间的转换" class="headerlink" title="9.8. 二进制与十六进制之间的转换"></a>9.8. 二进制与十六进制之间的转换</h3><p>4位二进制数恰好有16种组合状态，也就是说，1位十六进制数与4位二进制数是一一对应的<br><img src="http://blog.idbeny.com/abm5i.png@normal" alt=""></p>
 <p>计算：</p>
 <ul>
 <li>$$(111010110.11)<em>2 = (0001 1101 0110.1100)_2 = (1D6.C)</em>{16}$$</li>
 <li>$$(4AF8B.E)_{16} = (0100 1010 1111 1000 1011.1110)_2 = (1001010111110001011.111)_2$$</li>
 </ul>
-<h4 id="二进制与八进制之间的转换"><a href="#二进制与八进制之间的转换" class="headerlink" title="二进制与八进制之间的转换"></a>二进制与八进制之间的转换</h4><p>3位二进制数恰好有8种组合状态，也就是说，1位八进制数与3位二进制数是一一对应的<br><img src="http://blog.idbeny.com/sp86v.png@normal" alt=""></p>
+<h3 id="9-9-二进制与八进制之间的转换"><a href="#9-9-二进制与八进制之间的转换" class="headerlink" title="9.9. 二进制与八进制之间的转换"></a>9.9. 二进制与八进制之间的转换</h3><p>3位二进制数恰好有8种组合状态，也就是说，1位八进制数与3位二进制数是一一对应的<br><img src="http://blog.idbeny.com/sp86v.png@normal" alt=""></p>
 <p>计算：</p>
 <ul>
 <li>$$(111010110.11)_2 = (011 010 110.110)_2 = (326.6)_8$$</li>
 <li>$$(2476.4)_8 = (010 100 111 110.100)_2 = (10100111110.1)_2$$</li>
 </ul>
-<h4 id="代码中的进制书写形式"><a href="#代码中的进制书写形式" class="headerlink" title="代码中的进制书写形式"></a>代码中的进制书写形式</h4><p>C语言标准规定</p>
+<h3 id="9-10-代码中的进制书写形式"><a href="#9-10-代码中的进制书写形式" class="headerlink" title="9.10. 代码中的进制书写形式"></a>9.10. 代码中的进制书写形式</h3><p>C语言标准规定</p>
 <ul>
 <li>默认是十进制，比如89，表示【八十九】</li>
 <li>以0开头的是八进制，比如024，表示【二十】</li>
@@ -735,8 +734,8 @@
 </ul>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int <span class="built_in">i1</span> = <span class="number">20</span>; // 十进制</span><br><span class="line">int i2 = <span class="number">024</span>; // 八进制</span><br><span class="line">int i3 = <span class="number">0x14</span>; // 十六进制</span><br><span class="line">int i4 = <span class="number">0b10100</span>; // 二进制</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d %d %d"</span>, <span class="built_in">i1</span>, i2, i3, i4) // 输出：<span class="number">20</span> <span class="number">20</span> <span class="number">20</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="存储单位"><a href="#存储单位" class="headerlink" title="存储单位"></a>存储单位</h3><p>字节（Byte，B）是一种基本存储单位（在计算机领域用来计量存储容量）</p>
-<p>单位换算：<br>1字 = 2B（字的英文是word，1字等于2字节）</p>
+<h2 id="十、内存"><a href="#十、内存" class="headerlink" title="十、内存"></a>十、内存</h2><h3 id="10-1-存储单位"><a href="#10-1-存储单位" class="headerlink" title="10.1. 存储单位"></a>10.1. 存储单位</h3><p>字节（Byte，B）是一种基本存储单位（在计算机领域用来计量存储容量）。</p>
+<p><strong>单位换算：</strong><br>1字 = 2B（字的英文是word，1字等于2字节）</p>
 <ul>
 <li>1KB = 1024B（千字节）</li>
 <li>1MB = 1024KB（兆字节）</li>
@@ -746,7 +745,7 @@
 <li>1EB = 1024PB， 1ZB = 1024EB， 1YB = 1024ZB，</li>
 <li>1BB = 1024YB， 1NB = 1024BB， 1DB = 1024NB，</li>
 </ul>
-<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p>4GB的内存一共有多少字节？<br>4GB = 4<em>1024MB = 4</em>1024<em>1024KB = 4</em>1024<em>1024</em>1024B = 4294967296B = 2^32B</p>
+<h2 id="10-2-内存地址"><a href="#10-2-内存地址" class="headerlink" title="10.2. 内存地址"></a>10.2. 内存地址</h2><p>4GB的内存一共有多少字节？<br>4GB = 4<em>1024MB = 4</em>1024<em>1024KB = 4</em>1024<em>1024</em>1024B = 4294967296B = 2^32B</p>
 <p>内存中的每一个字节都有自己的编号<br><img src="http://blog.idbeny.com/mdyns.png@normal" alt=""></p>
 <ul>
 <li>上面图示是4GB内存空间</li>
@@ -758,7 +757,7 @@
 </li>
 <li>每一个字节的编号，也叫做字节的内存地址</li>
 </ul>
-<h4 id="变量的存储空间"><a href="#变量的存储空间" class="headerlink" title="变量的存储空间"></a>变量的存储空间</h4><p>变量是用来存储数据的，凡是数据，或多或少会占用一定的存储空间。</p>
+<h3 id="10-3-变量的存储空间"><a href="#10-3-变量的存储空间" class="headerlink" title="10.3. 变量的存储空间"></a>10.3. 变量的存储空间</h3><p>变量是用来存储数据的，凡是数据，或多或少会占用一定的存储空间。</p>
 <p>变量的数据是存储在硬盘还是内存中呢？</p>
 <ul>
 <li>内存。因为变量是用来存储程序运行过程中会变化的数据</li>
@@ -770,21 +769,21 @@
 <li>在Win64 API中，一个int类型的变量占用4个字节的内存空间</li>
 </ul>
 <p>在C语言中，怎么查看变量占用了多少内存空间呢？</p>
-<h4 id="sizeof运算符"><a href="#sizeof运算符" class="headerlink" title="sizeof运算符"></a>sizeof运算符</h4><p>使用<code>sizeof</code>可以获得某一数据类型的大小（所占多少字节的内存空间）</p>
+<h3 id="10-4-sizeof运算符"><a href="#10-4-sizeof运算符" class="headerlink" title="10.4. sizeof运算符"></a>10.4. sizeof运算符</h3><p>使用<code>sizeof</code>可以获得某一数据类型的大小（所占多少字节的内存空间）。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span>(age)); <span class="comment">// 输出：4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span> age); <span class="comment">// 输出：4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)); <span class="comment">// 输出：4</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="变量的内存地址"><a href="#变量的内存地址" class="headerlink" title="变量的内存地址"></a>变量的内存地址</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;a); <span class="comment">// 输出：0x00bff578</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;b); <span class="comment">// 输出：0x00bff574</span></span><br></pre></td></tr></table></figure>
+<h3 id="10-5-变量的内存地址"><a href="#10-5-变量的内存地址" class="headerlink" title="10.5. 变量的内存地址"></a>10.5. 变量的内存地址</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;a); <span class="comment">// 输出：0x00bff578</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;b); <span class="comment">// 输出：0x00bff574</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://blog.idbeny.com/ksahr.png@normal" alt=""></p>
 <ul>
 <li>变量的内存地址：变量首字节（地址值最小的那个字节）的内存地址</li>
 <li>越晚定义的变量，内存地址越小</li>
 </ul>
-<h3 id="位（Bit）"><a href="#位（Bit）" class="headerlink" title="位（Bit）"></a>位（Bit）</h3><ul>
+<h2 id="十一、位（Bit）"><a href="#十一、位（Bit）" class="headerlink" title="十一、位（Bit）"></a>十一、位（Bit）</h2><ul>
 <li>由于计算机只能识别0和1，所以每一个字节中的数据都是以二进制形式存储的</li>
 <li>一个字节包含8个二进制位，位是计算机领域最小存储单位，每一个二进制存储一个0或1</li>
 <li>1Byte = 8bit， 简写： 1B = 8b<br><img src="http://blog.idbeny.com/mp3rx.png@normal" alt=""></li>
 </ul>
-<h4 id="有符号数的二进制表示方法"><a href="#有符号数的二进制表示方法" class="headerlink" title="有符号数的二进制表示方法"></a>有符号数的二进制表示方法</h4><p><code>int</code>类型属于有符号整数类型</p>
+<h3 id="11-1-有符号数的二进制表示方法"><a href="#11-1-有符号数的二进制表示方法" class="headerlink" title="11.1. 有符号数的二进制表示方法"></a>11.1. 有符号数的二进制表示方法</h3><p><code>int</code>类型属于有符号整数类型</p>
 <ul>
 <li>可以表示正数、负数<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">int</span> b = <span class="number">-20</span>;</span><br></pre></td></tr></table></figure></li>
 <li>有符号数的二进制有3种表示方法：源码、反码、补码</li>
@@ -794,18 +793,18 @@
 </ul>
 </li>
 </ul>
-<h4 id="原码"><a href="#原码" class="headerlink" title="原码"></a>原码</h4><ul>
+<h3 id="11-2-原码"><a href="#11-2-原码" class="headerlink" title="11.2. 原码"></a>11.2. 原码</h3><ul>
 <li>最高位：作为符号位，用0表示“正”，用1表示“负”</li>
 <li>其余位：作为数值位，表示绝对值的大小（所以原码又称为带符号的绝对值）</li>
 </ul>
 <p><img src="http://blog.idbeny.com/zul45.png@normal" alt=""></p>
 <p><img src="http://blog.idbeny.com/48jne.png@normal" alt=""></p>
-<h4 id="反码"><a href="#反码" class="headerlink" title="反码"></a>反码</h4><ul>
+<h3 id="11-3-反码"><a href="#11-3-反码" class="headerlink" title="11.3. 反码"></a>11.3. 反码</h3><ul>
 <li>正数的反码：和原码一样</li>
 <li>负数的反码：原码保持符号位不变，数值位按位取反（0变1，1变0），得到反码</li>
 </ul>
 <p><img src="http://blog.idbeny.com/bxpok.png@normal" alt=""></p>
-<h4 id="补码"><a href="#补码" class="headerlink" title="补码"></a>补码</h4><ul>
+<h3 id="11-4-补码"><a href="#11-4-补码" class="headerlink" title="11.4. 补码"></a>11.4. 补码</h3><ul>
 <li>正数的补码：和原码一样</li>
 <li>负数的补码：反码的末位加1，得到补码</li>
 </ul>
@@ -816,7 +815,7 @@
 <li>a: 0000 0000 0000 0000 0000 0000 0001 0100</li>
 <li>b: 1111 1111 1111 1111 1111 1111 1110 1100</li>
 </ul>
-<h3 id="大小端模式"><a href="#大小端模式" class="headerlink" title="大小端模式"></a>大小端模式</h3><p>大小端模式：决定了多字节数据的字节存储顺序</p>
+<h2 id="十二、大小端模式"><a href="#十二、大小端模式" class="headerlink" title="十二、大小端模式"></a>十二、大小端模式</h2><p>大小端模式：决定了多字节数据的字节存储顺序</p>
 <ul>
 <li><p>大端模式：高低低高</p>
 <ul>
@@ -833,7 +832,7 @@
 <blockquote>
 <p>不同CPU架构的模式不一样，比如x86架构师小端模式，有些CPU架构师大端模式，目前比较常见的是小端模式。</p>
 </blockquote>
-<h3 id="char类型"><a href="#char类型" class="headerlink" title="char类型"></a>char类型</h3><p><code>char</code>类型属于字符类型</p>
+<h2 id="十三、char类型"><a href="#十三、char类型" class="headerlink" title="十三、char类型"></a>十三、char类型</h2><p><code>char</code>类型属于字符类型。</p>
 <ul>
 <li><p>字符用单引号</p>
 </li>
@@ -848,7 +847,7 @@
 <p>下面的代码有问题：</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不能存储超过1个单字节字符</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'idbeny'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一个中文字符至少占用2个字节</span></span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'你'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串是双引号，字符是用单引号</span></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">"i"</span>;</span><br></pre></td></tr></table></figure>
 
-<h4 id="字符的存储细节"><a href="#字符的存储细节" class="headerlink" title="字符的存储细节"></a>字符的存储细节</h4><p>计算机中的数据都是以二进制形式存储的，字符数据也不例外。每一个字符都会被转化成对应的整数值进行存储。</p>
+<h3 id="13-1-字符的存储细节"><a href="#13-1-字符的存储细节" class="headerlink" title="13.1. 字符的存储细节"></a>13.1. 字符的存储细节</h3><p>计算机中的数据都是以二进制形式存储的，字符数据也不例外。每一个字符都会被转化成对应的整数值进行存储。</p>
 <p>在1967年，美国发布了ASCII码表，里面规定了128个单字节字符对应的整数值（ASCII码值）。</p>
 <ul>
 <li>数字0对应的码值是48</li>
@@ -857,7 +856,7 @@
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">97</span>;</span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'0'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'a'</span>;</span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'A'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">" %p\n %p\n %p\n %p\n"</span>, &amp;i, &amp;c1, &amp;c2, &amp;c3); </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0x00b7EC19</span></span><br><span class="line"><span class="comment"> 0x00b7EC1A</span></span><br><span class="line"><span class="comment"> 0x00b7EC1B</span></span><br><span class="line"><span class="comment"> 0x00b7EC2C</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://blog.idbeny.com/27jp7.png@normal" alt=""></p>
-<h4 id="ASCII码表"><a href="#ASCII码表" class="headerlink" title="ASCII码表"></a>ASCII码表</h4><p>ASCII被译为“美国信息交换标准码”，是一种标准的单字节字符编码方案。</p>
+<h2 id="十四、ASCII码表"><a href="#十四、ASCII码表" class="headerlink" title="十四、ASCII码表"></a>十四、ASCII码表</h2><p>ASCII被译为“美国信息交换标准码”，是一种标准的单字节字符编码方案。</p>
 <p>共128个字符，码值范围：0~127（也就是0x00 ~ 0x7F）</p>
 <ul>
 <li><p>33个是控制字符或通信专用字符，码值范围：0~31，127</p>
@@ -888,7 +887,7 @@
 <p><strong>大小写字母之间的转换</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> c1 = <span class="string">'n'</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = c1 - <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'Q'</span>;</span><br><span class="line"><span class="keyword">char</span> c4 = c3 + <span class="number">32</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%c %c"</span>, c2, c4); <span class="comment">// 输出：N q</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="数字整数、数字字符在内存中的区别"><a href="#数字整数、数字字符在内存中的区别" class="headerlink" title="数字整数、数字字符在内存中的区别"></a>数字整数、数字字符在内存中的区别</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">9</span>;</span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'9'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, i, c); <span class="comment">// 输出：9 57</span></span><br></pre></td></tr></table></figure>
+<h3 id="14-1-数字整数、数字字符在内存中的区别"><a href="#14-1-数字整数、数字字符在内存中的区别" class="headerlink" title="14.1. 数字整数、数字字符在内存中的区别"></a>14.1. 数字整数、数字字符在内存中的区别</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">9</span>;</span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'9'</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, i, c); <span class="comment">// 输出：9 57</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="http://blog.idbeny.com/et3bn.png@normal" alt=""></p>
 <ul>
@@ -898,10 +897,10 @@
 <blockquote>
 <p>疑问：中文、日文、韩文等非英文字符是如何存储在计算机中的？<br>可以肯定的是，必然是以二进制的形式存储在计算机中的，只是每个字符对应的二进制数值取决于具体的编码方案（GBK、UTF-8、Unicode等），<br>GBK主要支持的是CJK汉字字符（C-中国、J-日本、K-朝鲜），而UTF-8支持几乎世界上所有的字符。</p>
 </blockquote>
-<h3 id="转义序列"><a href="#转义序列" class="headerlink" title="转义序列"></a>转义序列</h3><p>转义序列，一般也叫作转义字符，是一些有特殊含义的字符<br><img src="http://blog.idbeny.com/3hvo3.png@normal" alt=""></p>
+<h2 id="14-2-转义序列"><a href="#14-2-转义序列" class="headerlink" title="14.2. 转义序列"></a>14.2. 转义序列</h2><p>转义序列，一般也叫作转义字符，是一些有特殊含义的字符<br><img src="http://blog.idbeny.com/3hvo3.png@normal" alt=""></p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">"我叫'idbeny'，在\"1024星球\"等你"</span>); <span class="comment">// 输出：我叫'idbeny'，在"1024星球"等你</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\''</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="string">'"'</span>;</span><br><span class="line">printf(<span class="string">"\n%c\t%c\\"</span>, c1, c2); <span class="comment">// 输出：'    "\</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c3 = <span class="string">'\063'</span>;</span><br><span class="line">printf(<span class="string">"%d %c"</span>, c3, c3); <span class="comment">// 输出：51 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// "\0115"是"\011"和"5"的组合</span></span><br><span class="line"><span class="comment">// "\011"就是水平制表符"\t"</span></span><br><span class="line">printf(<span class="string">"\0115"</span>); <span class="comment">// 输出：	5</span></span><br><span class="line"></span><br><span class="line">错误写法：</span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\X4A'</span>; <span class="comment">// 不能是大写X</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\0x4A'</span>; <span class="comment">// 不能是0x</span></span><br><span class="line"><span class="keyword">char</span> c1 = <span class="string">'\0X4A'</span>; <span class="comment">// 不能是0X</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="scanf函数"><a href="#scanf函数" class="headerlink" title="scanf函数"></a>scanf函数</h3><ul>
+<h2 id="十五、scanf函数"><a href="#十五、scanf函数" class="headerlink" title="十五、scanf函数"></a>十五、scanf函数</h2><ul>
 <li><p><code>printf</code>函数的功能是：输出（output），将数据显示在屏幕上</p>
 </li>
 <li><p><code>scanf</code>函数的功能是：输入（input），读取数据（比如读取通过键盘输入的数据）</p>
@@ -915,13 +914,13 @@
 </ul>
 </li>
 </ul>
-<h4 id="匹配的细节"><a href="#匹配的细节" class="headerlink" title="匹配的细节"></a>匹配的细节</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的整数是: %d"</span>, i);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30idbeny</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 30</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：22.88</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 22</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：a</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10 // 原因：变量i默认值是10</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：你好1024</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'a'</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%c"</span>, &amp;c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的字母是：%c\n"</span>, c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"对应ASCII码值是：%d"</span>, c);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：i</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：i</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：105</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：hello</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：h</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：104</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：97</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：9</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：57</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+<h3 id="15-1-匹配的细节"><a href="#15-1-匹配的细节" class="headerlink" title="15.1. 匹配的细节"></a>15.1. 匹配的细节</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的整数是: %d"</span>, i);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30idbeny</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 30</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：22.88</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 22</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：a</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10 // 原因：变量i默认值是10</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：你好1024</span></span><br><span class="line"><span class="comment">  输出：你输入的整数是: 10</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> c = <span class="string">'a'</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%c"</span>, &amp;c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"你输入的字母是：%c\n"</span>, c);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"对应ASCII码值是：%d"</span>, c);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：i</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：i</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：105</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：hello</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：h</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：104</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：97</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">      你输入的字母是：9</span></span><br><span class="line"><span class="comment">      对应ASCII码值是：57</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
 <p>总结：</p>
 <ul>
 <li>从左到右开始字符匹配，当中途匹配失败时，将结束匹配</li>
 <li>当尝试把输入的数字赋值给字符变量时，scanf把输入的数字当成是数字字符来处理，而不是把输入的数字当成字符的ASCII码值来处理</li>
 </ul>
-<h4 id="scanf函数的空白字符"><a href="#scanf函数的空白字符" class="headerlink" title="scanf函数的空白字符"></a>scanf函数的空白字符</h4><p>空白字符包括：空格（’ ‘）、Tab（’\t’）、Enter（’\n’）</p>
+<h3 id="15-2-scanf函数的空白字符"><a href="#15-2-scanf函数的空白字符" class="headerlink" title="15.2. scanf函数的空白字符"></a>15.2. scanf函数的空白字符</h3><p>空白字符包括：空格（’ ‘）、Tab（’\t’）、Enter（’\n’）</p>
 <ul>
 <li><p>如果在输入整数的开头，有一段任意长（长度≥0）连续空白字符，是不需要与格式化字符串中的字符进行匹配的。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;age);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d"</span>, age);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：        30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
@@ -967,6 +966,14 @@
           
             <a href="/tags/C/" rel="tag"># C</a>
           
+            <a href="/tags/%E5%8F%98%E9%87%8F/" rel="tag"># 变量</a>
+          
+            <a href="/tags/%E8%BF%9B%E5%88%B6/" rel="tag"># 进制</a>
+          
+            <a href="/tags/%E5%86%85%E5%AD%98/" rel="tag"># 内存</a>
+          
+            <a href="/tags/%E4%BD%8D/" rel="tag"># 位</a>
+          
         </div>
       
 
@@ -988,8 +995,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/11/mac-terminal-not-work/" rel="prev" title="【Mac】Terminal(终端)命令不能用">
-                【Mac】Terminal(终端)命令不能用 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/10/c-syntax-basic-02/" rel="prev" title="【C】C语言基本语法（二）">
+                【C】C语言基本语法（二） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1042,8 +1049,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://blog.idbeny.com/avatar.jpg@origin"
@@ -1058,7 +1074,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1069,7 +1085,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1080,7 +1096,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1140,6 +1156,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、认识C语言"><span class="nav-number">1.</span> <span class="nav-text">一、认识C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-标准"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-用途"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-开发工具"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 开发工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、程序的结构"><span class="nav-number">2.</span> <span class="nav-text">二、程序的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-main函数"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. main函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Hello-World"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. Hello World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-语法须知"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 语法须知</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、计算机关联"><span class="nav-number">3.</span> <span class="nav-text">三、计算机关联</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-计算机0和1由来"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 计算机0和1由来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-计算机如何识别C语言代码"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 计算机如何识别C语言代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-常见的C语言编译器（已内置链接器）"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 常见的C语言编译器（已内置链接器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-什么是BUG？"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. 什么是BUG？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-硬盘和内存"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. 硬盘和内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、注释"><span class="nav-number">4.</span> <span class="nav-text">四、注释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-什么是注释？"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 什么是注释？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-注释有2种书写格式"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 注释有2种书写格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-写注释的好处："><span class="nav-number">4.3.</span> <span class="nav-text">4.3. 写注释的好处：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、变量"><span class="nav-number">5.</span> <span class="nav-text">五、变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-如何声明一个变量？"><span class="nav-number">5.1.</span> <span class="nav-text">5.1. 如何声明一个变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-如何给变量赋值？"><span class="nav-number">5.2.</span> <span class="nav-text">5.2. 如何给变量赋值？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-变量的作用域"><span class="nav-number">5.3.</span> <span class="nav-text">5.3. 变量的作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、字符串"><span class="nav-number">6.</span> <span class="nav-text">六、字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、标识符"><span class="nav-number">7.</span> <span class="nav-text">七、标识符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-标识符的命名规则如下："><span class="nav-number">7.1.</span> <span class="nav-text">7.1. 标识符的命名规则如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-命名规范："><span class="nav-number">7.2.</span> <span class="nav-text">7.2. 命名规范：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、字面量"><span class="nav-number">8.</span> <span class="nav-text">八、字面量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、进制"><span class="nav-number">9.</span> <span class="nav-text">九、进制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-十进制（逢十进一）"><span class="nav-number">9.1.</span> <span class="nav-text">9.1. 十进制（逢十进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-八进制（逢八进一）"><span class="nav-number">9.2.</span> <span class="nav-text">9.2. 八进制（逢八进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-二进制（逢二进一）"><span class="nav-number">9.3.</span> <span class="nav-text">9.3. 二进制（逢二进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4-十六进制（逢十六进一）"><span class="nav-number">9.4.</span> <span class="nav-text">9.4. 十六进制（逢十六进一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-5-基数"><span class="nav-number">9.5.</span> <span class="nav-text">9.5. 基数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-6-进制转换（任意R进制-gt-十进制）"><span class="nav-number">9.6.</span> <span class="nav-text">9.6. 进制转换（任意R进制 -&gt; 十进制）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-7-十进制-gt-任意R进制"><span class="nav-number">9.7.</span> <span class="nav-text">9.7. 十进制 -&gt; 任意R进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-8-二进制与十六进制之间的转换"><span class="nav-number">9.8.</span> <span class="nav-text">9.8. 二进制与十六进制之间的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-9-二进制与八进制之间的转换"><span class="nav-number">9.9.</span> <span class="nav-text">9.9. 二进制与八进制之间的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-10-代码中的进制书写形式"><span class="nav-number">9.10.</span> <span class="nav-text">9.10. 代码中的进制书写形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十、内存"><span class="nav-number">10.</span> <span class="nav-text">十、内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-存储单位"><span class="nav-number">10.1.</span> <span class="nav-text">10.1. 存储单位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-内存地址"><span class="nav-number">11.</span> <span class="nav-text">10.2. 内存地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-变量的存储空间"><span class="nav-number">11.1.</span> <span class="nav-text">10.3. 变量的存储空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4-sizeof运算符"><span class="nav-number">11.2.</span> <span class="nav-text">10.4. sizeof运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5-变量的内存地址"><span class="nav-number">11.3.</span> <span class="nav-text">10.5. 变量的内存地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十一、位（Bit）"><span class="nav-number">12.</span> <span class="nav-text">十一、位（Bit）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1-有符号数的二进制表示方法"><span class="nav-number">12.1.</span> <span class="nav-text">11.1. 有符号数的二进制表示方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-原码"><span class="nav-number">12.2.</span> <span class="nav-text">11.2. 原码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-3-反码"><span class="nav-number">12.3.</span> <span class="nav-text">11.3. 反码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-4-补码"><span class="nav-number">12.4.</span> <span class="nav-text">11.4. 补码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十二、大小端模式"><span class="nav-number">13.</span> <span class="nav-text">十二、大小端模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十三、char类型"><span class="nav-number">14.</span> <span class="nav-text">十三、char类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-1-字符的存储细节"><span class="nav-number">14.1.</span> <span class="nav-text">13.1. 字符的存储细节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十四、ASCII码表"><span class="nav-number">15.</span> <span class="nav-text">十四、ASCII码表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-1-数字整数、数字字符在内存中的区别"><span class="nav-number">15.1.</span> <span class="nav-text">14.1. 数字整数、数字字符在内存中的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-2-转义序列"><span class="nav-number">16.</span> <span class="nav-text">14.2. 转义序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十五、scanf函数"><span class="nav-number">17.</span> <span class="nav-text">十五、scanf函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#15-1-匹配的细节"><span class="nav-number">17.1.</span> <span class="nav-text">15.1. 匹配的细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-2-scanf函数的空白字符"><span class="nav-number">17.2.</span> <span class="nav-text">15.2. scanf函数的空白字符</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Responder,Events," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="在iOS中不是任何对象都能处理事件，只有继承了UIResponder的对象才能接收并处理事件，我们称之为响应者对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】事件响应链">
+<meta property="og:url" content="http://idbeny.com/2016/09/02/ios-responder/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="在iOS中不是任何对象都能处理事件，只有继承了UIResponder的对象才能接收并处理事件，我们称之为响应者对象。">
+<meta property="og:image" content="http://blog.idbeny.com/5bpba.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1oj2g.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/27oy0.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/bpdfo.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/5bpba.png@normal">
+<meta property="article:published_time" content="2016-09-01T18:10:29.000Z">
+<meta property="article:modified_time" content="2020-08-15T02:41:11.967Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Responder">
+<meta property="article:tag" content="Events">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/5bpba.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2016/09/02/ios-responder/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】事件响应链 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2016/09/02/ios-responder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】事件响应链</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-02T02:10:29+08:00">
+                2016-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  18 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在iOS中不是任何对象都能处理事件，只有继承了<code>UIResponder</code>的对象才能接收并处理事件，我们称之为<strong>响应者对象</strong>。</p>
+<a id="more"></a>
+<h2 id="一、UIResponder"><a href="#一、UIResponder" class="headerlink" title="一、UIResponder"></a>一、UIResponder</h2><p><code>UIApplication</code>，<code>UIViewController</code>、<code>UIView</code>都继承自<code>UIResponder</code>，因此他们都是响应者对象，都能接收并处理事件。</p>
+<p><code>UIResponder</code>内部提供了以下方法来处理事件：</p>
+<h3 id="1-1-触摸事件"><a href="#1-1-触摸事件" class="headerlink" title="1.1. 触摸事件"></a>1.1. 触摸事件</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesMoved:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesEnded:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesCancelled:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br></pre></td></tr></table></figure>
+
+<p><code>touches</code>是一个集合对象，集合存放的对象都是<code>UITouch</code>类型。为什么要放到集合里面呢？因为每一根手指对应一个<code>UITouch</code>对象，多个手指就会对应多个<code>UITouch</code>对象，所以要放到一个集合里面。</p>
+<h4 id="UITouch"><a href="#UITouch" class="headerlink" title="UITouch"></a>UITouch</h4><p>作用：</p>
+<ul>
+<li>保存手指触摸相关的信息，比如触摸的位置、时间、阶段等；</li>
+<li>当手指移动时，系统会更新同一个<code>UITouch</code>对象，使之能够一直保存该手指所在的触摸位置；</li>
+<li>当手指离开屏幕时，系统会销毁对应的<code>UITouch</code>对象。</li>
+</ul>
+<h5 id="UITouch常用属性"><a href="#UITouch常用属性" class="headerlink" title="UITouch常用属性"></a>UITouch常用属性</h5><ul>
+<li><p>触摸产生时所处的窗口</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nullable</span>,<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">strong</span>) <span class="built_in">UIWindow</span> *window;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>触摸产生时所处的视图</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nullable</span>,<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">strong</span>) <span class="built_in">UIView</span> *view;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>短时间内点按屏幕的次数，可以根据tapCount判断单击、双击或多次点击</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">NSUInteger</span> tapCount;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记录了触摸事件产生或变化时的时间，单位是秒</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">NSTimeInterval</span> timestamp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当前触摸事件所处的状态</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">UITouchPhase</span> phase;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="UITouch常用方法"><a href="#UITouch常用方法" class="headerlink" title="UITouch常用方法"></a>UITouch常用方法</h5><ul>
+<li><p>获取触摸点的坐标</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGPoint</span>)locationInView:(<span class="keyword">nullable</span> <span class="built_in">UIView</span> *)view;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>返回值表示触摸在view上的位置；</li>
+<li>这里返回的位置是针对触摸view的坐标系的（以view的左上角为原点<code>{0, 0}</code>）；</li>
+<li>调用时传入的view参数为<code>nil</code>的话，返回的是触摸点在<code>UIWindow</code>的位置。</br>
+</li>
+</ul>
+</li>
+<li><p>获取触摸view上一个触摸点坐标（上一个触摸位置的历史记录点）</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGPoint</span>)previousLocationInView:(<span class="keyword">nullable</span> <span class="built_in">UIView</span> *)view;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="UIEvent"><a href="#UIEvent" class="headerlink" title="UIEvent"></a>UIEvent</h4><p><code>UIEvent</code>称为事件对象，记录事件产生的时刻和类型。每产生一个事件，就会产生一个<code>UIEvent</code>对象。</p>
+<h5 id="UIEvent常用属性"><a href="#UIEvent常用属性" class="headerlink" title="UIEvent常用属性"></a>UIEvent常用属性</h5><ul>
+<li><p>事件类型</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">UIEventType</span> type;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">UIEventSubtype</span> subtype;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事件产生的时间</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>) <span class="built_in">NSTimeInterval</span> timestamp;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="1-2-加速计事件"><a href="#1-2-加速计事件" class="headerlink" title="1.2. 加速计事件"></a>1.2. 加速计事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)motionBegan:(UIEventSubtype)motion withEvent:(nullable UIEvent *)event API_AVAILABLE(ios(3.0));</span><br><span class="line">- (void)motionEnded:(UIEventSubtype)motion withEvent:(nullable UIEvent *)event API_AVAILABLE(ios(3.0));</span><br><span class="line">- (void)motionCancelled:(UIEventSubtype)motion withEvent:(nullable UIEvent *)event API_AVAILABLE(ios(3.0));</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-远程控制事件"><a href="#1-3-远程控制事件" class="headerlink" title="1.3. 远程控制事件"></a>1.3. 远程控制事件</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">void</span>)remoteControlReceivedWithEvent:(<span class="literal">null</span>able UIEvent *)event API_AVAILABLE(ios(<span class="number">4.0</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-3DTouch事件"><a href="#1-4-3DTouch事件" class="headerlink" title="1.4. 3DTouch事件"></a>1.4. 3DTouch事件</h3><p>3DTouch是iOS9新增的事件，只有iPhone6s以上机型才支持。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)pressesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UIPress</span> *&gt; *)presses withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIPressesEvent</span> *)event API_AVAILABLE(ios(<span class="number">9.0</span>));</span><br><span class="line">- (<span class="keyword">void</span>)pressesChanged:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UIPress</span> *&gt; *)presses withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIPressesEvent</span> *)event API_AVAILABLE(ios(<span class="number">9.0</span>));</span><br><span class="line">- (<span class="keyword">void</span>)pressesEnded:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UIPress</span> *&gt; *)presses withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIPressesEvent</span> *)event API_AVAILABLE(ios(<span class="number">9.0</span>));</span><br><span class="line">- (<span class="keyword">void</span>)pressesCancelled:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UIPress</span> *&gt; *)presses withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIPressesEvent</span> *)event API_AVAILABLE(ios(<span class="number">9.0</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、事件的产生和传递"><a href="#二、事件的产生和传递" class="headerlink" title="二、事件的产生和传递"></a>二、事件的产生和传递</h2><p>发生触摸事件后，系统会将该事件加入到一个由<code>UIApplication</code>管理的事件队列中。</p>
+<p><code>UIApplication</code>会从事件队列中取出最前面的事件，并将事件分发下去以便处理，通常，先发送事件给应用程序的主窗口(就是<code>UIApplication</code>的<code>keyWindow</code>)。</p>
+<p>主窗口会在视图层次结构中找到一个最合适的视图来处理触摸事件，这也是整个事件处理过程的第一步。</p>
+<p>找到合适的视图控件后，就会调用视图控件的<code>touches</code>系列方法来作具体的事件处理。</p>
+<p>触摸事件的传递是从父控件传递到子控件，如果父控件不能接收触摸事件，那么子控件就不可能接收到触摸事件。</p>
+<p><strong>什么情况下UIView不接收事件呢？</strong></p>
+<ul>
+<li>不接收用户交互 <code>userInteractionEnabled = NO;</code></li>
+<li>视图隐藏 <code>hidden = YES;</code></li>
+<li>透明 <code>alpha &lt;= 0.01</code></li>
+</ul>
+<p>注意：<code>UIImageView</code>的<code>userInteractionEnabled</code>默认值是<code>NO</code>，所以<code>UIImageView</code>及其子控件默认是不能接收事件的。</p>
+<p>我们通过一个示例程序，看下事件传递过程：<br><img src="http://blog.idbeny.com/5bpba.png@normal" alt=""></p>
+<p>示例中视图的层级关系：<br><img src="http://blog.idbeny.com/1oj2g.png@normal" alt=""></p>
+<p>点击红色view时事件传递：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-&gt; UIA<span class="function"><span class="title">pplication</span> -&gt;</span> UIW<span class="function"><span class="title">indow</span>（keyWindow）-&gt;</span> 白色<span class="function"><span class="title">view</span>（或控制器view）-&gt;</span> 红色view</span><br></pre></td></tr></table></figure>
+
+<p>点击紫色view时事件传递：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-&gt; UIA<span class="function"><span class="title">pplication</span> -&gt;</span> UIW<span class="function"><span class="title">indow</span>（keyWindow）-&gt;</span> 白色<span class="function"><span class="title">view</span>（或控制器view）-&gt;</span> 黄色<span class="function"><span class="title">view</span> -&gt;</span> 蓝色<span class="function"><span class="title">view</span> -&gt;</span> 紫色view</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-hitTest"><a href="#2-1-hitTest" class="headerlink" title="2.1. hitTest"></a>2.1. hitTest</h3><p>这个方法是<code>UIView</code>提供的，当事件传递给当前view时，会调用当前view的该方法看自己及其子类是否能够接收事件，最终返回能够接收事件的view对象。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event</span><br></pre></td></tr></table></figure>
+<ul>
+<li>point：触摸点</li>
+<li>event：事件信息</li>
+<li>返回值：处理事件的view</li>
+</ul>
+<p>我们通过上面案例看下该方法的响应过程：</p>
+<p><strong><code>ViewController.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"控制器"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBRedView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"RedView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"RedView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"RedView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBGreenView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"GreenView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"GreenView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"GreenView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBYellowView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"YellowView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"YellowView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"YellowView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBBlueView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"BlueView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"BlueView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"BlueView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBPurpleView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"PurpleView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"PurpleView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"PurpleView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBTealView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"TealView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"TealView"</span>);</span><br><span class="line">    <span class="built_in">UIView</span> *fitView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"TealView：%@"</span>, fitView);</span><br><span class="line">    <span class="keyword">return</span> fitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击控制器白色view时，输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">15</span>:<span class="number">44</span>:<span class="number">06.321289</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26021</span>:<span class="number">1537173</span>] RedView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">15</span>:<span class="number">44</span>:<span class="number">06.325440</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26021</span>:<span class="number">1537173</span>] RedView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">15</span>:<span class="number">44</span>:<span class="number">06.328733</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26021</span>:<span class="number">1537173</span>] YellowView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">15</span>:<span class="number">44</span>:<span class="number">06.328981</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26021</span>:<span class="number">1537173</span>] YellowView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">15</span>:<span class="number">44</span>:<span class="number">06.330303</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26021</span>:<span class="number">1537173</span>] 控制器</span><br></pre></td></tr></table></figure>
+
+<p>点击红色view时，输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">10.479834</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] RedView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">10.480586</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] GreenView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">10.481762</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] GreenView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">10.482075</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] RedView：&lt;DBRedView: <span class="number">0x7ff8bef0acb0</span>; frame = (<span class="number">61</span> <span class="number">142</span>; <span class="number">240</span> <span class="number">128</span>); <span class="built_in">auto</span>resize = RM+BM; layer = &lt;CALayer: <span class="number">0x6000028c1be0</span>&gt;&gt;</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">10.483538</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] RedView-Touch</span><br></pre></td></tr></table></figure>
+
+<p>点击紫色view时，输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.484942</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] RedView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.485866</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] RedView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.486541</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] YellowView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.488789</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] BlueView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.489842</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] TealView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.493370</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] TealView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.494274</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] PurpleView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.495143</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] PurpleView：&lt;DBPurpleView: <span class="number">0x7ff8bef0be20</span>; frame = (<span class="number">23</span> <span class="number">20</span>; <span class="number">138</span> <span class="number">86</span>); <span class="built_in">auto</span>resize = RM+BM; layer = &lt;CALayer: <span class="number">0x6000028c1b00</span>&gt;&gt;</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.496871</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] BlueView：&lt;DBPurpleView: <span class="number">0x7ff8bef0be20</span>; frame = (<span class="number">23</span> <span class="number">20</span>; <span class="number">138</span> <span class="number">86</span>); <span class="built_in">auto</span>resize = RM+BM; layer = &lt;CALayer: <span class="number">0x6000028c1b00</span>&gt;&gt;</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.497910</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] YellowView：&lt;DBPurpleView: <span class="number">0x7ff8bef0be20</span>; frame = (<span class="number">23</span> <span class="number">20</span>; <span class="number">138</span> <span class="number">86</span>); <span class="built_in">auto</span>resize = RM+BM; layer = &lt;CALayer: <span class="number">0x6000028c1b00</span>&gt;&gt;</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">02</span>:<span class="number">35.499034</span>+<span class="number">0800</span> ResponderDemo[<span class="number">26986</span>:<span class="number">1550250</span>] PurpleView-Touch</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分析点击紫色view事件传递过程：<ul>
+<li>查看<code>UIWindow</code>上的视图，把事件传递给控制器view；</li>
+<li>倒序遍历控制器view子视图<code>[Yellow, RedView]</code>，把事件传递给<code>RedView</code>；</li>
+<li>遍历<code>RedView</code>的子视图，发现是空的，且不是最适合接收事件的对象，返回<code>nil</code>，把事件传递给<code>YellowView</code>；</li>
+<li>遍历<code>YellowView</code>的子视图<code>[BlueView]</code>，把事件传递给<code>BlueView</code>；</li>
+<li>遍历<code>BlueView</code>的子视图<code>[PurpleView, TealView]</code>，把事件传递给<code>TealView</code>；</li>
+<li>遍历<code>TealView</code>的子视图，发现是空的，且不是最适合接收事件的对象，返回<code>nil</code>，把事件传递给<code>PurpleView</code>；</li>
+<li>遍历<code>PurpleView</code>的子视图，发现是空的，但是自己是最适合接收事件的对象，返回自己，并把这个返回值依次往上传递给自己的父视图（<code>BlueView</code>，<code>YellowView</code>），最后执行<code>Touch</code>方法；</li>
+</ul>
+</li>
+</ul>
+<p>通过上面案例我们可以总结以下结论：</p>
+<p>系统触摸事件到App进程后，由<code>UIApplication</code>的事件队列进行管理，之后会按照数组倒序形式匹配适合的视图来接收事件，并把事件传递给子控件，调用子控件的<code>hitTest:withEvent:</code>方法，如果子控件没有找到最适合的view，那么自己就是最适合接收事件的view，最终执行<code>Touch</code>方法。</p>
+<p><strong>问题来了，怎样判断一个视图就是最适合接收事件的视图呢？</strong></p>
+<p>继续往下看……</p>
+<h3 id="2-2-pointInside"><a href="#2-2-pointInside" class="headerlink" title="2.2. pointInside"></a>2.2. pointInside</h3><p>这个方法也是<code>UIView</code>提供的，当事件传递给当前视图时，会判断触摸点是否在当前视图范围内，以此来判断是否可以有效接收事件。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>point：触摸点</li>
+<li>event：事件信息</li>
+<li>返回值：YES代表点在view的范围内，NO代表触摸点不在范围内</li>
+</ul>
+<p>继续研究上面的案例：<br><strong><code>DBYellowView</code>新增<code>pointInside:</code>方法</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"YellowView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"YellowView-pointInside"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击紫色view时，输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.407022</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] RedView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.407183</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] RedView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.407358</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] YellowView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.407619</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] YellowView-pointInside</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.408169</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] YellowView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">16</span>:<span class="number">53</span>:<span class="number">56.410258</span>+<span class="number">0800</span> ResponderDemo[<span class="number">29351</span>:<span class="number">1579409</span>] 控制器</span><br></pre></td></tr></table></figure>
+
+<p><code>pointInside</code>方法返回<code>NO</code>时，事件没有继续往下传递，<code>touches</code>相关方法也就不再执行了。而且事件往下传递前调用了<code>pointInside:withEvent:</code>方法，最后在<code>hitTest:withEvent:</code>方法中返回了<code>nil</code>。</p>
+<p>把黄色view中的<code>pointInside</code>返回<code>YES</code>，点击控制器view时，输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.508077</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] RedView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.508731</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] RedView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.509501</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] YellowView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.510144</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] YellowView-pointInside</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.510786</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] BlueView</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.511459</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] BlueView：(<span class="literal">null</span>)</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.512512</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] YellowView：&lt;DBYellowView: <span class="number">0x7fa89df113a0</span>; frame = (<span class="number">32</span> <span class="number">335</span>; <span class="number">269</span> <span class="number">143</span>); <span class="built_in">auto</span>resize = RM+BM; layer = &lt;CALayer: <span class="number">0x600002317a80</span>&gt;&gt;</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">17</span>:<span class="number">23</span>:<span class="number">23.514456</span>+<span class="number">0800</span> ResponderDemo[<span class="number">30341</span>:<span class="number">1594278</span>] YellowView-Touch</span><br></pre></td></tr></table></figure>
+
+<p>为什么点击控制器view时，<code>YellowView</code>会执行<code>Touch</code>方法？因为事件传递给黄色view时，黄色view把该触摸点认为是在自身范围内的，所以最终在<code>hitTest</code>方法中返回自己。</p>
+<p>这在正常逻辑中是错误的行为，因为<code>pointInside</code>方法必须是和方法调用者在同一个坐标系。默认情况下，由系统判断一个点是否在view的范围内时，是根据触摸点的坐标是否超出view的范围来判断的，如果超出view的范围，就不应该触发<code>touch</code>方法。</p>
+<h3 id="2-3-hitTest方法的内部实现"><a href="#2-3-hitTest方法的内部实现" class="headerlink" title="2.3. hitTest方法的内部实现"></a>2.3. hitTest方法的内部实现</h3><p>上面了解事件传递的规则后，我们尝试手动实现其内部逻辑代码。</p>
+<p>内部逻辑：</p>
+<ol>
+<li>判断自己能否接收事件；</li>
+<li>点在不在自己身上；</li>
+<li>倒序遍历子控件，把事件传递给子控件，调用子控件的<code>hitTest:withEvent</code>方法；</li>
+<li>如果子控件没有找到最适合的view，那么自己就是最适合的view。</li>
+</ol>
+<p>内部实现代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="comment">// 1.判断自己是否可以接收事件</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.userInteractionEnabled == <span class="literal">NO</span> || <span class="keyword">self</span>.hidden == <span class="literal">YES</span> || <span class="keyword">self</span>.alpha &lt;= <span class="number">0.01</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 2.判断触摸点是否在自己范围内</span></span><br><span class="line">    <span class="keyword">if</span> (![<span class="keyword">self</span> pointInside:point withEvent:event]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3.逆序遍历自己的子控件，事件传递给子控件，调用子控件的hitTest:withEvent方法</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIView</span> *subView <span class="keyword">in</span> [<span class="keyword">self</span>.subviews reverseObjectEnumerator]) &#123;</span><br><span class="line">        <span class="comment">// 此处不要直接传上面的point和event，子视图和父视图不在同一个坐标系，需要把当前触摸点的坐标系转换为subView的坐标系</span></span><br><span class="line">        <span class="comment">// CGPoint convertPoint = [self convertPoint:point toView:subView]; // 两个方法通用</span></span><br><span class="line">        <span class="built_in">CGPoint</span> convertPoint = [subView convertPoint:point fromView:<span class="keyword">self</span>];</span><br><span class="line">        <span class="built_in">UIView</span> *fitView = [subView hitTest:convertPoint withEvent:event];</span><br><span class="line">        <span class="keyword">if</span> (fitView) &#123;</span><br><span class="line">            <span class="keyword">return</span> fitView;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4.没有找到更合适的view，就把自己返回</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、案例分析"><a href="#三、案例分析" class="headerlink" title="三、案例分析"></a>三、案例分析</h2><p>场景：一个view覆盖到按钮上面，按钮绑定的事件和view的点击事件互不影响。<br><img src="http://blog.idbeny.com/27oy0.png@normal" alt=""></p>
+<p>代码实现：<br><strong><code>DBTealView.h</code></strong></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> <span class="attribute">DBTealView </span>: UIView</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBTealView.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"DBTealView.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBTealView</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"TealView-Touch"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBTouchButtonViewController.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"DBTouchButtonViewController.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"DBTealView.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DBTouchButtonViewController</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> <span class="built_in">UIButton</span> *redBtn;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> DBTealView *tealView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBTouchButtonViewController</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">IBAction</span>)redBtnTouch:(<span class="keyword">id</span>)sender &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>点击蓝色view输出：<code>TealView-Touch</code><br>点击红色按钮输出：<code>-[DBTouchButtonViewController redBtnTouch:]</code><br>点击红色按钮和蓝色view的交集（覆盖面）输出：<code>TealView-Touch</code></p>
+<p>很显然不是我们想要的结果，利用上面介绍的知识修改下代码就可以。<br><strong><code>DBTouchButtonViewController.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span>.tealView.bindBtn = <span class="keyword">self</span>.redBtn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBTealView.h</code></strong></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> <span class="attribute">DBTealView </span>: UIView</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (nonatomic, strong) UIButton *bindBtn;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBTealView.m</code></strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)<span class="string">hitTest:</span>(CGPoint)point <span class="string">withEvent:</span>(UIEvent *)event &#123;</span><br><span class="line">    CGPoint btnPoint = [self <span class="string">convertPoint:</span>point <span class="string">toView:</span>self.bindBtn];</span><br><span class="line">    <span class="keyword">if</span> ([self.bindBtn <span class="string">pointInside:</span>btnPoint <span class="string">withEvent:</span>event]) &#123;</span><br><span class="line">        <span class="keyword">return</span> self.bindBtn;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">super</span> <span class="string">hitTest:</span>point <span class="string">withEvent:</span>event];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击蓝色view输出：<code>TealView-Touch</code><br>点击红色按钮输出：<code>-[DBTouchButtonViewController redBtnTouch:]</code><br>点击红色按钮和蓝色view的交集（覆盖面）输出：<code>-[DBTouchButtonViewController redBtnTouch:]</code></p>
+<p>结果符合预期。</p>
+<p>结论：当遇到事件冲突或者需要事件转移的时候，应首先考虑让哪个视图在什么样的条件下成为事件最终处理者。在平时开发中，通过该方式可以增加视图的热区（触摸）范围。</p>
+<h2 id="四、事件的响应链"><a href="#四、事件的响应链" class="headerlink" title="四、事件的响应链"></a>四、事件的响应链</h2><p><strong>响应链条</strong>：由多个响应者对象连接起来的链条。<br><strong>作用</strong>：能够很清楚的看见每个响应者之间的关系，并且可以让一个事件多个对象处理。</p>
+<p><img src="http://blog.idbeny.com/bpdfo.png@normal" alt=""></p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>UI构建还是以上面的示例程序为参考<br><img src="http://blog.idbeny.com/5bpba.png@normal" alt=""></p>
+<p>自定义Application、Window、然后重写他们以及界面上view的<code>touchesBegan:withEvent:</code>方法</p>
+<p><strong><code>main.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="built_in">NSString</span> * appDelegateClassName;</span><br><span class="line">    <span class="built_in">NSString</span> * applicationClassName;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        appDelegateClassName = <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]);</span><br><span class="line">        applicationClassName = <span class="built_in">NSStringFromClass</span>([DBApplication <span class="keyword">class</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, applicationClassName, appDelegateClassName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBApplication.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBApplication</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, __func__);</span><br><span class="line">    [<span class="keyword">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBWindow</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBWindow</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, __func__);</span><br><span class="line">    [<span class="keyword">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>AppDelegate.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</span><br><span class="line">    <span class="keyword">self</span>.window = [[DBWindow alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIStoryboard</span> *storyboard = [<span class="built_in">UIStoryboard</span> storyboardWithName:<span class="string">@"Main"</span> bundle:<span class="literal">nil</span>];</span><br><span class="line">    <span class="built_in">UIViewController</span> *rootVC = [storyboard instantiateInitialViewController];</span><br><span class="line">    <span class="keyword">self</span>.window.rootViewController = rootVC;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.window makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他view都参照<code>DBWindow</code>，重写<code>touchesBegan:withEvent:</code>方法，并调用父类的方法。</p>
+<p>点击紫色view输出：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.940994</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[DBPurpleView touchesBegan:withEvent:]</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.941752</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[DBBlueView touchesBegan:withEvent:]</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.942950</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[DBYellowView touchesBegan:withEvent:]</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.947504</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[ViewController touchesBegan:withEvent:]</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.947691</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[DBWindow touchesBegan:withEvent:]</span><br><span class="line"><span class="number">2016</span><span class="number">-09</span><span class="number">-02</span> <span class="number">19</span>:<span class="number">14</span>:<span class="number">16.948315</span>+<span class="number">0800</span> ResponderDemo[<span class="number">59378</span>:<span class="number">1948636</span>] -[DBApplication touchesBegan:withEvent:]</span><br></pre></td></tr></table></figure>
+
+<h3 id="事件处理的流程"><a href="#事件处理的流程" class="headerlink" title="事件处理的流程"></a>事件处理的流程</h3><ol>
+<li>先将事件对象由上往下传递（由父控件传递给子控件），找到合适的控件来处理这个事件；</li>
+<li>调用最合适控件的<code>touches..</code>系列方法；</li>
+<li>如果调用了<code>[super touches...]</code>就会将事件顺着响应者链条往上传递，传递给上一个响应者；</li>
+<li>接着就会调用上一个响应者的<code>touches..</code>系列方法；</li>
+<li>如果没有响应者或响应者对象是<code>UIApplication</code>，则事件终止。</li>
+</ol>
+<h3 id="如何判断上一个响应者？"><a href="#如何判断上一个响应者？" class="headerlink" title="如何判断上一个响应者？"></a>如何判断上一个响应者？</h3><ul>
+<li>如果当前view是控制器的view，那么控制器就是上一个响应者；</li>
+<li>如果当前view不是控制器的view，那么父控件就是上一个响应者。</li>
+</ul>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>如果想监听一个view上面的触摸事件，需要自定义view，实现view的touches方法，在方法内部实现具体处理代码。但这种方式实现起来有明显的缺点：必须自定义view，由于在view内部touches方法中监听事件，因此默认情况下，无法让其他外界对象监听view的触摸事件，而且实现用户的具体手势行为非常繁琐。因此苹果给我们提供了手势识别功能（Gesture Recognizer），简单易用，开发效率大大提升。</p>
+<hr>
+<p>注意：<code>hitTest</code>和<code>pointInside</code>方法系统会执行两次，文中的相关输出都是经过过滤的。至于为什么会执行两次，苹果工程师给出了以下答复(<a href="https://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html" target="_blank" rel="noopener">查看原文回复</a>)</p>
+<blockquote>
+<p>Yes, it’s normal. The system may tweak the point being hit tested between the calls. Since hitTest should be a pure function with no side-effects, this should be fine.</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2016/09/02/ios-responder/" title="【iOS】事件响应链">http://idbeny.com/2016/09/02/ios-responder/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Responder/" rel="tag"># Responder</a>
+          
+            <a href="/tags/Events/" rel="tag"># Events</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/21/ios-kvc-kvo/" rel="next" title="【iOS】KVC和KVO的应用及本质">
+                <i class="fa fa-chevron-left"></i> 【iOS】KVC和KVO的应用及本质
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/10/ios-quartz2d/" rel="prev" title="【iOS】Quartz 2D之基本操作">
+                【iOS】Quartz 2D之基本操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、UIResponder"><span class="nav-number">1.</span> <span class="nav-text">一、UIResponder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-触摸事件"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 触摸事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UITouch"><span class="nav-number">1.1.1.</span> <span class="nav-text">UITouch</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UITouch常用属性"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">UITouch常用属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UITouch常用方法"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">UITouch常用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIEvent"><span class="nav-number">1.1.2.</span> <span class="nav-text">UIEvent</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UIEvent常用属性"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">UIEvent常用属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-加速计事件"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 加速计事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-远程控制事件"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 远程控制事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3DTouch事件"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 3DTouch事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、事件的产生和传递"><span class="nav-number">2.</span> <span class="nav-text">二、事件的产生和传递</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-hitTest"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. hitTest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-pointInside"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. pointInside</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-hitTest方法的内部实现"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. hitTest方法的内部实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、案例分析"><span class="nav-number">3.</span> <span class="nav-text">三、案例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、事件的响应链"><span class="nav-number">4.</span> <span class="nav-text">四、事件的响应链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">4.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件处理的流程"><span class="nav-number">4.2.</span> <span class="nav-text">事件处理的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判断上一个响应者？"><span class="nav-number">4.3.</span> <span class="nav-text">如何判断上一个响应者？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">4.4.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

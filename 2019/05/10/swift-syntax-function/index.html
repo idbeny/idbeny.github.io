@@ -89,33 +89,33 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="http://blog.idbeny.com/avatar.jpg@origin?v=5.1.2" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
 
 
 
 
 
 
-<meta name="description" content="函数的定义 有返回值（形参默认是let，也只能是let）">
+<meta name="description" content="函数在任何语言中都是存在的，Swift中函数更加灵活。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【iOS】Swift基本语法之函数">
+<meta property="og:title" content="【iOS】Swift系列三 - 函数">
 <meta property="og:url" content="http://idbeny.com/2019/05/10/swift-syntax-function/index.html">
 <meta property="og:site_name" content="1024星球">
-<meta property="og:description" content="函数的定义 有返回值（形参默认是let，也只能是let）">
+<meta property="og:description" content="函数在任何语言中都是存在的，Swift中函数更加灵活。">
+<meta property="og:image" content="http://blog.idbeny.com/zj3ze.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/3tg7i.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/5odsn.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/zj3ze.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/x7h3k.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/69q6s.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/ibl4w.png@normal">
 <meta property="article:published_time" content="2019-05-10T12:42:35.000Z">
-<meta property="article:modified_time" content="2020-06-03T13:30:44.576Z">
+<meta property="article:modified_time" content="2020-09-20T03:25:53.359Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="Swift">
 <meta property="article:tag" content="Swift函数">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.idbeny.com/3tg7i.png@normal">
+<meta name="twitter:image" content="http://blog.idbeny.com/zj3ze.png@normal">
 
 
 
@@ -124,7 +124,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -163,7 +163,7 @@
         border-left-color: #1E92FB;    /*左边框颜色*/
     }
 </style>
-  <title>【iOS】Swift基本语法之函数 | 1024星球</title>
+  <title>【iOS】Swift系列三 - 函数 | 1024星球</title>
   
 
 
@@ -367,7 +367,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【iOS】Swift基本语法之函数</h2>
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列三 - 函数</h2>
         
 
         <div class="post-meta">
@@ -482,50 +482,29 @@
       
 
       
-        <h3 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h3><ul>
-<li><p>有返回值（形参默认是let，也只能是let）</p>
+        <p>函数在任何语言中都是存在的，Swift中函数更加灵活。</p>
 <a id="more"></a>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pi</span><span class="params">()</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3.14</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(pi()) <span class="comment">// 输出：3.14</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> v1 + v2</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>)) <span class="comment">// 输出：30</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>无返回值</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span> -&gt; <span class="title">Void</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span> -&gt; <span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line">hello() <span class="comment">// 输出：hello</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>隐式返回<br>如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">func</span> <span class="selector-tag">sum</span>(<span class="attribute">v1</span>: Int, <span class="attribute">v2</span>: Int) <span class="selector-tag">-</span>&gt; <span class="selector-tag">Int</span> &#123;</span><br><span class="line">    <span class="selector-tag">v1</span> + <span class="selector-tag">v2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">print</span>(sum(<span class="attribute">v1</span>: <span class="number">10</span>, <span class="attribute">v2</span>: <span class="number">10</span>)) <span class="comment">// 输出：20</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>返回元组：实现多返回值</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func calculate(v1: <span class="built_in">Int</span>, v2: <span class="built_in">Int</span>) -&gt; (<span class="built_in">sum</span>: <span class="built_in">Int</span>, difference: <span class="built_in">Int</span>, average: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    let <span class="built_in">sum</span> = v1 + v2</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">sum</span>, v1 - v2, <span class="built_in">sum</span> &gt;&gt; <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">let result = calculate(v1: <span class="number">10</span>, v2: <span class="number">20</span>)</span><br><span class="line"><span class="built_in">print</span>(result.<span class="built_in">sum</span>, result.difference, result.average) // 输出：<span class="number">30</span> -<span class="number">10</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
+<h2 id="一、函数的定义"><a href="#一、函数的定义" class="headerlink" title="一、函数的定义"></a>一、函数的定义</h2><h3 id="1-1-有返回值（形参默认是let，也只能是let）"><a href="#1-1-有返回值（形参默认是let，也只能是let）" class="headerlink" title="1.1. 有返回值（形参默认是let，也只能是let）"></a>1.1. 有返回值（形参默认是let，也只能是let）</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pi</span><span class="params">()</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3.14</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(pi()) <span class="comment">// 输出：3.14</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> v1 + v2</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(sum(v1: <span class="number">10</span>, v2: <span class="number">20</span>)) <span class="comment">// 输出：30</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<h4 id="函数的文档注释"><a href="#函数的文档注释" class="headerlink" title="函数的文档注释"></a>函数的文档注释</h4><p>官网介绍：<a href="https://swift.org/documentatior/api-design-guidelines" target="_blank" rel="noopener">https://swift.org/documentatior/api-design-guidelines</a></p>
-<p>光标放到对应函数名称上，按下<code>Option</code>即可查看函数相关描述文档<br><img src="http://blog.idbeny.com/3tg7i.png@normal" alt=""></p>
-<ul>
-<li>上图看到sum的函数描述都是空的，如何填写描述信息呢？</li>
-<li>添加文档快捷键(光标一定要在函数上或函数上方)：<code>Command + Option + /</code></li>
-</ul>
-<p>默认的文档注释</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;#Description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> - Parameters:</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>   - v1: <span class="doctag">&lt;#v1 description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>   - v2: <span class="doctag">&lt;#v2 description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> - Returns: <span class="doctag">&lt;#description#&gt;</span></span></span><br><span class="line"><span class="function">func <span class="title">sum</span>(<span class="params">v1: Int, v2: Int</span>) -&gt; Int</span> &#123; v1 + v2&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-无返回值"><a href="#1-2-无返回值" class="headerlink" title="1.2. 无返回值"></a>1.2. 无返回值</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span> -&gt; <span class="title">Void</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span> -&gt; <span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"hello"</span>)</span><br><span class="line">&#125;</span><br><span class="line">hello() <span class="comment">// 输出：hello</span></span><br></pre></td></tr></table></figure>
 
-<p>更详细的文档注释（概述和详述一定要隔开，否则会默认为详述）</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 将2个整数相加【概述】</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// 将2个整数相加【详细的描述】</span></span><br><span class="line"><span class="comment">/// - Parameters:</span></span><br><span class="line"><span class="comment">///   - v1: 第一个参数</span></span><br><span class="line"><span class="comment">///   - v2: 第二个参数</span></span><br><span class="line"><span class="comment">/// - Returns: 2个参数的和</span></span><br><span class="line"><span class="comment">/// - Note:传入2个整数【批注】</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int)</span></span> -&gt; <span class="type">Int</span> &#123; v1 + v2&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式"><a href="#1-3-如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式" class="headerlink" title="1.3. 如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式"></a>1.3. 如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">func</span> <span class="selector-tag">sum</span>(<span class="attribute">v1</span>: Int, <span class="attribute">v2</span>: Int) <span class="selector-tag">-</span>&gt; <span class="selector-tag">Int</span> &#123;</span><br><span class="line">    <span class="selector-tag">v1</span> + <span class="selector-tag">v2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">print</span>(sum(<span class="attribute">v1</span>: <span class="number">10</span>, <span class="attribute">v2</span>: <span class="number">10</span>)) <span class="comment">// 输出：20</span></span><br></pre></td></tr></table></figure>
 
-<p>效果<br><img src="http://blog.idbeny.com/5odsn.png@normal" alt=""></p>
-<h4 id="参数标签"><a href="#参数标签" class="headerlink" title="参数标签"></a>参数标签</h4><ul>
-<li>可以修改参数标签<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// <span class="built_in">at</span>是外面调用的，<span class="built_in">time</span>是函数内部使用的</span><br><span class="line">func goToWord(<span class="built_in">at</span> <span class="built_in">time</span>: String) &#123;</span><br><span class="line">    <span class="built_in">print</span>("<span class="built_in">time</span> is \(<span class="built_in">time</span>)")</span><br><span class="line">&#125;</span><br><span class="line">goToWord(<span class="built_in">at</span>: "<span class="number">8</span>:<span class="number">00</span>")</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-返回元组：实现多返回值"><a href="#1-4-返回元组：实现多返回值" class="headerlink" title="1.4. 返回元组：实现多返回值"></a>1.4. 返回元组：实现多返回值</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func calculate(v1: <span class="built_in">Int</span>, v2: <span class="built_in">Int</span>) -&gt; (<span class="built_in">sum</span>: <span class="built_in">Int</span>, difference: <span class="built_in">Int</span>, average: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    let <span class="built_in">sum</span> = v1 + v2</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">sum</span>, v1 - v2, <span class="built_in">sum</span> &gt;&gt; <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">let result = calculate(v1: <span class="number">10</span>, v2: <span class="number">20</span>)</span><br><span class="line"><span class="built_in">print</span>(result.<span class="built_in">sum</span>, result.difference, result.average) // 输出：<span class="number">30</span> -<span class="number">10</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<p>可以使用下划线<code>_</code>省略参数标签</p>
+<h3 id="1-5-参数标签"><a href="#1-5-参数标签" class="headerlink" title="1.5. 参数标签"></a>1.5. 参数标签</h3><p>函数可以修改参数标签：</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// <span class="built_in">at</span>是外面调用的，<span class="built_in">time</span>是函数内部使用的</span><br><span class="line">func goToWord(<span class="built_in">at</span> <span class="built_in">time</span>: String) &#123;</span><br><span class="line">    <span class="built_in">print</span>("<span class="built_in">time</span> is \(<span class="built_in">time</span>)")</span><br><span class="line">&#125;</span><br><span class="line">goToWord(<span class="built_in">at</span>: "<span class="number">8</span>:<span class="number">00</span>")</span><br></pre></td></tr></table></figure>
+
+<p>可以使用下划线<code>_</code>省略参数标签：</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(_ <span class="symbol">v1</span>: <span class="built_in">Int</span>, _ <span class="symbol">v2</span>: <span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span> &#123; <span class="symbol">v1</span> + <span class="symbol">v2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">sum</span>(<span class="number">10</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="默认参数值"><a href="#默认参数值" class="headerlink" title="默认参数值"></a>默认参数值</h4><ul>
+<h3 id="1-6-默认参数值"><a href="#1-6-默认参数值" class="headerlink" title="1.6. 默认参数值"></a>1.6. 默认参数值</h3><ul>
 <li>参数可以有默认值<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">func</span> <span class="selector-tag">check</span>(<span class="attribute">name</span>: String = <span class="string">"nobody"</span>, <span class="attribute">age</span>: Int, <span class="attribute">job</span>: String = <span class="string">"none"</span>) &#123;</span><br><span class="line">    <span class="selector-tag">print</span>(<span class="string">"name=\(name), age=\(age), job=\(job)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">check</span>(<span class="attribute">age</span>: <span class="number">10</span>)</span><br><span class="line"><span class="selector-tag">check</span>(<span class="attribute">name</span>: <span class="string">"Jack"</span>, <span class="attribute">age</span>: <span class="number">20</span>, <span class="attribute">job</span>: <span class="string">"Programmer"</span>)</span><br><span class="line"><span class="selector-tag">check</span>(<span class="attribute">name</span>: <span class="string">"Eve"</span>, <span class="attribute">age</span>: <span class="number">18</span>)</span><br><span class="line"><span class="selector-tag">check</span>(<span class="attribute">age</span>: <span class="number">10</span>, <span class="attribute">job</span>: <span class="string">"Superman"</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> name=nobody, age=10, job=none</span></span><br><span class="line"><span class="comment"> name=Jack, age=20, job=Programmer</span></span><br><span class="line"><span class="comment"> name=Eve, age=18, job=none</span></span><br><span class="line"><span class="comment"> name=nobody, age=10, job=Superman</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure></li>
 <li>C++的默认参数有个限制：必须从右往左设置，而且不能跨标签；Swift拥有参数标签，因此没有此类限制</li>
 <li>省略参数标签时，需要特别注意，避免出错</li>
 <li>没有默认值的参数标签不能省略（如上面代码age就不能省略）</li>
 </ul>
-<h4 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h4><ul>
+<h3 id="1-7-可变参数"><a href="#1-7-可变参数" class="headerlink" title="1.7. 可变参数"></a>1.7. 可变参数</h3><ul>
 <li><p>一个函数最多只能有1个可变参数</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func <span class="built_in">sum</span>(_ numbers: Int...) -&gt; Int &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="keyword">total</span> = 0</span><br><span class="line">    <span class="keyword">for</span> number <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        <span class="keyword">total</span> += number</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">total</span></span><br><span class="line">&#125;</span><br><span class="line">let result = <span class="built_in">sum</span>(10, 20, 30, 40)</span><br><span class="line"><span class="keyword">print</span>(result) <span class="comment">// 输出：100</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -534,7 +513,7 @@
 
 </li>
 </ul>
-<h4 id="输入输出参数"><a href="#输入输出参数" class="headerlink" title="输入输出参数"></a>输入输出参数</h4><ul>
+<h3 id="1-8-输入输出参数"><a href="#1-8-输入输出参数" class="headerlink" title="1.8. 输入输出参数"></a>1.8. 输入输出参数</h3><ul>
 <li>可以用inout定义一个输入输出参数：可以在函数内部修改外部实参的值</li>
 <li><code>inout</code>必须和<code>&amp;</code>配合使用</li>
 <li>本质上是地址传递</li>
@@ -549,7 +528,20 @@
 <p>通过这种方式也可以交换两个变量的值（其实官方有提供交换函数<code>swap</code>）</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一（使用临时变量）</span></span><br><span class="line">func swapValues(_ v1: <span class="keyword">inout</span> Int, _ v2: <span class="keyword">inout</span> Int) &#123;</span><br><span class="line">    let temp = v1</span><br><span class="line">    v1 = v2</span><br><span class="line">    v2 = temp</span><br><span class="line">&#125;</span><br><span class="line">var num1 = <span class="number">10</span></span><br><span class="line">var num2 = <span class="number">20</span></span><br><span class="line">swapValues(&amp;num1, &amp;num2)</span><br><span class="line">print(<span class="string">"num1=\(num1), num2=\(num2)"</span>) <span class="comment">// 输出：num1=20, num2=10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二（使用元组）</span></span><br><span class="line">var num3 = <span class="number">30</span></span><br><span class="line">var num4 = <span class="number">40</span></span><br><span class="line">func swapValues1(_ v1: <span class="keyword">inout</span> Int, _ v2: <span class="keyword">inout</span> Int) &#123;</span><br><span class="line">    (v1, v2) = (v2, v1)</span><br><span class="line">&#125;</span><br><span class="line">swap(&amp;num3, &amp;num4)</span><br><span class="line">print(<span class="string">"num3=\(num3), num4=\(num4)"</span>) <span class="comment">// 输出：num3=40, num4=30</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法三（系统提供的swap函数）</span></span><br><span class="line">var num5 = <span class="number">50</span></span><br><span class="line">var num6 = <span class="number">60</span></span><br><span class="line">swap(&amp;num5, &amp;num6)</span><br><span class="line">print(<span class="string">"num5=\(num5), num6=\(num6)"</span>) <span class="comment">// 输出：num5=60, num6=50</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><ul>
+<h2 id="二、函数的文档注释"><a href="#二、函数的文档注释" class="headerlink" title="二、函数的文档注释"></a>二、函数的文档注释</h2><p>官网介绍：<a href="https://swift.org/documentatior/api-design-guidelines" target="_blank" rel="noopener">https://swift.org/documentatior/api-design-guidelines</a></p>
+<p>光标放到对应函数名称上，按下<code>Option</code>即可查看函数相关描述文档<br><img src="http://blog.idbeny.com/3tg7i.png@normal" alt=""></p>
+<ul>
+<li>上图看到sum的函数描述都是空的，如何填写描述信息呢？</li>
+<li>添加文档快捷键(光标一定要在函数上或函数上方)：<code>Command + Option + /</code></li>
+</ul>
+<p>默认的文档注释</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;#Description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> - Parameters:</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>   - v1: <span class="doctag">&lt;#v1 description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span>   - v2: <span class="doctag">&lt;#v2 description#&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> - Returns: <span class="doctag">&lt;#description#&gt;</span></span></span><br><span class="line"><span class="function">func <span class="title">sum</span>(<span class="params">v1: Int, v2: Int</span>) -&gt; Int</span> &#123; v1 + v2&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更详细的文档注释（概述和详述一定要隔开，否则会默认为详述）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 将2个整数相加【概述】</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// 将2个整数相加【详细的描述】</span></span><br><span class="line"><span class="comment">/// - Parameters:</span></span><br><span class="line"><span class="comment">///   - v1: 第一个参数</span></span><br><span class="line"><span class="comment">///   - v2: 第二个参数</span></span><br><span class="line"><span class="comment">/// - Returns: 2个参数的和</span></span><br><span class="line"><span class="comment">/// - Note:传入2个整数【批注】</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int)</span></span> -&gt; <span class="type">Int</span> &#123; v1 + v2&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果<br><img src="http://blog.idbeny.com/5odsn.png@normal" alt=""></p>
+<h2 id="三、函数重载"><a href="#三、函数重载" class="headerlink" title="三、函数重载"></a>三、函数重载</h2><ul>
 <li>OC是不支持函数重载的，但Swift支持函数重载</li>
 <li>规则<ul>
 <li>函数名相同</li>
@@ -557,7 +549,7 @@
 </ul>
 </li>
 </ul>
-<p>以下函数都构成了函数重载，都是可以正常调用的，且函数没有冲突</p>
+<p>以下函数都构成了函数重载，都是可以正常调用的，且函数没有冲突：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参照</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int)</span></span> &#123;</span><br><span class="line">    v1 + v2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数个数不同</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Int, v3: Int)</span></span> &#123;</span><br><span class="line">    v1 + v2 + v3</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数类型不同</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(v1: Int, v2: Double)</span></span> &#123;</span><br><span class="line">    <span class="type">Double</span>(v1) + v2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数标签不同（忽略标签）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(<span class="number">_</span> v1: Int, <span class="number">_</span> v2: Int)</span></span> &#123;</span><br><span class="line">    v1 + v2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数标签不同（标签名不同）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(a: Int, b: Int)</span></span> &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -572,28 +564,26 @@
 <p>为什么是可能会报错？（下面代码可以正常执行，所以平时开发中也不建议这样写）</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(<span class="number">_</span> v1: Int, <span class="number">_</span> v2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    v1 + v2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(<span class="number">_</span> numbers: Int...)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> numbers &#123;</span><br><span class="line">        total += num</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">10</span>, <span class="number">20</span>) <span class="comment">// 输出：30</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h3><p>每一个函数都是有类型的，函数类型由形式参数类型，返回值类型组成</p>
+<h2 id="四、函数类型"><a href="#四、函数类型" class="headerlink" title="四、函数类型"></a>四、函数类型</h2><p>每一个函数都是有类型的，函数类型由形式参数类型，返回值类型组成：</p>
 <ul>
-<li>函数类型可以作为函数参数传递</li>
-<li>函数类型可以作为函数返回值</li>
-<li>返回值是函数类型的函数，叫做<strong>高阶函数</strong></li>
+<li>函数类型可以作为函数参数传递；</li>
+<li>函数类型可以作为函数返回值；</li>
+<li>返回值是函数类型的函数，叫做<strong>高阶函数</strong>。</li>
 </ul>
-<h3 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h3><ul>
-<li>将函数定义在函数内部<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">foward</span><span class="params">(<span class="number">_</span> forward: Bool)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">next</span><span class="params">(<span class="number">_</span> input: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        input + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previous</span><span class="params">(<span class="number">_</span> input: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        input - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> forward ? next : previous</span><br><span class="line">&#125;</span><br><span class="line">foward(<span class="literal">true</span>)(<span class="number">1</span>) <span class="comment">// 输出：2</span></span><br><span class="line">foward(<span class="literal">false</span>)(<span class="number">2</span>) <span class="comment">// 输出：1</span></span><br></pre></td></tr></table></figure>
+<h2 id="五、嵌套函数"><a href="#五、嵌套函数" class="headerlink" title="五、嵌套函数"></a>五、嵌套函数</h2><p>将函数定义在函数内部：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">foward</span><span class="params">(<span class="number">_</span> forward: Bool)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">next</span><span class="params">(<span class="number">_</span> input: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        input + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previous</span><span class="params">(<span class="number">_</span> input: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        input - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> forward ? next : previous</span><br><span class="line">&#125;</span><br><span class="line">foward(<span class="literal">true</span>)(<span class="number">1</span>) <span class="comment">// 输出：2</span></span><br><span class="line">foward(<span class="literal">false</span>)(<span class="number">2</span>) <span class="comment">// 输出：1</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<h3 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h3><p>如果开启了编译器优化（Release模式默认开启），编译器会自动将某些函数变成内联函数</p>
+<h2 id="六、内联函数"><a href="#六、内联函数" class="headerlink" title="六、内联函数"></a>六、内联函数</h2><p>如果开启了编译器优化（Release模式默认开启），编译器会自动将某些函数变成内联函数：</p>
 <ul>
-<li>Release默认按照快速运行方式优化</li>
-<li>Debug也可以手动开启，但是为了开发中方便调试，一般都会关闭</li>
+<li>Release默认按照快速运行方式优化；</li>
+<li>Debug也可以手动开启，但是为了开发中方便调试，一般都会关闭。</li>
 </ul>
 <p><img src="http://blog.idbeny.com/ibl4w.png@normal" alt=""></p>
 <p>内联函数的作用？</p>
 <ul>
 <li>内联函数在C++中的经常出现，如果某一个函数是内联函数，编译器在编译的时候会把适当的代码块中的代码放到对应位置，提高代码执行的效率</li>
 <li>将函数调用展开成函数体<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">func</span> <span class="function"><span class="title">test</span>() &#123;</span></span><br><span class="line"><span class="function">    <span class="title">print</span>(<span class="string">"test"</span>)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">test</span>()</span></span><br></pre></td></tr></table></figure></li>
-<li>以上代码如果开启编译器优化，<code>test()</code>会替换为<code>print(&quot;test&quot;)</code></li>
+<li>以上代码如果开启编译器优化，<code>test()</code>会替换为<code>print(&quot;test&quot;)</code>。</li>
 </ul>
 <p>不是所有的内联函数都会被编译器展开函数体，那些函数不会被内联？</p>
 <ul>
@@ -601,14 +591,14 @@
 <li>包含递归调用</li>
 <li>包含动态派发</li>
 </ul>
-<p><strong>@inline</strong><br>永远不会被内联（即使开启了编译器优化）</p>
+<p><strong>@inline</strong>：<br>永远不会被内联（即使开启了编译器优化）</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">@inline</span>(never) <span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span> &#123;</span></span><br><span class="line">    print(<span class="string">"test"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>开启编译器优化后，及时代码很长，也会被内联（递归调用、动态派发的函数除外）</p>
+<p>开启编译器优化后，及时代码很长，也会被内联（递归调用、动态派发的函数除外）：</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">@inline</span>(__always) <span class="function"><span class="keyword">func</span> <span class="title">test1</span><span class="params">()</span> &#123;</span></span><br><span class="line">    print(<span class="string">"test"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>在Release模式下，编译器已经开启优化，会自动决定哪些函数需要内联，因此没必要使用<code>@inline</code></li>
+<li>在Release模式下，编译器已经开启优化，会自动决定哪些函数需要内联，因此没必要使用<code>@inline</code>。</li>
 </ul>
 
       
@@ -630,7 +620,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://idbeny.com/2019/05/10/swift-syntax-function/" title="【iOS】Swift基本语法之函数">http://idbeny.com/2019/05/10/swift-syntax-function/</a>
+    <a href="http://idbeny.com/2019/05/10/swift-syntax-function/" title="【iOS】Swift系列三 - 函数">http://idbeny.com/2019/05/10/swift-syntax-function/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -662,8 +652,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/08/swift-syntax-loop/" rel="next" title="【iOS】Swift基本语法之循环控制">
-                <i class="fa fa-chevron-left"></i> 【iOS】Swift基本语法之循环控制
+              <a href="/2019/05/08/swift-syntax-loop/" rel="next" title="【iOS】Swift系列二 - 循环控制">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列二 - 循环控制
               </a>
             
           </div>
@@ -672,8 +662,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/11/swift-syntax-enum/" rel="prev" title="【iOS】Swift基本语法之枚举">
-                【iOS】Swift基本语法之枚举 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/11/swift-syntax-enum/" rel="prev" title="【iOS】Swift系列四 - 枚举">
+                【iOS】Swift系列四 - 枚举 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -726,8 +716,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://blog.idbeny.com/avatar.jpg@origin"
@@ -742,7 +741,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -753,7 +752,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -764,7 +763,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -824,6 +823,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、函数的定义"><span class="nav-number">1.</span> <span class="nav-text">一、函数的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-有返回值（形参默认是let，也只能是let）"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 有返回值（形参默认是let，也只能是let）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-无返回值"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 无返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 如果整个函数体是一个单一表达式，那么函数会隐式返回这个表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-返回元组：实现多返回值"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 返回元组：实现多返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-参数标签"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 参数标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-默认参数值"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 默认参数值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-可变参数"><span class="nav-number">1.7.</span> <span class="nav-text">1.7. 可变参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-输入输出参数"><span class="nav-number">1.8.</span> <span class="nav-text">1.8. 输入输出参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、函数的文档注释"><span class="nav-number">2.</span> <span class="nav-text">二、函数的文档注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、函数重载"><span class="nav-number">3.</span> <span class="nav-text">三、函数重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、函数类型"><span class="nav-number">4.</span> <span class="nav-text">四、函数类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、嵌套函数"><span class="nav-number">5.</span> <span class="nav-text">五、嵌套函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、内联函数"><span class="nav-number">6.</span> <span class="nav-text">六、内联函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
