@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Swift,String,Array," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="String和Array用起来很简单，但底层是如何存储的呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift系列二十 - String和Array底层分析">
+<meta property="og:url" content="http://idbeny.com/2019/08/27/swift-syntax-string/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="String和Array用起来很简单，但底层是如何存储的呢？">
+<meta property="og:image" content="http://blog.idbeny.com/9gybd.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/idit5.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/w7xji.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6hzpd.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/3hr4n.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/9x517.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/wcgt0.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/05ylb.png@normal">
+<meta property="article:published_time" content="2019-08-27T15:01:20.000Z">
+<meta property="article:modified_time" content="2020-10-27T13:28:00.141Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="String">
+<meta property="article:tag" content="Array">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/9gybd.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/08/27/swift-syntax-string/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Swift系列二十 - String和Array底层分析 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/08/27/swift-syntax-string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列二十 - String和Array底层分析</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T23:01:20+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>String</code>和<code>Array</code>用起来很简单，但底层是如何存储的呢？</p>
+<a id="more"></a>
+<h2 id="一、String"><a href="#一、String" class="headerlink" title="一、String"></a>一、String</h2><h3 id="1-1-1个String变量占用多少内存？"><a href="#1-1-1个String变量占用多少内存？" class="headerlink" title="1.1. 1个String变量占用多少内存？"></a>1.1. 1个<code>String</code>变量占用多少内存？</h3><p>示例代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var str1 = <span class="string">"0123456789"</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">MemoryLayout</span>.</span></span>size(ofValue: str1))</span><br><span class="line"><span class="comment">// 输出：16</span></span><br><span class="line"></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0x3736353433323130</span></span><br><span class="line"><span class="comment"> 0xea00000000003938</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>结论：</strong> 一个<code>String</code>变量占用16个字节。</p>
+<p><em>这16个字节是如何存储的呢？</em></p>
+<h3 id="1-2-汇编分析"><a href="#1-2-汇编分析" class="headerlink" title="1.2. 汇编分析"></a>1.2. 汇编分析</h3><p><img src="http://blog.idbeny.com/9gybd.png@normal" alt=""></p>
+<p>变量<code>str1</code>的前8个字节和后8个字节分别存储的是什么呢？其实存储的都是<a href="http://www.ascii-code.com/" target="_blank" rel="noopener">ASCII</a>码值。</p>
+<p><img src="http://blog.idbeny.com/idit5.png@normal" alt=""><br><code>0</code>的ASCII码值对应的十六进制是<code>0x30</code>。</p>
+<p>前8个字节<code>0x3736353433323130</code>，分离后：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x37</span> <span class="number">36</span> <span class="number">35</span> <span class="number">34</span> <span class="number">33</span> <span class="number">32</span> <span class="number">31</span> <span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+<p>后8个字节<code>0xea00000000003938</code>分离后：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0xea0000000000</span> <span class="number">39</span> <span class="number">38</span></span><br></pre></td></tr></table></figure>
+
+<p><code>0xea</code>代表什么意思？<br>这里应该分开来看，<code>0xe a</code>，后面的一位<code>a</code>代表字符串长度（即长度是10），前面的<code>e</code>代表字符串标识（<code>e</code>代表字符串内存存储在变量里面的）。</p>
+<p>那也就意味着字符串长度最大是<code>f</code>，这样就能完整的填满内存。</p>
+<h3 id="1-3-长度为15位的字符串"><a href="#1-3-长度为15位的字符串" class="headerlink" title="1.3. 长度为15位的字符串"></a>1.3. 长度为15位的字符串</h3><p>示例代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var str1 = <span class="string">"0123456789ABCDE"</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0x3736353433323130</span></span><br><span class="line"><span class="comment"> 0xef45444342413938</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>15位长度字符串，位数已经用<code>f</code>表示了。这种情况类似于<code>OC</code>中的<code>tagger pointer</code>（字符串的内容直接放到对象<code>str1</code>内存里面了）。</p>
+<p><em>如果再多1位会发生什么变化呢？</em></p>
+<h3 id="1-4-长度超过15位的字符串"><a href="#1-4-长度超过15位的字符串" class="headerlink" title="1.4. 长度超过15位的字符串"></a>1.4. 长度超过15位的字符串</h3><p>示例代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var str1 = <span class="string">"0123456789ABCDEF"</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">MemoryLayout</span>.</span></span>size(ofValue: str1))</span><br><span class="line"><span class="comment">// 输出：16</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0xd000000000000010</span></span><br><span class="line"><span class="comment"> 0x80000001000075f0</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>这次输出明显和之前的不一样。即使长度继续加大，内存变化也不大，这也意味着字符串确实没有存储在这16个字节内。</p>
+<h4 id="1-4-1-字符串内存地址"><a href="#1-4-1-字符串内存地址" class="headerlink" title="1.4.1. 字符串内存地址"></a>1.4.1. 字符串内存地址</h4><p><strong>第一步：</strong> 查看字符串初始化入参<br><img src="http://blog.idbeny.com/w7xji.png@normal" alt=""></p>
+<ul>
+<li>字符串真实地址：<code>rax = 0x100001cc2 + 0x594e = 0x100007610</code></li>
+<li><code>rdi</code>存放着字符串的真实地址<code>0x100007610</code></li>
+<li><code>rsi</code>存放的是字符串的长度<code>0x10</code></li>
+</ul>
+<p><strong>第二步：</strong> 进入<code>String.init</code>函数<br><img src="http://blog.idbeny.com/6hzpd.png@normal" alt=""></p>
+<ul>
+<li><code>rsi</code>(存放的是<code>0x10</code>)和<code>0xf</code>进行比较（长度比较）<ul>
+<li>如果字符串长度小于16位，直接进入<code>jle</code>指定的地址(内存直接存放到内存)</li>
+<li>否则，继续往下执行</li>
+</ul>
+</li>
+<li>函数返回地址：<code>rax = rdi(0x100007610) + 0x7fffffffffffffe0 = 0x80000001000075F0</code></li>
+</ul>
+<p><strong>第三步：</strong> 函数返回值<br><img src="http://blog.idbeny.com/3hr4n.png@normal" alt=""></p>
+<ul>
+<li><code>String.init</code>函数把返回值<code>rdx</code>给了字符串内存的后8个字节</li>
+<li>字符串长度给了字符串的前8个字节</li>
+</ul>
+<p><strong>第四步：</strong> 查看真实地址存放的内容<br><img src="http://blog.idbeny.com/9x517.png@normal" alt=""></p>
+<ul>
+<li>这时候再看示例代码的内存输出结果，就会豁然开朗了</li>
+</ul>
+<blockquote>
+<p>扩展：字符串真实地址<code>rax = rdi(0x100007610) + 0x7fffffffffffffe0 = 0x80000001000075F0</code>等价于<code>rax = 0x00000001000075F0 + 0x20</code>。</p>
+</blockquote>
+<h4 id="1-4-2-字符串存放区域"><a href="#1-4-2-字符串存放区域" class="headerlink" title="1.4.2. 字符串存放区域"></a>1.4.2. 字符串存放区域</h4><p><em>字符串的真实地址是存放在内存中的哪块区域呢？</em><br><img src="http://blog.idbeny.com/wcgt0.png@normal" alt=""></p>
+<p>其实根据经验可以看出上面示例代码中字符串存放在常量区，但是根据汇编代码又感觉是放在全局区。</p>
+<p>我们可以通过<code>Mach-O</code>文件查看字符串存放在哪块区域（<em>程序文件在是实际运行中内存可能是动态的，但本案例首次运行也足以能够证明字符串存放的区域</em>）。</p>
+<p><img src="http://blog.idbeny.com/05ylb.png@normal" alt=""></p>
+<p>可以看到，实例中的字符串是存放在常量区的（<code>cstring</code>）。字符串的后8个字节保存的地址指向<code>00007610</code>这块内存。</p>
+<blockquote>
+<p>注意：<code>Mac</code>平台的<code>Mach-O</code>文件呈现出来的地址需要加上偏移量<code>0x100000000</code>(即虚拟内存地址)，例如：字符串<code>0x100007610</code>在<code>Mach-O</code>中查找<code>00007610</code>的地址即可。</p>
+</blockquote>
+<h3 id="1-5-字符串拼接操作引起的内存变化"><a href="#1-5-字符串拼接操作引起的内存变化" class="headerlink" title="1.5. 字符串拼接操作引起的内存变化"></a>1.5. 字符串拼接操作引起的内存变化</h3><h4 id="1-5-1-长度不超过15位的字符串"><a href="#1-5-1-长度不超过15位的字符串" class="headerlink" title="1.5.1. 长度不超过15位的字符串"></a>1.5.1. 长度不超过15位的字符串</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var str1 = <span class="string">"0123456789"</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>) <span class="comment">// 输出：0x3736353433323130 0xea00000000003938</span></span><br><span class="line">str1.append(<span class="string">"A"</span>)</span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>) <span class="comment">// 输出：0x3736353433323130 0xeb00000000413938</span></span><br></pre></td></tr></table></figure>
+
+<p>通过输出的内存地址可知，当字符串内容发生改变，但长度不超过15位时，字符串内容依然是直接放到内存里面的。</p>
+<h4 id="1-5-2-长度超过15位的字符串"><a href="#1-5-2-长度超过15位的字符串" class="headerlink" title="1.5.2. 长度超过15位的字符串"></a>1.5.2. 长度超过15位的字符串</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var str1 = <span class="string">"0123456789ABCDEF"</span></span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>) <span class="comment">// 输出：0xd000000000000010 0x80000001000075e0</span></span><br><span class="line">str1.append(<span class="string">"G"</span>)</span><br><span class="line">print(<span class="module-access"><span class="module"><span class="identifier">Mems</span>.</span></span>mem<span class="constructor">Str(<span class="params">ofVal</span>: &amp;<span class="params">str1</span>)</span>) <span class="comment">// 输出：0xf000000000000011 0x000000010043f8a0</span></span><br></pre></td></tr></table></figure>
+
+<p>字符串是存放到常量区的，也就意味着内存是不允许修改的。所以修改字符串内容时（超过15位），会在堆空间重新开辟一块内存来存储内容。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li>字符串长度不超过15位，内容直接放到变量内存中</li>
+<li>长度超过15位，字符串内容存放在常量区<ul>
+<li>内存中的后8个字节存放的是字符串内容真实存放的内存地址</li>
+<li>前8个字节存放的是字符串长度及标识符（标识符用来标记字符串存放到哪个区域）</li>
+</ul>
+</li>
+<li>只要长度超过15位拼接字符串，都会重新开辟堆空间存放字符串内容。</li>
+</ul>
+<h2 id="二、Array"><a href="#二、Array" class="headerlink" title="二、Array"></a>二、Array</h2><p>官方定义的数组是结构体(值类型)：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Array</span>&lt;Element&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-1个Array变量占用多少内存？"><a href="#2-1-1个Array变量占用多少内存？" class="headerlink" title="2.1. 1个Array变量占用多少内存？"></a>2.1. 1个Array变量占用多少内存？</h3><p>结构体的内存占用大小是把存放到结构体中的变量占用内存大小加起来。</p>
+<p>示例代码一：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct Point &#123;</span><br><span class="line">    <span class="selector-tag">var</span> x = <span class="number">0</span>, y = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">var</span> <span class="selector-tag">p</span> = Point()</span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(MemoryLayout.stride(ofValue: p)</span></span>)</span><br><span class="line"><span class="comment">// 输出：16</span></span><br></pre></td></tr></table></figure>
+<p>上面示例代码一中结构体一共占用16个字节内存。</p>
+<p>数组也是结构体，占用内存大小的计算方法是否和上面的示例代码一致呢？</p>
+<p>示例代码二：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">print(MemoryLayout.stride(ofValue: arr))</span><br><span class="line"><span class="comment">// 输出：8</span></span><br></pre></td></tr></table></figure>
+<p>很遗憾，只占用8个字节内存，且是<code>Int</code>类型占用的内存大小。那么数组里面的内容是存放在哪里呢？</p>
+<h3 id="2-2-数组中的数据存放在哪里？"><a href="#2-2-数组中的数据存放在哪里？" class="headerlink" title="2.2. 数组中的数据存放在哪里？"></a>2.2. 数组中的数据存放在哪里？</h3><p>通过汇编分析可以知道，数组中数组是存放在堆空间的，数组变量内存存放着堆空间的数组对象地址。</p>
+<p>示例代码一：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">var</span> <span class="string">arr</span> <span class="string">=</span> <span class="string">[1,</span> <span class="number">2</span><span class="string">,</span> <span class="number">3</span><span class="string">,</span> <span class="number">4</span><span class="string">]</span></span><br><span class="line"><span class="string">print(Mems.memStr(ofRef:</span> <span class="string">arr))</span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"> <span class="string">输出：</span></span><br><span class="line"> <span class="number">0x00007fff8e5f54d8</span></span><br><span class="line"> <span class="number">0x0000000200000002</span></span><br><span class="line"> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="number">0x0000000000000008</span></span><br><span class="line"> <span class="number">0x0000000000000001</span></span><br><span class="line"> <span class="number">0x0000000000000002</span></span><br><span class="line"> <span class="number">0x0000000000000003</span></span><br><span class="line"> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="string">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>通过内存布局看到，数组内容需要跳过前面的32个字节。那么前面的字节分别存放着什么东西呢？</p>
+<ul>
+<li>第一段8个字节：存放着数组相关引用类型信息内存地址</li>
+<li>第二段8个字节：数组的引用计数</li>
+<li>第三段8个字节：数组的元素个数</li>
+<li>第四段8个字节：数组的容量</li>
+<li>后面依次存放着数组的元素</li>
+</ul>
+<p>数组的容量会自动扩容至元素个数的两倍，且是8的倍数。</p>
+<p>示例代码二：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">var</span> <span class="string">arr</span> <span class="string">=</span> <span class="string">[1,</span> <span class="number">2</span><span class="string">,</span> <span class="number">3</span><span class="string">,</span> <span class="number">4</span><span class="string">]</span></span><br><span class="line"><span class="string">print(Mems.memStr(ofRef:</span> <span class="string">arr))</span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"> <span class="string">输出：</span></span><br><span class="line"> <span class="number">0x00007fff8e5f54d8</span></span><br><span class="line"> <span class="number">0x0000000200000002</span></span><br><span class="line"> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="number">0x0000000000000008</span></span><br><span class="line"> <span class="number">0x0000000000000001</span> <span class="number">0x0000000000000002</span> <span class="number">0x0000000000000003</span> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="string">*/</span></span><br><span class="line"></span><br><span class="line"><span class="string">arr.append(5)</span></span><br><span class="line"><span class="string">print(Mems.memStr(ofRef:</span> <span class="string">arr))</span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"> <span class="string">输出：</span></span><br><span class="line"> <span class="number">0x00007fff8e5f54d8</span></span><br><span class="line"> <span class="number">0x0000000200000002</span></span><br><span class="line"> <span class="number">0x0000000000000005</span></span><br><span class="line"> <span class="number">0x0000000000000010</span></span><br><span class="line"> <span class="number">0x0000000000000001</span> <span class="number">0x0000000000000002</span> <span class="number">0x0000000000000003</span> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="number">0x0000000000000005</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span></span><br><span class="line"> <span class="string">*/</span></span><br><span class="line"><span class="string">arr.append(6)</span></span><br><span class="line"><span class="string">arr.append(7)</span></span><br><span class="line"><span class="string">arr.append(8)</span></span><br><span class="line"><span class="string">arr.append(9)</span></span><br><span class="line"><span class="string">print(Mems.memStr(ofRef:</span> <span class="string">arr))</span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"> <span class="string">输出：</span></span><br><span class="line"> <span class="number">0x00007fff8e5f54d8</span></span><br><span class="line"> <span class="number">0x0000000200000002</span></span><br><span class="line"> <span class="number">0x0000000000000009</span></span><br><span class="line"> <span class="number">0x0000000000000020</span></span><br><span class="line"> <span class="number">0x0000000000000001</span> <span class="number">0x0000000000000002</span> <span class="number">0x0000000000000003</span> <span class="number">0x0000000000000004</span></span><br><span class="line"> <span class="number">0x0000000000000005</span> <span class="number">0x0000000000000006</span> <span class="number">0x0000000000000007</span> <span class="number">0x0000000000000008</span></span><br><span class="line"> <span class="number">0x0000000000000009</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span></span><br><span class="line"> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span> <span class="number">0x0000000000000000</span></span><br><span class="line"> <span class="string">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，数组的表象是结构体，但其本质是引用类型。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/08/27/swift-syntax-string/" title="【iOS】Swift系列二十 - String和Array底层分析">http://idbeny.com/2019/08/27/swift-syntax-string/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/String/" rel="tag"># String</a>
+          
+            <a href="/tags/Array/" rel="tag"># Array</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/20/swift-syntax-generics/" rel="next" title="【iOS】Swift系列十九 - 泛型">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列十九 - 泛型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/02/swift-syntax-operator/" rel="prev" title="【iOS】Swift系列二十一 - 高级运算符">
+                【iOS】Swift系列二十一 - 高级运算符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">158</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、String"><span class="nav-number">1.</span> <span class="nav-text">一、String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1个String变量占用多少内存？"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 1个String变量占用多少内存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-汇编分析"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 汇编分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-长度为15位的字符串"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 长度为15位的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-长度超过15位的字符串"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 长度超过15位的字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-字符串内存地址"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1. 字符串内存地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-字符串存放区域"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2. 字符串存放区域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-字符串拼接操作引起的内存变化"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 字符串拼接操作引起的内存变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-1-长度不超过15位的字符串"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.5.1. 长度不超过15位的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-2-长度超过15位的字符串"><span class="nav-number">1.5.2.</span> <span class="nav-text">1.5.2. 长度超过15位的字符串</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Array"><span class="nav-number">2.</span> <span class="nav-text">二、Array</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1个Array变量占用多少内存？"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 1个Array变量占用多少内存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-数组中的数据存放在哪里？"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 数组中的数据存放在哪里？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
