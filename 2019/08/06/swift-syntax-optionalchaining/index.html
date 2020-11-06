@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://blog.idbeny.com/8c7b4.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/ub2ax.png@normal">
 <meta property="article:published_time" content="2019-08-06T04:02:58.000Z">
-<meta property="article:modified_time" content="2020-10-14T15:02:48.109Z">
+<meta property="article:modified_time" content="2020-11-06T12:20:37.027Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="Swift">
@@ -441,7 +441,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  779 字
+                  793 字
                 </span>
               
 
@@ -480,7 +480,7 @@
       
         <p>多个可选类型组合在一起调用就会形成可选链条。</p>
 <a id="more"></a>
-<h2 id="可选链（Optional-Chaining）"><a href="#可选链（Optional-Chaining）" class="headerlink" title="可选链（Optional Chaining）"></a>可选链（Optional Chaining）</h2><p>示例代码：</p>
+<h2 id="一、可选链（Optional-Chaining）"><a href="#一、可选链（Optional-Chaining）" class="headerlink" title="一、可选链（Optional Chaining）"></a>一、可选链（Optional Chaining）</h2><h3 id="1-1-什么是可选链"><a href="#1-1-什么是可选链" class="headerlink" title="1.1. 什么是可选链"></a>1.1. 什么是可选链</h3><p>示例代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123; <span class="keyword">var</span> price = <span class="number">0</span> &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123; <span class="keyword">var</span> weight = <span class="number">0</span> &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> = <span class="string">""</span></span><br><span class="line">    <span class="keyword">var</span> dog: <span class="type">Dog</span> = <span class="type">Dog</span>()</span><br><span class="line">    <span class="keyword">var</span> car: <span class="type">Car?</span> = <span class="type">Car</span>()</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">age</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123; <span class="number">30</span> &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">eat</span><span class="params">()</span></span> &#123; <span class="built_in">print</span>(<span class="string">"Person eat"</span>) &#125;</span><br><span class="line">    <span class="keyword">subscript</span>(index: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; index &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>正常调用：</p>
@@ -510,17 +510,17 @@
 <li>如果可选项不为<code>nil</code>，调用方法、下标、属性成功，结果会被包装成可选项</li>
 <li>如果结果本来就是可选项，不会进行再次包装</li>
 </ul>
-<p><strong>可选项绑定：</strong><br>对象调用函数，是可以用一个变量去接受的，即使函数没有返回值：</p>
+<h3 id="1-2-可选项绑定"><a href="#1-2-可选项绑定" class="headerlink" title="1.2. 可选项绑定"></a>1.2. 可选项绑定</h3><p>对象调用函数，是可以用一个变量去接受的，即使函数没有返回值：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="literal">result</span> = person?.eat()</span><br></pre></td></tr></table></figure>
 
 <p><code>result</code>是什么呢？如果<code>person</code>是<code>nil</code>，<code>result</code>就是<code>nil</code>；如果<code>person</code>不为<code>nil</code>，则返回一个空元祖（因为<code>Void</code>本质就是一个空元祖）。</p>
 <p>怎样知道<code>eat</code>函数是否调用成功？可以使用可选项绑定进行解包判断：</p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">let</span> <span class="symbol">_</span> = person?.eat() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"调用成功"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"调用失败"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>可选链：</strong><br>多个<code>?</code>可以链接在一起形成可选链代码：</p>
+<h3 id="1-3-可选链"><a href="#1-3-可选链" class="headerlink" title="1.3. 可选链"></a>1.3. 可选链</h3><p>多个<code>?</code>可以链接在一起形成可选链代码：</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> dog = person?.dog // Dog?</span><br><span class="line"><span class="built_in">var</span> weight = person?.dog.weight // <span class="built_in">Int</span>?</span><br><span class="line"><span class="built_in">var</span> <span class="built_in">price</span> = person?.car?.<span class="built_in">price</span> // <span class="built_in">Int</span>?</span><br></pre></td></tr></table></figure>
 <p>如果链中任何一个节点是<code>nil</code>，那么整个链就会调用失败。可选链最终返回的都是可选类型（不强制解包的情况下）。</p>
-<h2 id="可选链应用"><a href="#可选链应用" class="headerlink" title="可选链应用"></a>可选链应用</h2><p>示例代码一：</p>
+<h2 id="二、可选链应用"><a href="#二、可选链应用" class="headerlink" title="二、可选链应用"></a>二、可选链应用</h2><p>示例代码一：</p>
 <figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var scores = [<span class="string">"idbeny"</span>: [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>], <span class="string">"1024星球"</span>: [<span class="number">66</span>, <span class="number">88</span>, <span class="number">99</span>]]</span><br><span class="line">scores[<span class="string">"idbeny"</span>]?[<span class="number">0</span>] = <span class="number">100</span></span><br><span class="line">print(scores) // 输出：[<span class="string">"idbeny"</span>: [<span class="number">100</span>, <span class="number">20</span>, <span class="number">30</span>], <span class="string">"1024星球"</span>: [<span class="number">66</span>, <span class="number">88</span>, <span class="number">99</span>]]</span><br><span class="line"></span><br><span class="line">scores[<span class="string">"1024星球"</span>]?[<span class="number">2</span>] += <span class="number">11</span></span><br><span class="line">print(scores) // 输出：[<span class="string">"idbeny"</span>: [<span class="number">100</span>, <span class="number">20</span>, <span class="number">30</span>], <span class="string">"1024星球"</span>: [<span class="number">66</span>, <span class="number">88</span>, <span class="number">110</span>]]</span><br><span class="line"></span><br><span class="line">scores[<span class="string">"test"</span>]?[<span class="number">0</span>] = <span class="number">666</span></span><br><span class="line">print(scores) // 输出：[<span class="string">"idbeny"</span>: [<span class="number">100</span>, <span class="number">20</span>, <span class="number">30</span>], <span class="string">"1024星球"</span>: [<span class="number">66</span>, <span class="number">88</span>, <span class="number">110</span>]]</span><br></pre></td></tr></table></figure>
 
 <p>字典取值都是可选类型，因为<code>key</code>有可能为<code>nil</code>。所以字典取值一般加上一个<code>?</code>，尽量不要使用<code>!</code>强制解包，防止取出的值是<code>nil</code>。</p>
@@ -674,7 +674,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -766,7 +766,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#可选链（Optional-Chaining）"><span class="nav-number">1.</span> <span class="nav-text">可选链（Optional Chaining）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选链应用"><span class="nav-number">2.</span> <span class="nav-text">可选链应用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、可选链（Optional-Chaining）"><span class="nav-number">1.</span> <span class="nav-text">一、可选链（Optional Chaining）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-什么是可选链"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 什么是可选链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-可选项绑定"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 可选项绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-可选链"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 可选链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、可选链应用"><span class="nav-number">2.</span> <span class="nav-text">二、可选链应用</span></a></li></ol></div>
             
 
           </div>
