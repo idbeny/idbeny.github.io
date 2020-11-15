@@ -204,9 +204,9 @@
       
       <categories>
           
-          <category> Tool </category>
-          
           <category> iOS </category>
+          
+          <category> Tool </category>
           
       </categories>
       
@@ -1063,13 +1063,13 @@
       
         <tags>
             
-            <tag> 汇编 </tag>
-            
             <tag> iOS </tag>
             
             <tag> Swift </tag>
             
             <tag> 值类型 </tag>
+            
+            <tag> 汇编 </tag>
             
         </tags>
       
@@ -1315,9 +1315,9 @@
       
         <tags>
             
-            <tag> Assembly </tag>
-            
             <tag> 汇编 </tag>
+            
+            <tag> Assembly </tag>
             
             <tag> lldb </tag>
             
@@ -1337,9 +1337,9 @@
       
       <categories>
           
-          <category> Tool </category>
-          
           <category> iOS </category>
+          
+          <category> Tool </category>
           
       </categories>
       
@@ -1540,9 +1540,9 @@
       
       <categories>
           
-          <category> Tool </category>
-          
           <category> iOS </category>
+          
+          <category> Tool </category>
           
       </categories>
       
@@ -2183,11 +2183,11 @@
             
             <tag> iOS </tag>
             
+            <tag> UIView </tag>
+            
             <tag> CALayer </tag>
             
             <tag> CATransform3D </tag>
-            
-            <tag> UIView </tag>
             
             <tag> 隐式动画 </tag>
             
