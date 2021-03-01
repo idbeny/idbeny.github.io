@@ -96,14 +96,14 @@
 
 
 
-<meta name="description" content="数组是什么？为什么下标是从0开始的？">
+<meta name="description" content="数组是什么？为什么下标是从 0 开始的？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【C】C语言基本语法（五）">
+<meta property="og:title" content="【C】C系列五 - 数组">
 <meta property="og:url" content="http://idbeny.com/2016/06/10/c-syntax-basic-05/index.html">
 <meta property="og:site_name" content="1024星球">
-<meta property="og:description" content="数组是什么？为什么下标是从0开始的？">
+<meta property="og:description" content="数组是什么？为什么下标是从 0 开始的？">
 <meta property="article:published_time" content="2016-06-09T18:12:39.000Z">
-<meta property="article:modified_time" content="2020-09-20T03:25:53.356Z">
+<meta property="article:modified_time" content="2020-11-27T12:12:19.707Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="数组">
@@ -155,7 +155,7 @@
         border-left-color: #1E92FB;    /*左边框颜色*/
     }
 </style>
-  <title>【C】C语言基本语法（五） | 1024星球</title>
+  <title>【C】C系列五 - 数组 | 1024星球</title>
   
 
 
@@ -359,7 +359,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【C】C语言基本语法（五）</h2>
+          <h2 class="post-title" itemprop="name headline">【C】C系列五 - 数组</h2>
         
 
         <div class="post-meta">
@@ -463,8 +463,9 @@
       
 
       
-        <p>数组是什么？为什么下标是从0开始的？</p>
+        <p>数组是什么？为什么下标是从 0 开始的？</p>
 <a id="more"></a>
+
 <h2 id="一、什么是数组？"><a href="#一、什么是数组？" class="headerlink" title="一、什么是数组？"></a>一、什么是数组？</h2><p>从字面上看，就是一组数据的意思，它的作用就是用来存储一组数据。数组中存放的每一个数据，一般称为“元素”。</p>
 <h3 id="1-1-声明一个数组"><a href="#1-1-声明一个数组" class="headerlink" title="1.1. 声明一个数组"></a>1.1. 声明一个数组</h3><p>格式：</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">元素类型 数组名[元素的数量]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
@@ -472,7 +473,7 @@
 <p>示例：</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个数组ages，并且进行初始化，ages可以存放5个int类型的元素</span></span><br><span class="line"><span class="built_in">int</span> ages[<span class="number">5</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">60</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明一个数组heights，并且进行初始化，heights可以存放5个float类型的元素</span></span><br><span class="line"><span class="built_in">float</span> heights[<span class="number">5</span>] = &#123;<span class="number">1.68</span>, <span class="number">1.75</span>, <span class="number">2.01</span>, <span class="number">1.85</span>, <span class="number">1.92</span>&#125;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-2-数组元素的访问"><a href="#1-2-数组元素的访问" class="headerlink" title="1.2. 数组元素的访问"></a>1.2. 数组元素的访问</h3><p>数组中的每一个元素都有一个唯一的索引（index，也叫做下标），是从0开始计算的。我们可以元素的索引访问元素。</p>
+<h3 id="1-2-数组元素的访问"><a href="#1-2-数组元素的访问" class="headerlink" title="1.2. 数组元素的访问"></a>1.2. 数组元素的访问</h3><p>数组中的每一个元素都有一个唯一的索引（index，也叫做下标），是从 0 开始计算的。我们可以元素的索引访问元素。</p>
 <p>示例：</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> ages[<span class="number">5</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">60</span>&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -491,50 +492,66 @@
 
 <p>分析元素内存地址：</p>
 <figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">"&amp;ages=%p\n"</span>, ages)<span class="comment">;</span></span><br><span class="line">for (<span class="name">int</span> i = <span class="number">0</span><span class="comment">; i &lt; 5; i++) &#123;</span></span><br><span class="line">    printf(<span class="string">"&amp;ages[%d]=%p\n"</span>, i, <span class="symbol">&amp;ages</span>[i])<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输出：</span><br><span class="line">    <span class="symbol">&amp;ages=0x7fbff560</span></span><br><span class="line">    <span class="symbol">&amp;ages</span>[<span class="number">0</span>]=0x7fbff560</span><br><span class="line">    <span class="symbol">&amp;ages</span>[<span class="number">1</span>]=0x7fbff564</span><br><span class="line">    <span class="symbol">&amp;ages</span>[<span class="number">2</span>]=0x7fbff568</span><br><span class="line">    <span class="symbol">&amp;ages</span>[<span class="number">3</span>]=0x7fbff56c</span><br><span class="line">    <span class="symbol">&amp;ages</span>[<span class="number">4</span>]=0x7fbff570</span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
 <p>从上面的内地地址可以看出：</p>
 <ul>
-<li>数组元素的地址是连续分配的，且每个元素占用对应类型的字节数（如int类型占用4个字节）；</li>
+<li>数组元素的地址是连续分配的，且每个元素占用对应类型的字节数（如 int 类型占用 4 个字节）；</li>
 <li>数组的地址等于数组首元素的地址。</li>
 </ul>
 <h2 id="三、数组的初始化细节"><a href="#三、数组的初始化细节" class="headerlink" title="三、数组的初始化细节"></a>三、数组的初始化细节</h2><ul>
-<li><p>如果没有初始化，数组元素的值是不确定的</p>
+<li>如果没有初始化，数组元素的值是不确定的</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a[<span class="number">3</span>];</span><br><span class="line">printf(<span class="string">"%d"</span>, a[<span class="number">0</span>]); <span class="comment">// 输出：0</span></span><br><span class="line"><span class="comment">// 注意：每次输出虽然是0，那是因为编译器做了优化，在实际开发中不建议这样使用</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以先声明，后初始化</p>
+
+<ul>
+<li>可以先声明，后初始化</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a[<span class="number">3</span>];</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">a[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">a[<span class="number">2</span>] = <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果在声明的同时进行初始化，可以不指定元素的数量</p>
+
+<ul>
+<li>如果在声明的同时进行初始化，可以不指定元素的数量</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a[] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">int</span> a[<span class="number">3</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以在声明的时候只初始化部分元素，其他元素默认会初始化为0</p>
+
+<ul>
+<li>可以在声明的时候只初始化部分元素，其他元素默认会初始化为 0</li>
+</ul>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">int</span> <span class="string">a[5]</span> <span class="string">=</span> <span class="string">&#123;10,</span> <span class="number">20</span><span class="string">,</span> <span class="number">30</span><span class="string">&#125;;</span></span><br><span class="line"><span class="string">//</span> <span class="string">&#123;10,</span> <span class="number">20</span><span class="string">,</span> <span class="number">30</span><span class="string">,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="string">int</span> <span class="string">b[5]</span> <span class="string">=</span> <span class="string">&#123;0&#125;;</span></span><br><span class="line"><span class="string">//</span> <span class="string">&#123;0,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="string">int</span> <span class="string">c[5]</span> <span class="string">=</span> <span class="string">&#123;&#125;;</span></span><br><span class="line"><span class="string">//</span> <span class="string">&#123;0,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">,</span> <span class="number">0</span><span class="string">&#125;</span> <span class="string">和上面第一种情况类似，虽然编译器支持，但不要这样写</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以在大括号里面指定索引（注意：指定索引时，一定要标注索引0从哪个位置开始，否则会数据异常）</p>
+
+<ul>
+<li>可以在大括号里面指定索引（注意：指定索引时，一定要标注索引 0 从哪个位置开始，否则会数据异常）</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 案例一：</span></span><br><span class="line"><span class="built_in">int</span> ages[<span class="number">5</span>] = &#123;[<span class="number">4</span>]=<span class="number">40</span>, [<span class="number">0</span>]=<span class="number">10</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">    printf(<span class="string">"%d\n"</span>, ages[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    10</span></span><br><span class="line"><span class="comment">    22</span></span><br><span class="line"><span class="comment">    33</span></span><br><span class="line"><span class="comment">    44</span></span><br><span class="line"><span class="comment">    40</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 案例二：</span></span><br><span class="line"><span class="built_in">int</span> ages[<span class="number">5</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, [<span class="number">1</span>]=<span class="number">200</span>, <span class="number">33</span>, <span class="number">44</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">    printf(<span class="string">"%d\n"</span>, ages[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    10</span></span><br><span class="line"><span class="comment">    200</span></span><br><span class="line"><span class="comment">    33</span></span><br><span class="line"><span class="comment">    44</span></span><br><span class="line"><span class="comment">    0</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数组的初始化元素数量不能超过数组的长度</p>
+
+<ul>
+<li>数组的初始化元素数量不能超过数组的长度</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 编译器会警告</span></span><br><span class="line"><span class="built_in">int</span> ages[<span class="number">3</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line">printf(<span class="string">"%d"</span>, ages[<span class="number">3</span>]); <span class="comment">// 输出：-652672928</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数组在声明的同时进行初始化，其长度不能是变量</p>
+
+<ul>
+<li>数组在声明的同时进行初始化，其长度不能是变量</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> count = <span class="number">5</span>;</span><br><span class="line"><span class="comment">// 错误写法，编译器报错</span></span><br><span class="line"><span class="built_in">int</span> ages[count] = &#123;<span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在数组声明以后，不能再通过大括号进行赋值</p>
+
+<ul>
+<li>在数组声明以后，不能再通过大括号进行赋值</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> ages[<span class="number">3</span>];</span><br><span class="line"><span class="comment">// 编译器报错</span></span><br><span class="line">ages[<span class="number">3</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样更不可能了，ages代表是数组的内存地址，是一个固定值</span></span><br><span class="line">ages = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数组的索引越界后，访问的数值是不确定的</p>
+
+<ul>
+<li>数组的索引越界后，访问的数值是不确定的</li>
+</ul>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> ages[<span class="number">3</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;;</span><br><span class="line">printf(<span class="string">"%d"</span>, ages[<span class="number">3</span>]); <span class="comment">// 输出：-652672928</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<h2 id="四、数组的索引为什么是从0开始的？"><a href="#四、数组的索引为什么是从0开始的？" class="headerlink" title="四、数组的索引为什么是从0开始的？"></a>四、数组的索引为什么是从0开始的？</h2><p>访问一个数组元素的值，是从0开始的，为什么呢？我们从内存角度分析下。</p>
+<h2 id="四、数组的索引为什么是从-0-开始的？"><a href="#四、数组的索引为什么是从-0-开始的？" class="headerlink" title="四、数组的索引为什么是从 0 开始的？"></a>四、数组的索引为什么是从 0 开始的？</h2><p>访问一个数组元素的值，是从 0 开始的，为什么呢？我们从内存角度分析下。</p>
 <p>示例：</p>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int a[<span class="number">5</span>] = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line">    printf(<span class="string">"a的内存地址：%p<span class="subst">\n</span>"</span>, a);</span><br><span class="line">    for (int i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">        printf(<span class="string">"a[%d]的内存地址：%p<span class="subst">\n</span>"</span>, i, &amp;a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     输出：</span></span><br><span class="line"><span class="comment">        a的内存地址：0x7fbff560</span></span><br><span class="line"><span class="comment">        a[0]的内存地址：0x7fbff560    a + 0 * 4 = a + 0</span></span><br><span class="line"><span class="comment">        a[1]的内存地址：0x7fbff564    a + 1 * 4 = a + 4</span></span><br><span class="line"><span class="comment">        a[2]的内存地址：0x7fbff568    a + 2 * 4 = a + 8</span></span><br><span class="line"><span class="comment">        a[3]的内存地址：0x7fbff56c    a + 3 * 4 = a + 12</span></span><br><span class="line"><span class="comment">        a[4]的内存地址：0x7fbff570    a + 4 * 4 = a + 16</span></span><br><span class="line"><span class="comment">     */</span></span><br></pre></td></tr></table></figure>
 
-<p>从上面的代码输出可以看出，数组的地址是数组首元素的地址，<br>可以推算出：<code>数组的元素地址 = 数组首元素地址 + 数组的索引 * 元素类型占用内存大小</code><br>数组a的内存地址：<code>0x7fbff560</code><br>数组元素索引为2的地址：<code>&amp;a[2] = 0x7fbff560 + 1 * 4 = 0x7fbff564</code></p>
-<p><strong>假设：如果数组的索引从1开始</strong><br>数组元素索引为1的地址（即首元素）：<code>&amp;a[1] = 0x7fbff560 + 1 * 4 = 0x7fbff564</code><br>数组元素索引为2的地址：<code>&amp;a[2] = 0x7fbff560 + 2 * 4 = 0x7fbff568</code><br>数组a的内存地址：<code>0x7fbff564</code></p>
-<p>可以看出，如果元素所以从1开始，数组前面就会空出4个字节，浪费内存空间。</p>
-<p>假如这时候把索引进行<code>-1</code>操作呢？<br>数组元素索引为1的地址（即首元素）：<code>&amp;a[1] = 0x7fbff560 + (1 - 1)  * 4 = 0x7fbff560</code><br>数组元素索引为2的地址：<code>&amp;a[2] = 0x7fbff560 + (2 - 1) * 4 = 0x7fbff564</code><br>数组a的内存地址：<code>0x7fbff560</code></p>
-<p>发现，如果数组的索引从1开始，然后对索引进行<code>-1</code>操作，确实解决了内存空间问题。但是，这样代码运行效率就变得有点低效了，因为每次都要进行减法运算。所以从0开始不仅可以解决内存空间问题，也能让代码快速高效地运行。</p>
+<p>从上面的代码输出可以看出，数组的地址是数组首元素的地址，<br>可以推算出：<code>数组的元素地址 = 数组首元素地址 + 数组的索引 * 元素类型占用内存大小</code><br>数组 a 的内存地址：<code>0x7fbff560</code><br>数组元素索引为 2 的地址：<code>&amp;a[2] = 0x7fbff560 + 1 * 4 = 0x7fbff564</code></p>
+<p><strong>假设：如果数组的索引从 1 开始</strong><br>数组元素索引为 1 的地址（即首元素）：<code>&amp;a[1] = 0x7fbff560 + 1 * 4 = 0x7fbff564</code><br>数组元素索引为 2 的地址：<code>&amp;a[2] = 0x7fbff560 + 2 * 4 = 0x7fbff568</code><br>数组 a 的内存地址：<code>0x7fbff564</code></p>
+<p>可以看出，如果元素所以从 1 开始，数组前面就会空出 4 个字节，浪费内存空间。</p>
+<p>假如这时候把索引进行<code>-1</code>操作呢？<br>数组元素索引为 1 的地址（即首元素）：<code>&amp;a[1] = 0x7fbff560 + (1 - 1) * 4 = 0x7fbff560</code><br>数组元素索引为 2 的地址：<code>&amp;a[2] = 0x7fbff560 + (2 - 1) * 4 = 0x7fbff564</code><br>数组 a 的内存地址：<code>0x7fbff560</code></p>
+<p>发现，如果数组的索引从 1 开始，然后对索引进行<code>-1</code>操作，确实解决了内存空间问题。但是，这样代码运行效率就变得有点低效了，因为每次都要进行减法运算。所以从 0 开始不仅可以解决内存空间问题，也能让代码快速高效地运行。</p>
 
       
     </div>
@@ -555,7 +572,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://idbeny.com/2016/06/10/c-syntax-basic-05/" title="【C】C语言基本语法（五）">http://idbeny.com/2016/06/10/c-syntax-basic-05/</a>
+    <a href="http://idbeny.com/2016/06/10/c-syntax-basic-05/" title="【C】C系列五 - 数组">http://idbeny.com/2016/06/10/c-syntax-basic-05/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -585,8 +602,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/07/c-syntax-basic-04/" rel="next" title="【C】C语言基本语法（四）">
-                <i class="fa fa-chevron-left"></i> 【C】C语言基本语法（四）
+              <a href="/2016/04/07/c-syntax-basic-04/" rel="next" title="【C】C系列四 - 流程控制">
+                <i class="fa fa-chevron-left"></i> 【C】C系列四 - 流程控制
               </a>
             
           </div>
@@ -674,7 +691,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -685,7 +702,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -696,7 +713,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">163</span>
+                <span class="site-state-item-count">170</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -766,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数组？"><span class="nav-number">1.</span> <span class="nav-text">一、什么是数组？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-声明一个数组"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 声明一个数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-数组元素的访问"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 数组元素的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-数组的遍历"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 数组的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、内存细节"><span class="nav-number">2.</span> <span class="nav-text">二、内存细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数组的初始化细节"><span class="nav-number">3.</span> <span class="nav-text">三、数组的初始化细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、数组的索引为什么是从0开始的？"><span class="nav-number">4.</span> <span class="nav-text">四、数组的索引为什么是从0开始的？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数组？"><span class="nav-number">1.</span> <span class="nav-text">一、什么是数组？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-声明一个数组"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 声明一个数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-数组元素的访问"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 数组元素的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-数组的遍历"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 数组的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、内存细节"><span class="nav-number">2.</span> <span class="nav-text">二、内存细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数组的初始化细节"><span class="nav-number">3.</span> <span class="nav-text">三、数组的初始化细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、数组的索引为什么是从-0-开始的？"><span class="nav-number">4.</span> <span class="nav-text">四、数组的索引为什么是从 0 开始的？</span></a></li></ol></div>
             
 
           </div>
@@ -789,7 +806,7 @@
         <div class="copyright" >
   
   &copy;  2016 - 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

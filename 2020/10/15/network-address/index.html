@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="MAC&#x2F;IP&#x2F;子网掩码在网络中非常重要，只要有网络的地方必然都会涉及这三个概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列三 - MAC地址&#x2F;IP地址&#x2F;子网掩码">
+<meta property="og:url" content="http://idbeny.com/2020/10/15/network-address/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="MAC&#x2F;IP&#x2F;子网掩码在网络中非常重要，只要有网络的地方必然都会涉及这三个概念。">
+<meta property="og:image" content="http://blog.idbeny.com/88u3b.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/sxit5.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/eh20p.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/v4ex1.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/77al5.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/nxgd8.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/2jbn1.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/n20lk.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/nt0aw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/hpbmf.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/tn5zv.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mnc0e.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/di9gm.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ydnme.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/wimsr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6mavx.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/t4xf8.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/cvp93.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/erozd.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/to5hg.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/iqhks.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/10ivu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/sjjgj.png@normal">
+<meta property="article:published_time" content="2020-10-15T13:12:36.000Z">
+<meta property="article:modified_time" content="2021-03-01T15:47:12.076Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/88u3b.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/10/15/network-address/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列三 - MAC地址/IP地址/子网掩码 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/10/15/network-address/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列三 - MAC地址/IP地址/子网掩码</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-15T21:12:36+08:00">
+                2020-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MAC/" itemprop="url" rel="index">
+                    <span itemprop="name">MAC</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IP/" itemprop="url" rel="index">
+                    <span itemprop="name">IP</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81/" itemprop="url" rel="index">
+                    <span itemprop="name">子网掩码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MAC/IP/子网掩码在网络中非常重要，只要有网络的地方必然都会涉及这三个概念。</p>
+<a id="more"></a>
+
+<h2 id="一、MAC"><a href="#一、MAC" class="headerlink" title="一、MAC"></a>一、MAC</h2><p>每一个网卡都有一个6字节（48bit）的MAC地址（<em>Media Access Control</em>）。</p>
+<p><img src="http://blog.idbeny.com/88u3b.png@normal" alt=""></p>
+<ul>
+<li><p>全球唯一，固化在了网卡的ROM中，由<strong>IEEE802</strong>标准规定</p>
+<ul>
+<li>前3个字节：OUI（<em>Organizationally Unique Identifier</em>），组织唯一标识符，由<strong>IEEE</strong>的注册管理机构分配给厂商</li>
+<li>后三个字节：网络接口标识符，由厂商自行分配</li>
+</ul>
+</li>
+<li><p><strong>OUI</strong>查询</p>
+<ul>
+<li><a href="http://standards-oui.ieee.org/oui.txt" target="_blank" rel="noopener">http://standards-oui.ieee.org/oui.txt</a></li>
+<li><a href="https://mac.51240.com/" target="_blank" rel="noopener">https://mac.51240.com/</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-MAC地址的表示格式"><a href="#1-1-MAC地址的表示格式" class="headerlink" title="1.1. MAC地址的表示格式"></a>1.1. MAC地址的表示格式</h3><ul>
+<li>Windows<ul>
+<li>32-06-52-3C-4F-2E</li>
+</ul>
+</li>
+<li>Linux、Android、Mac、iOS<ul>
+<li>32:06:52:3C:4F:2E</li>
+</ul>
+</li>
+<li>Packet Tracer<ul>
+<li>3206.523C.4F2E</li>
+</ul>
+</li>
+<li>当48位全为1时，代表广播地址（给同一个网段的所有设备）<ul>
+<li>FF-FF-FF-FF-FF-FF</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-MAC地址操作"><a href="#1-2-MAC地址操作" class="headerlink" title="1.2. MAC地址操作"></a>1.2. MAC地址操作</h3><p>查看MAC地址（终端）：</p>
+<ul>
+<li>Windows：<code>ipconfig</code></li>
+<li>Linux/Mac：<code>ifconfig</code></li>
+</ul>
+<p>有时可以通过修改MAC地址达到上网的目的（有些公司的内网路由器设定了MAC地址白名单，我司就是这样，手机都无法连接无线）。</p>
+<h3 id="1-3-MAC地址的获取"><a href="#1-3-MAC地址的获取" class="headerlink" title="1.3. MAC地址的获取"></a>1.3. MAC地址的获取</h3><p>当不知道对方主机的MAC地址时，可以通过发送ARP广播获取对方的MAC地址</p>
+<ul>
+<li>获取成功后，会缓存IP地址、MAC地址的映射信息，俗称：ARP缓存</li>
+<li>通过ARP广播获取的MAC地址，属于动态（dynamic）缓存。存储时间比较短（默认2分钟），过期会自动删除。</li>
+</ul>
+<blockquote>
+<p>当找不到对应MAC地址时会再次发送ARP广播，所以不需要担心更换网卡后无法上网的问题。</p>
+</blockquote>
+<p>相关命令：</p>
+<ul>
+<li><code>arp -a [主机地址]</code>：查询ARP缓存</li>
+<li><code>arp -d [主机地址]</code>：删除ARP缓存</li>
+<li><code>arp -s [主机地址] [MAC地址]</code>：增加一条缓存信息（这是静态缓存，存储时间比较久，不同系统的存储时间不同）</li>
+</ul>
+<h2 id="二、IP"><a href="#二、IP" class="headerlink" title="二、IP"></a>二、IP</h2><p>IP地址（<em>Internet Protocol</em>）：互联网上的每一个主机都有一个IP地址</p>
+<p>最初是IPv4版本，32bit（4字节），2019年11月25日，全球的IP地址已经用完。后面推出了IPv6版本，128bit（16字节）。</p>
+<h3 id="2-1-IP地址的组成"><a href="#2-1-IP地址的组成" class="headerlink" title="2.1. IP地址的组成"></a>2.1. IP地址的组成</h3><p><img src="http://blog.idbeny.com/sxit5.png@normal" alt=""></p>
+<p>IP地址由2部分组成：网络标识（网络ID）、主机标识（主机ID）<br>同一网段的计算机，网络ID相同</p>
+<p>通过子网掩码（<em>subnet mask</em>）可以计算出网络ID：<code>IP地址 &amp; 子网掩码</code></p>
+<blockquote>
+<p>按位与（&amp;）计算技巧：遇1就是原来的，遇0就是0。</p>
+</blockquote>
+<p>案例一：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IP地址：<span class="number">192.168</span><span class="number">.1</span><span class="number">.10</span></span><br><span class="line">子网掩码：<span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">计算网段：</span><br><span class="line">  <span class="number">1100</span> <span class="number">0000.1010</span> <span class="number">1000.0000</span> <span class="number">0001.0000</span> <span class="number">1010</span> -&gt; <span class="number">192.168</span><span class="number">.1</span><span class="number">.10</span>(<span class="number">10</span>进制)</span><br><span class="line">&amp;</span><br><span class="line">  <span class="number">1111</span> <span class="number">1111.1111</span> <span class="number">1111.1111</span> <span class="number">1111.0000</span> <span class="number">0000</span> -&gt; <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>(<span class="number">10</span>进制)</span><br><span class="line">  --------------------------------------------------------------</span><br><span class="line">= <span class="number">1100</span> <span class="number">0000.1010</span> <span class="number">1000.0000</span> <span class="number">0001.0000</span> <span class="number">0000</span> -&gt; <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>(<span class="number">10</span>进制)</span><br><span class="line"></span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span> 代表网络ID，后面一部分代表主机ID。</span><br></pre></td></tr></table></figure>
+
+<p>案例二：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IP地址：<span class="number">192.168</span><span class="number">.1</span><span class="number">.10</span></span><br><span class="line">子网掩码：<span class="number">255.255</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">计算网段：</span><br><span class="line">  <span class="number">1100</span> <span class="number">0000.1010</span> <span class="number">1000.0000</span> <span class="number">0001.0000</span> <span class="number">1010</span> -&gt; <span class="number">192.168</span><span class="number">.1</span><span class="number">.10</span>(<span class="number">10</span>进制)</span><br><span class="line">&amp;</span><br><span class="line">  <span class="number">1111</span> <span class="number">1111.1111</span> <span class="number">1111.0000</span> <span class="number">0000.0000</span> <span class="number">0000</span> -&gt; <span class="number">255.255</span><span class="number">.0</span><span class="number">.0</span>(<span class="number">10</span>进制)</span><br><span class="line">  --------------------------------------------------------------</span><br><span class="line">= <span class="number">1100</span> <span class="number">0000.1010</span> <span class="number">1000.0000</span> <span class="number">0000.0000</span> <span class="number">0000</span> -&gt; <span class="number">192.168</span><span class="number">.0</span><span class="number">.0</span>(<span class="number">10</span>进制)</span><br><span class="line"></span><br><span class="line"><span class="number">192.168</span> 代表网络ID，后面两部分位代表主机ID。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：主机ID要去除全0和全255，因为0代表网段（例：192.168.0.0），255代表广播地址（例：192.168.255.255）。</p>
+</blockquote>
+<p>计算机和其他计算机通信前，会先判断目标主机和自己是否在同一网段</p>
+<ul>
+<li>同一网段：不需要由路由器进行转发</li>
+<li>不同网段：交由路由器进行转发</li>
+</ul>
+<h3 id="2-2-IP地址的分类"><a href="#2-2-IP地址的分类" class="headerlink" title="2.2. IP地址的分类"></a>2.2. IP地址的分类</h3><h4 id="2-2-1-A类地址：默认子网掩码是255-0-0-0"><a href="#2-2-1-A类地址：默认子网掩码是255-0-0-0" class="headerlink" title="2.2.1. A类地址：默认子网掩码是255.0.0.0"></a>2.2.1. A类地址：默认子网掩码是<code>255.0.0.0</code></h4><p><img src="http://blog.idbeny.com/eh20p.png@normal" alt=""><br><img src="http://blog.idbeny.com/v4ex1.png@normal" alt=""></p>
+<p><strong>网络ID：</strong></p>
+<ul>
+<li><code>0</code>不能用，<code>127</code>作为保留网段。其中<code>127.0.0.1</code>是本地环回地址（<em>Loopback</em>），代表本机地址。</li>
+<li>所以，可以分配给主机的，第1部分的取值范围是：<code>1~126</code></li>
+</ul>
+<p><strong>主机ID：</strong></p>
+<ul>
+<li>第2、3、4部分的取值范围是：<code>0~255</code></li>
+<li>每个A类网络能容纳的最大主机数是：<code>256 * 256 * 256 - 2 = 2的24次方 - 2 = 16777214</code></li>
+</ul>
+<h4 id="2-2-2-B类地址：默认子网掩码是255-255-0-0"><a href="#2-2-2-B类地址：默认子网掩码是255-255-0-0" class="headerlink" title="2.2.2. B类地址：默认子网掩码是255.255.0.0"></a>2.2.2. B类地址：默认子网掩码是<code>255.255.0.0</code></h4><p><img src="http://blog.idbeny.com/77al5.png@normal" alt=""><br><img src="http://blog.idbeny.com/nxgd8.png@normal" alt=""></p>
+<p><strong>网络ID：</strong></p>
+<ul>
+<li>可以分配给主机的<ul>
+<li>第1部分的取值范围是：<code>128~191</code></li>
+<li>第2部分的取值范围是：<code>0~255</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>主机ID：</strong></p>
+<ul>
+<li>第3、4部分的取值范围是：<code>0~255</code></li>
+<li>每个B类网络能容纳的最大主机数是：<code>256 * 256 - 2 = 2的16次方 - 2 = 65534</code></li>
+</ul>
+<h4 id="2-2-3-C类地址：默认子网掩码是255-255-255-0"><a href="#2-2-3-C类地址：默认子网掩码是255-255-255-0" class="headerlink" title="2.2.3. C类地址：默认子网掩码是255.255.255.0"></a>2.2.3. C类地址：默认子网掩码是<code>255.255.255.0</code></h4><p><img src="http://blog.idbeny.com/2jbn1.png@normal" alt=""><br><img src="http://blog.idbeny.com/n20lk.png@normal" alt=""></p>
+<p><strong>网络ID：</strong></p>
+<ul>
+<li>可以分配给主机的<ul>
+<li>第1部分的取值范围是：<code>192~223</code></li>
+<li>第2、3部分的取值范围是：<code>0~255</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>主机ID：</strong></p>
+<ul>
+<li>第4部分的取值范围是：<code>0~255</code></li>
+<li>每个C类网络能容纳的最大主机数是：<code>256 - 2 = 2的8次方 - 2 = 254</code></li>
+</ul>
+<h4 id="2-2-4-D类地址：以1110开头，多播地址"><a href="#2-2-4-D类地址：以1110开头，多播地址" class="headerlink" title="2.2.4. D类地址：以1110开头，多播地址"></a>2.2.4. D类地址：以<code>1110</code>开头，多播地址</h4><p>D类地址没有子网掩码，用于多播（组播）地址。</p>
+<p><img src="http://blog.idbeny.com/nt0aw.png@normal" alt=""></p>
+<p>第1部分取值范围是：<code>224~239</code>。</p>
+<h4 id="2-2-5-E类地址：以1111开头，保留为今后使用"><a href="#2-2-5-E类地址：以1111开头，保留为今后使用" class="headerlink" title="2.2.5. E类地址：以1111开头，保留为今后使用"></a>2.2.5. E类地址：以<code>1111</code>开头，保留为今后使用</h4><p>E类地址保留为今后使用。</p>
+<p><img src="http://blog.idbeny.com/hpbmf.png@normal" alt=""></p>
+<p>第1部分取值范围是：<code>240~255</code>。</p>
+<blockquote>
+<p>只有A/B/C类地址才能分配给主机。</p>
+<ul>
+<li>主机ID为全0，表示主机所在的网段</li>
+<li>主机ID为全1，表示主机所在网段的全部主机（广播）</li>
+<li>可以尝试用ping给某个网段的全部主机发数据</li>
+</ul>
+</blockquote>
+<h2 id="三、子网掩码"><a href="#三、子网掩码" class="headerlink" title="三、子网掩码"></a>三、子网掩码</h2><h3 id="3-1-CIDR"><a href="#3-1-CIDR" class="headerlink" title="3.1. CIDR"></a>3.1. CIDR</h3><p><strong>CIDR</strong>（<em>Classless Inter-Domain Routing</em>）：无类别域间路由。</p>
+<p>子网掩码的CIDR表示方法：</p>
+<ul>
+<li><code>192.168.1.100/24</code>，代表子网掩码有24个1，也就是<code>255.255.255.0</code></li>
+<li><code>123.210.100.200/16</code>，代表子网掩码有16个1，也就是<code>255.255.0.0</code></li>
+</ul>
+<p>计算工具：<a href="https://www.sojson.com/convert/subnetmask.html" target="_blank" rel="noopener">https://www.sojson.com/convert/subnetmask.html</a></p>
+<p><img src="http://blog.idbeny.com/tn5zv.png@normal" alt=""></p>
+<h3 id="3-2-子网划分"><a href="#3-2-子网划分" class="headerlink" title="3.2. 子网划分"></a>3.2. 子网划分</h3><blockquote>
+<p>为什么要进行子网划分？</p>
+</blockquote>
+<p>如果需要让200台主机在同一个网段内，可以分配一个C类网段，比如<code>192.168.1.0/24</code>。</p>
+<ul>
+<li>共254个可用IP地址：<code>192.168.1.1 ~ 192.168.1.254</code></li>
+<li>多出54个空闲的IP地址（这种情况并不算浪费资源）</li>
+</ul>
+<p>如果需要让500台主机在同一个网段内，那就分配一个B类网段，比如<code>191.100.0.0/16</code>。</p>
+<ul>
+<li>共65534个可用IP地址：<code>191.100.0.1 ~ 191.100.255.254</code></li>
+<li>多出65034个空闲的IP地址（这种情况属于极大的浪费资源）</li>
+</ul>
+<p>如何尽量避免浪费IP地址资源？合理进行<strong>子网划分</strong>。</p>
+<p><strong>子网划分：借用主机位做子网位，划分出多个子网。</strong></p>
+<ul>
+<li>可分为：<ul>
+<li><strong>等长子网划分：</strong> 将一个网段等分成多个子网，每个子网的可用IP地址数量是一样的。<ul>
+<li>比如<code>172.16.0.0/16</code>划分4个子网段，每个段可用IP地址就是6553个。</li>
+</ul>
+</li>
+<li><strong>变长子网划分：</strong> 每个子网的可用IP地址数量可以是不一样的。<ul>
+<li>比如<code>191.100.0.0/16</code>划分3个子网段，第1段给512个IP地址，第2段给2048个IP地址，剩余的给最后一个网段。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>子网划分器：<a href="http://www.ab126.com/web/3552.html" target="_blank" rel="noopener">http://www.ab126.com/web/3552.html</a></p>
+<p>子网划分的步骤：</p>
+<ul>
+<li>确定子网的子网掩码长度</li>
+<li>确定子网中第1个、最后1个主机可用的IP地址</li>
+</ul>
+<h4 id="3-2-1-等长子网划分"><a href="#3-2-1-等长子网划分" class="headerlink" title="3.2.1. 等长子网划分"></a>3.2.1. 等长子网划分</h4><p><strong>等分成2个子网：</strong><br><img src="http://blog.idbeny.com/mnc0e.png@normal" alt=""></p>
+<p>A子网：</p>
+<ul>
+<li>网段：<code>192.168.0.0</code></li>
+<li>子网掩码：<code>255.255.255.128/25</code></li>
+<li>广播：<code>192.168.0.127</code></li>
+<li>主机范围：<code>192.168.0.1 ~ 192.168.0.126</code></li>
+</ul>
+<p>B子网：</p>
+<ul>
+<li>网段：<code>192.168.0.128</code></li>
+<li>子网掩码：<code>255.255.255.128/25</code></li>
+<li>广播：<code>192.168.0.255</code></li>
+<li>主机范围：<code>192.168.0.129 ~ 192.168.0.254</code></li>
+</ul>
+<p><strong>等分成4个子网：</strong><br><img src="http://blog.idbeny.com/di9gm.png@normal" alt=""></p>
+<p>A子网：</p>
+<ul>
+<li>网段：<code>192.168.0.0</code></li>
+<li>子网掩码：<code>255.255.255.192/26</code></li>
+<li>广播：<code>192.168.0.63</code></li>
+<li>主机范围：<code>192.168.0.1 ~ 192.168.0.62</code></li>
+</ul>
+<p>B子网：</p>
+<ul>
+<li>网段：<code>192.168.0.64</code></li>
+<li>子网掩码：<code>255.255.255.192/26</code></li>
+<li>广播：<code>192.168.0.127</code></li>
+<li>主机范围：<code>192.168.0.65 ~ 192.168.0.126</code></li>
+</ul>
+<p>C子网：</p>
+<ul>
+<li>网段：<code>192.168.0.128</code></li>
+<li>子网掩码：<code>255.255.255.192/26</code></li>
+<li>广播：<code>192.168.0.191</code></li>
+<li>主机范围：<code>192.168.0.129 ~ 192.168.0.190</code></li>
+</ul>
+<p>D子网：</p>
+<ul>
+<li>网段：<code>192.168.0.192</code></li>
+<li>子网掩码：<code>255.255.255.192/26</code></li>
+<li>广播：<code>192.168.0.255</code></li>
+<li>主机范围：<code>192.168.0.193 ~ 192.168.0.254</code></li>
+</ul>
+<p><strong>B类子网划分：</strong><br><img src="http://blog.idbeny.com/ydnme.png@normal" alt=""></p>
+<p><strong>A类子网划分：</strong><br><img src="http://blog.idbeny.com/wimsr.png@normal" alt=""></p>
+<blockquote>
+<p><strong>规律：要将子网等分为<code>2^n</code>个更小的子网，则子网掩码在原来基础上右移<code>n</code>位。</strong></p>
+</blockquote>
+<p>思考：下面两台设备是否能够正常通信？<br><img src="http://blog.idbeny.com/6mavx.png@normal" alt=""></p>
+<p>答案：<strong>不能</strong>，因为不在同一个网段，计算机0的网段是<code>192.168.0.0</code>，计算机1的网段是<code>192.168.0.128</code>。要想让这两台设备进行通信，需要添加一个路由器即可。</p>
+<p><img src="http://blog.idbeny.com/t4xf8.png@normal" alt=""></p>
+<h4 id="3-2-2-变长子网划分"><a href="#3-2-2-变长子网划分" class="headerlink" title="3.2.2. 变长子网划分"></a>3.2.2. 变长子网划分</h4><p>如果一个子网地址块的长度是原网段的<code>(1/2)^n</code>，那么</p>
+<ul>
+<li>子网的子网掩码，就是在原网段的子网掩码基础上增加n个1</li>
+<li>不等长的子网，它们的子网掩码也不同</li>
+</ul>
+<p><img src="http://blog.idbeny.com/cvp93.png@normal" alt=""></p>
+<p>假设上图是对<code>192.168.0.0/24</code>进行变长子网划分<br>C网段：子网掩码是<code>255.255.255.128/25</code><br>B网段：子网掩码是<code>255.255.255.192/26</code><br>A网段：子网掩码是<code>255.255.255.224/27</code><br>D网段：子网掩码是<code>255.255.255.252/30</code><br>E网段：子网掩码是<code>255.255.255.252/30</code></p>
+<p>思考：下面两台设备是否能够正常通信？<br><img src="http://blog.idbeny.com/erozd.png@normal" alt=""></p>
+<p>答案：<strong>不能</strong>，因为不在同一个网段，计算机0的网段是<code>192.168.0.0</code>，计算机1的网段是<code>192.168.10.0</code>。要想让这两台设备进行通信，需要添加一个路由器即可。</p>
+<p>分析：计算机0和计算机1通信时，只有计算机1的IP地址，没有计算机1的子网掩码，最终是拿着<strong>对方的IP地址和自己的子网掩码按位与计算出的网段</strong>，所以计算机1的网段是<code>192.168.10.0</code>，和计算机0不在同一个网段，也就无法进行通信。如果是计算机1和计算机0进行通信，两台设备的IP和计算机1的子网掩码按位与计算后网段都是<code>192.168.0.0</code>，可以向计算机0发送消息，但由于计算机0计算和计算机1不在同一个网段，计算机0就无法向计算机1回复消息，所以无法正常通信。</p>
+<blockquote>
+<p>注意：IP地址的分类是看IP地址的第一部分属于哪一类的范围，子网掩码和IP地址分类没有任何关系。子网划分只能是2的指数。</p>
+</blockquote>
+<h3 id="3-3-超网"><a href="#3-3-超网" class="headerlink" title="3.3. 超网"></a>3.3. 超网</h3><p>超网：跟子网反过来，它是将多个连续的网段合并成一个更大的网段。</p>
+<h4 id="3-3-1-合并2个网段"><a href="#3-3-1-合并2个网段" class="headerlink" title="3.3.1. 合并2个网段"></a>3.3.1. 合并2个网段</h4><p><img src="http://blog.idbeny.com/to5hg.png@normal" alt=""></p>
+<p>把网络部分划分出来给主机使用。上图划分后主机位后，<code>192.168.0.0</code>和<code>192.168.1.0</code>的网段都是<code>192.168.0.0</code>，并且由于主机位高位增加了1位，所以主机数比之前多了一倍（具体还是要减2的—去除网段和广播地址）。</p>
+<p>需求：原来有200台计算机使用<code>192.168.0.0/24</code>网段，现在希望增加200台设备到同一个网段。</p>
+<ul>
+<li>200台在<code>192.168.0.0/24</code>网段，200台在<code>192.168.1.0/24</code>网段</li>
+<li>合并<code>192.168.0.0/24</code>、<code>192.168.1.0/24</code>为一个网段：<code>192.168.0.0/23</code>（子网掩码往左移动1位）</li>
+</ul>
+<p>思考：<code>192.168.0.255/23</code>这个IP地址可以分配给计算机使用么？</p>
+<p><img src="http://blog.idbeny.com/iqhks.png@normal" alt=""></p>
+<p>答案：<strong>可以</strong>。因为主机部分实际是9位，此时主机位高位是0，并不是全部为1，因此这个IP地址不是广播地址，最终是可以分配给计算机使用的。如果把主机部分的高位变为1，实际的IP地址就是<code>192.168.1.255/23</code>（广播地址），这时候就不能分配给计算机使用了。</p>
+<h4 id="3-3-2-合并4个网段"><a href="#3-3-2-合并4个网段" class="headerlink" title="3.3.2. 合并4个网段"></a>3.3.2. 合并4个网段</h4><p>子网掩码向左移动2位，可以合并4个网段。</p>
+<p><img src="http://blog.idbeny.com/10ivu.png@normal" alt=""></p>
+<p>将<code>192.168.0.0/24</code>、<code>192.168.1.0/24</code>、<code>192.168.2.0/24</code>、<code>192.168.3.0/24</code>合并为<code>192.168.0.0/22</code>网段。</p>
+<p>思考：下面的2个网段，能通过子网掩码向左移动1位进行合并么？<br><img src="http://blog.idbeny.com/sjjgj.png@normal" alt=""></p>
+<p>答案：<strong>不可以</strong>。因为<code>192.168.2.0</code>要想和<code>192.168.1.0</code>合并为同一个网段，必须向左移动两位才可以。</p>
+<h4 id="3-3-3-合并网段的规律"><a href="#3-3-3-合并网段的规律" class="headerlink" title="3.3.3. 合并网段的规律"></a>3.3.3. 合并网段的规律</h4><p>假设n是2的k次幂（k≥1）</p>
+<ul>
+<li>子网掩码左移k位将能够合并n个网段</li>
+<li>如果第一个网段的网络号能被n整除，那么由它开始连续的n个网段，能通过左移k位子网掩码进行合并</li>
+</ul>
+<p>比如：</p>
+<ul>
+<li>第一个网段的网络号以二进制0结尾，那么由它开始连续的2个网段，能通过左移1位子网掩码进行合并</li>
+<li>第一个网段的网络号以二进制00结尾，那么由它开始连续的4个网段，能通过左移2位子网掩码进行合并</li>
+</ul>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>   <span class="number">192.168</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">24</span>    <span class="number">192.168</span><span class="number">.0000</span> <span class="number">00</span>|<span class="number">0</span>|<span class="number">0.0</span></span><br><span class="line"><span class="number">1</span>   <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span>    <span class="number">192.168</span><span class="number">.0000</span> <span class="number">00</span>|<span class="number">0</span>|<span class="number">1.0</span></span><br><span class="line"><span class="number">2</span>   <span class="number">192.168</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">24</span>    <span class="number">192.168</span><span class="number">.0000</span> <span class="number">00</span>|<span class="number">1</span>|<span class="number">0.0</span></span><br><span class="line"><span class="number">3</span>   <span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span>    <span class="number">192.168</span><span class="number">.0000</span> <span class="number">00</span>|<span class="number">1</span>|<span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">上面就很容易看出，<span class="number">1</span>和<span class="number">2</span>左移<span class="number">1</span>位是不能合并到同一个网段的。左移<span class="number">1</span>位，<span class="number">0</span>和<span class="number">1</span>可以合并，<span class="number">2</span>和<span class="number">3</span>可以合并。左移<span class="number">2</span>位，<span class="number">0</span>到<span class="number">3</span>可以合并。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一旦使用超网，其实就没有必要划分地址分类了。当然具体还是根据需求进行定制。</p>
+</blockquote>
+<h3 id="3-4-判断一个网段是子网还是超网"><a href="#3-4-判断一个网段是子网还是超网" class="headerlink" title="3.4. 判断一个网段是子网还是超网"></a>3.4. 判断一个网段是子网还是超网</h3><ol>
+<li>首先</li>
+</ol>
+<ul>
+<li>看该网段的类型（IP地址分类）</li>
+<li>默认情况下，A类子网掩码的位数是8（<code>255.0.0.0</code>），B类子网掩码的位数是16（<code>255.255.0.0</code>），C类子网掩码的位数是24（<code>255.255.255.0</code>）</li>
+</ul>
+<ol start="2">
+<li>然后</li>
+</ol>
+<ul>
+<li>如果该网段的子网掩码位数比默认子网掩码<strong>多</strong>，就是<strong>子网</strong></li>
+<li>如果该网段的子网掩码位数比默认子网掩码<strong>少</strong>，就是<strong>超网</strong></li>
+</ul>
+<blockquote>
+<p>例：<code>25.100.0.0/16</code>是一个A类子网；<code>200.100.0.0/16</code>是一个C类超网。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/10/15/network-address/" title="【网络协议】网络协议系列三 - MAC地址/IP地址/子网掩码">http://idbeny.com/2020/10/15/network-address/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/15/network-bridge/" rel="next" title="【网络协议】网络协议系列二 - 集线器/网桥/交换机/路由器">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列二 - 集线器/网桥/交换机/路由器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/17/network-route/" rel="prev" title="【网络协议】网络协议系列四 - 路由/名词解释">
+                【网络协议】网络协议系列四 - 路由/名词解释 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、MAC"><span class="nav-number">1.</span> <span class="nav-text">一、MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-MAC地址的表示格式"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. MAC地址的表示格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-MAC地址操作"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. MAC地址操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-MAC地址的获取"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. MAC地址的获取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、IP"><span class="nav-number">2.</span> <span class="nav-text">二、IP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-IP地址的组成"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. IP地址的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-IP地址的分类"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. IP地址的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-A类地址：默认子网掩码是255-0-0-0"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1. A类地址：默认子网掩码是255.0.0.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-B类地址：默认子网掩码是255-255-0-0"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2. B类地址：默认子网掩码是255.255.0.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-C类地址：默认子网掩码是255-255-255-0"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3. C类地址：默认子网掩码是255.255.255.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-D类地址：以1110开头，多播地址"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4. D类地址：以1110开头，多播地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-E类地址：以1111开头，保留为今后使用"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2.5. E类地址：以1111开头，保留为今后使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、子网掩码"><span class="nav-number">3.</span> <span class="nav-text">三、子网掩码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-CIDR"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. CIDR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-子网划分"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 子网划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-等长子网划分"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1. 等长子网划分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-变长子网划分"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2. 变长子网划分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-超网"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 超网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-合并2个网段"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1. 合并2个网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-合并4个网段"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2. 合并4个网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-合并网段的规律"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3. 合并网段的规律</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-判断一个网段是子网还是超网"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. 判断一个网段是子网还是超网</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -96,12 +96,12 @@
 
 
 
-<meta name="description" content="C语言的数据类型有很多，可以分为4大类型：">
+<meta name="description" content="C 语言的数据类型有很多，可以分为 4 大类型：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【C】C语言基本语法（二）">
+<meta property="og:title" content="【C】C系列二 - 数据类型">
 <meta property="og:url" content="http://idbeny.com/2016/03/10/c-syntax-basic-02/index.html">
 <meta property="og:site_name" content="1024星球">
-<meta property="og:description" content="C语言的数据类型有很多，可以分为4大类型：">
+<meta property="og:description" content="C 语言的数据类型有很多，可以分为 4 大类型：">
 <meta property="og:image" content="http://blog.idbeny.com/zmwjx.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/xov4u.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/boemg.png@normal">
@@ -126,7 +126,7 @@
 <meta property="og:image" content="http://blog.idbeny.com/eed5s.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/6zizm.png@normal">
 <meta property="article:published_time" content="2016-03-10T04:58:30.000Z">
-<meta property="article:modified_time" content="2020-09-20T03:25:53.354Z">
+<meta property="article:modified_time" content="2020-11-27T12:12:19.703Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="整型">
@@ -182,7 +182,7 @@
         border-left-color: #1E92FB;    /*左边框颜色*/
     }
 </style>
-  <title>【C】C语言基本语法（二） | 1024星球</title>
+  <title>【C】C系列二 - 数据类型 | 1024星球</title>
   
 
 
@@ -386,7 +386,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【C】C语言基本语法（二）</h2>
+          <h2 class="post-title" itemprop="name headline">【C】C系列二 - 数据类型</h2>
         
 
         <div class="post-meta">
@@ -490,10 +490,11 @@
       
 
       
-        <p>C语言的数据类型有很多，可以分为4大类型：</p>
+        <p>C 语言的数据类型有很多，可以分为 4 大类型：</p>
 <a id="more"></a>
+
 <ul>
-<li>void类型</li>
+<li>void 类型</li>
 <li>基本类型<ul>
 <li>字符类型</li>
 <li>有符号整数类型</li>
@@ -517,8 +518,8 @@
 <li><code>char</code>（等价类型：<code>signed char</code>）</li>
 <li><code>short</code>（等价类型：<code>signed short</code>、<code>short int</code>、<code>signed short int</code>）</li>
 <li><code>int</code>（等价类型：<code>signed int</code>、<code>signed</code>）</li>
-<li><code>long</code>（等价类型：<code>signed long</code>、<code>long int</code>、<code>signed long int</code>）（C99起）</li>
-<li><code>long long</code>（等价类型：<code>signed long long</code>、<code>long long int</code>、<code>signed long long in</code>t`）（C99起）</li>
+<li><code>long</code>（等价类型：<code>signed long</code>、<code>long int</code>、<code>signed long int</code>）（C99 起）</li>
+<li><code>long long</code>（等价类型：<code>signed long long</code>、<code>long long int</code>、<code>signed long long in</code>t`）（C99 起）</li>
 </ul>
 </li>
 <li><p>无符号整数类型</p>
@@ -526,8 +527,8 @@
 <li>unsigned char</li>
 <li>unsigned short（等价类型：<code>unsigned short int</code>）</li>
 <li>unsigned int（等价类型：<code>unsigned</code>）</li>
-<li>unsigned long（等价类型：<code>unsigned long int</code>）（C99起）</li>
-<li>unsigned long long（等价类型：<code>unsigned long long int</code>）（C99起）</li>
+<li>unsigned long（等价类型：<code>unsigned long int</code>）（C99 起）</li>
+<li>unsigned long long（等价类型：<code>unsigned long long int</code>）（C99 起）</li>
 </ul>
 </li>
 <li><p>字符类型</p>
@@ -543,12 +544,12 @@
 </ul>
 </li>
 </ul>
-<h3 id="1-1-整数类型"><a href="#1-1-整数类型" class="headerlink" title="1.1. 整数类型"></a>1.1. 整数类型</h3><h4 id="1-1-1-整数类型大小"><a href="#1-1-1-整数类型大小" class="headerlink" title="1.1.1. 整数类型大小"></a>1.1.1. 整数类型大小</h4><p>C标准规定</p>
+<h3 id="1-1-整数类型"><a href="#1-1-整数类型" class="headerlink" title="1.1. 整数类型"></a>1.1. 整数类型</h3><h4 id="1-1-1-整数类型大小"><a href="#1-1-1-整数类型大小" class="headerlink" title="1.1.1. 整数类型大小"></a>1.1.1. 整数类型大小</h4><p>C 标准规定</p>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> == <span class="keyword">sizeof</span>(<span class="keyword">char</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="keyword">short</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="keyword">int</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="keyword">long</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="keyword">long</span> <span class="keyword">long</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-1-2-数据模型"><a href="#1-1-2-数据模型" class="headerlink" title="1.1.2. 数据模型"></a>1.1.2. 数据模型</h4><p>关于基本类型大小的是实现方案，统称为：数据模型。有4种常见的数据模型</p>
+<h4 id="1-1-2-数据模型"><a href="#1-1-2-数据模型" class="headerlink" title="1.1.2. 数据模型"></a>1.1.2. 数据模型</h4><p>关于基本类型大小的是实现方案，统称为：数据模型。有 4 种常见的数据模型</p>
 <ul>
-<li><p>32bit系统（指针为32位）</p>
+<li><p>32bit 系统（指针为 32 位）</p>
 <ul>
 <li>LP32<ul>
 <li>Win16 API</li>
@@ -556,48 +557,50 @@
 </li>
 <li>ILP32<ul>
 <li>Win32 API</li>
-<li>Unix、类Unix系统（Linux、Mac OS X）</li>
+<li>Unix、类 Unix 系统（Linux、Mac OS X）</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>64bit系统（指针为64位）</p>
+<li><p>64bit 系统（指针为 64 位）</p>
 <ul>
 <li>LLP64<ul>
 <li>Win64 API</li>
 </ul>
 </li>
 <li>LP64<ul>
-<li>Unix、类Unix系统（Linux、Mac OS X）</li>
+<li>Unix、类 Unix 系统（Linux、Mac OS X）</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>比较少见的数据模型</p>
 <ul>
-<li>ILP64：int、long、指针均为64位<ul>
-<li>仅出现在早期64位Unix系统（例如 Unicos on Cray）</li>
+<li>ILP64：int、long、指针均为 64 位<ul>
+<li>仅出现在早期 64 位 Unix 系统（例如 Unicos on Cray）</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p><img src="http://blog.idbeny.com/zmwjx.png@normal" alt="">  </p>
+<p><img src="http://blog.idbeny.com/zmwjx.png@normal" alt=""></p>
 <h4 id="1-1-3-有符号整数类型和无符号整数类型区别"><a href="#1-1-3-有符号整数类型和无符号整数类型区别" class="headerlink" title="1.1.3. 有符号整数类型和无符号整数类型区别"></a>1.1.3. 有符号整数类型和无符号整数类型区别</h4><p>整数类型可分为：有符号整数类型、无符号整数类型。<br><img src="http://blog.idbeny.com/xov4u.png@normal" alt=""></p>
-<h4 id="1-1-4-有符号整数char、无符号整数unsigned-char"><a href="#1-1-4-有符号整数char、无符号整数unsigned-char" class="headerlink" title="1.1.4. 有符号整数char、无符号整数unsigned char"></a>1.1.4. 有符号整数char、无符号整数unsigned char</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// <span class="number">0xBD</span> &lt;=&gt; <span class="number">0b10111101</span></span><br><span class="line">char c1 = <span class="number">0xBD</span>;</span><br><span class="line">unsigned char c2 = <span class="number">0xBD</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, c1, c2); // 输出：-<span class="number">67</span> <span class="number">189</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-1-4-有符号整数-char、无符号整数-unsigned-char"><a href="#1-1-4-有符号整数-char、无符号整数-unsigned-char" class="headerlink" title="1.1.4. 有符号整数 char、无符号整数 unsigned char"></a>1.1.4. 有符号整数 char、无符号整数 unsigned char</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// <span class="number">0xBD</span> &lt;=&gt; <span class="number">0b10111101</span></span><br><span class="line">char c1 = <span class="number">0xBD</span>;</span><br><span class="line">unsigned char c2 = <span class="number">0xBD</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, c1, c2); // 输出：-<span class="number">67</span> <span class="number">189</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/boemg.png@normal" alt=""></p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// <span class="number">0x43</span> &lt;=&gt; <span class="number">0b01000011</span></span><br><span class="line">char c1 = <span class="number">0x43</span>;</span><br><span class="line">unsigned char c2 = <span class="number">0x43</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d %d"</span>, c1, c2); // 输出：<span class="number">67</span> <span class="number">67</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/p5pri.png@normal" alt=""></p>
 <ul>
-<li>c1、c2变量在内存中存放的二进制数据是完全一样的；</li>
+<li>c1、c2 变量在内存中存放的二进制数据是完全一样的；</li>
 <li>对于同一份二进制数据，分别以有符号数形式、无符号数形式解读出来的含义可能是不一样的。</li>
 </ul>
 <h4 id="1-1-5-整数的取值范围"><a href="#1-1-5-整数的取值范围" class="headerlink" title="1.1.5. 整数的取值范围"></a>1.1.5. 整数的取值范围</h4><p><code>char</code>、<code>unsigned char</code> 都只占用一个字节，能够存放的二进制数据范围都是<code>[0b0000 0000, 0b1111 1111]</code>。<br><img src="http://blog.idbeny.com/qt35f.png@normal" alt=""></p>
 <ul>
 <li><code>char</code>的取值范围：$[-128, 127] = [-2^7, 2^7-1]$</li>
 <li><code>unsigned char</code>的取值范围：$[0, 255] = [0, 2^8-1]$</li>
-<li>有n个二进制位的有符号数的取值范围$[-2^{n-1}, 2^{n-1}-1]$</li>
-<li>有n个二进制位的无符号数的取值范围$[0, 2^n-1]$</li>
+<li>有 n 个二进制位的有符号数的取值范围$[-2^{n-1}, 2^{n-1}-1]$</li>
+<li>有 n 个二进制位的无符号数的取值范围$[0, 2^n-1]$</li>
 </ul>
 <table>
 <thead>
@@ -660,8 +663,8 @@
 <h4 id="1-1-6-溢出（Overflow）"><a href="#1-1-6-溢出（Overflow）" class="headerlink" title="1.1.6. 溢出（Overflow）"></a>1.1.6. 溢出（Overflow）</h4><p>溢出指的是内容超过了已知容器的容量。</p>
 <p>例：<code>short s;</code></p>
 <ul>
-<li><code>short</code>类型的变量s有2个字节的内存空间</li>
-<li>如果要将超过2个字节（比如4个字节）的数据存储到变量s中去，就会产生内存溢出</li>
+<li><code>short</code>类型的变量 s 有 2 个字节的内存空间</li>
+<li>如果要将超过 2 个字节（比如 4 个字节）的数据存储到变量 s 中去，就会产生内存溢出</li>
 </ul>
 <p>案例一：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">16909292</span>;</span><br><span class="line">short s = <span class="number">16909292</span>;</span><br><span class="line"><span class="keyword">char</span> c = i;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i); <span class="comment">// 输出：16909292</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, s); <span class="comment">// 输出：1004</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, c); <span class="comment">// 输出：-20</span></span><br></pre></td></tr></table></figure>
@@ -676,66 +679,79 @@
 </blockquote>
 <p>案例二：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">16909292</span>;</span><br><span class="line"><span class="keyword">char</span> c = i;</span><br><span class="line">i = c;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i); <span class="comment">// 输出：-20</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, c); <span class="comment">// 输出：-20</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/yq9eg.png@normal" alt=""></p>
 <p>案例三：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">255</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/1gq03.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 + 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=0, c2=0</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/x8dk0.png@normal" alt=""></p>
 <p>案例四：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/7f2d7.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 - 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=255, c2=-1</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/25z21.png@normal" alt=""></p>
 <p>案例五：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">127</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">127</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/2qf6x.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 + 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=128, c2=-128</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/urq0c.png@normal" alt=""></p>
 <p>案例六：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">128</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">-128</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/aeaw4.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 - 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=127, c2=127</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/rreu2.png@normal" alt=""></p>
 <p>案例七：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">255</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/5avxl.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 + 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=0, c2=0</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/n66h6.png@normal" alt=""></p>
 <p>案例八：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> c1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">char</span> c2 = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/17tym.png@normal" alt=""></p>
 <figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> = <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="comment">c2 = c2 - 1;</span></span><br><span class="line"><span class="comment">printf("c1=%d, c2=%d", c1, c2); // 输出：c1=255, c2=-1</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.idbeny.com/s44xs.png@normal" alt=""></p>
-<h4 id="1-1-7-unsigned-char、char的取值范围"><a href="#1-1-7-unsigned-char、char的取值范围" class="headerlink" title="1.1.7. unsigned char、char的取值范围"></a>1.1.7. unsigned char、char的取值范围</h4><p><img src="http://blog.idbeny.com/d31io.png@normal" alt=""></p>
-<h3 id="1-2-浮点类型"><a href="#1-2-浮点类型" class="headerlink" title="1.2. 浮点类型"></a>1.2. 浮点类型</h3><p>浮点类型可以用来表示小数（比如3.14），包括<code>float</code>,<code>double</code>,<code>long double</code>类型</p>
-<p>最常用的浮点类型是<code>float</code>和<code>double</code>，一般在数值后面加上f或者F表示十float类型的数值</p>
+<h4 id="1-1-7-unsigned-char、char-的取值范围"><a href="#1-1-7-unsigned-char、char-的取值范围" class="headerlink" title="1.1.7. unsigned char、char 的取值范围"></a>1.1.7. unsigned char、char 的取值范围</h4><p><img src="http://blog.idbeny.com/d31io.png@normal" alt=""></p>
+<h3 id="1-2-浮点类型"><a href="#1-2-浮点类型" class="headerlink" title="1.2. 浮点类型"></a>1.2. 浮点类型</h3><p>浮点类型可以用来表示小数（比如 3.14），包括<code>float</code>,<code>double</code>,<code>long double</code>类型</p>
+<p>最常用的浮点类型是<code>float</code>和<code>double</code>，一般在数值后面加上 f 或者 F 表示十 float 类型的数值</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> f = <span class="number">3.14</span>F;</span><br><span class="line"><span class="built_in">double</span> d = <span class="number">10.24</span>;</span><br><span class="line">printf(<span class="string">"%f %f"</span>, f, d); <span class="comment">// 输出：3.140000 10.240000</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><code>float</code>：单精度（Single）浮点类型，占用32bit，可以保证精确到小数点后6位<ul>
+<li><code>float</code>：单精度（Single）浮点类型，占用 32bit，可以保证精确到小数点后 6 位<ul>
 <li>最小值：$$-3.4*10^{38}$$</li>
 <li>最大值：$$3.4*10^{38}$$</li>
 </ul>
 </li>
-<li><code>double</code>：双精度（Double）浮点类型，占用64bit，可以保证精确到小数点后15位<ul>
+<li><code>double</code>：双精度（Double）浮点类型，占用 64bit，可以保证精确到小数点后 15 位<ul>
 <li>最小值：$$-1.8*10^{308}$$</li>
 <li>最大值：$$1.8*10^{308}$$</li>
 </ul>
 </li>
 </ul>
 <h4 id="1-2-1-浮点类型的存储细节"><a href="#1-2-1-浮点类型的存储细节" class="headerlink" title="1.2.1. 浮点类型的存储细节"></a>1.2.1. 浮点类型的存储细节</h4><blockquote>
-<p>思考：为什么32bit的<code>unsigned int</code>最大值是2^32-1，而32bit的<code>float</code>最大值是3.4 * 10^38？<br>因为他们的存储方式不一样，浮点数在计算机中是按照IEEE 754标准存储的。</p>
+<p>思考：为什么 32bit 的<code>unsigned int</code>最大值是 2^32-1，而 32bit 的<code>float</code>最大值是 3.4 * 10^38？<br>因为他们的存储方式不一样，浮点数在计算机中是按照 IEEE 754 标准存储的。</p>
 </blockquote>
 <p><img src="http://blog.idbeny.com/hxa9o.png@normal" alt=""><br><img src="http://blog.idbeny.com/eed5s.png@normal" alt=""></p>
 <h3 id="1-3-整数、浮点数字面量"><a href="#1-3-整数、浮点数字面量" class="headerlink" title="1.3. 整数、浮点数字面量"></a>1.3. 整数、浮点数字面量</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">char c = <span class="number">10</span>;</span><br><span class="line">unsigned char uc = <span class="number">10</span>;</span><br><span class="line">short s = <span class="number">10</span>;</span><br><span class="line">unsigned short us = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> i = <span class="number">10</span>;</span><br><span class="line">unsigned <span class="built_in">int</span> ui1 = <span class="number">10</span>u;</span><br><span class="line">unsigned <span class="built_in">int</span> ui2 = <span class="number">10</span>U;</span><br><span class="line"></span><br><span class="line">long l1 = <span class="number">10</span>l;</span><br><span class="line">long l2 = <span class="number">10</span>L;</span><br><span class="line">unsigned long ul1 = <span class="number">10</span>ul;</span><br><span class="line">unsigned long ul2 = <span class="number">10</span>UL;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能是lL或Ll</span></span><br><span class="line">long long ll1 = <span class="number">10</span>ll;</span><br><span class="line">long long ll2 = <span class="number">10</span>ll;</span><br><span class="line"></span><br><span class="line"><span class="built_in">float</span> f1 = <span class="number">10.24</span>F;</span><br><span class="line"><span class="built_in">double</span> d1 = <span class="number">10.24</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 小数部分可选：1.0</span></span><br><span class="line"><span class="built_in">float</span> f2 = <span class="number">1.</span>F;</span><br><span class="line"><span class="built_in">double</span> d2 = <span class="number">1.</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 整数部分可选：0.1</span></span><br><span class="line"><span class="built_in">float</span> f3 = <span class="number">.1</span>F;</span><br><span class="line"><span class="built_in">double</span> d3 = <span class="number">.1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制小数 1.2 * 10^3 = 1200.0</span></span><br><span class="line"><span class="built_in">float</span> f4 = <span class="number">1.2e3</span>F; <span class="comment">// 1.2E3F</span></span><br><span class="line"><span class="built_in">double</span> d4 = <span class="number">1.2e3</span>; <span class="comment">// 1.2E3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十六进制小数 1.125 * 2^10 = 1152.0</span></span><br><span class="line"><span class="built_in">float</span> f5 = <span class="number">0x1</span><span class="number">.2</span>p10F; <span class="comment">// 0x1.2P10F</span></span><br><span class="line"><span class="built_in">double</span> d5 = <span class="number">0x1</span><span class="number">.2</span>p10; <span class="comment">// 0x1.2P10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制 1.875 * 2^3 = 15.0</span></span><br><span class="line">printf(<span class="string">"%f"</span>, <span class="number">0x1</span>.ep+<span class="number">3</span>); <span class="comment">// 可写：0x1.EP+3 输出：15.000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制 1.875 * 2^(-2) = 0.46875</span></span><br><span class="line">printf(<span class="string">"%f"</span>, <span class="number">0x1</span>.ep<span class="number">-2</span>); <span class="comment">// 可写：0x1.EP-2 输出：0.468750</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> v <span class="number">0xE</span>+<span class="number">2</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="built_in">int</span> x = <span class="number">0xe</span>+<span class="number">2</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="built_in">int</span> y = <span class="number">0xA</span>+<span class="number">2</span>; <span class="comment">// OK</span></span><br><span class="line"><span class="built_in">int</span> z = <span class="number">0xE</span> +<span class="number">2</span>; <span class="comment">// OK</span></span><br><span class="line"><span class="built_in">int</span> q = (<span class="number">0xE</span>)+<span class="number">2</span> <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="1-4-printf中的转换格式指定符"><a href="#1-4-printf中的转换格式指定符" class="headerlink" title="1.4. printf中的转换格式指定符"></a>1.4. printf中的转换格式指定符</h3><p><img src="http://blog.idbeny.com/6zizm.png@normal" alt=""></p>
-<h4 id="1-4-1-案例一"><a href="#1-4-1-案例一" class="headerlink" title="1.4.1. 案例一"></a>1.4.1. 案例一</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%zd\n"</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)); <span class="comment">// 输出：4</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> age = <span class="number">10L</span>L;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, age); <span class="comment">// 输出：10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> no = <span class="number">8U</span>L;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%lu\n"</span>, no); <span class="comment">// 输出：8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *name = <span class="string">"idbeny"</span>;</span><br><span class="line"><span class="keyword">char</span> *place = <span class="string">"1024星球"</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"我是%s，欢迎来到%s\n"</span>, name, place); <span class="comment">// 输出：我是idbeny，欢迎来到1024星球</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-4-printf-中的转换格式指定符"><a href="#1-4-printf-中的转换格式指定符" class="headerlink" title="1.4. printf 中的转换格式指定符"></a>1.4. printf 中的转换格式指定符</h3><p><img src="http://blog.idbeny.com/6zizm.png@normal" alt=""></p>
+<h4 id="1-4-1-案例一"><a href="#1-4-1-案例一" class="headerlink" title="1.4.1. 案例一"></a>1.4.1. 案例一</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"%zd\n"</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)); <span class="comment">// 输出：4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> age = <span class="number">10L</span>L;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, age); <span class="comment">// 输出：10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> no = <span class="number">8U</span>L;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%lu\n"</span>, no); <span class="comment">// 输出：8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *name = <span class="string">"idbeny"</span>;</span><br><span class="line"><span class="keyword">char</span> *place = <span class="string">"1024星球"</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"我是%s，欢迎来到%s\n"</span>, name, place); <span class="comment">// 输出：我是idbeny，欢迎来到1024星球</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="1-4-2-案例二"><a href="#1-4-2-案例二" class="headerlink" title="1.4.2. 案例二"></a>1.4.2. 案例二</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用%%来显示一个%</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d%%%d\n"</span>, <span class="number">10</span>, <span class="number">20</span>); <span class="comment">// 输出：10%20</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i1 = <span class="number">10</span>;</span><br><span class="line"><span class="comment">// %6d表示占用6个字符位置，默认靠右对齐（左边空白）</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"welcome%6d24星球\n"</span>, i1); <span class="comment">// 输出：welcome    1024星球</span></span><br><span class="line"><span class="comment">// %-6d表示占用6个字符位置，靠左对齐（右边空白）</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"welcome%-6d24星球\n"</span>, i1); <span class="comment">// 输出：welcome10    24星球</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i2 = <span class="number">-6</span>;</span><br><span class="line"><span class="comment">// %+6d：加号(+)表示显示正负号</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%+6d和%+-6d\n"</span>, i1, i2); <span class="comment">// 输出：   +10和-6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> d = <span class="number">3.1415926</span>;</span><br><span class="line"><span class="comment">// 四舍五入保留2位小数</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>, d); <span class="comment">// 输出：3.14</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 占用10个字符位置</span></span><br><span class="line"><span class="comment"> * 四舍五入保留4位小数</span></span><br><span class="line"><span class="comment"> * 显示正负号</span></span><br><span class="line"><span class="comment"> * 靠左对齐</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"1%+-10.4f2\n"</span>, d); <span class="comment">// 输出：1+3.1416          2</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="1-5-scanf中的转换格式指定符"><a href="#1-5-scanf中的转换格式指定符" class="headerlink" title="1.5. scanf中的转换格式指定符"></a>1.5. scanf中的转换格式指定符</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用%%来匹配一个%</span></span><br><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%%%d"</span>, &amp;age); <span class="comment">// 输入：%30</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d\n"</span>, age); <span class="comment">// 输出：age is 30</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30</span></span><br><span class="line"><span class="comment">  输出：age is 10</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：%30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，float类型用%f</span></span><br><span class="line"><span class="keyword">float</span> f;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;f);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，double类型用%lf</span></span><br><span class="line"><span class="keyword">double</span> d;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%lf"</span>, &amp;d);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在printf中，float、double都可以用%f、%lf</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%f %lf %f %lf"</span>, f, f, d, d);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10（回车）20</span></span><br><span class="line"><span class="comment">  输出：10.000000 10.000000 20.000000 20.000000</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> i2 = <span class="number">2</span>;</span><br><span class="line"><span class="comment">// %*3d是跳过长度为3的整数</span></span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%2d%*3d%4d"</span>, &amp;i1, &amp;i2);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"i1=%d,i2=%d"</span>, i1, i2);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10   20   40</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=40</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  输入：10111140</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=140</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-5-scanf-中的转换格式指定符"><a href="#1-5-scanf-中的转换格式指定符" class="headerlink" title="1.5. scanf 中的转换格式指定符"></a>1.5. scanf 中的转换格式指定符</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用%%来匹配一个%</span></span><br><span class="line"><span class="keyword">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%%%d"</span>, &amp;age); <span class="comment">// 输入：%30</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"age is %d\n"</span>, age); <span class="comment">// 输出：age is 30</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30</span></span><br><span class="line"><span class="comment">  输出：age is 10</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：%30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，float类型用%f</span></span><br><span class="line"><span class="keyword">float</span> f;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;f);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，double类型用%lf</span></span><br><span class="line"><span class="keyword">double</span> d;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%lf"</span>, &amp;d);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在printf中，float、double都可以用%f、%lf</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%f %lf %f %lf"</span>, f, f, d, d);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10（回车）20</span></span><br><span class="line"><span class="comment">  输出：10.000000 10.000000 20.000000 20.000000</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> i2 = <span class="number">2</span>;</span><br><span class="line"><span class="comment">// %*3d是跳过长度为3的整数</span></span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%2d%*3d%4d"</span>, &amp;i1, &amp;i2);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"i1=%d,i2=%d"</span>, i1, i2);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10   20   40</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=40</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：10111140</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=140</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="1-6-类型转换"><a href="#1-6-类型转换" class="headerlink" title="1.6. 类型转换"></a>1.6. 类型转换</h3><p><strong>格式：</strong></p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">类型<span class="number">1</span> v1 = xx;</span><br><span class="line">类型<span class="number">2</span> v2 = (类型<span class="number">1</span>)v1;</span><br></pre></td></tr></table></figure>
@@ -748,6 +764,7 @@
 
 <p>大类型转小类型的时候，可能会丢失精度：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">3.14</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%f\n"</span>, d); <span class="comment">// 输出：3.140000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i = d;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i); <span class="comment">// 输出：3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> d2 = <span class="number">1.1234567890123456789123</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%.20f\n"</span>, d2); <span class="comment">// 输出：1.12345678901234569125</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span> f = d2;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%.20f\n"</span>, f); <span class="comment">// 输出：1.12345683574676513672</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -767,7 +784,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://idbeny.com/2016/03/10/c-syntax-basic-02/" title="【C】C语言基本语法（二）">http://idbeny.com/2016/03/10/c-syntax-basic-02/</a>
+    <a href="http://idbeny.com/2016/03/10/c-syntax-basic-02/" title="【C】C系列二 - 数据类型">http://idbeny.com/2016/03/10/c-syntax-basic-02/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -803,8 +820,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/07/c-syntax-basic-01/" rel="next" title="【C】C语言基本语法（一）">
-                <i class="fa fa-chevron-left"></i> 【C】C语言基本语法（一）
+              <a href="/2016/03/07/c-syntax-basic-01/" rel="next" title="【C】C系列一 - 基本认识">
+                <i class="fa fa-chevron-left"></i> 【C】C系列一 - 基本认识
               </a>
             
           </div>
@@ -813,8 +830,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/15/c-syntax-basic-03/" rel="prev" title="【C】C语言基本语法（三）">
-                【C】C语言基本语法（三） <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/15/c-syntax-basic-03/" rel="prev" title="【C】C系列三 - 运算符">
+                【C】C系列三 - 运算符 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -892,7 +909,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -903,7 +920,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -914,7 +931,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">163</span>
+                <span class="site-state-item-count">170</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -984,7 +1001,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基本类型"><span class="nav-number">1.</span> <span class="nav-text">一、基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-整数类型"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 整数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-整数类型大小"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 整数类型大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-数据模型"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-有符号整数类型和无符号整数类型区别"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 有符号整数类型和无符号整数类型区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-有符号整数char、无符号整数unsigned-char"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4. 有符号整数char、无符号整数unsigned char</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-整数的取值范围"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.1.5. 整数的取值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-6-溢出（Overflow）"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.1.6. 溢出（Overflow）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-unsigned-char、char的取值范围"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.1.7. unsigned char、char的取值范围</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-浮点类型"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-浮点类型的存储细节"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1. 浮点类型的存储细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-整数、浮点数字面量"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 整数、浮点数字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-printf中的转换格式指定符"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. printf中的转换格式指定符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-案例一"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1. 案例一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-案例二"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2. 案例二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-scanf中的转换格式指定符"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. scanf中的转换格式指定符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-类型转换"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 类型转换</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基本类型"><span class="nav-number">1.</span> <span class="nav-text">一、基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-整数类型"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 整数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-整数类型大小"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 整数类型大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-数据模型"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-有符号整数类型和无符号整数类型区别"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 有符号整数类型和无符号整数类型区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-有符号整数-char、无符号整数-unsigned-char"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4. 有符号整数 char、无符号整数 unsigned char</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-整数的取值范围"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.1.5. 整数的取值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-6-溢出（Overflow）"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.1.6. 溢出（Overflow）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-unsigned-char、char-的取值范围"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.1.7. unsigned char、char 的取值范围</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-浮点类型"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-浮点类型的存储细节"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1. 浮点类型的存储细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-整数、浮点数字面量"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 整数、浮点数字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-printf-中的转换格式指定符"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. printf 中的转换格式指定符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-案例一"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1. 案例一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-案例二"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2. 案例二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-scanf-中的转换格式指定符"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. scanf 中的转换格式指定符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-类型转换"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 类型转换</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1007,7 +1024,7 @@
         <div class="copyright" >
   
   &copy;  2016 - 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
