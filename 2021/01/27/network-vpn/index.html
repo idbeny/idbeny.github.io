@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="本文仅仅是常见协议的扫盲，具体技术点可参考其他相关文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列十八 - 网络爬虫&#x2F;HTTP缓存&#x2F;IPv6">
+<meta property="og:url" content="http://idbeny.com/2021/01/27/network-vpn/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="本文仅仅是常见协议的扫盲，具体技术点可参考其他相关文档。">
+<meta property="og:image" content="https://blog.idbeny.com/7ldhm.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/2f0kz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5h2b0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/f4hf4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/dvosf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/72esd.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/sz9v7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/r81v7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lf19a.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ula21.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/jq1h4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0gq82.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/i017p.png@normal">
+<meta property="article:published_time" content="2021-01-27T03:23:56.000Z">
+<meta property="article:modified_time" content="2021-03-22T17:46:19.797Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/7ldhm.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2021/01/27/network-vpn/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列十八 - 网络爬虫/HTTP缓存/IPv6 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2021/01/27/network-vpn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列十八 - 网络爬虫/HTTP缓存/IPv6</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-27T11:23:56+08:00">
+                2021-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VPN/" itemprop="url" rel="index">
+                    <span itemprop="name">VPN</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">网络爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%81%E5%AA%92%E4%BD%93/" itemprop="url" rel="index">
+                    <span itemprop="name">流媒体</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP%E7%BC%93%E5%AD%98/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP缓存</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">即时通信</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IPv6/" itemprop="url" rel="index">
+                    <span itemprop="name">IPv6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.6k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文仅仅是常见协议的扫盲，具体技术点可参考其他相关文档。</p>
+<a id="more"></a>
+
+<h2 id="一、VPN"><a href="#一、VPN" class="headerlink" title="一、VPN"></a>一、VPN</h2><p>VPN（<em>Virtual Private Network</em>），虚拟私人网络。它可以在公共网络上建立专用网络，进行加密通讯。</p>
+<p><img src="https://blog.idbeny.com/7ldhm.png@normal" alt=""></p>
+<p><img src="https://blog.idbeny.com/2f0kz.png@normal" alt=""></p>
+<h3 id="1-1-作用"><a href="#1-1-作用" class="headerlink" title="1.1. 作用"></a>1.1. 作用</h3><ul>
+<li>提高上网的安全性（加密数据）</li>
+<li>保护公司内部资料</li>
+<li>隐藏上网者的身份（VPN Server转发数据）</li>
+<li>突破网站的地域限制<ul>
+<li>有些网站针对不同地区的用户展示不同的内容</li>
+</ul>
+</li>
+<li>突破网络封锁（科学上网）<ul>
+<li>因为有GWF（<em>Great Firewall of China</em>，中国长城防火墙）的限制，有些网站在国内上不了</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-与代理的区别"><a href="#1-2-与代理的区别" class="headerlink" title="1.2. 与代理的区别"></a>1.2. 与代理的区别</h3><ul>
+<li>软件<ul>
+<li>VPN一般需要安装VPN客户端软件</li>
+<li>代理不需要安装额外的软件</li>
+</ul>
+</li>
+<li>安全性<ul>
+<li>VPN默认会对数据进行加密</li>
+<li>代理默认不会对数据进行加密（数据最终是否加密取决于使用的协议本身）</li>
+</ul>
+</li>
+<li>费用<ul>
+<li>一般情况下，VPN比代理贵</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-实现原理"><a href="#1-3-实现原理" class="headerlink" title="1.3. 实现原理"></a>1.3. 实现原理</h3><p>VPN的实现原理是：使用了隧道协议（<em>Tunneling Protocol</em>）。</p>
+<p>常见的VPN隧道协议（应用在传输层或数据链路层）：</p>
+<ul>
+<li>PPTP（<em>Point to Point Tunneling Protocol</em>）：点对点隧道协议</li>
+<li>L2TP（<em>Layer Two Tunneling Protocol</em>）：第二层隧道协议</li>
+<li>IPsec（<em>Internet Protocol Security</em>）：互联网安全协议</li>
+<li>SSL VPN（如OpenVPN）</li>
+<li>…</li>
+</ul>
+<h2 id="二、tcpdump"><a href="#二、tcpdump" class="headerlink" title="二、tcpdump"></a>二、tcpdump</h2><p>tcpdump是Linux平台的抓包分析工具（命令行），Windows版本是WinDump</p>
+<p>使用手册：<a href="https://www.tcpdump.org/manpages/tcpdump.1.html" target="_blank" rel="noopener">https://www.tcpdump.org/manpages/tcpdump.1.html</a></p>
+<p>教程：<a href="https://danielmiessler.com/study/tcpdump" target="_blank" rel="noopener">https://danielmiessler.com/study/tcpdump</a></p>
+<h2 id="三、网络爬虫"><a href="#三、网络爬虫" class="headerlink" title="三、网络爬虫"></a>三、网络爬虫</h2><p>网络爬虫（<em>Web Crawler</em>），也叫做网络蜘蛛（<em>Web Spider</em>）。模拟人类使用浏览器操作页面的行为，对页面进行相关的操作。</p>
+<p>常用的爬虫工具：Python的Scrapy框架。</p>
+<p><img src="https://blog.idbeny.com/5h2b0.png@normal" alt=""></p>
+<p><img src="https://blog.idbeny.com/f4hf4.png@normal" alt=""></p>
+<h3 id="3-1-搜索引擎"><a href="#3-1-搜索引擎" class="headerlink" title="3.1. 搜索引擎"></a>3.1. 搜索引擎</h3><p>我们在百度或Google搜索的一些内容是怎么出现在搜索列表中的？其实搜索引擎也用到了爬虫技术，把其他网站数据进行分析建库，当用户搜索关键词时，就会从之前的数据库中筛选出合适的数据给用户。</p>
+<p><img src="https://blog.idbeny.com/dvosf.png@normal" alt=""></p>
+<h3 id="3-2-简易实例"><a href="#3-2-简易实例" class="headerlink" title="3.2. 简易实例"></a>3.2. 简易实例</h3><p>可以使用Java的一个小框架Jsoup爬一些简单的数据。</p>
+<p>jar包：</p>
+<ul>
+<li><a href="https://jsoup.org/packages/jsoup-1.13.1.jar" target="_blank" rel="noopener">https://jsoup.org/packages/jsoup-1.13.1.jar</a></li>
+<li><a href="https://mirror.bit.edu.cn/apache/commons/io/binaries/commons-io-2.8.0-bin.zip" target="_blank" rel="noopener">https://mirror.bit.edu.cn/apache/commons/io/binaries/commons-io-2.8.0-bin.zip</a></li>
+</ul>
+<p>爬取目标：360应用市场-<a href="https://ext.se.360.cn/webstore/category" target="_blank" rel="noopener">https://ext.se.360.cn/webstore/category</a></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String url = <span class="string">"https://ext.se.360.cn/webstore/category"</span>;</span><br><span class="line">Elements apps = <span class="module-access"><span class="module"><span class="identifier">Jsoup</span>.</span></span>connect(url).get<span class="literal">()</span>.select(<span class="string">".appwrap"</span>);</span><br><span class="line">for (Element app : apps) &#123;</span><br><span class="line">  String img = app.select<span class="constructor">First(<span class="string">"img"</span>)</span>.attr(<span class="string">"src"</span>);</span><br><span class="line">  String name = app.select<span class="constructor">First(<span class="string">"h3"</span>)</span>.text<span class="literal">()</span>;</span><br><span class="line">  String intro = app.select<span class="constructor">First(<span class="string">".intro"</span>)</span>.text<span class="literal">()</span>;</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(name + <span class="string">"_"</span> + intro + <span class="string">"_"</span> + img);</span><br><span class="line"></span><br><span class="line">  String filepath = <span class="string">"/Users/Developer/Desktop/test/imgs/"</span> + name + <span class="string">".jpg"</span>;</span><br><span class="line">  <span class="module-access"><span class="module"><span class="identifier">FileUtils</span>.</span></span>copy<span class="constructor">URLToFile(<span class="params">new</span> URL(<span class="params">img</span>)</span>, <span class="keyword">new</span> <span class="constructor">File(<span class="params">filepath</span>)</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-robots-txt"><a href="#3-3-robots-txt" class="headerlink" title="3.3. robots.txt"></a>3.3. robots.txt</h3><p>robots.txt是存放于网站根目录下的文本文件，比如<a href="https://www.baidu.com/robots.txt。用来告诉爬虫哪些内容是不应被爬取的，哪些是可以被爬取的。因为一些系统中的URL是大小写敏感的，所以robots.txt的文件名应统一为小写。" target="_blank" rel="noopener">https://www.baidu.com/robots.txt。用来告诉爬虫哪些内容是不应被爬取的，哪些是可以被爬取的。因为一些系统中的URL是大小写敏感的，所以robots.txt的文件名应统一为小写。</a></p>
+<p>它并不是一个规范，而只是约定俗成的，所以并不能保证网站的隐私（只能防君子，不能防小人）。</p>
+<p>允许所有的爬虫：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">User-agent</span>: *</span><br><span class="line"><span class="attribute">Disallow</span>: </span><br><span class="line"></span><br><span class="line">// 另一种写法:</span><br><span class="line"><span class="attribute">User-agent</span>: *</span><br><span class="line"><span class="attribute">Allow</span>: /</span><br></pre></td></tr></table></figure>
+
+<p>仅允许特定的爬虫（name_spider是爬虫名字）：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-<span class="string">agent:</span> name_spider</span><br><span class="line"><span class="string">Allow:</span></span><br></pre></td></tr></table></figure>
+
+<p>拦截所有的爬虫：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-<span class="string">agent:</span> *</span><br><span class="line"><span class="string">Disallow:</span> /</span><br></pre></td></tr></table></figure>
+
+<p>仅禁止爬虫访问特定目录：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-<span class="string">agent:</span> name_spider</span><br><span class="line"><span class="string">Disallow:</span> <span class="regexp">/private/</span></span><br></pre></td></tr></table></figure>
+
+<p>禁止所有爬虫访问特定目录：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">User-<span class="string">agent:</span> *</span><br><span class="line"><span class="string">Disallow:</span> <span class="regexp">/cgi-bin/</span></span><br><span class="line"><span class="string">Disallow:</span> <span class="regexp">/images/</span></span><br><span class="line"><span class="string">Disallow:</span> <span class="regexp">/tmp/</span></span><br><span class="line"><span class="string">Disallow:</span> <span class="regexp">/private/</span></span><br></pre></td></tr></table></figure>
+
+<p>禁止所有爬虫访问特定文件类型：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">User-agent</span>: *</span><br><span class="line"><span class="attribute">Disallow</span>: /*.php$</span><br><span class="line"><span class="attribute">Disallow</span>: /*.js$</span><br><span class="line"><span class="attribute">Disallow</span>: /*.inc$</span><br><span class="line"><span class="attribute">Disallow</span>: /*.css$</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、HTTP缓存"><a href="#四、HTTP缓存" class="headerlink" title="四、HTTP缓存"></a>四、HTTP缓存</h2><p><img src="https://blog.idbeny.com/72esd.png@normal" alt=""></p>
+<p>实际上，HTTP的缓存机制远远比上图的流程要复杂。</p>
+<p>通常会缓存的情况：GET请求 + 静态资源（比如HTML、CSS、JS、图片等）。</p>
+<blockquote>
+<p>浏览器强制刷新（忽略缓存）：Windows：<code>Ctrl + F5</code>；Mac：<code>command + shift + R</code>。</p>
+</blockquote>
+<h3 id="4-1-响应头"><a href="#4-1-响应头" class="headerlink" title="4.1. 响应头"></a>4.1. 响应头</h3><ul>
+<li><code>Pragma</code>：作用类似于Cache-Control，HTTP/1.0的产物</li>
+<li><code>Expires</code>：缓存的过期时间（GMT格式），HTTP/1.0的产物</li>
+<li><code>Cache-Control</code>：设置缓存策略<ul>
+<li><code>no-storage</code>：不缓存数据到本地</li>
+<li><code>public</code>：允许用户、代理服务器缓存数据到本地</li>
+<li><code>private</code>：只允许用户缓存数据到本地</li>
+<li><code>max-age</code>：缓存的有效时间（多上时间不过期），单位：秒</li>
+<li><code>no-cache</code>：每次需要发请求给服务器询问缓存是否有变化（状态码304-Not Modified），再来决定如何使用缓存</li>
+</ul>
+</li>
+</ul>
+<p>优先级：<code>Pragma &gt; Cache-Control &gt; Expires</code></p>
+<ul>
+<li><code>Last-Modified</code>：资源的最后一次修改时间</li>
+<li><code>ETag</code>：资源的唯一标识（根据文件内容计算出来的摘要值）</li>
+</ul>
+<p>优先级：<code>ETag &gt; Last-Modified</code></p>
+<h3 id="4-2-请求头"><a href="#4-2-请求头" class="headerlink" title="4.2. 请求头"></a>4.2. 请求头</h3><ul>
+<li><p>If-None-Match</p>
+<ul>
+<li>如果上一次的响应头中有ETag，就会将ETag的值作为请求头的值</li>
+<li>如果服务器发现资源的最新摘要值跟If-None-Match不匹配，就会返回新的资源（状态码200），否则就不会返回资源的具体数据（状态码304）</li>
+</ul>
+</li>
+<li><p>If-Modified-Since</p>
+<ul>
+<li>如果上一次的响应头中没有ETag，有Last-Modified，就会将Last-Modified的值作为请求头的值</li>
+<li>如果服务器发现资源的最后一次修改时间晚于If-Modified-Since，就会返回新的资源（状态码200），否则就不会返回资源的具体数据（状态码304）</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-Last-Modified和ETag的比较"><a href="#4-3-Last-Modified和ETag的比较" class="headerlink" title="4.3. Last-Modified和ETag的比较"></a>4.3. Last-Modified和ETag的比较</h3><p>Last-Modified的缺陷：</p>
+<ul>
+<li>只能精确到秒级别，如果资源在1秒内被修改了，客户端将无法获取最新的资源数据。</li>
+<li>如果某些资源被修改了（最后一次修改时间发生了变化），但是内容并没有任何变化。会导致相同的数据重复传输，没有使用到缓存。</li>
+</ul>
+<p>以上的缺陷，ETag都可以满足：</p>
+<ul>
+<li>只要资源的内容没有变化，就不会重复传输资源数据</li>
+<li>只要资源的内容发生了变化，就会返回最新的资源数据给客户端</li>
+</ul>
+<h3 id="4-4-缓存的使用流程"><a href="#4-4-缓存的使用流程" class="headerlink" title="4.4. 缓存的使用流程"></a>4.4. 缓存的使用流程</h3><p><img src="https://blog.idbeny.com/sz9v7.png@normal" alt=""></p>
+<h2 id="五、IPv6"><a href="#五、IPv6" class="headerlink" title="五、IPv6"></a>五、IPv6</h2><p>IPv6（<em>Internet Protocol version 6</em>），网络协议第6版。</p>
+<p>用它来取代IPv4主要是为了解决IPv4地址枯竭问题，同时它也在其他方面对于IPv4有许多改进。然而长期以来IPv4在互联网流量中仍占据主要地位，IPv6的使用增长缓慢。在2019年12月，通过IPv6使用Google服务的用户百分率首次超过30%（因为网络协议处在网络层，需要设备和操作系统内核升级支持IPv6）。</p>
+<p>IPv6采用128位的地址，而IPv4使用的是32位。支持2^128（约3.4 * 10^38）个地址，就以地球人口70亿计算，每人平均可分得约4.86 * 10^28个IPv6地址。</p>
+<h3 id="5-1-地址格式"><a href="#5-1-地址格式" class="headerlink" title="5.1. 地址格式"></a>5.1. 地址格式</h3><p>IPv6地址为128bit，每16bit一组，共8组。每组以冒号“:”隔开，每组以4位十六进制方式表示，例如<code>2001:0db8:86a3:08d3:1319:8a2e:0370:7344</code>。</p>
+<p>类似于IPv4的点分十进制，同样也存在点分十六进制的写法：<code>2.0.0.1.0.d.b.8.8.6.a.3.0.8.d.3.1.3.1.9.8.a.2.e.0.3.7.0.7.3.4.4</code>。</p>
+<p>每组前面连续的0可以省略，下面的IPv6地址是等价的：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2001</span>:<span class="number">0</span>db8:<span class="number">02</span>de:<span class="number">0000</span>:<span class="number">0000</span>:<span class="number">0000</span>:<span class="number">0000</span>:<span class="number">0e13</span>`</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="number">2001</span>:db8:<span class="number">2</span>de:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:e13</span><br></pre></td></tr></table></figure>
+
+<p>可以用双冒号“::”表示一组0或多组连续的0，但只能出现一次（出现多次会造成歧义），下面的IPv6地址是等价的：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2001</span>:db8:<span class="number">2</span>de:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:e13</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="number">2001</span>:db8:<span class="number">2</span>de::e13</span><br></pre></td></tr></table></figure>
+
+<p><code>::1</code>是本地环回地址（<code>0:0:0:0:0:0:0:1</code>）。</p>
+<h3 id="5-2-首部格式"><a href="#5-2-首部格式" class="headerlink" title="5.2. 首部格式"></a>5.2. 首部格式</h3><p>IPv4的首部格式比较复杂，但Ipv6的首部格式就简单很多：</p>
+<p><img src="https://blog.idbeny.com/r81v7.png@normal" alt=""></p>
+<p>Ipv6和IPv4的首部字段对比：<br><img src="https://blog.idbeny.com/lf19a.png@normal" alt=""></p>
+<p>黄颜色：IPv6保留IPv4的字段<br>红颜色：IPv6丢弃IPv4的字段<br>蓝颜色：字段名字和位置发生变化<br>绿颜色：IPv6新的字段</p>
+<ul>
+<li>Version（占4bit，0110）：版本号</li>
+<li>Traffic Class（占8bit）：交通类别<ul>
+<li>指示数据包的类别或优先级，可以帮助路由器根据数据包的优先级处理流量。如果路由器发生拥塞，则优先级最低的数据包将被丢弃。</li>
+</ul>
+</li>
+<li>Payload Length（占16bit）：有效负载长度<ul>
+<li>最大值：65535字节，包括了扩展头部、上层（传输层）数据的长度。</li>
+</ul>
+</li>
+<li>Hop Limit（占8bit）：跳数限制，与IPv4数据包中的TTL相同。</li>
+<li>Source Address（占128bit）：源IPv6地址</li>
+<li>Destination Address（占128bit）：目的IPv6地址</li>
+<li>Flow Label（占20bit）：流标签<ul>
+<li>指示数据包属于哪个特定序列（流），用数据包的源地址、目的地址、流标签标识一个流</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-扩展头部"><a href="#5-3-扩展头部" class="headerlink" title="5.3. 扩展头部"></a>5.3. 扩展头部</h3><p>Next Header（占8bit）：下一个头部，指示扩展头部（如果存在）的类型，上层数据包的协议类型（例如TCP、UDP、ICMPv6）。<br><img src="https://blog.idbeny.com/ula21.png@normal" alt=""></p>
+<p><img src="https://blog.idbeny.com/jq1h4.png@normal" alt=""></p>
+<p>Next Header类型和对应值：<br><img src="https://blog.idbeny.com/0gq82.png@normal" alt=""></p>
+<h2 id="六、即时通信"><a href="#六、即时通信" class="headerlink" title="六、即时通信"></a>六、即时通信</h2><p>即时通信（<em>Instant Messaging</em>，简称：IM），平时用的QQ、微信都属于典型的IM应用。</p>
+<p>国内的IM开发者社区：<a href="http://www.52im.net" target="_blank" rel="noopener">http://www.52im.net</a></p>
+<p>IM云服务：网易云信、腾讯云、环信等。</p>
+<p>常用的协议：XMPP、MQTT、自定义协议。</p>
+<h3 id="6-1-XMPP"><a href="#6-1-XMPP" class="headerlink" title="6.1. XMPP"></a>6.1. XMPP</h3><p>XMPP（<em>Extensible Messaging and Presence Protocol</em>），可扩展消息与存在协议，前身是Jabber。基于TCP，默认端口是5222、5269。</p>
+<p>特点：</p>
+<ul>
+<li>使用XML格式进行传输，体积较大。</li>
+<li>比较成熟的IM协议，开发者接入方便。</li>
+</ul>
+<h3 id="6-2-MQTT"><a href="#6-2-MQTT" class="headerlink" title="6.2. MQTT"></a>6.2. MQTT</h3><p>MQTT（<em>Message Queuing Telemetry Transport</em>），消息队列遥测传输。基于TCP，默认端口是1883、8883（带SSL/TLS）。</p>
+<p>特点：</p>
+<ul>
+<li>开销很小，以降低网络流量，信息冗余远小于XMPP。</li>
+<li>不是专门为IM设计的协议，很多功能需要自己实现。</li>
+<li>很多人认为MQTT是最适合物联网（<em>Internet of Things</em>，简称：loT）的网络协议。</li>
+</ul>
+<p>采用的是订阅者模式：</p>
+<p><img src="https://blog.idbeny.com/i017p.png@normal" alt=""></p>
+<h2 id="七、流媒体"><a href="#七、流媒体" class="headerlink" title="七、流媒体"></a>七、流媒体</h2><p>流媒体（<em>Streaming Media</em>），又叫流式媒体。是指将一连串的多媒体数据压缩后，经过互联网分段发送数据，在互联网上即时传输影音以供观赏的一种技术。此技术使得资料数据包得以像流水一样发送，不使用此技术，就必须在使用前下载整个媒体文件。</p>
+<p><strong>常见协议：</strong></p>
+<p>RTP（<em>Real-Time Transport Protocol</em>），实时传输协议。是基于UDP的，可参考<a href="https://tools.ietf.org/html/rfc3550" target="_blank" rel="noopener">RFC_3550</a>、<a href="https://tools.ietf.org/html/rfc3551" target="_blank" rel="noopener">RFC_3551</a>。</p>
+<p>RTCP（<em>Real-Time Transport Control Protocol</em>），实时传输控制协议。基于UDP，使用RTP的下一个端口。参考<a href="https://tools.ietf.org/html/rfc3550" target="_blank" rel="noopener">RFC_3550</a>。</p>
+<p>RTSP（<em>Real-Time Streaming Protocol</em>），实时流协议。<a href="https://tools.ietf.org/html/rfc7820" target="_blank" rel="noopener">RFC_7820</a>。基于TCP、UDP的554端口。</p>
+<p>RTMP（<em>Real-Time Messaging Protocol</em>），实时消息传输协议。由Adobe公司出品。默认基于TCP的1935端口。</p>
+<p>HLS（<em>HTTP Live Streaming</em>），基于HTTP的流媒体网络传输协议，苹果公司出品。参考<a href="https://tools.ietf.org/html/rfc8216" target="_blank" rel="noopener">RFC_8216</a>。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2021/01/27/network-vpn/" title="【网络协议】网络协议系列十八 - 网络爬虫/HTTP缓存/IPv6">http://idbeny.com/2021/01/27/network-vpn/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/15/network-ftp/" rel="next" title="【网络协议】网络协议系列十七 - WebSocket/FTP">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列十七 - WebSocket/FTP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">109</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、VPN"><span class="nav-number">1.</span> <span class="nav-text">一、VPN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-作用"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-与代理的区别"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 与代理的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-实现原理"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 实现原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、tcpdump"><span class="nav-number">2.</span> <span class="nav-text">二、tcpdump</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、网络爬虫"><span class="nav-number">3.</span> <span class="nav-text">三、网络爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-搜索引擎"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 搜索引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-简易实例"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 简易实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-robots-txt"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. robots.txt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、HTTP缓存"><span class="nav-number">4.</span> <span class="nav-text">四、HTTP缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-响应头"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 响应头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-请求头"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 请求头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Last-Modified和ETag的比较"><span class="nav-number">4.3.</span> <span class="nav-text">4.3. Last-Modified和ETag的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-缓存的使用流程"><span class="nav-number">4.4.</span> <span class="nav-text">4.4. 缓存的使用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、IPv6"><span class="nav-number">5.</span> <span class="nav-text">五、IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-地址格式"><span class="nav-number">5.1.</span> <span class="nav-text">5.1. 地址格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-首部格式"><span class="nav-number">5.2.</span> <span class="nav-text">5.2. 首部格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-扩展头部"><span class="nav-number">5.3.</span> <span class="nav-text">5.3. 扩展头部</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、即时通信"><span class="nav-number">6.</span> <span class="nav-text">六、即时通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-XMPP"><span class="nav-number">6.1.</span> <span class="nav-text">6.1. XMPP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-MQTT"><span class="nav-number">6.2.</span> <span class="nav-text">6.2. MQTT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、流媒体"><span class="nav-number">7.</span> <span class="nav-text">七、流媒体</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="对于HTTP大家都不陌生，但发起HTTP请求的过程都发生了什么呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列十一 - 应用层">
+<meta property="og:url" content="http://idbeny.com/2020/11/12/network-application/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="对于HTTP大家都不陌生，但发起HTTP请求的过程都发生了什么呢？">
+<meta property="og:image" content="http://blog.idbeny.com/w06cu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/iu0za.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/neqnt.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/c0n5q.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/p4pri.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/e8did.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/uvid2.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/o6uvp.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/t0r3p.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ci4rp.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/efsoj.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/phey5.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/g7o7u.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/aqwvx.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ce1ay.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zn36i.png@normal">
+<meta property="article:published_time" content="2020-11-12T14:03:17.000Z">
+<meta property="article:modified_time" content="2021-03-02T15:37:06.064Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/w06cu.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/11/12/network-application/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列十一 - 应用层 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/11/12/network-application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列十一 - 应用层</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-12T22:03:17+08:00">
+                2020-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BA%94%E7%94%A8%E5%B1%82/" itemprop="url" rel="index">
+                    <span itemprop="name">应用层</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DNS/" itemprop="url" rel="index">
+                    <span itemprop="name">DNS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  15 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于HTTP大家都不陌生，但发起HTTP请求的过程都发生了什么呢？</p>
+<a id="more"></a>
+<h2 id="一、应用层常见协议"><a href="#一、应用层常见协议" class="headerlink" title="一、应用层常见协议"></a>一、应用层常见协议</h2><p>超文本传输协议：<code>HTTP</code>、<code>HTTPS</code><br>文件传输：<code>FTP</code><br>电子邮件：<code>SMTP</code>、<code>POP3</code>、<code>IMAP</code><br>动态主机配置：<code>DHCP</code><br>域名系统：<code>DNS</code></p>
+<h3 id="1-1-域名（Domain-Name）"><a href="#1-1-域名（Domain-Name）" class="headerlink" title="1.1. 域名（Domain Name）"></a>1.1. 域名（<em>Domain Name</em>）</h3><p>由于IP地址不方便记忆，并且不能表达组织的名称和性质，人们设计出了域名（比如<em>baidu.com</em>）。但实际上，为了能够访问到具体的主机，最终还是得知道目标主机的IP地址。</p>
+<p>为什么不直接用域名？<br>IP地址固定4个字节，域名随随便便都至少10几个字节，这无疑会增加路由器的负担，浪费流量。</p>
+<p>根据级别不同，域名可以分为：</p>
+<ul>
+<li>顶级域名（Top-level Domain，简称TLD。例，<em><a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></em>）</li>
+<li>二级域名（例，<em>graph.baidu.com</em>）</li>
+<li>三级域名（例，**）</li>
+<li>…</li>
+</ul>
+<h4 id="1-1-1-顶级域名的分类"><a href="#1-1-1-顶级域名的分类" class="headerlink" title="1.1.1. 顶级域名的分类"></a>1.1.1. 顶级域名的分类</h4><ul>
+<li>通用顶级域名（<em>General Top-level Domain</em>，简称<em>gTLD</em>）<ul>
+<li><code>.com（公司）</code>，<code>net（网络结构）</code>，<code>.org（组织结构，公益性居多）</code>，<code>.edu（教育）</code>，<code>.gov（政府部门）</code>，<code>.int（国际组织）</code>等</li>
+</ul>
+</li>
+<li>国家及地区顶级域名（<em>Country Code Top-level Domain</em>，简称<em>ccTLD</em>）<ul>
+<li><code>.cn（中国）</code>，<code>.jp（日本）</code>，<code>.uk（英国）</code></li>
+</ul>
+</li>
+<li>新通用顶级域名（<em>New Generic Top-level Domain</em>，简称<em>New gTLD</em>）<ul>
+<li><code>.vip</code>，<code>.xyz</code>，<code>.top</code>，<code>.club</code>，<code>.shop</code>等</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-1-2-二级域名"><a href="#1-1-2-二级域名" class="headerlink" title="1.1.2. 二级域名"></a>1.1.2. 二级域名</h4><p>二级域名是指顶级域名之下的域名。</p>
+<ul>
+<li>在通用顶级域名下，它一般指域名注册人的名称，例如google，baidu，microsoft等</li>
+<li>在国家及地区顶级域名下，它一般指注册类别的，例如com，edu，gov，net等</li>
+</ul>
+<p><img src="http://blog.idbeny.com/w06cu.png@normal" alt=""></p>
+<p>例如<code>baidu.com</code>，其实完整的写法是<code>www.baidu.com.</code>，最后是有一个<code>.</code>的，这个点就代表根服务器，DNS解析的时候会自动加上去。</p>
+<h3 id="1-2-DNS（Domain-Name-System）"><a href="#1-2-DNS（Domain-Name-System）" class="headerlink" title="1.2. DNS（Domain Name System）"></a>1.2. DNS（<em>Domain Name System</em>）</h3><p>DNS英文译为：域名系统。</p>
+<p>利用DNS协议，可以将域名（比如<em>baidu.com</em>）解析对应的IP地址（比如220.180.38.120）。 </p>
+<p>DNS可以基于UDP协议，也可以基于TCP协议，服务器占用53端口。</p>
+<p><img src="http://blog.idbeny.com/iu0za.png@normal" alt=""></p>
+<p>设备访问一个域名的时候会优先从本地名称服务器查找对应的IP，如果没有找到就会请求根服务器，一级一级往下找，直到找到对应的域名为止，最后将域名对应的IP返回到设备并在本地服务器做一个缓存。</p>
+<p>常用命令：</p>
+<ul>
+<li><code>ipconfig /displaydns</code>：查看DNS缓存记录</li>
+<li><code>ipconfig /flushdns</code>：清空DNS缓存记录</li>
+<li><code>ping 域名</code>：测试指定域名服务器的连接状态</li>
+<li><code>nslookup 域名</code>：查看指定域名的IP地址</li>
+</ul>
+<h2 id="二、IP地址的分配"><a href="#二、IP地址的分配" class="headerlink" title="二、IP地址的分配"></a>二、IP地址的分配</h2><p>IP地址按照分配方式可以分为：静态IP地址、动态IP地址。</p>
+<h3 id="2-1-静态IP地址"><a href="#2-1-静态IP地址" class="headerlink" title="2.1. 静态IP地址"></a>2.1. 静态IP地址</h3><p>静态IP地址是手动设置的。</p>
+<p>适用场景：不怎么挪动的台式机（比如学校机房中的台式机），服务器等。</p>
+<h3 id="2-2-动态IP地址（DHCP）"><a href="#2-2-动态IP地址（DHCP）" class="headerlink" title="2.2. 动态IP地址（DHCP）"></a>2.2. 动态IP地址（DHCP）</h3><p>从DHCP服务器自动获取IP地址。</p>
+<p>适用场景：移动设备、无线设备等。</p>
+<p>DHCP（<em>Dynamic Host Configuration Protocol</em>），动态主机配置协议。</p>
+<p>DHCP协议基于UDP协议，客户端是68端口，服务器是67端口。</p>
+<p>DHCP服务器会从IP地址池中，挑选一个IP地址“出租”给客户端一段时间，时间到期就回收它们。平时家里上网的路由器就可以充当DHCP服务器。</p>
+<h4 id="2-2-1-分配IP地址的4个阶段"><a href="#2-2-1-分配IP地址的4个阶段" class="headerlink" title="2.2.1. 分配IP地址的4个阶段"></a>2.2.1. 分配IP地址的4个阶段</h4><ol>
+<li><code>DISCOVER</code>：发现服务器。<ul>
+<li>发广播包（源IP是<code>0.0.0.0</code>，目标IP是<code>255.255.255.255</code>，目标MAC是<code>FF:FF:FF:FF:FF:FF</code>）</li>
+</ul>
+</li>
+<li><code>OFFER</code>：提供租约<ul>
+<li>服务器返回可以租用的IP地址，以及租用期限、子网掩码、网关、DNS等信息</li>
+</ul>
+</li>
+<li><code>REQUEST</code>：选择IP地址<ul>
+<li>客户端选择一个OFFER，发送广播包进行回应</li>
+</ul>
+</li>
+<li><code>ACKNOWLEDGE</code>：确认<ul>
+<li>被选中的服务器发送ACK数据包给客户端</li>
+</ul>
+</li>
+</ol>
+<p><img src="http://blog.idbeny.com/neqnt.png@normal" alt=""></p>
+<p><img src="http://blog.idbeny.com/c0n5q.png@normal" alt=""></p>
+<blockquote>
+<p>DHCP服务器可以跨网段分配IP地址么？（DHCP服务器、客户端不在同一个网段）</p>
+<blockquote>
+<p>可以借助DHCP中继代理（<em>DHCP Relay Agent</em>）实现跨网段分配IP地址。</p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-2-自动续约"><a href="#2-2-2-自动续约" class="headerlink" title="2.2.2. 自动续约"></a>2.2.2. 自动续约</h4><p>客户端会在租期不足的时候，自动向DHCP服务器发送REQUEST信息申请续约。</p>
+<p>常用命令：</p>
+<ul>
+<li><code>ipconfig /all</code>：可以看到DHCP相关的详细信息，比如租约过期时间、DHCP服务器地址等。</li>
+<li><code>ipconfig /release</code>：释放租约</li>
+<li><code>ipconfig /renew</code>：重新申请IP地址、申请续约（延长租期）</li>
+</ul>
+<h2 id="三、HTTP"><a href="#三、HTTP" class="headerlink" title="三、HTTP"></a>三、HTTP</h2><p>HTTP（<em>Hyper Text Transfer Protocol</em>），超文本传输协议。是互联网中应用最广泛的应用层协议之一。</p>
+<p>设计HTTP最初的目的是：提供一种发布和接收HTML页面的方法（这也是为什么叫HTTP，因为HTTP最初就是用来传输HTML的），由URI来标识具体的资源。后面用HTTP来传递的数据格式不仅仅是HTML，应用非常广泛。</p>
+<blockquote>
+<p>URL是URI的子级，URI是统一资源标识符，在服务器中是唯一的。URL是统一资源定位符，是为了定位资源位置的。</p>
+</blockquote>
+<p>HTML（<em>Hyper Text Markup Language</em>），超文本标记语言（用标签标记普通文本使其表达超出文本范围的内容）。用来编写网页的。</p>
+<p>对比百度百科和维基百科的词条内容，就知道为什么维基百科更加权威和受欢迎。</p>
+<p><img src="http://blog.idbeny.com/p4pri.png@normal" alt=""></p>
+<p><img src="http://blog.idbeny.com/e8did.png@normal" alt=""></p>
+<h3 id="3-1-版本历史"><a href="#3-1-版本历史" class="headerlink" title="3.1. 版本历史"></a>3.1. 版本历史</h3><ul>
+<li>1991年，HTTP/0.9<ul>
+<li>只支持GET请求方法获取文本数据（比如HTML文档），且不支持请求头、响应头等，无法向服务器传递太多信息</li>
+</ul>
+</li>
+<li>1996年，HTTP/1.0<ul>
+<li>支持POST、HEAD等请求方法，支持请求头、响应头等，支持更多种数据类型（不再局限于文本数据）</li>
+<li>浏览器的每次请求都需要与服务器建立一个TCP连接，请求处理完成后立即断开TCP连接</li>
+</ul>
+</li>
+<li>1997，HTTP/1.1（<strong>最经典，使用最广泛的版本</strong>）<ul>
+<li>支持PUT、DELETE等请求方法</li>
+<li>采用持久连接（<em>Connection keep-alive</em>），多个请求可以共用同一个TCP连接</li>
+</ul>
+</li>
+<li>2015，HTTP/2.0（正在取代1.1）</li>
+<li>2018，HTTP/3.0（处于草稿阶段）</li>
+</ul>
+<h3 id="3-2-标准"><a href="#3-2-标准" class="headerlink" title="3.2. 标准"></a>3.2. 标准</h3><p>HTTP的标准是由万维网协会（W3C）、互联网工程任务组（IETF）协调制定，最终发布了一系列的RFC。</p>
+<p><a href="https://www.rfc-editor.org/standards" target="_blank" rel="noopener">RFC（<em>Request For Comments</em>），请求意见稿</a>。申请的内容被审核通过后就会成为HTTP标准。</p>
+<p><img src="http://blog.idbeny.com/uvid2.png@normal" alt=""></p>
+<ul>
+<li>HTTP/1.0最早是在1997年的<a href="https://tools.ietf.org/html/rfc2068" target="_blank" rel="noopener">RFC_2068</a>中记录的，该规范在1999年的<a href="https://tools.ietf.org/html/rfc2616" target="_blank" rel="noopener">RFC_2616</a>中已作废，2014年又由<a href="https://tools.ietf.org/html/rfc7230" target="_blank" rel="noopener">RFC_7230</a>系列的RFC取代。</li>
+<li>HTTP/2.0标准于2015年5月以<a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="noopener">RFC_7540</a>正式发表，取代HTTP/1.1成为HTTP的实现标准</li>
+</ul>
+<blockquote>
+<p>1996年3月，清华大学提交的适应不同国家和地区中文编码的汉字统一传输标准被IETF通过为<a href="https://tools.ietf.org/html/rfc1922" target="_blank" rel="noopener">RFC_1922</a>，成为中国大陆第一个被认可为RFC文件的提交协议。</p>
+</blockquote>
+<p>通过抓包本地服务器探索请求过程：<br><img src="http://blog.idbeny.com/o6uvp.png@normal" alt=""></p>
+<p><img src="http://blog.idbeny.com/t0r3p.png@normal" alt=""></p>
+<p>请求报文和响应报文格式：<br><img src="http://blog.idbeny.com/ci4rp.png@normal" alt=""></p>
+<p>HTTP的请求头和响应头格式都是固定的，必须按照指定格式收发数据，否则就无法正常建立通信。比例空格、换行、键值对的键（字段名）。</p>
+<p>每个字符（16进制）都有对应的ASCII码值：<br><img src="http://blog.idbeny.com/efsoj.png@normal" alt=""></p>
+<p>为什么使用<code>0d0a</code>呢（既有回车又有换行）？主要是为了兼容不同的操作系统，因为有些操作系统<code>0a</code>代表换行，有些操作系统换行的操作符是<code>0d</code>。</p>
+<h3 id="3-3-ABNF"><a href="#3-3-ABNF" class="headerlink" title="3.3. ABNF"></a>3.3. ABNF</h3><p>ABNF（<em>Augmented BNF</em>），是BNF（<em>Backus-Naur Form</em>，译：巴克斯-瑙尔范式）的修改/增强版。在<a href="https://tools.ietf.org/html/rfc5234" target="_blank" rel="noopener">RFC_5234</a>中表明ABNF用作internet中通信协议的定义语言。</p>
+<p>ABNF是最严谨的HTTP报文格式描述形式，脱离ABNF谈论HTTP报文格式，往往都是不严谨的。</p>
+<p>关于HTTP报文格式的定义：</p>
+<ul>
+<li>旧版：<a href="https://tools.ietf.org/html/rfc2616#section-4" target="_blank" rel="noopener">RFC_2616_4.HTTP Message</a></li>
+<li>新版：<a href="https://tools.ietf.org/html/rfc7230#section-3" target="_blank" rel="noopener">RFC_7230_3.Message Format</a></li>
+</ul>
+<p>ABNF核心规则：<br><img src="http://blog.idbeny.com/phey5.png@normal" alt=""></p>
+<h4 id="3-3-1-报文格式"><a href="#3-3-1-报文格式" class="headerlink" title="3.3.1. 报文格式"></a>3.3.1. 报文格式</h4><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP-message   = <span class="built_in">start</span>-<span class="built_in">line</span></span><br><span class="line">                 *( header-field <span class="literal">CRLF</span> )</span><br><span class="line">                 <span class="literal">CRLF</span></span><br><span class="line">                 [ message-body ]</span><br><span class="line"></span><br><span class="line"><span class="built_in">start</span>-<span class="built_in">line</span>     = request-<span class="built_in">line</span> / status-<span class="built_in">line</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>start-line</code>：<code>request-line</code>代表请求报文（请求行），<code>status-line</code>代表响应报文（状态行）</li>
+<li><code>*</code>：0个或多个。<code>2*</code>表示至少2个，<code>3*6</code>表示3到6个</li>
+<li>每一个<code>header-field</code>后面都必须加上回车换行符<code>CRLF</code>，<code>header-field</code>整体后面也必须加上回车换行符<code>CRLF</code></li>
+<li><code>()</code>：组成一个整体</li>
+<li><code>[]</code>：可选（请求体、响应体）</li>
+</ul>
+<h4 id="3-3-2-request-line、status-line"><a href="#3-3-2-request-line、status-line" class="headerlink" title="3.3.2. request-line、status-line"></a>3.3.2. request-line、status-line</h4><p><code>start-line</code>内部包含了空格，所以在报文格式中没有看到换行符<code>CRLF</code>。</p>
+<p>ABNF中的注释格式是：<code>分号(;)+内容</code>，例<code>;这里描述的是注释内容</code>。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// <span class="keyword">SP</span> = Space（空格），<span class="keyword">DIGIT</span>代表数字，具体可参考上面的ABNF核心规则</span><br><span class="line">// 请求行（例：GET /hello/ HTTP/<span class="number">1.1</span>）</span><br><span class="line"><span class="attribute">request-line</span> = method <span class="keyword">SP</span> request-target <span class="keyword">SP</span> HTTP-version <span class="keyword">CRLF</span></span><br><span class="line">// HTTP-version格式（例：HTTP/<span class="number">1.1</span>）</span><br><span class="line"><span class="attribute">HTTP-version</span>  = HTTP-name <span class="string">"/"</span> <span class="keyword">DIGIT</span> <span class="string">"."</span> <span class="keyword">DIGIT</span></span><br><span class="line">// HTTP-name格式（<span class="symbol">%x48.54.54.50</span>是HTTP的<span class="number">16</span>进制ASCII码值）</span><br><span class="line"><span class="attribute">HTTP-name</span>     = <span class="symbol">%x48.54.54.50</span> <span class="comment">; "HTTP", case-sensitive</span></span><br><span class="line"></span><br><span class="line">// 状态行（例：HTTP/<span class="number">1.1</span> <span class="number">200</span>）</span><br><span class="line"><span class="attribute">status-line</span> = HTTP-version <span class="keyword">SP</span> status-code <span class="keyword">SP</span> reason-phrase <span class="keyword">CRLF</span></span><br><span class="line">// 状态码由<span class="number">3</span>个数字组成（例：<span class="number">200</span>、<span class="number">300</span>、<span class="number">500</span>等）</span><br><span class="line"><span class="attribute">status-code</span>    = <span class="number">3</span><span class="keyword">DIGIT</span></span><br><span class="line">// 状态描述，可以是Tab、空格、字符或obs文字，*代表是可选项（例：OK）</span><br><span class="line"><span class="attribute">reason-phrase</span>  = *( <span class="keyword">HTAB</span> / <span class="keyword">SP</span> / <span class="keyword">VCHAR</span> / obs-text )</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-3-header-field、message-body"><a href="#3-3-3-header-field、message-body" class="headerlink" title="3.3.3. header-field、message-body"></a>3.3.3. header-field、message-body</h4><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 请求头键值对（例：Host: localhost:8080）</span></span><br><span class="line">header-field   = field-name <span class="string">":"</span> OWS field-<span class="keyword">value</span> OWS</span><br><span class="line"><span class="comment">// 指定键名</span></span><br><span class="line">field-name     = token</span><br><span class="line"><span class="comment">// 值（可有可无）</span></span><br><span class="line">field-<span class="keyword">value</span>    = *( field-content / obs-fold )</span><br><span class="line"><span class="comment">// 空格或Tab键（*代表该值可有可无，也就是说有OWS的地方可以没有空格也可以有多个空格）</span></span><br><span class="line">OWS = *( SP / HTAB )</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消息体（只要是字节就可以）</span></span><br><span class="line">message-body = *OCTET</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-4-telnet"><a href="#3-3-4-telnet" class="headerlink" title="3.3.4. telnet"></a>3.3.4. telnet</h4><p>使用<code>telnet</code>可以直接面向HTTP报文与服务器交互，可以更清晰、直观的看到请求报文和响应报文的内容，也可以检验请求报文格式的正确与否。</p>
+<p><img src="http://blog.idbeny.com/g7o7u.png@normal" alt=""></p>
+<blockquote>
+<p>Windows系统用户可以使用Xshell软件，Mac系统用户直接命令安装即可（<code>brew install telnet</code>）。</p>
+</blockquote>
+<h3 id="3-4-URL编码"><a href="#3-4-URL编码" class="headerlink" title="3.4. URL编码"></a>3.4. URL编码</h3><p>URL中一旦出现了一些特殊字符（比如中文、空格），需要进行编码。在浏览器地址栏输入URL时，是采用UTF-8进行编码。比如<code>https://www.baidu.com/s?wd=你好</code>编码后就是<code>https://www.baidu.com/s?wd=%E4%BD%A0%E5%A5%BD</code>。</p>
+<h3 id="3-5-请求方法"><a href="#3-5-请求方法" class="headerlink" title="3.5. 请求方法"></a>3.5. 请求方法</h3><p><a href="https://tools.ietf.org/html/rfc7231#section-4" target="_blank" rel="noopener">RFC_7231,section-4: Request methods</a>：描述了8种请求方法。</p>
+<p><img src="http://blog.idbeny.com/aqwvx.png@normal" alt=""></p>
+<p>在<a href="https://tools.ietf.org/html/rfc5789#section-2" target="_blank" rel="noopener">RFC_5789,section-2: Patch methods</a>文档中描述了PATCH方法。</p>
+<p>所以到目前为止一共有9种HTTP请求方法。最常用的请求方法是<code>GET</code>和<code>POST</code>。</p>
+<ul>
+<li><code>GET</code>：常用于读取的操作，请求参数直接拼接在URL的后面（浏览器或服务器对URL是有长度限制的，ABNF并没有限制URL长度的说明）</li>
+<li><code>POST</code>：常用于添加、修改、删除的操作，请求参数可以放到请求体中（没有大小限制）</li>
+<li><code>HEAD</code>：请求得到与GET请求相同的响应，但没有响应体<ul>
+<li>使用场景举例：在下载一个大文件前，先获取其大小，再决定是否要下载，以此可以节约带宽资源</li>
+</ul>
+</li>
+<li><code>OPTIONS</code>：用于获取目的资源所支持的通信选项，比如服务器支持的请求方法<ul>
+<li>使用<code>telnet</code>连接服务器后输入<code>OPTIONS * HTTP/1.1</code>（*代表所有路径），返回<code>Allow: GET, HEAD, POST, PUT, DELETE, OPTIONS</code></li>
+</ul>
+</li>
+<li><code>PUT</code>：用于对已存在的资源进行整体覆盖（很少使用，因为是直接覆盖数据，所以不太安全）</li>
+<li><code>DELETE</code>：用于删除指定的资源（很少使用，不安全）</li>
+<li><code>PATCH</code>：用于对资源进行部分修改（资源不存在，会创建新的资源。很少使用，不安全）</li>
+<li><code>CONNECT</code>：可以开启一个客户端与所请求资源之间的双向沟通的通道，它可以用来创建隧道（tunnel）<ul>
+<li>可以用来访问采用了SSL（HTTPS）协议的站点</li>
+</ul>
+</li>
+<li><code>TRACE</code>：请求服务器回显其收到的请求信息（请求什么内容就响应什么内容），主要用于HTTP请求的测试或诊断</li>
+</ul>
+<h3 id="3-6-请求头字段"><a href="#3-6-请求头字段" class="headerlink" title="3.6. 请求头字段"></a>3.6. 请求头字段</h3><p>头部字段（<em>Header Field</em>）可以分为4种类型：</p>
+<ul>
+<li>请求头字段（<em>Request Header Fields</em>） <ul>
+<li>有关要获取的资源或客户端本身信息的消息头</li>
+</ul>
+</li>
+<li>响应头字段（<em>Response Header Fields</em>）<ul>
+<li>有关响应的补充信息，比如服务器本身（名称和版本等）的消息头</li>
+</ul>
+</li>
+<li>实体头字段（<em>Entity Header Fields</em>）<ul>
+<li>有关实体主体的更多信息，比如主体长度（Content-Length）或其MIME类型</li>
+</ul>
+</li>
+<li>通用头字段（<em>General Header Fields</em>）<ul>
+<li>同时适用于请求和响应消息，但与消息主体无关的消息头，比如时间（Date）</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://blog.idbeny.com/ce1ay.png@normal" alt=""></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept: <span class="built_in">text</span>/html,<span class="built_in">application</span>/xhtml+xml,<span class="built_in">application</span>/xml;q=<span class="number">0.9</span>,image/avif,image/webp,image/apng,*/*;q=<span class="number">0.8</span>,<span class="built_in">application</span>/signed-exchange;v=b3;q=<span class="number">0.9</span></span><br></pre></td></tr></table></figure>
+
+<p>上面请求头的接收类型包含了很多种，每一种使用逗号<code>,</code>隔开，<code>q=0.8</code>是权重的意思，权重值越大，优先级越高（优先返回哪一种类型）。如果不指定q值，默认是1.0（最大值）。</p>
+<h3 id="3-7-响应头字段"><a href="#3-7-响应头字段" class="headerlink" title="3.7. 响应头字段"></a>3.7. 响应头字段</h3><p><img src="http://blog.idbeny.com/zn36i.png@normal" alt=""></p>
+<h3 id="3-8-状态码（Status-Code）"><a href="#3-8-状态码（Status-Code）" class="headerlink" title="3.8. 状态码（Status Code）"></a>3.8. 状态码（<em>Status Code</em>）</h3><p>状态码是在<a href="https://tools.ietf.org/html/rfc2616#section-10" target="_blank" rel="noopener">RFC_2616,section-10:Status Code Definitions</a>规范中定义的。状态码指示HTTP请求是否已成功完成。</p>
+<h4 id="3-8-1-状态码分类"><a href="#3-8-1-状态码分类" class="headerlink" title="3.8.1. 状态码分类"></a>3.8.1. 状态码分类</h4><p>状态码分为5类：</p>
+<ul>
+<li>信息响应：100~199</li>
+<li>成功响应：200~299</li>
+<li>重定向：300~399</li>
+<li>客户端错误：400~499</li>
+<li>服务器错误：500~599</li>
+</ul>
+<h4 id="3-8-2-常见状态码"><a href="#3-8-2-常见状态码" class="headerlink" title="3.8.2. 常见状态码"></a>3.8.2. 常见状态码</h4><p><strong>100（Continue）</strong><br>请求的初始化部分已经被服务器收到，并且没有被服务器拒绝。客户端应该继续发送剩余的请求，如果请求已经完成，就忽略这个响应。</p>
+<p>应用场景：允许客户端发送带请求体的请求前，判断服务器是否愿意接收请求（服务器通过请求头判断）。在某些情况下，如果服务器在不看请求体就拒绝请求时，客户端就发送请求体是不恰当的或低效的。</p>
+<p><strong>200（OK）</strong><br>请求成功</p>
+<p><strong>302（Found）</strong><br>请求的资源被暂时的移动到了由Location头部指定的URL上。</p>
+<p><strong>304（Not Modified）</strong><br>说明无需再次传输请求的内容（也就是说客户端可以使用之前302缓存的内容，服务器只返回响应头）。</p>
+<p><strong>400（Bad Request）</strong><br>由于语法无效，服务器无法理解该请求。</p>
+<p><strong>401（Unauthorized）</strong><br>由于缺乏目标资源要求的身份验证凭证。</p>
+<p><strong>403（Forbidden）</strong><br>服务端有能力处理该请求，但是拒绝授权访问。</p>
+<p><strong>404（Not Found）</strong><br>服务器端无法找到所请求的资源。</p>
+<p><strong>405（Method Not Allowed）</strong><br>服务器禁止了使用当前HTTP方法的请求（比如应该使用POST请求而客户端使用的是GET请求）。</p>
+<p><strong>406（Not Acceptable）</strong><br>服务器端无法提供与<code>Accept-Charset</code>以及<code>Accept-Language</code>指定的值相匹配的响应。</p>
+<p><strong>408（Request Timeout）</strong><br>服务器想要将没有在使用的连接关闭（一些服务器会在空闲连接上发送此信息，即便在客户端没有发送任何请求的情况下）。</p>
+<p><strong>500（Internal Server Error）</strong><br>所请求的服务器遇到意外的情况并阻止其执行请求。</p>
+<p><strong>501（Not Implemented）</strong><br>请求的方法不被服务器支持，因此无法被处理。</p>
+<p>服务器必须支持的方法（即不会返回这个状态码的方法）只有GET和HEAD。</p>
+<p>注意和405的区分：405代表服务器支持该请求方法，只是客户端使用了错误的请求方法；而501是服务器不支持该请求方法。</p>
+<p><strong>502（Bad Gateway）</strong><br>作为网关或代理角色的服务器，从上游服务器（如tomcat）中接收到的响应是无效的。</p>
+<p><strong>503（Service Unavailable）</strong><br>服务器尚未处于可以接受请求的状态。通常造成这种情况的原因是由于服务器停机维护或者已超载。</p>
+<h3 id="3-9-form（表单）提交"><a href="#3-9-form（表单）提交" class="headerlink" title="3.9. form（表单）提交"></a>3.9. form（表单）提交</h3><p>常用属性：</p>
+<ul>
+<li><code>action</code>：请求的URI</li>
+<li><code>method</code>：请求方法（只支持GET和POST）</li>
+<li><code>enctype</code>：POST请求时，请求体的编码方式<ul>
+<li><code>application/x-www-form-urlencoded</code>，默认值。用<code>&amp;</code>分割参数，用<code>=</code>分割键和值，字符用URL编码方式进行编码</li>
+<li><code>multipart/form-data</code>：文件上传时必须使用这种编码方式</li>
+</ul>
+</li>
+</ul>
+<p><code>multipart/form-data</code>参考<a href="https://tools.ietf.org/html/rfc1521" target="_blank" rel="noopener">RFC_1521</a>。</p>
+<p>请求头：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-<span class="keyword">Type</span>: multipart/<span class="keyword">form</span>-<span class="keyword">data</span>; boundary=xxx</span><br></pre></td></tr></table></figure>
+
+<p>请求体：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">multipart-body := preamble <span class="number">1</span>*encapsulation</span><br><span class="line">               <span class="keyword">close</span>-<span class="keyword">delimiter</span> epilogue</span><br><span class="line"></span><br><span class="line">encapsulation := <span class="keyword">delimiter</span> body-part CRLF</span><br><span class="line"></span><br><span class="line"><span class="keyword">delimiter</span> := "--" boundary CRLF ; taken <span class="keyword">from</span> Content-<span class="keyword">Type</span> field.</span><br><span class="line">                                ; There must be <span class="keyword">no</span> space</span><br><span class="line">                                ; <span class="keyword">between</span> "--" <span class="keyword">and</span> boundary.</span><br><span class="line"></span><br><span class="line"><span class="keyword">close</span>-<span class="keyword">delimiter</span> := "--" boundary "--" CRLF ; Again, <span class="keyword">no</span> space</span><br><span class="line">   <span class="keyword">by</span> "--",</span><br><span class="line"></span><br><span class="line">preamble := <span class="keyword">discard</span>-<span class="type">text</span>   ;  <span class="keyword">to</span>  be  ignored upon receipt.</span><br><span class="line"></span><br><span class="line">epilogue := <span class="keyword">discard</span>-<span class="type">text</span>   ;  <span class="keyword">to</span>  be  ignored upon receipt.</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/11/12/network-application/" title="【网络协议】网络协议系列十一 - 应用层">http://idbeny.com/2020/11/12/network-application/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/08/network-transport-tcp-connect/" rel="next" title="【网络协议】网络协议系列十 - 传输层-TCP连接">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列十 - 传输层-TCP连接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/20/network-cors-cookie-session/" rel="prev" title="【网络协议】网络协议系列十二 - 跨域/Cookie/Session">
+                【网络协议】网络协议系列十二 - 跨域/Cookie/Session <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">109</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、应用层常见协议"><span class="nav-number">1.</span> <span class="nav-text">一、应用层常见协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-域名（Domain-Name）"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 域名（Domain Name）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-顶级域名的分类"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 顶级域名的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-二级域名"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 二级域名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-DNS（Domain-Name-System）"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. DNS（Domain Name System）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、IP地址的分配"><span class="nav-number">2.</span> <span class="nav-text">二、IP地址的分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-静态IP地址"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 静态IP地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-动态IP地址（DHCP）"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 动态IP地址（DHCP）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-分配IP地址的4个阶段"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1. 分配IP地址的4个阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-自动续约"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2. 自动续约</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、HTTP"><span class="nav-number">3.</span> <span class="nav-text">三、HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-版本历史"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 版本历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-标准"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-ABNF"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. ABNF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-报文格式"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1. 报文格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-request-line、status-line"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2. request-line、status-line</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-header-field、message-body"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3. header-field、message-body</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-4-telnet"><span class="nav-number">3.3.4.</span> <span class="nav-text">3.3.4. telnet</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-URL编码"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. URL编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-请求方法"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. 请求方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-请求头字段"><span class="nav-number">3.6.</span> <span class="nav-text">3.6. 请求头字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-响应头字段"><span class="nav-number">3.7.</span> <span class="nav-text">3.7. 响应头字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-状态码（Status-Code）"><span class="nav-number">3.8.</span> <span class="nav-text">3.8. 状态码（Status Code）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-1-状态码分类"><span class="nav-number">3.8.1.</span> <span class="nav-text">3.8.1. 状态码分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-2-常见状态码"><span class="nav-number">3.8.2.</span> <span class="nav-text">3.8.2. 常见状态码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-form（表单）提交"><span class="nav-number">3.9.</span> <span class="nav-text">3.9. form（表单）提交</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
