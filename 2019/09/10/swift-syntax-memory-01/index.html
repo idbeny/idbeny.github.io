@@ -1,38 +1,1382 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Swift,内存管理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="和OC一样，Swift也是采取基于引用计数的ARC内存管理方案（针对堆空间）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift系列二十四 - 内存管理（一）">
+<meta property="og:url" content="http://idbeny.com/2019/09/10/swift-syntax-memory-01/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="和OC一样，Swift也是采取基于引用计数的ARC内存管理方案（针对堆空间）。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/q4evn.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/sks93.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/7kaev.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ilxfi.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/inq8p.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/u374a.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zaapt.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/cutb9.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8fa1t.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/gnb6f.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/qmhsd.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/xtwwq.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/tqqfl.png@normal">
+<meta property="article:published_time" content="2019-09-10T13:25:32.000Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.273Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="内存管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/q4evn.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/09/10/swift-syntax-memory-01/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Swift系列二十四 - 内存管理（一） | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/09/10/swift-syntax-memory-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列二十四 - 内存管理（一）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T21:25:32+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>和OC一样，Swift也是采取基于引用计数的ARC内存管理方案（针对堆空间）。</p>
+<span id="more"></span>
+<h2 id="一、引用介绍"><a href="#一、引用介绍" class="headerlink" title="一、引用介绍"></a>一、引用介绍</h2><p>Swift的ARC中有3中引用：</p>
+<ul>
+<li><strong>强引用</strong>（<em>strong reference</em>）：默认情况下，引用都是强引用</li>
+<li><strong>弱引用</strong>（<em>weak reference</em>）：通过<code>weak</code>定义弱引用</li>
+<li><strong>无主引用</strong>（<em>unowned reference</em>）：通过<code>unowned</code>定义无主引用</li>
+</ul>
+<h3 id="1-1-强引用"><a href="#1-1-强引用" class="headerlink" title="1.1. 强引用"></a>1.1. 强引用</h3><p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person.deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">test()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 1</span></span><br><span class="line"><span class="comment"> Person.deinit</span></span><br><span class="line"><span class="comment"> 2</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p><code>test</code>函数中的<code>p</code>是强引用，会在函数调用结束后自动释放。</p>
+<h3 id="1-2-弱引用"><a href="#1-2-弱引用" class="headerlink" title="1.2. 弱引用"></a>1.2. 弱引用</h3><p>弱引用变量必须是可选类型的<code>var</code>，因为实例销毁后，ARC会自动将弱引用设置为<code>nil</code>。</p>
+<blockquote>
+<p>思考：为什么要设置为<code>var</code>？为什么必须是可选类型？<br>因为只有可选类型才能设置为<code>nil</code>，只有<code>var</code>才能改变内存。</p>
+</blockquote>
+<p>示例代码一：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">weak</span> <span class="keyword">var</span> p: <span class="type">Person</span>? <span class="operator">=</span> <span class="type">Person</span>()</span><br></pre></td></tr></table></figure>
+
+<p>ARC自动给弱引用设置<code>nil</code>时，不会触发属性观察器。</p>
+<p>示例代码二：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> &#123; &#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> dog: <span class="type">Dog</span>? &#123;</span><br><span class="line">        <span class="keyword">willSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;dog property willSet&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;dog property didSet&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person.deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">p.dog <span class="operator">=</span> <span class="type">Dog</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 1</span></span><br><span class="line"><span class="comment"> dog property willSet</span></span><br><span class="line"><span class="comment"> dog property didSet</span></span><br><span class="line"><span class="comment"> 2</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>上面示例代码中<code>Dog</code>对象很快会被销毁并把<code>dog</code>属性自动置为<code>nil</code>，可以看出没有更多的属性观察器打印输出。</p>
+<h3 id="1-3-无主引用"><a href="#1-3-无主引用" class="headerlink" title="1.3. 无主引用"></a>1.3. 无主引用</h3><p>无主引用不会产生强引用，实例销毁后仍然存储着实例的内存地址（类似于OC中的<code>unsafe_unretained</code>）。</p>
+<p>试图在实例销毁后访问无主引用，会产生运行时错误（野指针）。</p>
+<h3 id="1-4-weak、unowned的使用限制"><a href="#1-4-weak、unowned的使用限制" class="headerlink" title="1.4. weak、unowned的使用限制"></a>1.4. weak、unowned的使用限制</h3><p><code>weak、unowned</code>只能用在<strong>类实例</strong>上面。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Livable</span> : <span class="title class_">AnyObject</span> &#123; &#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">weak</span> <span class="keyword">var</span> p0: <span class="type">Person</span>?</span><br><span class="line"><span class="keyword">weak</span> <span class="keyword">var</span> p1: <span class="type">AnyObject</span>?</span><br><span class="line"><span class="keyword">weak</span> <span class="keyword">var</span> p2: <span class="type">Livable</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">unowned</span> <span class="keyword">var</span> p3: <span class="type">Person</span>?</span><br><span class="line"><span class="keyword">unowned</span> <span class="keyword">var</span> p4: <span class="type">AnyObject</span>?</span><br><span class="line"><span class="keyword">unowned</span> <span class="keyword">var</span> p5: <span class="type">Livable</span>?</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-5-Autoreleasepool"><a href="#1-5-Autoreleasepool" class="headerlink" title="1.5. Autoreleasepool"></a>1.5. Autoreleasepool</h3><p>官方定义：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">autoreleasepool</span>&lt;<span class="type">Result</span>&gt;(<span class="params">invoking</span> <span class="params">body</span>: () <span class="keyword">throws</span> -&gt; <span class="type">Result</span>) <span class="keyword">rethrows</span> -&gt; <span class="type">Result</span></span><br></pre></td></tr></table></figure>
+
+<p>使用示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">age</span>: <span class="type">Int</span>, <span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.age <span class="operator">=</span> age</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person run&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">autoreleasepool &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>(age: <span class="number">20</span>, name: <span class="string">&quot;idbeny&quot;</span>)</span><br><span class="line">    p.run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需要把释放的代码放到自动释放池的尾随闭包内即可。</p>
+<h2 id="二、循环引用（Reference-Cycle）"><a href="#二、循环引用（Reference-Cycle）" class="headerlink" title="二、循环引用（Reference Cycle）"></a>二、循环引用（Reference Cycle）</h2><p><code>weak、unowned</code>都能解决循环引用的问题、<code>unowned</code>要比<code>weak</code>少一些性能消耗。</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>在生命周期中可能会变为<code>nil</code>的使用<code>weak</code></li>
+<li>初始化赋值后再也不会变为<code>nil</code>的使用<code>unowned</code></li>
+</ul>
+<p><strong><a target="_blank" rel="noopener" href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html">官方示例</a></strong></p>
+<p>示例代码一（基础）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123; <span class="keyword">self</span>.name <span class="operator">=</span> name &#125;</span><br><span class="line">    <span class="keyword">var</span> apartment: <span class="type">Apartment</span>?</span><br><span class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> is being deinitialized&quot;</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Apartment</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> unit: <span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">unit</span>: <span class="type">String</span>) &#123; <span class="keyword">self</span>.unit <span class="operator">=</span> unit &#125;</span><br><span class="line">    <span class="keyword">var</span> tenant: <span class="type">Person</span>?</span><br><span class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">print</span>(<span class="string">&quot;Apartment <span class="subst">\(unit)</span> is being deinitialized&quot;</span>) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>示例代码二（循环引用）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> john: <span class="type">Person</span>?</span><br><span class="line"><span class="keyword">var</span> unit4A: <span class="type">Apartment</span>?</span><br><span class="line"></span><br><span class="line">john <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;John Appleseed&quot;</span>)</span><br><span class="line">unit4A <span class="operator">=</span> <span class="type">Apartment</span>(unit: <span class="string">&quot;4A&quot;</span>)</span><br><span class="line"></span><br><span class="line">john<span class="operator">!</span>.apartment <span class="operator">=</span> unit4A</span><br><span class="line">unit4A<span class="operator">!</span>.tenant <span class="operator">=</span> john</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/q4evn.png@normal"></p>
+<p>即使两个变量被释放，变量指向的对象之间还是会存在互相强引用的关系，不会被销毁。</p>
+<p><img src="http://blog.idbeny.com/sks93.png@normal"></p>
+<p>示例代码三（解决循环引用）：<br>要想解决循环引用，只需要把其中一个变量设置为<code>nil</code>。</p>
+<p><img src="http://blog.idbeny.com/7kaev.png@normal"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">john <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line"><span class="comment">// 输出：John Appleseed is being deinitialized</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/ilxfi.png@normal"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unit4A <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line"><span class="comment">// 输出：Apartment 4A is being deinitialized</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/inq8p.png@normal"></p>
+<p>示例代码四（使用<code>unowned</code>解决循环引用）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Customer</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> card: <span class="type">CreditCard</span>?</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> is being deinitialized&quot;</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CreditCard</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> number: <span class="type">UInt64</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> customer: <span class="type">Customer</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">number</span>: <span class="type">UInt64</span>, <span class="params">customer</span>: <span class="type">Customer</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.number <span class="operator">=</span> number</span><br><span class="line">        <span class="keyword">self</span>.customer <span class="operator">=</span> customer</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">print</span>(<span class="string">&quot;Card #<span class="subst">\(number)</span> is being deinitialized&quot;</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> john: <span class="type">Customer</span>?</span><br><span class="line">john <span class="operator">=</span> <span class="type">Customer</span>(name: <span class="string">&quot;John Appleseed&quot;</span>)</span><br><span class="line">john<span class="operator">!</span>.card <span class="operator">=</span> <span class="type">CreditCard</span>(number: <span class="number">1234_5678_9012_3456</span>, customer: john<span class="operator">!</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/u374a.png@normal"></p>
+<p>由于使用的是<code>unowned</code>引用，所以当断开<code>john</code>变量的强引用时，就不会有强引用<code>Customer</code>实例。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">john <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line"><span class="comment">// 输出：John Appleseed is being deinitialized</span></span><br><span class="line"><span class="comment">// 输出：Card #1234567890123456 is being deinitialized</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/zaapt.png@normal"></p>
+<h2 id="三、闭包的循环引用"><a href="#三、闭包的循环引用" class="headerlink" title="三、闭包的循环引用"></a>三、闭包的循环引用</h2><p>闭包表达式默认会对用到的外层对象产生额外的强引用（对外层对象进行了<code>retain</code>操作）。</p>
+<p>下面代码会产生循环引用，导致<code>Person</code>对象无法释放（看不到<code>Person</code>的<code>deinit</code>被调用）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> fn: (() -&gt; ())<span class="operator">?</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;run&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    p.fn <span class="operator">=</span> &#123;</span><br><span class="line">        p.run()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p><code>Person</code>对象<code>p</code>对<code>fn</code>有强引用，<code>p.fn</code>的闭包表达式对<code>Person</code>对象有强引用，两者之间形成循环引用，所以无法释放。</p>
+<p>引用计数最终等于1，没有释放：<br><img src="http://blog.idbeny.com/cutb9.png@normal"></p>
+<h3 id="3-1-闭包表达式"><a href="#3-1-闭包表达式" class="headerlink" title="3.1. 闭包表达式"></a>3.1. 闭包表达式</h3><p>在闭包表达式的捕获列表声明<code>weak</code>或<code>unowned</code>引用，解决循环引用问题：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用weak</span></span><br><span class="line"><span class="comment">// p.fn = &#123;</span></span><br><span class="line"><span class="comment">//     [weak p] in</span></span><br><span class="line"><span class="comment">//     p?.run()</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// 使用unowned</span></span><br><span class="line">p.fn <span class="operator">=</span> &#123;</span><br><span class="line">    [<span class="keyword">unowned</span> p] <span class="keyword">in</span></span><br><span class="line">    p.run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>示例代码（带参数）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> fn: ((<span class="type">Int</span>) -&gt; ())<span class="operator">?</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;run&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    p.fn <span class="operator">=</span> &#123;</span><br><span class="line">        [<span class="keyword">unowned</span> p](<span class="type">Int</span>) <span class="keyword">in</span></span><br><span class="line">        p.run()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>示例代码（变量别名）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p.fn <span class="operator">=</span> &#123;</span><br><span class="line">    [<span class="keyword">weak</span> wp <span class="operator">=</span> p, <span class="keyword">unowned</span> up <span class="operator">=</span> p, a <span class="operator">=</span> <span class="number">10</span> <span class="operator">+</span> <span class="number">20</span>](<span class="type">Int</span>) <span class="keyword">in</span></span><br><span class="line">    wp<span class="operator">?</span>.run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-self和lazy"><a href="#3-2-self和lazy" class="headerlink" title="3.2. self和lazy"></a>3.2. self和lazy</h3><p>如果想在定义闭包属性的同时引用<code>self</code>，这个闭包必须是<code>lazy</code>的（因为在实例初始化完毕之后才能引用<code>self</code>）。</p>
+<p><img src="http://blog.idbeny.com/8fa1t.png@normal"></p>
+<p>为什么不能使用<code>self</code>？</p>
+<p>因为<code>self</code>只有在实例初始化完毕后才能调用，在初始化属性的同时使用<code>self</code>肯定是不行的，除非在属性前面加上<code>lazy</code>（允许在实例初始化完毕之后第一次使用属性时再初始化属性）。</p>
+<p>示例代码一：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> fn: (() -&gt; ()) <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.run()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;run&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line"><span class="comment">// 输出：deinit</span></span><br></pre></td></tr></table></figure>
+
+<p><em>为什么对象被释放了？</em></p>
+<p>因为属性<code>fn</code>没有被用到，所以属性没有对实例进行强引用。</p>
+<p>如果加上下面的代码就会造成强引用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    p.fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>怎样解决强引用呢？</em></p>
+<p>在闭包表达式中使用<code>weak</code>或<code>unowned</code>即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> fn: (() -&gt; ()) <span class="operator">=</span> &#123;</span><br><span class="line">        [<span class="keyword">weak</span> weakself <span class="operator">=</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">        weakself<span class="operator">?</span>.run()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;run&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    p.fn()</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> run</span></span><br><span class="line"><span class="comment"> deinit</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：上面的闭包<code>fn</code>内部如果用到了实例成员（属性、方法），编译器会强制要求明确写出<code>self</code>（主要目的是为了提醒开发者循环引用问题）。</p>
+</blockquote>
+<p>如果<code>lazy</code>属性是闭包调用的结果，那么不用考虑循环引用的问题（因为闭包调用后，闭包的生命周期就结束了）。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> getAge: <span class="type">Int</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.age</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    <span class="built_in">print</span>(p.getAge)</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0</span></span><br><span class="line"><span class="comment"> deinit</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么这里没有循环引用？</p>
+<p>因为属性<code>getAge</code>后面是一个立即执行的函数，函数执行完成后会立即释放<code>self</code>，只把返回值给到<code>getAge</code>，所以没有造成循环引用（该示例中闭包函数体内可以不写<code>self</code>）。</p>
+<h2 id="四、逃逸闭包"><a href="#四、逃逸闭包" class="headerlink" title="四、逃逸闭包"></a>四、逃逸闭包</h2><p>非逃逸闭包、逃逸闭包，一般都是当做参数传递给函数。</p>
+<p><strong>非逃逸闭包：</strong> 闭包调用发生在函数结束前，闭包调用在函数作用域内。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Fn</span> <span class="operator">=</span> () -&gt; ()</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">fn</span>: <span class="type">Fn</span>) &#123;</span><br><span class="line">    fn()</span><br><span class="line">&#125;</span><br><span class="line">test &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>fn</code>是非逃逸闭包。</p>
+<p><strong>逃逸闭包：</strong> 闭包有可能在函数结束后调用，闭包调用逃离了函数的作用域，需要通过<code>@escaping</code>声明。</p>
+<p>示例代码一：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Fn</span> <span class="operator">=</span> () -&gt; ()</span><br><span class="line"><span class="keyword">var</span> gFn: <span class="type">Fn</span>?</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">fn</span>: <span class="keyword">@escaping</span> <span class="type">Fn</span>) &#123;</span><br><span class="line">    gFn <span class="operator">=</span> fn</span><br><span class="line">&#125;</span><br><span class="line">test &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 无输出</span></span><br></pre></td></tr></table></figure>
+
+<p><code>fn</code>是逃逸闭包。</p>
+<p>示例代码二：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(<span class="keyword">_</span> <span class="params">fn</span>: <span class="keyword">@escaping</span> <span class="type">Fn</span>) &#123;</span><br><span class="line">    <span class="type">DispatchQueue</span>.global().async &#123;</span><br><span class="line">        fn()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>fn</code>也是逃逸闭包。</p>
+<p>示例代码三：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Fn</span> <span class="operator">=</span> () -&gt; ()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> fn: <span class="type">Fn</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">fn</span>: <span class="keyword">@escaping</span> <span class="type">Fn</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.fn <span class="operator">=</span> fn</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="type">DispatchQueue</span>.global().async &#123;</span><br><span class="line">            <span class="keyword">self</span>.fn()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>fn</code>是逃逸闭包。<code>DispatchQueue.global().async</code>也是一个逃逸闭包。它用到了实例成员（属性、方法），编译器会强制要求明确写出<code>self</code>。这里不会产生循环引用，因为仅仅是异步方法对<code>Person</code>做了强引用，而<code>Person</code>没有对异步方法做强引用。</p>
+<p>如果<code>Person</code>对象被释放后不需要再调用<code>fn</code>函数，则需要使用弱引用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DispatchQueue</span>.global().async &#123;</span><br><span class="line">    [<span class="keyword">weak</span> weakself <span class="operator">=</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">    weakself<span class="operator">?</span>.fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>逃逸闭包<code>@escaping</code>主要是编译器让开发者知道该函数是有风险的。假设闭包用到了宿主的成员，而宿主在闭包调用前已经被销毁，这时候有可能程序会运行异常。</p>
+</blockquote>
+<p><strong>注意点：</strong><br>逃逸闭包不可以捕获<code>inout</code>参数。</p>
+<p><img src="http://blog.idbeny.com/gnb6f.png@normal"></p>
+<h2 id="五、内存访问冲突"><a href="#五、内存访问冲突" class="headerlink" title="五、内存访问冲突"></a>五、内存访问冲突</h2><p>内存访问冲突会在两个访问满足下列条件时发生：</p>
+<ul>
+<li>至少一个是写入操作</li>
+<li>它们访问的是同一块内存</li>
+<li>它们的访问时间重叠（比如在同一个函数内）</li>
+</ul>
+<p>示例代码一（没有冲突）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">plus</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    num <span class="operator">+</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">number <span class="operator">=</span> plus(<span class="operator">&amp;</span>number)</span><br></pre></td></tr></table></figure>
+
+<p>示例代码二（存在冲突）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> step <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">increment</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123;</span><br><span class="line">    num <span class="operator">+=</span> step</span><br><span class="line">&#125;</span><br><span class="line">increment(<span class="operator">&amp;</span>step)</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/qmhsd.png@normal"></p>
+<p>解决冲突：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> step <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">increment</span>(<span class="keyword">_</span> <span class="params">num</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123;</span><br><span class="line">    num <span class="operator">+=</span> step</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> copyofStep <span class="operator">=</span> step</span><br><span class="line">increment(<span class="operator">&amp;</span>copyofStep)</span><br><span class="line">step <span class="operator">=</span> copyofStep</span><br></pre></td></tr></table></figure>
+
+<p>示例代码三（函数）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">balance</span>(<span class="keyword">_</span> <span class="params">x</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">y</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> sum <span class="operator">=</span> x <span class="operator">+</span> y</span><br><span class="line">    x <span class="operator">=</span> sum <span class="operator">/</span> <span class="number">2</span></span><br><span class="line">    y <span class="operator">=</span> sum <span class="operator">-</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> num1 <span class="operator">=</span> <span class="number">40</span></span><br><span class="line"><span class="keyword">var</span> num2 <span class="operator">=</span> <span class="number">30</span></span><br><span class="line">balance(<span class="operator">&amp;</span>num1, <span class="operator">&amp;</span>num2)</span><br></pre></td></tr></table></figure>
+
+<p>如果传入的是同一个变量就会报错：<br><img src="http://blog.idbeny.com/xtwwq.png@normal"></p>
+<p>示例代码四（结构体）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Player</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> health: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> energy: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">shareHealth</span>(<span class="params">with</span> <span class="params">teammate</span>: <span class="keyword">inout</span> <span class="type">Player</span>) &#123;</span><br><span class="line">        balance(<span class="operator">&amp;</span>teammate.health, <span class="operator">&amp;</span>health)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> oscar <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Oscar&quot;</span>, health: <span class="number">10</span>, energy: <span class="number">10</span>)</span><br><span class="line"><span class="keyword">var</span> maria <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Maria&quot;</span>, health: <span class="number">5</span>, energy: <span class="number">10</span>)</span><br><span class="line">oscar.shareHealth(with: <span class="operator">&amp;</span>maria)</span><br></pre></td></tr></table></figure>
+
+<p>如果传入的是同一个<code>health</code>主体就会报错：<br><img src="http://blog.idbeny.com/tqqfl.png@normal"></p>
+<p>示例代码五（元组）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tulpe <span class="operator">=</span> (health: <span class="number">10</span>, energy: <span class="number">20</span>)</span><br><span class="line">balance(<span class="operator">&amp;</span>tulpe.health, <span class="operator">&amp;</span>tulpe.energy)</span><br></pre></td></tr></table></figure>
+
+<p>报错：<code>Simultaneous accesses to 0x10000c338, but modification requires exclusive access.</code></p>
+<p>虽然元组内部的两个变量地址不同，但元组是一块内存，所以会报错。</p>
+<p>示例代码五（结构体）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> holly <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Holly&quot;</span>, health: <span class="number">10</span>, energy: <span class="number">10</span>)</span><br><span class="line">balance(<span class="operator">&amp;</span>holly.health, <span class="operator">&amp;</span>holly.energy)</span><br></pre></td></tr></table></figure>
+
+<p>报错：<code>Simultaneous accesses to 0x10000c338, but modification requires exclusive access. </code></p>
+<p>和上面的元组一样，结构体也是一整块内存，访问时会报错。</p>
+<p><strong>避免冲突：</strong><br>如果下面的条件可以满足，就说明重叠访问结构体的属性是安全的：</p>
+<ul>
+<li>你只访问实例存储属性，不是计算属性或者类属性</li>
+<li>结构体是局部变量而非全局变量</li>
+<li>结构体要么没有被闭包捕获，要么只被非逃逸闭包捕获</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> tulpe <span class="operator">=</span> (health: <span class="number">10</span>, energy: <span class="number">20</span>)</span><br><span class="line">    balance(<span class="operator">&amp;</span>tulpe.health, <span class="operator">&amp;</span>tulpe.energy)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> holly <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Holly&quot;</span>, health: <span class="number">10</span>, energy: <span class="number">10</span>)</span><br><span class="line">    balance(<span class="operator">&amp;</span>holly.health, <span class="operator">&amp;</span>holly.energy)</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<p>把上面报错的示例代码放到函数体内就可以避免内存访问冲突，因为放到函数体后<code>tulpe</code>和<code>holly</code>就变成了局部变量。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/09/10/swift-syntax-memory-01/" title="【iOS】Swift系列二十四 - 内存管理（一）">http://idbeny.com/2019/09/10/swift-syntax-memory-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="tag"># 内存管理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/06/swift-syntax-extension/" rel="next" title="【iOS】Swift系列二十二 - 扩展">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列二十二 - 扩展
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/swift-syntax-accesscontrol/" rel="prev" title="【iOS】Swift系列二十三 - 访问控制">
+                【iOS】Swift系列二十三 - 访问控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、引用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 强引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 弱引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%97%A0%E4%B8%BB%E5%BC%95%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 无主引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-weak%E3%80%81unowned%E7%9A%84%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. weak、unowned的使用限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Autoreleasepool"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. Autoreleasepool</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%EF%BC%88Reference-Cycle%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、循环引用（Reference Cycle）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%97%AD%E5%8C%85%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">三、闭包的循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E9%97%AD%E5%8C%85%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 闭包表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-self%E5%92%8Clazy"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. self和lazy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">四、逃逸闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E5%86%B2%E7%AA%81"><span class="nav-number">5.</span> <span class="nav-text">五、内存访问冲突</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

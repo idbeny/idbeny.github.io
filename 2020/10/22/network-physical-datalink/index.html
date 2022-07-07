@@ -1,38 +1,1350 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="OSI七层模型中的物理层和数据链路层处于模型最底部，可以说是网络协议的基层。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列五 - 物理层&#x2F;数据链路层">
+<meta property="og:url" content="http://idbeny.com/2020/10/22/network-physical-datalink/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="OSI七层模型中的物理层和数据链路层处于模型最底部，可以说是网络协议的基层。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/7z17o.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/bq7lc.jpeg@normal">
+<meta property="og:image" content="http://blog.idbeny.com/o651i.jpeg@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1it15.jpeg@normal">
+<meta property="og:image" content="http://blog.idbeny.com/17ez3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8iy4b.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/383oo.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ju55x.jpg@normal">
+<meta property="og:image" content="http://blog.idbeny.com/phea0.jpg@normal">
+<meta property="og:image" content="http://blog.idbeny.com/l90lm.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/xh84v.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/yis05.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8x9jr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/5tmp6.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zd2b7.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/9yxg8.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/y66mz.png@normal">
+<meta property="article:published_time" content="2020-10-22T04:42:28.000Z">
+<meta property="article:modified_time" content="2021-03-01T17:55:39.350Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/7z17o.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/10/22/network-physical-datalink/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列五 - 物理层/数据链路层 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/10/22/network-physical-datalink/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列五 - 物理层/数据链路层</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-22T12:42:28+08:00">
+                2020-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%89%A9%E7%90%86%E5%B1%82/" itemprop="url" rel="index">
+                    <span itemprop="name">物理层</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" itemprop="url" rel="index">
+                    <span itemprop="name">数据链路层</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OSI七层模型中的物理层和数据链路层处于模型最底部，可以说是网络协议的基层。</p>
+<span id="more"></span>
+<p><img src="http://blog.idbeny.com/7z17o.png@normal"></p>
+<h2 id="一、物理层（Physical）"><a href="#一、物理层（Physical）" class="headerlink" title="一、物理层（Physical）"></a>一、物理层（<em>Physical</em>）</h2><p>物理层定义了接口标准、线缆标准、传输速率、传输方式等（比如路由器定义的接口是做什么的、水晶头怎么排布、光缆线的作用等）。 </p>
+<p><img src="http://blog.idbeny.com/bq7lc.jpeg@normal"></p>
+<p><img src="http://blog.idbeny.com/o651i.jpeg@normal"></p>
+<h3 id="1-1-模拟信号、数字信号"><a href="#1-1-模拟信号、数字信号" class="headerlink" title="1.1. 模拟信号、数字信号"></a>1.1. 模拟信号、数字信号</h3><p><img src="http://blog.idbeny.com/1it15.jpeg@normal"></p>
+<p><strong>模拟信号（<em>Analog Signal</em>）</strong></p>
+<ul>
+<li>连续的信号，适合长距离传输</li>
+<li>抗干扰能力差，受到干扰时波形变形很难纠正</li>
+</ul>
+<p><strong>数字信号（<em>Digital Signal</em>）</strong></p>
+<ul>
+<li>离散的信号，不适合长距离传输</li>
+<li>抗干扰能力强，受到干扰时波形失真可以修复</li>
+</ul>
+<h3 id="1-2-数据通信模型"><a href="#1-2-数据通信模型" class="headerlink" title="1.2. 数据通信模型"></a>1.2. 数据通信模型</h3><ul>
+<li><strong>局域网通信模型</strong><br><img src="http://blog.idbeny.com/17ez3.png@normal"></li>
+</ul>
+<p>注意：网线不能超过100米（要想更远，再接一个交换机就好了）。</p>
+<ul>
+<li><strong>广域网通信模型</strong><br><img src="http://blog.idbeny.com/8iy4b.png@normal"><br><img src="http://blog.idbeny.com/383oo.png@normal"></li>
+</ul>
+<h3 id="1-3-信道（Channel）"><a href="#1-3-信道（Channel）" class="headerlink" title="1.3. 信道（Channel）"></a>1.3. 信道（<em>Channel</em>）</h3><p>信道：信息传输的通道，一条传输介质上（比如网线）上可以有多条信道。</p>
+<p><strong>单工通信</strong></p>
+<ul>
+<li>信号只能往一个方向传输，任何时候都不能改变信号的传输方向</li>
+<li>比如无线电广播、有线电视广播</li>
+</ul>
+<p><strong>半双工通信</strong></p>
+<ul>
+<li>信号可以双向传输，但必须是交替进行，同一时间只能往一个方向传输</li>
+<li>比如对讲机</li>
+</ul>
+<p><strong>全双工通信</strong></p>
+<ul>
+<li>信号可以同时双向传输</li>
+<li>比如手机（打电话，听说同时进行）</li>
+</ul>
+<h2 id="二、数据链路层（Data-Link）"><a href="#二、数据链路层（Data-Link）" class="headerlink" title="二、数据链路层（Data Link）"></a>二、数据链路层（<em>Data Link</em>）</h2><p>链路：从1个节点到相邻节点的一段物理线路（有线或无线），中间没有其他交换节点。</p>
+<p>数据链路：在一条链路上传输数据时，需要有对应的通信协议来控制数据的传输。</p>
+<p>不同类型的数据链路，所用的通信协议可能是不同的。</p>
+<ul>
+<li>广播信道：<code>CSMA/CD</code>协议（比如同轴电缆、集线器等组成的网络）</li>
+<li>点对点信道：<code>PPP</code>协议（比如2个路由器之间的信道）</li>
+</ul>
+<p>数据链路层的3个基本问题：</p>
+<ul>
+<li>封装成帧</li>
+<li>透明传输</li>
+<li>差错检验</li>
+</ul>
+<h3 id="2-1-封装成帧"><a href="#2-1-封装成帧" class="headerlink" title="2.1. 封装成帧"></a>2.1. 封装成帧</h3><p><img src="http://blog.idbeny.com/ju55x.jpg@normal"></p>
+<ul>
+<li>帧（<em>Frame</em>）的数据部分就是网络层传递下来的数据包（IP数据包，Packet）</li>
+<li>最大传输单元MTU（<em>Maximum Transfer Unit</em>）<ul>
+<li>每一种数据链路层协议都规定了所能够传送的帧的数据长度上限</li>
+<li>以太网的MTU为1500个字节</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-透明传输"><a href="#2-2-透明传输" class="headerlink" title="2.2. 透明传输"></a>2.2. 透明传输</h3><p>数据部分一旦出现了<code>SOH</code>、<code>EOT</code>，就需要进行转义。<br><img src="http://blog.idbeny.com/phea0.jpg@normal"></p>
+<p>由于在接收端在接收的时候把转义符还原了，感受不到数据的变化，所以是透明传输。</p>
+<p><img src="http://blog.idbeny.com/l90lm.png@normal"></p>
+<h3 id="2-3-差错检验"><a href="#2-3-差错检验" class="headerlink" title="2.3. 差错检验"></a>2.3. 差错检验</h3><p><img src="http://blog.idbeny.com/xh84v.png@normal"></p>
+<ul>
+<li>数据链路层首部是帧首部的一部分</li>
+<li><code>FCS</code>是帧尾部的一部分，<code>FCS</code>是根据<code>数据部分+数据链路层首部</code>计算得出的</li>
+<li>接收端接收到信息后会计算出<code>FCS</code>并进行比较，如果发现不一致，网卡就会把这条信息丢弃（抓包工具也抓不到）</li>
+</ul>
+<blockquote>
+<p>数据经过不同的数据链路层，对应的层会把之前的帧开始和结束符替换为自己的协议帧。</p>
+</blockquote>
+<h3 id="2-4-CSMA-x2F-CD协议"><a href="#2-4-CSMA-x2F-CD协议" class="headerlink" title="2.4. CSMA&#x2F;CD协议"></a>2.4. CSMA&#x2F;CD协议</h3><p>CSMA&#x2F;CD（<em>Carrier Sense Multiple Access with Collision Detectio</em>），载波侦听多路访问&#x2F;冲突检测（主要是为了支持单工通信和半双工通信）。</p>
+<p>使用了CSMA&#x2F;CD的网络可以称为是以太网（<em>Ethernet</em>），它传输的是以太网帧。</p>
+<ul>
+<li>以太网帧的格式有：Ethernet V2标准、IEEE的802.3标准</li>
+<li>使用最多的是：Ethernet V2标准</li>
+</ul>
+<p>为了能够检测正在发送的帧是否产生了冲突，以太网的帧至少要64字节。</p>
+<p><img src="http://blog.idbeny.com/yis05.png@normal"></p>
+<blockquote>
+<p>原因：如果A主机发送的帧很小，很快完成帧的发送，而两台冲突主机相距很远。在主机A发送的帧传输到B的前一刻，B开始发送帧。这样，当A的帧到达B时，B检测到冲突，于是发送冲突信号。假如在B的冲突信号传输到A之前，A的帧已经发送完毕，那么A将检测不到冲突而误认为已发送成功（有可能是碰撞导致的原数据回弹，也可能是B发送的冲突信号）。为了保证A在发送帧过程中产生冲突时还能接收到冲突信号，帧就必须足够长（大于A到B的距离），必须在B接收到帧的时候，A还处在发送帧的状态，这时候B如果发现冲突，A接收到冲突信号后就知道正在发送的帧有冲突了。因此必须有最小包长的限制（64字节是信道长度的两倍）。定义最小帧长度是为了使发送方能在一个帧的传输时间内检测到此帧是否在链路上产生冲突，如发生冲突，退避重发。在最小帧长度内没发生冲突后，此帧就不再会发生冲突，在随后的发送中链路中其他节点都可检测到此链路上的信号，即发送方占据此信道，为了避免单一主机占用信道过长，则规定了以太网的最大帧长是1518字节。</p>
+</blockquote>
+<p>用交换机组件的网络，已经支持全双工通信，不需要再使用CSMA&#x2F;CD，但它传输的帧依然是以太网帧。所以，用交换机组建的网络，依然可以叫做以太网。</p>
+<h3 id="2-5-Ethernet-V2帧的格式"><a href="#2-5-Ethernet-V2帧的格式" class="headerlink" title="2.5. Ethernet V2帧的格式"></a>2.5. Ethernet V2帧的格式</h3><p><img src="http://blog.idbeny.com/8x9jr.png@normal"></p>
+<ul>
+<li>首部：目标MAC地址 + 源MAC地址 + 网络类型（IPV4&#x2F;IPV6）</li>
+<li>以太网帧：首部 + 数据 + FCS</li>
+<li>数据的长度至少是：<code>64 - 6 - 6 - 2 - 4 = 46字节</code></li>
+</ul>
+<p>以太网帧是没有帧开始和结束符的，但是以太网使用曼彻斯特编码，接收端接收帧过程只要发现没有信号跳变，就认为帧结束。但是在物理层是有帧开始定界符的。</p>
+<p>当数据部分（从网络层传入的数据）的长度小于46字节时，数据链路层会在数据的后面加入一些字节填充，接收端会将添加的字节去掉。</p>
+<p><img src="http://blog.idbeny.com/5tmp6.png@normal"></p>
+<p>长度总结：</p>
+<ul>
+<li>以太网帧的数据长度：<code>46 ~ 1500字节</code></li>
+<li>以太网帧的长度：<code>64 ~ 1518字节（源MAC + 目标MAC + 网络类型 + 数据 + FCS）</code></li>
+</ul>
+<h3 id="2-6-PPP协议（Point-to-Point-Protocol）"><a href="#2-6-PPP协议（Point-to-Point-Protocol）" class="headerlink" title="2.6. PPP协议（Point to Point Protocol）"></a>2.6. PPP协议（<em>Point to Point Protocol</em>）</h3><p><img src="http://blog.idbeny.com/zd2b7.png@normal"></p>
+<ul>
+<li>Frame（F）：PPP协议是有帧开始和结束符的，<code>0x7E</code></li>
+<li>Address（A）：图中的值是<code>0xFF</code>，形同虚设，点到点信道不需要源MAC、目标MAC地址</li>
+<li>Control（C）：图中的值是<code>0x03</code>，目前没有什么作用</li>
+<li>Protocol（协议）：内部用到的协议类型（PPP协议的子分支协议）</li>
+</ul>
+<p>虽然PPP帧和以太网帧的协议不一样，但是网络层的数据是一样的，仅仅是帧的首部和尾部发生了变化。</p>
+<p>路由器和路由器直连时是PPP帧，如果在两个路由器之间加一个交换机，就不是PPP帧了，而是以太网帧。因为路由器之间是点对点，不需要知道对方的MAC地址，但是以太网帧是广播信道，每一台设备必须确认自己是否是接收方。</p>
+<p>PPP协议也是需要进行字节填充的：<br><img src="http://blog.idbeny.com/9yxg8.png@normal"></p>
+<ul>
+<li>将<code>0x7E</code>替换成<code>0x7D5E</code></li>
+<li>将<code>0x7D</code>替换成<code>0x7D5D</code></li>
+</ul>
+<h3 id="2-7-网卡"><a href="#2-7-网卡" class="headerlink" title="2.7. 网卡"></a>2.7. 网卡</h3><p><img src="http://blog.idbeny.com/y66mz.png@normal"></p>
+<p>网卡接收到一个帧，首先会进行差错校验，如果校验通过则接收，否则丢弃。</p>
+<blockquote>
+<p><strong>Wireshark</strong>抓到的帧没有FCS，因为它抓到的是差错校验通过的帧，帧尾的FCS会被硬件去掉，所以抓不到差错校验失败的帧。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/10/22/network-physical-datalink/" title="【网络协议】网络协议系列五 - 物理层/数据链路层">http://idbeny.com/2020/10/22/network-physical-datalink/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/17/network-route/" rel="next" title="【网络协议】网络协议系列四 - 路由/名词解释">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列四 - 路由/名词解释
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/30/network-network/" rel="prev" title="【网络协议】网络协议系列六 - 网络层">
+                【网络协议】网络协议系列六 - 网络层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%89%A9%E7%90%86%E5%B1%82%EF%BC%88Physical%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、物理层（Physical）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%A8%A1%E6%8B%9F%E4%BF%A1%E5%8F%B7%E3%80%81%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 模拟信号、数字信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 数据通信模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%BF%A1%E9%81%93%EF%BC%88Channel%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 信道（Channel）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%88Data-Link%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、数据链路层（Data Link）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 封装成帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 透明传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B7%AE%E9%94%99%E6%A3%80%E9%AA%8C"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 差错检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-CSMA-x2F-CD%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. CSMA&#x2F;CD协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Ethernet-V2%E5%B8%A7%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. Ethernet V2帧的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-PPP%E5%8D%8F%E8%AE%AE%EF%BC%88Point-to-Point-Protocol%EF%BC%89"><span class="nav-number">2.6.</span> <span class="nav-text">2.6. PPP协议（Point to Point Protocol）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E7%BD%91%E5%8D%A1"><span class="nav-number">2.7.</span> <span class="nav-text">2.7. 网卡</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

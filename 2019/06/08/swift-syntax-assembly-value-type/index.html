@@ -1,38 +1,1316 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="汇编,iOS,Swift,值类型," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="通过汇编分下值类型的本质。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift系列七 - 汇编分析值类型">
+<meta property="og:url" content="http://idbeny.com/2019/06/08/swift-syntax-assembly-value-type/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="通过汇编分下值类型的本质。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/kr0p6.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/74yuw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/lx5gr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1i9dy.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/x2mma.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/x6667.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8ws76.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ewc2i.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/p2874.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ejyyz.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zij6b.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/q82g1.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/hhier.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/k36l8.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/d7wie.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/i02r0.png@normal">
+<meta property="article:published_time" content="2019-06-08T04:39:17.000Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.248Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="汇编">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="值类型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/kr0p6.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/06/08/swift-syntax-assembly-value-type/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Swift系列七 - 汇编分析值类型 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/06/08/swift-syntax-assembly-value-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列七 - 汇编分析值类型</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-08T12:39:17+08:00">
+                2019-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>通过汇编分下值类型的本质。</p>
+<span id="more"></span>
+<h2 id="一、值类型"><a href="#一、值类型" class="headerlink" title="一、值类型"></a>一、值类型</h2><p>值类型赋值给<code>var</code>，<code>let</code>或者给参数传参，是直接将所有内容拷贝一份。类似于对文件进行复制粘贴操作，产生了全新的文件副本，属于深拷贝（deep copy）。</p>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">testStruct</span>() &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> x: <span class="type">Int</span></span><br><span class="line">        <span class="keyword">var</span> y: <span class="type">Int</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> p1 <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">10</span>, y: <span class="number">20</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;before:p1.x:<span class="subst">\(p1.x)</span>,p1.y:<span class="subst">\(p1.y)</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">var</span> p2 <span class="operator">=</span> p1</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;before:p2.x:<span class="subst">\(p2.x)</span>,p2.y:<span class="subst">\(p2.y)</span>&quot;</span>)</span><br><span class="line">    p2.x <span class="operator">=</span> <span class="number">30</span></span><br><span class="line">    p2.y <span class="operator">=</span> <span class="number">40</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;after:p1.x:<span class="subst">\(p1.x)</span>,p1.y:<span class="subst">\(p1.y)</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;after:p2.x:<span class="subst">\(p2.x)</span>,p2.y:<span class="subst">\(p2.y)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> before:p1.x:10,p1.y:20</span></span><br><span class="line"><span class="comment"> before:p2.x:10,p2.y:20</span></span><br><span class="line"><span class="comment"> after:p1.x:10,p1.y:20</span></span><br><span class="line"><span class="comment"> after:p2.x:30,p2.y:40</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>通过上面的示例可以看出，给<code>p2</code>重新赋值确实没有影响到<code>p1</code>的值。</p>
+<h3 id="1-1-内存分析"><a href="#1-1-内存分析" class="headerlink" title="1.1. 内存分析"></a>1.1. 内存分析</h3><p>我们也可以通过内存看下上面示例中变量地址是否发生改变，如果生成了新的地址值，则说明是深拷贝。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">testStruct</span>() &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> x: <span class="type">Int</span></span><br><span class="line">        <span class="keyword">var</span> y: <span class="type">Int</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> p1 <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">10</span>, y: <span class="number">20</span>)</span><br><span class="line">    <span class="keyword">var</span> p2 <span class="operator">=</span> p1    </span><br><span class="line">    <span class="built_in">print</span>(<span class="type">Mems</span>.ptr(ofVal: <span class="operator">&amp;</span>p1))</span><br><span class="line">    <span class="built_in">print</span>(<span class="type">Mems</span>.ptr(ofVal: <span class="operator">&amp;</span>p2))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0x00007ffeefbff4c0</span></span><br><span class="line"><span class="comment"> 0x00007ffeefbff490</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>打印结果显示：<code>p2</code>和<code>p1</code>的内存地址是不同的，所以修改<code>p2</code>不会影响<code>p1</code>。</p>
+<h3 id="1-2-汇编分析（局部变量）"><a href="#1-2-汇编分析（局部变量）" class="headerlink" title="1.2. 汇编分析（局部变量）"></a>1.2. 汇编分析（局部变量）</h3><p>第一步：示例代码：<br><img src="http://blog.idbeny.com/kr0p6.png@normal"></p>
+<p>第二步：进入汇编代码后先查找立即数：<br><img src="http://blog.idbeny.com/74yuw.png@normal"></p>
+<p>第三步：进入p1的初始化方法中：<br><img src="http://blog.idbeny.com/lx5gr.png@normal"></p>
+<p>第四步：继第三步<code>finish</code>后，继续回到之前的汇编：<br><img src="http://blog.idbeny.com/1i9dy.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">movq   <span class="variable">%rax</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">10</span>(<span class="variable">%rbp</span>)</span><br><span class="line">movq   <span class="variable">%rdx</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">8</span>(<span class="variable">%rbp</span>)</span><br><span class="line">movq   <span class="variable">%rax</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">20</span>(<span class="variable">%rbp</span>)</span><br><span class="line">movq   <span class="variable">%rdx</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">18</span>(<span class="variable">%rbp</span>)</span><br><span class="line">movq   $<span class="number">0x1e</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">20</span>(<span class="variable">%rbp</span>)</span><br><span class="line">movq   $<span class="number">0x28</span><span class="punctuation">,</span> <span class="number">-0</span><span class="keyword">x</span><span class="number">18</span>(<span class="variable">%rbp</span>)</span><br></pre></td></tr></table></figure>
+<p>通过上面分析得出：</p>
+<ul>
+<li><p>p1的变量x内存地址：<code>rbp-0x10</code>；</p>
+</li>
+<li><p>p1的变量y内存地址：<code>rbp-0x8</code>；</p>
+</li>
+<li><p>且p1的两个变量相差<code>rbp-0x8-(rbp-0x10) = 8</code>个字节；</p>
+</li>
+<li><p>p1的内存地址是<code>rbp-0x10</code>。</p>
+</li>
+<li><p><code>0x1e</code>赋值给<code>rbp-0x20</code>的地址，和上面的<code>rax</code>赋值给<code>rbp-0x20</code>是同一个地址，并且仅仅修改了一次。</p>
+</li>
+</ul>
+<p>所以，通过汇编也可以有力的证明值类型传递是深拷贝。</p>
+<blockquote>
+<p>扩展：<code>%edi</code>和<code>%esi</code>是局部变量，将来传给形参后会变成<code>%rdi</code>和<code>%rsi</code>。</p>
+</blockquote>
+<h3 id="1-3-汇编分析（全局变量）"><a href="#1-3-汇编分析（全局变量）" class="headerlink" title="1.3. 汇编分析（全局变量）"></a>1.3. 汇编分析（全局变量）</h3><p>第一步：示例代码：<br><img src="http://blog.idbeny.com/x2mma.png@normal"></p>
+<p>第二步：查看汇编：<br><img src="http://blog.idbeny.com/x6667.png@normal"></p>
+<p>进入<code>init</code>方法发现和上面的1.2分析基本一致，<code>rdi</code>给了<code>rax</code>，<code>rsi</code>给了<code>rdx</code>：<br><img src="http://blog.idbeny.com/8ws76.png@normal"></p>
+<p>第三步：继续往后面看<code>call</code>之后的代码：<br><img src="http://blog.idbeny.com/ewc2i.png@normal"></p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rip</span>就是下一条指令的地址。</span><br><span class="line"><span class="built_in">rax</span>：<span class="number">10</span></span><br><span class="line"><span class="built_in">rdx</span>：<span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000ba4</span> &lt;+<span class="number">52</span>&gt;:  <span class="keyword">movq</span>   %rax, <span class="number">0x664d</span>(%rip)</span><br><span class="line">把<span class="built_in">rax</span>给了地址：<span class="number">0x100000bab</span> + <span class="number">0x664d</span> = <span class="number">0x1000071f8</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bab</span> &lt;+<span class="number">59</span>&gt;:  <span class="keyword">movq</span>   %rdx, <span class="number">0x664e</span>(%rip) </span><br><span class="line">把<span class="built_in">rdx</span>给了地址：<span class="number">0x100000bb2</span> + <span class="number">0x664e</span> = <span class="number">0x100007200</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bb2</span> &lt;+<span class="number">66</span>&gt;:  <span class="keyword">movq</span>   %rcx, %rdi</span><br><span class="line"></span><br><span class="line">观察发现：<span class="built_in">rdx</span>和<span class="built_in">rax</span>刚好相差了<span class="number">0x100007200</span> - <span class="number">0x1000071f8</span> = <span class="number">8</span>个字节。</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------</span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bce</span> &lt;+<span class="number">94</span>&gt;:  <span class="keyword">movq</span>   <span class="number">0x6623</span>(%rip), %rax</span><br><span class="line">把地址 <span class="number">0x100000bd5</span> + <span class="number">0x6623</span> = <span class="number">0x1000071f8</span> 给了<span class="built_in">rax</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bd5</span> &lt;+<span class="number">101</span>&gt;: <span class="keyword">movq</span>   %rax, <span class="number">0x662c</span>(%rip)</span><br><span class="line">把<span class="built_in">rax</span>给了地址：<span class="number">0x100000bdc</span> + <span class="number">0x662c</span> = <span class="number">0x100007208</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bdc</span> &lt;+<span class="number">108</span>&gt;: <span class="keyword">movq</span>   <span class="number">0x661d</span>(%rip), %rax </span><br><span class="line">把地址 <span class="number">0x100000be3</span> + <span class="number">0x661d</span> = <span class="number">0x100007200</span> 给了<span class="built_in">rax</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000be3</span> &lt;+<span class="number">115</span>&gt;: <span class="keyword">movq</span>   %rax, <span class="number">0x6626</span>(%rip)</span><br><span class="line">把<span class="built_in">rax</span>给了地址：<span class="number">0x100000bea</span> + <span class="number">0x6626</span> = <span class="number">0x100007210</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x100000bea</span> &lt;+<span class="number">122</span>&gt;: leaq   -<span class="number">0x18</span>(%rbp), %rdi</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------</span><br><span class="line">观察发现：</span><br><span class="line"><span class="number">0x1000071f8</span>就是上面的<span class="number">10</span>，<span class="number">0x100007200</span>就是上面的<span class="number">20</span></span><br><span class="line">就是说，</span><br><span class="line">把<span class="number">0x1000071f8</span>里面的值（<span class="number">10</span>）取出来赋值给了另外一块内存地址</span><br><span class="line"><span class="number">0x100007208</span>；</span><br><span class="line">把<span class="number">0x100007200</span>里面的值（<span class="number">20</span>）取出来赋值给了另外一块内存地址<span class="number">0x100007210</span></span><br><span class="line">并且，</span><br><span class="line"><span class="number">0x100007210</span>和<span class="number">0x100007208</span>相差<span class="number">8</span>个字节。</span><br></pre></td></tr></table></figure>
+<p>通过上面的分析可以得出，p1的内存地址就是0x1000071f8，p2的内存地址是0x100007208。也可以证明值类型是深拷贝。</p>
+<p><strong>经验：</strong></p>
+<ul>
+<li>内存地址格式为：<code>0x486f(%rip)</code>，一般是全局变量，全局区（数据段）；</li>
+<li>内存地址格式为：<code>-0x8(%rbp)</code>，一般是局部变量，栈空间。</li>
+<li>内存地址格式为：<code>0x10(%rax)</code>，一般是堆空间。</li>
+</ul>
+<p><strong>规律：</strong></p>
+<ul>
+<li>全局变量意味着内存地址是固定的；</li>
+<li>局部变量的地址依赖<code>rbp</code>，而rbp右依赖于<code>rsp</code>，<code>rsp</code>是外部传进来的（即函数调用）。</li>
+</ul>
+<h3 id="1-4-赋值操作"><a href="#1-4-赋值操作" class="headerlink" title="1.4. 赋值操作"></a>1.4. 赋值操作</h3><p>在<strong>Swift</strong>标准库中，为了提升性能，<code>String</code>、<code>Array</code>、<code>Dictionary</code>、<code>Set</code>采取了<strong>Copy On Write</strong>的技术。</p>
+<p><strong>Copy On Write：</strong> 当需要进行内存操作（写）时，才会进行深度拷贝。</p>
+<p>对于标准库值类型的赋值操作，Swift能确保最佳性能，所以没必要为了保证最佳性能来避免赋值。</p>
+<blockquote>
+<p>建议：不需要修改的，尽量定义为<code>let</code>。</p>
+</blockquote>
+<h4 id="1-4-1-示例代码一（字符串）："><a href="#1-4-1-示例代码一（字符串）：" class="headerlink" title="1.4.1. 示例代码一（字符串）："></a>1.4.1. 示例代码一（字符串）：</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str1 <span class="operator">=</span> <span class="string">&quot;idbeny&quot;</span></span><br><span class="line"><span class="keyword">var</span> str2 <span class="operator">=</span> str1</span><br><span class="line">str2.append(<span class="string">&quot;1024星球&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(str1)</span><br><span class="line"><span class="built_in">print</span>(str2)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> idbeny</span></span><br><span class="line"><span class="comment"> idbeny1024星球</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-2-示例代码二（数组）："><a href="#1-4-2-示例代码二（数组）：" class="headerlink" title="1.4.2. 示例代码二（数组）："></a>1.4.2. 示例代码二（数组）：</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 <span class="operator">=</span> [<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> arr2 <span class="operator">=</span> arr1</span><br><span class="line">arr2.append(<span class="string">&quot;4&quot;</span>)</span><br><span class="line">arr1[<span class="number">0</span>] <span class="operator">=</span> <span class="string">&quot;one&quot;</span></span><br><span class="line"><span class="built_in">print</span>(arr1)</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> [&quot;one&quot;, &quot;2&quot;, &quot;3&quot;]</span></span><br><span class="line"><span class="comment"> [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;]</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-3-示例代码三（字典）："><a href="#1-4-3-示例代码三（字典）：" class="headerlink" title="1.4.3. 示例代码三（字典）："></a>1.4.3. 示例代码三（字典）：</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dict1 <span class="operator">=</span> [<span class="string">&quot;name&quot;</span>: <span class="string">&quot;大奔&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">20</span>] <span class="keyword">as</span> [<span class="type">String</span> : <span class="keyword">Any</span>]</span><br><span class="line"><span class="keyword">var</span> dict2 <span class="operator">=</span> dict1</span><br><span class="line">dict1[<span class="string">&quot;name&quot;</span>] <span class="operator">=</span> <span class="string">&quot;idbeny&quot;</span></span><br><span class="line">dict2[<span class="string">&quot;age&quot;</span>] <span class="operator">=</span> <span class="number">30</span></span><br><span class="line"><span class="built_in">print</span>(dict1)</span><br><span class="line"><span class="built_in">print</span>(dict2)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> [&quot;name&quot;: &quot;idbeny&quot;, &quot;age&quot;: 20]</span></span><br><span class="line"><span class="comment"> [&quot;name&quot;: &quot;大奔&quot;, &quot;age&quot;: 30]</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="二、引用类型"><a href="#二、引用类型" class="headerlink" title="二、引用类型"></a>二、引用类型</h2><p>引用赋值给<code>var</code>、<code>let</code>或者给函数传参，是将内存地址拷贝一份。</p>
+<p>类似于制作一个文件的替身（快捷方式），指向的是同一个文件。属于浅拷贝（shallow copy）。</p>
+<h3 id="2-1-内存分析"><a href="#2-1-内存分析" class="headerlink" title="2.1. 内存分析"></a>2.1. 内存分析</h3><p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Size</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> width: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">width</span>: <span class="type">Int</span>, <span class="params">height</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.width <span class="operator">=</span> width</span><br><span class="line">        <span class="keyword">self</span>.height <span class="operator">=</span> height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> s1 <span class="operator">=</span> <span class="type">Size</span>(width: <span class="number">10</span>, height: <span class="number">20</span>)</span><br><span class="line">    <span class="keyword">var</span> s2 <span class="operator">=</span> s1</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;s1指针的内存地址：&quot;</span>,<span class="type">Mems</span>.ptr(ofVal: <span class="operator">&amp;</span>s1))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;s1指针指向的内存地址：&quot;</span>,<span class="type">Mems</span>.ptr(ofRef: s1))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;s2指针的内存地址：&quot;</span>,<span class="type">Mems</span>.ptr(ofVal: <span class="operator">&amp;</span>s2))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;s2指针指向的内存地址：&quot;</span>,<span class="type">Mems</span>.ptr(ofRef: s2))</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> s1指针的内存地址： 0x00007ffeefbff478</span></span><br><span class="line"><span class="comment"> s1指针指向的内存地址： 0x000000010061fe80</span></span><br><span class="line"><span class="comment"> s2指针的内存地址： 0x00007ffeefbff470</span></span><br><span class="line"><span class="comment"> s2指针指向的内存地址： 0x000000010061fe80</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>示例代码在内存中的表现：<br><img src="http://blog.idbeny.com/p2874.png@normal"></p>
+<blockquote>
+<p>思考: <code>s2.width = 11; s2.height = 22</code>，代码执行后，<code>s1.width</code>和<code>s1.height</code>分别是多少？<br><code>s2.width == 11, s2.height == 22</code>，因为修改的是指针指向的内存地址保存的数据，而<code>s1</code>和<code>s2</code>指向的是同一块内存。</p>
+</blockquote>
+<h3 id="2-2-汇编分析"><a href="#2-2-汇编分析" class="headerlink" title="2.2. 汇编分析"></a>2.2. 汇编分析</h3><p>第一步：示例代码：<br><img src="http://blog.idbeny.com/ejyyz.png@normal"></p>
+<p>第二步：查看初始化方法函数的返回值：<br><img src="http://blog.idbeny.com/zij6b.png@normal"></p>
+<p>通过<code>lldb</code>指令得到<code>rax</code>的地址：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) <span class="keyword">register</span> read rax</span><br><span class="line">输出：rax = <span class="number">0x0000000100599840</span></span><br></pre></td></tr></table></figure>
+
+<p>再通过<strong>View Memory</strong>查看rax保存的数据有哪些：<br><img src="http://blog.idbeny.com/q82g1.png@normal"></p>
+<p>第三步：找到<code>p1</code>和<code>p2</code>：<br><img src="http://blog.idbeny.com/hhier.png@normal"></p>
+<p>函数地址<code>rax</code>给了局部变量<code>-0x10(%rbp)</code>，所以<code>-0x10(%rbp)</code>就是p1，同理<code>-0x28(%rbp)</code>是p2。</p>
+<p>第四步：查看<code>s2</code>的<code>width</code>和<code>height</code>是如何被修改的：<br><img src="http://blog.idbeny.com/k36l8.png@normal"></p>
+<ul>
+<li>前面通过<code>movq   %rax, -0x28(%rbp)</code>把函数返回值<code>rax</code>给了<code>-0x28(%rbp)</code>；</li>
+<li>之后又通过<code>movq   -0x28(%rbp), %rdx</code>把函数返回值给了<code>rdx</code>；</li>
+<li>经过<code>(%rdx), %rsi</code>和<code>0x68(%rsi), %rsi</code>中转后，把<code>rdx</code>给了<code>rsi</code>；</li>
+<li><code>$0xb, %edi</code>其实是把值11给了<code>edi</code>(即<code>rdx</code>)。</li>
+</ul>
+<p>所以，width和height其实修改的是同一块内存地址。</p>
+<h3 id="2-3-赋值操作"><a href="#2-3-赋值操作" class="headerlink" title="2.3. 赋值操作"></a>2.3. 赋值操作</h3><p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Size</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> width: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">width</span>: <span class="type">Int</span>, <span class="params">height</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.width <span class="operator">=</span> width</span><br><span class="line">        <span class="keyword">self</span>.height <span class="operator">=</span> height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> s1 <span class="operator">=</span> <span class="type">Size</span>(width: <span class="number">10</span>, height: <span class="number">20</span>)</span><br><span class="line">s1 <span class="operator">=</span> <span class="type">Size</span>(width: <span class="number">11</span>, height: <span class="number">22</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在内存中的表现：<br><img src="http://blog.idbeny.com/d7wie.png@normal"></p>
+<p>s1刚开始指向堆空间02，后又指向堆空间01。当堆空间02没有强指针指向时就会被销毁。</p>
+<h2 id="三、值类型、引用类型的let"><a href="#三、值类型、引用类型的let" class="headerlink" title="三、值类型、引用类型的let"></a>三、值类型、引用类型的let</h2><p><img src="http://blog.idbeny.com/i02r0.png@normal"></p>
+<p>使用let时，<br>结构体：</p>
+<ul>
+<li>结构体整体不能被覆盖；</li>
+<li>结构体成员值也不能修改。</li>
+</ul>
+<p>引用类型：</p>
+<ul>
+<li>指针是不能重新指向新内存的。</li>
+<li>指针指向的内存数据是可以修改的。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/06/08/swift-syntax-assembly-value-type/" title="【iOS】Swift系列七 - 汇编分析值类型">http://idbeny.com/2019/06/08/swift-syntax-assembly-value-type/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/%E5%80%BC%E7%B1%BB%E5%9E%8B/" rel="tag"># 值类型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/04/datastructure-remove-binary-tree/" rel="next" title="【数据结构与算法】系列十一 - 删除二叉搜索树节点">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列十一 - 删除二叉搜索树节点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/10/datastructure-balance-binary-tree/" rel="prev" title="【数据结构与算法】系列十二 - 平衡二叉搜索树">
+                【数据结构与算法】系列十二 - 平衡二叉搜索树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">一、值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 内存分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%B1%87%E7%BC%96%E5%88%86%E6%9E%90%EF%BC%88%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 汇编分析（局部变量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%B1%87%E7%BC%96%E5%88%86%E6%9E%90%EF%BC%88%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 汇编分析（全局变量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 赋值操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81%E4%B8%80%EF%BC%88%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%89%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1. 示例代码一（字符串）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81%E4%BA%8C%EF%BC%88%E6%95%B0%E7%BB%84%EF%BC%89%EF%BC%9A"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2. 示例代码二（数组）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-3-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81%E4%B8%89%EF%BC%88%E5%AD%97%E5%85%B8%EF%BC%89%EF%BC%9A"><span class="nav-number">1.4.3.</span> <span class="nav-text">1.4.3. 示例代码三（字典）：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">二、引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 内存分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B1%87%E7%BC%96%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 汇编分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 赋值操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%80%BC%E7%B1%BB%E5%9E%8B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E7%9A%84let"><span class="nav-number">3.</span> <span class="nav-text">三、值类型、引用类型的let</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

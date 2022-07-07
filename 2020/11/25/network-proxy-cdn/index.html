@@ -1,38 +1,1463 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="什么是代理？CDN的作用是什么？网络安全的攻防注意点有哪些？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列十三 - 代理&#x2F;CDN&#x2F;网络安全">
+<meta property="og:url" content="http://idbeny.com/2020/11/25/network-proxy-cdn/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="什么是代理？CDN的作用是什么？网络安全的攻防注意点有哪些？">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/b4pko.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/550yl.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/rp7os.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ke6nh.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/oc9tj.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3jpg9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/l7vkp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/52set.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7vqo7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ixaus.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/uzneb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/a42gn.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3dxr8.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/cq2nd.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/chlu1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/iixj6.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/gnv7i.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/l2go4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tnfck.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/po71t.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/09sjm.png@normal">
+<meta property="article:published_time" content="2020-11-25T11:52:36.000Z">
+<meta property="article:modified_time" content="2021-03-20T08:55:07.087Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/b4pko.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/11/25/network-proxy-cdn/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列十三 - 代理/CDN/网络安全 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/11/25/network-proxy-cdn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列十三 - 代理/CDN/网络安全</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-25T19:52:36+08:00">
+                2020-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%A3%E7%90%86/" itemprop="url" rel="index">
+                    <span itemprop="name">代理</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CDN/" itemprop="url" rel="index">
+                    <span itemprop="name">CDN</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">网络安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>什么是代理？CDN的作用是什么？网络安全的攻防注意点有哪些？</p>
+<span id="more"></span>
+
+<h2 id="一、代理"><a href="#一、代理" class="headerlink" title="一、代理"></a>一、代理</h2><p><img src="https://blog.idbeny.com/b4pko.png@normal"></p>
+<h3 id="1-1-代理服务器（Proxy-Server）"><a href="#1-1-代理服务器（Proxy-Server）" class="headerlink" title="1.1. 代理服务器（Proxy Server）"></a>1.1. 代理服务器（<em>Proxy Server</em>）</h3><p><strong>特点：</strong> 本身不生产内容，处于中间位置转发上下游的请求和响应。</p>
+<ul>
+<li>面向下游的客户端：它是服务器（正向代理）</li>
+<li>面向上游的服务器：它是客户端（反向代理）</li>
+</ul>
+<p><img src="https://blog.idbeny.com/550yl.png@normal"></p>
+<h4 id="1-1-1-正向代理"><a href="#1-1-1-正向代理" class="headerlink" title="1.1.1. 正向代理"></a>1.1.1. 正向代理</h4><p>代理的对象是客户端。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>隐藏客户端身份<ul>
+<li>网络请求使用的是代理服务器IP，所以不会暴露客户端IP（但实际上是可以获取的，你懂得！！！）</li>
+</ul>
+</li>
+<li>绕过防火墙（突破访问限制）<ul>
+<li>比如经常使用的科学上网工具就是干这个的</li>
+</ul>
+</li>
+<li>Internet访问控制<ul>
+<li>路由器设置指定服务器允许上网，其他客户端如果想要上网只能通过指定的服务器，而这台服务器通过判断客户端IP决定其是否能够交互数据，这台服务器就是代理服务器</li>
+</ul>
+</li>
+<li>数据过滤<ul>
+<li>代理服务器通过规则解析数据内容，决定数据是否过滤</li>
+</ul>
+</li>
+<li>……</li>
+</ul>
+<p><img src="https://blog.idbeny.com/rp7os.png@normal"></p>
+<blockquote>
+<p>免费的正向代理：<a target="_blank" rel="noopener" href="https://ip.jiangxianli.com、https//www.kuaidaili.com/free/inha">https://ip.jiangxianli.com、https://www.kuaidaili.com/free/inha</a></p>
+</blockquote>
+<h4 id="1-1-2-反向代理"><a href="#1-1-2-反向代理" class="headerlink" title="1.1.2. 反向代理"></a>1.1.2. 反向代理</h4><p>代理的对象是服务器。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>隐藏服务器身份</li>
+<li>安全防护</li>
+<li>负载均衡</li>
+<li>……</li>
+</ul>
+<p><img src="https://blog.idbeny.com/ke6nh.png@normal"></p>
+<p>上图中的负载均衡服务器就是一个反向代理，为服务器服务的。当用户访问指定服务器时，数据会通过负载均衡服务器进行转发。这样不仅可以隐藏真实服务器的身份，还能通过一些算法让服务器稳定运行。</p>
+<h4 id="1-1-3-代理服务器相关的头部字段"><a href="#1-1-3-代理服务器相关的头部字段" class="headerlink" title="1.1.3. 代理服务器相关的头部字段"></a>1.1.3. 代理服务器相关的头部字段</h4><p><code>Via</code>：追加经过的每一台代理服务器的主机名（或域名）<br><code>X-Forwarded-For</code>：追加请求方的IP地址<br><code>X-Real-IP</code>：客户端的真实IP地址</p>
+<p><img src="https://blog.idbeny.com/oc9tj.png@normal"></p>
+<p>①<br><code>Via</code>：代理1<br><code>X-Forwarded-For</code>：14.14.14.14<br><code>X-Real-IP</code>：14.14.14.14</p>
+<p>②<br><code>Via</code>：代理1、代理2<br><code>X-Forwarded-For</code>：14.14.14.14、220.11.11.11<br><code>X-Real-IP</code>：14.14.14.14</p>
+<p>③<br><code>Via</code>：代理2</p>
+<p>④<br><code>Via</code>：代理2、代理1</p>
+<h3 id="1-2-抓包工具的原理"><a href="#1-2-抓包工具的原理" class="headerlink" title="1.2. 抓包工具的原理"></a>1.2. 抓包工具的原理</h3><p>Fiddler、Charles等抓包工具的原理：在客户端启动了正向代理服务。</p>
+<p><img src="https://blog.idbeny.com/3jpg9.png@normal"></p>
+<blockquote>
+<p>Wireshark不是代理，它的原理是：通过底层驱动，拦截网卡上流过的数据。</p>
+</blockquote>
+<h2 id="二、CDN"><a href="#二、CDN" class="headerlink" title="二、CDN"></a>二、CDN</h2><p>CDN（<em>Content Delivery Network 或 Content Distribution Network</em>），译为：内容分发网络。</p>
+<p><strong>作用：</strong> 利用最靠近每位用户的服务器，更快更可靠的将音乐、图片、视频等资源文件（一般是静态资源）传递给用户。</p>
+<p>CDN出现之前，所有的内容都是从一台服务器取：</p>
+<p><img src="https://blog.idbeny.com/l7vkp.png@normal"></p>
+<p>CDN出现之后，内容就从距离用户最近的一台服务器取：</p>
+<p><img src="https://blog.idbeny.com/52set.png@normal"></p>
+<p><img src="https://blog.idbeny.com/7vqo7.png@normal"></p>
+<p>对比：<br><img src="https://blog.idbeny.com/ixaus.png@normal"></p>
+<p>CDN运营商在全国、乃至全球的各大枢纽城市都建立了机房。部署了大量拥有高存储高带宽的节点，构建了一个跨运营商、跨地域的专用网络。内容所有者向CDN运营商支付费用，CDN将其内容交付给最终用户。</p>
+<p>举例，使用CDN引入jQuery：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    $(() =&gt; &#123;</span></span><br><span class="line"><span class="language-javascript">        $(<span class="variable language_">document</span>.<span class="property">body</span>).<span class="title function_">css</span>(<span class="string">&#x27;background&#x27;</span>, <span class="string">&#x27;#f00&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">    &#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不是域名包含CDN就是CDN服务器。</p>
+</blockquote>
+<h2 id="三、网络安全"><a href="#三、网络安全" class="headerlink" title="三、网络安全"></a>三、网络安全</h2><p>网络通信中面临的4种安全威胁：<br><img src="https://blog.idbeny.com/uzneb.png@normal"></p>
+<p>截获：窃听通信内容<br>中断：中断网络通信<br>篡改：篡改通信内容<br>伪造：伪造通信内容</p>
+<h3 id="3-1-网络层-ARP欺骗"><a href="#3-1-网络层-ARP欺骗" class="headerlink" title="3.1. 网络层-ARP欺骗"></a>3.1. 网络层-ARP欺骗</h3><p>ARP欺骗（<em>ARP spoofing</em>），又称ARP毒化（<em>ARP poisoning</em>）、ARP病毒、ARP攻击。</p>
+<p>ARP欺骗可以造成的效果：</p>
+<ul>
+<li>可让攻击者获取局域网上的数据包甚至可篡改数据包</li>
+<li>可让网络上特定电脑之间无法正常通信（例如<a href="">网络执法官</a>这样的软件）</li>
+<li>让送至特定IP地址的流量被错误送到攻击者所取代的地方</li>
+<li>……</li>
+</ul>
+<p>ARP欺骗核心步骤举例：</p>
+<ul>
+<li>假设主机C是攻击者，主机A、B是被攻击者</li>
+<li>C只要收到过A、B发送的ARP请求，就会拥有A、B的IP、MAC地址，就可以进行欺骗活动</li>
+<li>C发送一个ARP响应给B，把响应包里的源IP设为A的IP地址，源MAC设为C的MAC地址</li>
+<li>B收到ARP响应后，更新它的ARP表，把A的MAC地址（IP_A、MAC_A）改为（IP_A、MAC_C）</li>
+<li>当B要发送数据包给A时，它根据ARP表来封装数据包的头部，把目标MAC地址设为MAC_C、而非MAC_A</li>
+<li>当交换机收到B发送给A的数据包时，根据此包的目标MAC地址（MAC_C）而把数据包转发给C</li>
+<li>C收到数据包后，可以把它存起来后再发送给A，达到窃听效果。C也可以篡改数据后才发送数据包给A</li>
+</ul>
+<h4 id="ARP欺骗的防护"><a href="#ARP欺骗的防护" class="headerlink" title="ARP欺骗的防护"></a>ARP欺骗的防护</h4><ul>
+<li>使用静态ARP</li>
+<li>借助DHCP Snooping<ul>
+<li>网络设备可借由DHCP保留网络上各电脑的MAC地址，在伪造的ARP数据包发出时即可侦测到</li>
+</ul>
+</li>
+<li>利用一些软件监听ARP的不正常变动</li>
+<li>……</li>
+</ul>
+<h3 id="3-2-DoS、DDoS"><a href="#3-2-DoS、DDoS" class="headerlink" title="3.2. DoS、DDoS"></a>3.2. DoS、DDoS</h3><p>DoS攻击（拒绝服务攻击，<em>Denial-of-Service attack</em>），使目标电脑的网络或系统资源耗尽，使服务暂时中断或停止，导致其正常用户无法访问。</p>
+<p>Dos攻击可以分为2大类：</p>
+<ul>
+<li>带宽消耗型：UDP洪水攻击、ICMP洪水攻击<ul>
+<li>不断向服务器使用UDP或ICMP传输数据，占满其带宽，导致服务器访问过载直至宕机。</li>
+</ul>
+</li>
+<li>资源消耗型：SYN洪水攻击、LAND攻击</li>
+</ul>
+<p>DDoS（分布式拒绝服务攻击，<em>Distributed Denial-of-Service attack</em>）。黑客使用网络上两个或以上被攻击的电脑作为“僵尸”向特定的目标发动DoS攻击。</p>
+<blockquote>
+<p>2018年3月，GitHub遭到迄今为止规模最大的DDoS攻击。</p>
+</blockquote>
+<h4 id="3-2-1-传输层-SYN洪水攻击"><a href="#3-2-1-传输层-SYN洪水攻击" class="headerlink" title="3.2.1. 传输层-SYN洪水攻击"></a>3.2.1. 传输层-SYN洪水攻击</h4><p>SYN洪水攻击（<em>SYN flooding attack</em>）。攻击者发送一系列的SYN请求到目标，然后让目标因收不到ACK（第3次握手）而进行等待，消耗资源。</p>
+<p>攻击方法：</p>
+<ul>
+<li>跳过发送最后的ACK信息</li>
+<li>修改源IP地址，让目标送SYN-ACK到伪造的IP地址，因此目标永不可能收到ACK（第3次握手）</li>
+</ul>
+<p>防护：参考<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc4987">RFC_4987</a></p>
+<h4 id="3-2-2-传输层-LAND攻击"><a href="#3-2-2-传输层-LAND攻击" class="headerlink" title="3.2.2. 传输层-LAND攻击"></a>3.2.2. 传输层-LAND攻击</h4><p>LAND攻击（局域网拒接服务攻击，<em>Local Area Network Denial attack</em>）。通过持续发送相同源地址和目标地址的欺骗数据包，使目标视图与自己建立连接，消耗系统资源直至崩溃。</p>
+<p>有些系统存在设计上的缺陷，允许设备接受并响应来自网络、却宣称来自于设备自身的数据包，导致循环应答。</p>
+<p>防护：</p>
+<ul>
+<li>大多数防火墙都能拦截类似的攻击包，以保护系统</li>
+<li>部分操作系统通过发布安全补丁修复了这一漏洞</li>
+<li>路由器应同时配置上行与下行筛选器，屏蔽所有源地址与目标地址相同的数据包</li>
+</ul>
+<h3 id="3-3-DoS、DDoS防御"><a href="#3-3-DoS、DDoS防御" class="headerlink" title="3.3. DoS、DDoS防御"></a>3.3. DoS、DDoS防御</h3><p>防御方式通常为：入侵检测、流量过滤、多重验证。堵塞网络带宽的流量将被过滤，而正常的流量可正常通过。</p>
+<p>防火墙：防火墙可以设置规则，例如允许或拒绝特定通讯协议，端口或IP地址。 </p>
+<ul>
+<li>当攻击从少数不正常的IP地址发出时，可以简单的使用拒绝规则阻止一切从攻击源IP发出的通信</li>
+<li>复杂攻击难以用简单规则来阻止，例如80端口遭受攻击时不可能拒绝端口所有的通信，因为同时会阻止合法流量</li>
+<li>防火墙可能处于网络架构中过后的位置，路由器可能在恶意流量达到防火墙前即被攻击影响</li>
+</ul>
+<p>交换机：大多数交换机有一定的速度限制和访问控制能力。</p>
+<p>路由器：和交换机类似，路由器也有一定的速度限制和访问控制能力。</p>
+<p>黑洞引导：将所有受攻击计算机的通信全部发送至一个“黑洞”（空接口或不存在的计算机地址）或者有足够能力处理洪流的网络设备商，以避免网络受到较大影响。</p>
+<p>流量清洗：当流量被送到DDoS防护清洗中心时，通过采用抗DDoS软件处理，将正常流量和恶意流量区分开。正常的流量则回注回客户网站。</p>
+<h3 id="3-4-应用层-DNS劫持"><a href="#3-4-应用层-DNS劫持" class="headerlink" title="3.4. 应用层-DNS劫持"></a>3.4. 应用层-DNS劫持</h3><p>DNS劫持，又称为域名劫持。攻击者篡改了某个域名的解析结果，使得指向该域名的IP变成了另一个IP。导致对应网址的访问被劫持到另一个不可达的或者假冒的网址。从而实现非法窃取用户信息或者破坏正常网络服务的目的。</p>
+<p>为防止DNS劫持，可以考虑使用更靠谱的DNS服务器，比如：<code>114.114.114.114</code>。</p>
+<ul>
+<li>谷歌：<code>8.8.8.8</code>，<code>8.8.4.4</code></li>
+<li>微软：<code>4.2.2.1</code>，<code>4.2.2.2</code></li>
+<li>百度：<code>180.76.76.76</code></li>
+<li>阿里：<code>223.5.5.5</code>，<code>223.6.6.6</code></li>
+</ul>
+<h3 id="3-5-应用层-HTTP劫持"><a href="#3-5-应用层-HTTP劫持" class="headerlink" title="3.5. 应用层-HTTP劫持"></a>3.5. 应用层-HTTP劫持</h3><p>HTTP劫持是对HTTP数据包进行拦截处理，比如插入JS代码。</p>
+<p>最常见的是在访问某些网站时，在右下角多了个莫名其妙的弹窗广告。</p>
+<h3 id="3-6-HTTP协议的安全问题"><a href="#3-6-HTTP协议的安全问题" class="headerlink" title="3.6. HTTP协议的安全问题"></a>3.6. HTTP协议的安全问题</h3><p>HTTP协议默认是采用明文传输的，因此会有很大的安全隐患。常见的提高安全性的方法是：对通信内容进行加密后，再进行传输。</p>
+<p>常见的加密方式：</p>
+<ul>
+<li>不可逆<ul>
+<li>单向散列函数：MD5、SHA等</li>
+</ul>
+</li>
+<li>可逆<ul>
+<li>对称加密：DES、3DES、AES等</li>
+<li>非对称加密：RSA等</li>
+</ul>
+</li>
+<li>其他<ul>
+<li>混合密码系统</li>
+<li>数字签名</li>
+<li>证书</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>常见英文：encrypt（加密）、decrypt（解密）、plaintext（明文）、ciphertext（密文）。</p>
+</blockquote>
+<h3 id="3-7-如何防止被窃听？"><a href="#3-7-如何防止被窃听？" class="headerlink" title="3.7. 如何防止被窃听？"></a>3.7. 如何防止被窃听？</h3><p>为了便于区分，设计4个虚拟人物：<br>Alice、Bob：相互通信<br>Eve：窃听者<br>Mallory：主动攻击者</p>
+<p><img src="https://blog.idbeny.com/a42gn.png@normal"></p>
+<p><img src="https://blog.idbeny.com/3dxr8.png@normal"></p>
+<p>加密：<br><img src="https://blog.idbeny.com/cq2nd.png@normal"></p>
+<p>常见的加解密地址：<br>MD5加密：<a target="_blank" rel="noopener" href="https://www.cmd5.com/hash.aspx">https://www.cmd5.com/hash.aspx</a><br>MD5解密：<a target="_blank" rel="noopener" href="https://www.cmd5.com/">https://www.cmd5.com</a><br>其他加密：<a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt_des.html%E3%80%81https://tool.chinaz.com/tools/md5.aspx">https://www.sojson.com/encrypt_des.html、https://tool.chinaz.com/tools/md5.aspx</a></p>
+<h3 id="3-8-单向散列函数（One-way-hash-function）"><a href="#3-8-单向散列函数（One-way-hash-function）" class="headerlink" title="3.8. 单向散列函数（One-way hash function）"></a>3.8. 单向散列函数（<em>One-way hash function</em>）</h3><p>单向散列函数，可以根据消息内容计算出散列值。</p>
+<p>单向散列函数也被称为：消息摘要函数（<em>message digest function</em>）、哈希函数（<em>hash function</em>）。</p>
+<p>输出的散列值也被称为：消息摘要（<em>message digest</em>）、指纹（<em>fingerprint</em>）</p>
+<p>散列值的长度和消息的长度无关，无论消息是1bit、10M、100G，单向散列函数都会计算出固定长度的散列值。<br><img src="https://blog.idbeny.com/chlu1.png@normal"></p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>根据任意长度的消息，计算出固定长度的散列值</li>
+<li>计算速度快，能快速计算出散列值</li>
+<li>消息不同，散列值也不同</li>
+<li>具备单向性</li>
+</ul>
+<p><img src="https://blog.idbeny.com/iixj6.png@normal"></p>
+<p><img src="https://blog.idbeny.com/gnv7i.png@normal"></p>
+<h4 id="3-8-1-常见的几种单向散列函数"><a href="#3-8-1-常见的几种单向散列函数" class="headerlink" title="3.8.1. 常见的几种单向散列函数"></a>3.8.1. 常见的几种单向散列函数</h4><ul>
+<li>MD4、MD5<ul>
+<li>产生128bit的散列值，MD就是<em>Message Digest</em>的缩写，目前已经不安全</li>
+</ul>
+</li>
+<li>SHA-1<ul>
+<li>产生168bit的散列值，目前已经不安全</li>
+</ul>
+</li>
+<li>SHA-2<ul>
+<li>SHA-256、SHA-384、SHA-512，散列值长度分别是256bit、384bit、512bit</li>
+</ul>
+</li>
+<li>SHA-3<ul>
+<li>全新标准</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-8-2-如何防止数据被篡改？"><a href="#3-8-2-如何防止数据被篡改？" class="headerlink" title="3.8.2. 如何防止数据被篡改？"></a>3.8.2. 如何防止数据被篡改？</h4><ol>
+<li><p>如何确保两个文件是一样的？<br><img src="https://blog.idbeny.com/l2go4.png@normal"></p>
+</li>
+<li><p>原始做法就是拷贝一份进行比较（非常笨重）。<br><img src="https://blog.idbeny.com/tnfck.png@normal"></p>
+</li>
+<li><p>计算比较散列值（推荐）。<br><img src="https://blog.idbeny.com/po71t.png@normal"></p>
+</li>
+</ol>
+<p>在下载软件的时候，有些网站就会提供软件包的哈希值（比如：<a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/">IDEA</a>），防止软件包被非法篡改，我们就可以在镜像网站（速度快）下载安装包后计算出哈希值，然后和官方软件包的哈希值做比较，以确保软件完整性。</p>
+<p><img src="https://blog.idbeny.com/09sjm.png@normal"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/11/25/network-proxy-cdn/" title="【网络协议】网络协议系列十三 - 代理/CDN/网络安全">http://idbeny.com/2020/11/25/network-proxy-cdn/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/20/network-cors-cookie-session/" rel="next" title="【网络协议】网络协议系列十二 - 跨域/Cookie/Session">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列十二 - 跨域/Cookie/Session
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/02/network-encrypt/" rel="prev" title="【网络协议】网络协议系列十四 - (非)对称加密/数字签名/证书">
+                【网络协议】网络协议系列十四 - (非)对称加密/数字签名/证书 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一、代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88Proxy-Server%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 代理服务器（Proxy Server）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 正向代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 反向代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 代理服务器相关的头部字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 抓包工具的原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81CDN"><span class="nav-number">2.</span> <span class="nav-text">二、CDN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="nav-number">3.</span> <span class="nav-text">三、网络安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%BD%91%E7%BB%9C%E5%B1%82-ARP%E6%AC%BA%E9%AA%97"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 网络层-ARP欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP%E6%AC%BA%E9%AA%97%E7%9A%84%E9%98%B2%E6%8A%A4"><span class="nav-number">3.1.1.</span> <span class="nav-text">ARP欺骗的防护</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-DoS%E3%80%81DDoS"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. DoS、DDoS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-%E4%BC%A0%E8%BE%93%E5%B1%82-SYN%E6%B4%AA%E6%B0%B4%E6%94%BB%E5%87%BB"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1. 传输层-SYN洪水攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-%E4%BC%A0%E8%BE%93%E5%B1%82-LAND%E6%94%BB%E5%87%BB"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2. 传输层-LAND攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-DoS%E3%80%81DDoS%E9%98%B2%E5%BE%A1"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. DoS、DDoS防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%BA%94%E7%94%A8%E5%B1%82-DNS%E5%8A%AB%E6%8C%81"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. 应用层-DNS劫持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%BA%94%E7%94%A8%E5%B1%82-HTTP%E5%8A%AB%E6%8C%81"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. 应用层-HTTP劫持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-HTTP%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">3.6.</span> <span class="nav-text">3.6. HTTP协议的安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E7%AA%83%E5%90%AC%EF%BC%9F"><span class="nav-number">3.7.</span> <span class="nav-text">3.7. 如何防止被窃听？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0%EF%BC%88One-way-hash-function%EF%BC%89"><span class="nav-number">3.8.</span> <span class="nav-text">3.8. 单向散列函数（One-way hash function）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-1-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0"><span class="nav-number">3.8.1.</span> <span class="nav-text">3.8.1. 常见的几种单向散列函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-2-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E6%95%B0%E6%8D%AE%E8%A2%AB%E7%AF%A1%E6%94%B9%EF%BC%9F"><span class="nav-number">3.8.2.</span> <span class="nav-text">3.8.2. 如何防止数据被篡改？</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

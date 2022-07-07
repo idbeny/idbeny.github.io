@@ -1,38 +1,1280 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,多线程,NSThread," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="C语言中的pthread和OC中的NSThread有什么联系？如何使用呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】多线程系列二 - NSThread的使用">
+<meta property="og:url" content="http://idbeny.com/2017/09/15/ios-thread/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="C语言中的pthread和OC中的NSThread有什么联系？如何使用呢？">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/cgpfo.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6lhdc.png@normal">
+<meta property="article:published_time" content="2017-09-15T12:15:39.000Z">
+<meta property="article:modified_time" content="2020-11-16T14:22:16.375Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="NSThread">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/cgpfo.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2017/09/15/ios-thread/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】多线程系列二 - NSThread的使用 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/09/15/ios-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】多线程系列二 - NSThread的使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-15T20:15:39+08:00">
+                2017-09-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>C</strong>语言中的<code>pthread</code>和<strong>OC</strong>中的<code>NSThread</code>有什么联系？如何使用呢？</p>
+<span id="more"></span>
+<h2 id="一、pthread"><a href="#一、pthread" class="headerlink" title="一、pthread"></a>一、pthread</h2><p>在OC中使用C语言的线程，必须导入C语言中的线程库<code>pthread.h</code>。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 导入C语言线程库</span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">IBAction</span>)btnClick &#123;</span><br><span class="line">    <span class="comment">// 2. 创建线程对象</span></span><br><span class="line">    pthread_t thread = <span class="literal">nil</span>;</span><br><span class="line">    <span class="comment">/** 3. 创建线程</span></span><br><span class="line"><span class="comment">     * 第一个参数：线程对象（地址传递）</span></span><br><span class="line"><span class="comment">     * 第二个参数：线程的属性（优先级设置）</span></span><br><span class="line"><span class="comment">     * 第三个参数：指向函数的指针（函数名称）</span></span><br><span class="line"><span class="comment">     * 第四个参数：传递给第三个参数的参数（函数参数）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    pthread_create(&amp;thread, <span class="literal">NULL</span>, run, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子线程的任务</span></span><br><span class="line"><span class="type">void</span> * run(<span class="type">void</span> * params) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;%ld--%d&quot;</span>, i, [<span class="built_in">NSThread</span> isMainThread]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 0--0</span></span><br><span class="line"><span class="comment"> 1--0</span></span><br><span class="line"><span class="comment"> 2--0</span></span><br><span class="line"><span class="comment"> 3--0</span></span><br><span class="line"><span class="comment"> ...</span></span><br><span class="line"><span class="comment"> 99999--0</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>通过上述代码执行耗时任务时，不会阻塞主线程。</p>
+<h2 id="二、NSThread"><a href="#二、NSThread" class="headerlink" title="二、NSThread"></a>二、NSThread</h2><h3 id="2-1-创建线程"><a href="#2-1-创建线程" class="headerlink" title="2.1. 创建线程"></a>2.1. 创建线程</h3><p>使用<code>NSThread</code>创建子线程有多种方法。</p>
+<p>第一种：通过实例方法初始化</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    [<span class="variable language_">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line">    <span class="comment">// 1. 创建线程</span></span><br><span class="line">    <span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run:) object:<span class="string">@&quot;hello&quot;</span>];</span><br><span class="line">    <span class="comment">// 2. 开启线程</span></span><br><span class="line">    [thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程任务</span></span><br><span class="line">- (<span class="type">void</span>)run:(<span class="type">id</span>)userInfo &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 输出：&lt;NSThread: 0x60000275c940&gt;&#123;number = 8, name = (null)&#125;</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, userInfo); <span class="comment">// 输出：hello</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二种：分离一条新的子线程（类方法，自动开启任务）</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    [<span class="variable language_">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSThread</span> detachNewThreadSelector:<span class="keyword">@selector</span>(run:) toTarget:<span class="keyword">self</span> withObject:<span class="string">@&quot;hello&quot;</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)run:(<span class="type">id</span>)userInfo &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 输出：&lt;NSThread: 0x6000034b8880&gt;&#123;number = 8, name = (null)&#125;</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, userInfo); <span class="comment">// 输出：hello</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三种：开启后台线程（自动开启任务）</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    [<span class="variable language_">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> performSelectorInBackground:<span class="keyword">@selector</span>(run:) withObject:<span class="string">@&quot;hello&quot;</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)run:(<span class="type">id</span>)userInfo &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 输出：&lt;NSThread: 0x60000136e3c0&gt;&#123;number = 8, name = (null)&#125;</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, userInfo); <span class="comment">// 输出：hello</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只有第一种创建线程的方法是有线程实例对象的，其他方式都没有返回实例。也就意味着，平时使用实例初始化线程更加易于控制。</p>
+<h3 id="2-2-线程属性和生命周期"><a href="#2-2-线程属性和生命周期" class="headerlink" title="2.2. 线程属性和生命周期"></a>2.2. 线程属性和生命周期</h3><ol>
+<li>为线程添加<code>name</code>更容易区分线程。</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">thread.name</span> = @<span class="string">&quot;线程01&quot;</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>设置线程优先级，范围是0.0~1.0，默认是0.5，1.0优先级最高。优先级越高线程被CPU调度的概率就越大（注意是概率）。</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">thread.threadPriority</span> = <span class="number">1.0</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/cgpfo.png@normal"></p>
+<ol start="3">
+<li>当线程的内部任务执行完毕之后，线程对象就会被自动释放。</li>
+</ol>
+<h3 id="2-3-线程状态"><a href="#2-3-线程状态" class="headerlink" title="2.3. 线程状态"></a>2.3. 线程状态</h3><p><img src="http://blog.idbeny.com/6lhdc.png@normal"></p>
+<ol>
+<li><p>启动线程：(首先进入就绪状态，然后到运行状态。当线程任务执行完自动进入死亡状态)</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)<span class="keyword">start</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>阻塞（暂停）线程：(进入阻塞状态)</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="type">void</span>)sleepUntilDate:(<span class="built_in">NSDate</span> *)date;</span><br><span class="line">+ (<span class="type">void</span>)sleepForTimeInterval:(<span class="built_in">NSTimeInterval</span>)ti;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>强制停止线程</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)<span class="keyword">exit</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>示例代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    [<span class="variable language_">super</span> touchesBegan:touches withEvent:event];</span><br><span class="line">    <span class="comment">// 1. 创建线程</span></span><br><span class="line">    <span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run) object:<span class="literal">nil</span>];</span><br><span class="line">    <span class="comment">// 2. 开启线程</span></span><br><span class="line">    [thread start];    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.线程任务</span></span><br><span class="line">- (<span class="type">void</span>)run &#123;        </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;任务开始&quot;</span>);</span><br><span class="line">    <span class="comment">// 线程阻塞</span></span><br><span class="line">    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">5</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;任务结束&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> 2017-09-15 21:37:58.811589+0800 NSThreadDemo[15792:209327] 任务开始</span></span><br><span class="line"><span class="comment"> 2017-09-15 21:38:03.821636+0800 NSThreadDemo[15792:209327] 任务结束</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>通过控制台可以看到任务开始和任务结束之间有5s间隔，间隔就是线程正处在阻塞状态。</p>
+<h2 id="三、线程安全"><a href="#三、线程安全" class="headerlink" title="三、线程安全"></a>三、线程安全</h2><p>一块资源可能会被多个线程共享，也就是说<strong>多个线程可能会访问同一块资源</strong>，当多个线程访问同一块资源时（资源可以是对象、变量、文件等），很容易引发数据错乱和数据安全问题。</p>
+<p>示例代码（售票）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (void)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 总票数</span></span><br><span class="line">    <span class="keyword">self</span>.ticketCount <span class="operator">=</span> <span class="number">50</span>;</span><br><span class="line">    <span class="comment">// 3个售票员</span></span><br><span class="line">    <span class="keyword">self</span>.threadA <span class="operator">=</span> [[<span class="type">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="meta">@selector</span>(saleTicket) object:<span class="literal">nil</span>];</span><br><span class="line">    <span class="keyword">self</span>.threadA.name <span class="operator">=</span> @<span class="string">&quot;售票员A&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.threadB <span class="operator">=</span> [[<span class="type">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="meta">@selector</span>(saleTicket) object:<span class="literal">nil</span>];</span><br><span class="line">    <span class="keyword">self</span>.threadB.name <span class="operator">=</span> @<span class="string">&quot;售票员B&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.threadC <span class="operator">=</span> [[<span class="type">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="meta">@selector</span>(saleTicket) object:<span class="literal">nil</span>];</span><br><span class="line">    <span class="keyword">self</span>.threadC.name <span class="operator">=</span> @<span class="string">&quot;售票员C&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始售票</span></span><br><span class="line">    [<span class="keyword">self</span>.threadA start];</span><br><span class="line">    [<span class="keyword">self</span>.threadB start];</span><br><span class="line">    [<span class="keyword">self</span>.threadC start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)saleTicket &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.ticketCount <span class="operator">&gt;</span> <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>.ticketCount <span class="operator">-=</span> <span class="number">1</span>;</span><br><span class="line">            <span class="type">NSLog</span>(@<span class="string">&quot;%@卖出一张，余票%ld&quot;</span>, [<span class="type">NSThread</span> currentThread].name, <span class="keyword">self</span>.ticketCount);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">NSLog</span>(@<span class="string">&quot;%@发现票已售完&quot;</span>, [<span class="type">NSThread</span> currentThread].name);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码看似没有问题，但是当我们把卖票时间拉长（任务执行时间大于线程调度时间）时，就会发现问题。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)saleTicket &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.ticketCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>.ticketCount -= <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// 增加任务执行时间</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;&#125;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;%@卖出一张，余票%ld&quot;</span>, [<span class="built_in">NSThread</span> currentThread].name, <span class="keyword">self</span>.ticketCount);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;%@发现票已售完&quot;</span>, [<span class="built_in">NSThread</span> currentThread].name);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 控制台</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.313420</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236990</span>] 售票员B卖出一张，余票<span class="number">40</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.313195</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236989</span>] 售票员A卖出一张，余票<span class="number">40</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.316993</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236991</span>] 售票员C卖出一张，余票<span class="number">38</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.317977</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236990</span>] 售票员B卖出一张，余票<span class="number">37</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.318347</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236989</span>] 售票员A卖出一张，余票<span class="number">37</span></span><br><span class="line"><span class="number">2017</span><span class="number">-09</span><span class="number">-15</span> <span class="number">21</span>:<span class="number">29</span>:<span class="number">43.321834</span>+<span class="number">0800</span> <span class="built_in">NSThreadDemo</span>[<span class="number">17519</span>:<span class="number">236991</span>] 售票员C卖出一张，余票<span class="number">35</span></span><br></pre></td></tr></table></figure>
+
+<p>发现有重复卖票的行为。可以通过**互斥锁(同步锁)**解决线程安全问题。当线程A访问（读）资源时，对资源进行加锁，访问（写）结束后，再把锁打开。如果线程B在线程A访问资源时也想访问这块资源，由于锁的存在，线程B只能等待资源没有加锁时才能访问。</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * token：锁对象（要求：全局变量，建议直接使用self）</span></span><br><span class="line"><span class="comment"> * statements：要加锁的代码段</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">@synchronized (&lt;#token#&gt;) &#123;</span><br><span class="line">    &lt;#statements#&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>思考：为什么锁对象要使用全局变量？</p>
+<blockquote>
+<p>如果线程每次访问资源时都要加一把新锁，就会导致加的锁是无效的。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)saleTicket &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">@synchronized</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">self</span>.ticketCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">self</span>.ticketCount -= <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;&#125;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;%@卖出一张，余票%ld&quot;</span>, [<span class="built_in">NSThread</span> currentThread].name, <span class="keyword">self</span>.ticketCount);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;%@发现票已售完&quot;</span>, [<span class="built_in">NSThread</span> currentThread].name);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果把互斥锁加到<code>while</code>的外层，会怎样呢？结果就是一个售票员把所有的票都卖完了。所以不能在随意位置进行加锁，只有当多个线程会抢夺同一块资源时，对该资源进行加锁，否则随意加锁不仅没有效果，还会损耗程序性能。</p>
+<blockquote>
+<p>互斥锁的本质是使用了线程同步技术（多条线程在同一条线上顺序地执行任务）。</p>
+</blockquote>
+<h2 id="四、原子和非原子属性"><a href="#四、原子和非原子属性" class="headerlink" title="四、原子和非原子属性"></a>四、原子和非原子属性</h2><p>OC在定义属性时有<code>nonatomic</code>和<code>atomic</code>两种选择。</p>
+<ul>
+<li><code>atomic</code>：原子属性，线程安全，为<code>setter</code>方法加锁（默认就是<code>atomic</code>）</li>
+<li><code>nonatomic</code>：非原子属性，非线程安全，不会为<code>setter</code>方法加锁</li>
+</ul>
+<p>既然<code>atomic</code>是线程安全的，为什么开发中会经常使用<code>nonatomic</code>？</p>
+<p>主要有两点因素：</p>
+<ol>
+<li><code>nonatomic</code>性能好；</li>
+<li>开发中多线程抢夺资源的情况并不多。</li>
+</ol>
+<h2 id="五、线程通信"><a href="#五、线程通信" class="headerlink" title="五、线程通信"></a>五、线程通信</h2><p>在1个进程中，一般情况下线程不是单独存在的，多个线程之间需要经常进行通信。</p>
+<p><strong>线程通信特点：</strong></p>
+<ul>
+<li>1个线程传递数据给另1个线程</li>
+<li>在1个线程中执行完特定任务后，转到另1个线程继续执行任务</li>
+</ul>
+<p><strong>线程通信常用方法：</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 子线程回到主线程</span></span><br><span class="line"><span class="comment"> * aSelector: 回到主线程执行的方法</span></span><br><span class="line"><span class="comment"> * arg: aSelector选择器的传递的参数</span></span><br><span class="line"><span class="comment"> * wait: 是否等待aSelector执行完毕后再继续往下执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="type">void</span>)performSelectorOnMainThread:(SEL)aSelector withObject:(<span class="keyword">nullable</span> <span class="type">id</span>)arg waitUntilDone:(<span class="type">BOOL</span>)wait;</span><br><span class="line">- (<span class="type">void</span>)performSelector:(SEL)aSelector onThread:(<span class="built_in">NSThread</span> *)thr withObject:(<span class="keyword">nullable</span> <span class="type">id</span>)arg waitUntilDone:(<span class="type">BOOL</span>)wait;</span><br></pre></td></tr></table></figure>
+
+<p>下载图片是一个耗时操作，尤其当图片比较大的时候更加明显。</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)showImage &#123;</span><br><span class="line">    NSString *imgURLStr = @&quot;https:<span class="regexp">//imag</span>e.baidu.com/search/detail?ct=<span class="number">503316480</span>&amp;z=<span class="number">9</span>&amp;tn=baiduimagedetail&amp;ipn=d&amp;word=<span class="number">5</span>k%E9%AB%98%E6%B8%85%E5%A4%A7%E5%<span class="number">9</span>B%BE&amp;step_word=&amp;ie=utf-<span class="number">8</span>&amp;in=&amp;cl=<span class="number">2</span>&amp;lm=-<span class="number">1</span>&amp;st=-<span class="number">1</span>&amp;hd=<span class="number">0</span>&amp;latest=<span class="number">0</span>&amp;copyright=<span class="number">0</span>&amp;cs=<span class="number">3388459890</span>,<span class="number">4007020485</span>&amp;os=<span class="number">1361240164</span>,<span class="number">2722658368</span>&amp;simid=<span class="number">0</span>,<span class="number">0</span>&amp;pn=<span class="number">0</span>&amp;rn=<span class="number">1</span>&amp;di=<span class="number">69520</span>&amp;ln=<span class="number">787</span>&amp;fr=&amp;fmq=<span class="number">1605533629706_</span>R&amp;fm=rs4&amp;ic=<span class="number">0</span>&amp;s=undefined&amp;se=&amp;sme=&amp;tab=<span class="number">0</span>&amp;width=<span class="number">0</span>&amp;height=<span class="number">0</span>&amp;face=undefined&amp;is=<span class="number">0</span>,<span class="number">0</span>&amp;istype=<span class="number">0</span>&amp;ist=&amp;jit=&amp;bdtype=<span class="number">0</span>&amp;spn=<span class="number">0</span>&amp;pi=<span class="number">0</span>&amp;gsm=<span class="number">0</span>&amp;hs=<span class="number">2</span>&amp;oriquery=%E5%A4%A7%E5%<span class="number">9</span>B%BE&amp;objurl=http%<span class="number">3</span>A%<span class="number">2</span>F%2Fimg.jk51.com%2Fimg_jk51%2F196318182.jpeg&amp;rpstart=<span class="number">0</span>&amp;rpnum=<span class="number">0</span>&amp;adpicid=<span class="number">0</span>&amp;force=undefined<span class="string">&quot;;</span></span><br><span class="line"><span class="string">    NSURL *imgURL = [NSURL URLWithString:imgURLStr];</span></span><br><span class="line"><span class="string">    CFTimeInterval start = CFAbsoluteTimeGetCurrent();</span></span><br><span class="line"><span class="string">    NSData *imgData = [NSData dataWithContentsOfURL:imgURL];</span></span><br><span class="line"><span class="string">    CFTimeInterval end = CFAbsoluteTimeGetCurrent();</span></span><br><span class="line"><span class="string">    NSLog(@&quot;differ=%f&quot;</span>, end - start);</span><br><span class="line">    UIImage *img = [UIImage imageWithData:imgData];</span><br><span class="line">    self.imgView.image = img;</span><br><span class="line">&#125;</span><br><span class="line">// 输出：differ=<span class="number">0</span>.<span class="number">544529</span></span><br></pre></td></tr></table></figure>
+
+<p>为避免多图下载时，不影响主线程任务执行（卡屏）。可以将下载操作放到子线程，当下载完成后通知主线程刷新UI。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)loadImage &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *imgURLStr = <span class="string">@&quot;https://image.baidu.com/search/detail?ct=503316480&amp;z=9&amp;tn=baiduimagedetail&amp;ipn=d&amp;word=5k%E9%AB%98%E6%B8%85%E5%A4%A7%E5%9B%BE&amp;step_word=&amp;ie=utf-8&amp;in=&amp;cl=2&amp;lm=-1&amp;st=-1&amp;hd=0&amp;latest=0&amp;copyright=0&amp;cs=3388459890,4007020485&amp;os=1361240164,2722658368&amp;simid=0,0&amp;pn=0&amp;rn=1&amp;di=69520&amp;ln=787&amp;fr=&amp;fmq=1605533629706_R&amp;fm=rs4&amp;ic=0&amp;s=undefined&amp;se=&amp;sme=&amp;tab=0&amp;width=0&amp;height=0&amp;face=undefined&amp;is=0,0&amp;istype=0&amp;ist=&amp;jit=&amp;bdtype=0&amp;spn=0&amp;pi=0&amp;gsm=0&amp;hs=2&amp;oriquery=%E5%A4%A7%E5%9B%BE&amp;objurl=http%3A%2F%2Fimg.jk51.com%2Fimg_jk51%2F196318182.jpeg&amp;rpstart=0&amp;rpnum=0&amp;adpicid=0&amp;force=undefined&quot;</span>;</span><br><span class="line">    <span class="built_in">NSURL</span> *imgURL = [<span class="built_in">NSURL</span> URLWithString:imgURLStr];</span><br><span class="line">    <span class="comment">// 1. 开启分线程下载图片</span></span><br><span class="line">    [<span class="built_in">NSThread</span> detachNewThreadSelector:<span class="keyword">@selector</span>(getImgWithURL:) toTarget:<span class="keyword">self</span> withObject:imgURL];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)getImgWithURL:(<span class="built_in">NSURL</span> *)url &#123;</span><br><span class="line">    <span class="built_in">NSData</span> *imgData = [<span class="built_in">NSData</span> dataWithContentsOfURL:url];</span><br><span class="line">    <span class="built_in">UIImage</span> *img = [<span class="built_in">UIImage</span> imageWithData:imgData];</span><br><span class="line">    <span class="comment">// 2. 回到主线程显示图片</span></span><br><span class="line">    [<span class="keyword">self</span> performSelectorOnMainThread:<span class="keyword">@selector</span>(showImage:) withObject:img waitUntilDone:<span class="literal">YES</span>];</span><br><span class="line">    <span class="comment">// 下面的写法可以直接为imageView添加image</span></span><br><span class="line">    <span class="comment">// [self.imgView performSelectorOnMainThread:@selector(setImage:) withObject:img waitUntilDone:YES];</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)showImage:(<span class="built_in">UIImage</span> *)image &#123;</span><br><span class="line">    <span class="keyword">self</span>.imgView.image = image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2017/09/15/ios-thread/" title="【iOS】多线程系列二 - NSThread的使用">http://idbeny.com/2017/09/15/ios-thread/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/NSThread/" rel="tag"># NSThread</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/10/ios-process-thread/" rel="next" title="【iOS】多线程系列一 - 进程和线程">
+                <i class="fa fa-chevron-left"></i> 【iOS】多线程系列一 - 进程和线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/17/ios-thread-gcd/" rel="prev" title="【iOS】多线程系列三 - GCD">
+                【iOS】多线程系列三 - GCD <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81pthread"><span class="nav-number">1.</span> <span class="nav-text">一、pthread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81NSThread"><span class="nav-number">2.</span> <span class="nav-text">二、NSThread</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 创建线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%BA%BF%E7%A8%8B%E5%B1%9E%E6%80%A7%E5%92%8C%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 线程属性和生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 线程状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">3.</span> <span class="nav-text">三、线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8E%9F%E5%AD%90%E5%92%8C%E9%9D%9E%E5%8E%9F%E5%AD%90%E5%B1%9E%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">四、原子和非原子属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">5.</span> <span class="nav-text">五、线程通信</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

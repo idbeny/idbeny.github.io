@@ -1,38 +1,1257 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Quartz2D,UIBezierPath,画板,涂鸦," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="画板听起来很难，其实做起来很简单。主要很多人不明白思路，所以觉得难以入手。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Quartz 2D之画板">
+<meta property="og:url" content="http://idbeny.com/2016/10/06/ios-quartz2d-drawboard/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="画板听起来很难，其实做起来很简单。主要很多人不明白思路，所以觉得难以入手。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/kwarn.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6rs9g.gif@normal">
+<meta property="article:published_time" content="2016-10-06T06:25:08.000Z">
+<meta property="article:modified_time" content="2020-08-23T09:33:45.963Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Quartz2D">
+<meta property="article:tag" content="UIBezierPath">
+<meta property="article:tag" content="画板">
+<meta property="article:tag" content="涂鸦">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/kwarn.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2016/10/06/ios-quartz2d-drawboard/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Quartz 2D之画板 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2016/10/06/ios-quartz2d-drawboard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Quartz 2D之画板</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-06T14:25:08+08:00">
+                2016-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  21 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>画板听起来很难，其实做起来很简单。主要很多人不明白思路，所以觉得难以入手。</p>
+<span id="more"></span>
+<p>场景：实现清除、撤销、重做、照片、保存、颜色、线宽等功能的画板。</p>
+<h2 id="一、功能开发流程"><a href="#一、功能开发流程" class="headerlink" title="一、功能开发流程"></a>一、功能开发流程</h2><h3 id="1-1-UI使用storyboard进行快速搭建"><a href="#1-1-UI使用storyboard进行快速搭建" class="headerlink" title="1.1. UI使用storyboard进行快速搭建"></a>1.1. UI使用storyboard进行快速搭建</h3><p><img src="http://blog.idbeny.com/kwarn.png@normal"></p>
+<h3 id="1-2-自定义绘图区域"><a href="#1-2-自定义绘图区域" class="headerlink" title="1.2. 自定义绘图区域"></a>1.2. 自定义绘图区域</h3><p>画板功能相对来说比较聚合，所有的功能最终都是通过<code>drawRect</code>绘制到画板上的，同时为了方便其他项目使用，我们尽量把功能都集成在一个画板上。</p>
+<p>画板使用手势计算路径会更加合理高效，所以我们使用滑动手势来绘制。</p>
+<p><strong><code>DBDrawboardView.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBDrawboardView</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)awakeFromNib &#123;</span><br><span class="line">    [<span class="variable language_">super</span> awakeFromNib];</span><br><span class="line">    [<span class="keyword">self</span> initConfig];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="variable language_">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> initConfig];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化配置</span></span><br><span class="line">- (<span class="type">void</span>)initConfig &#123;</span><br><span class="line">    <span class="comment">// 添加滑动手势</span></span><br><span class="line">    <span class="built_in">UIPanGestureRecognizer</span> *panGesture = [[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(panGestureEventHandle:)];</span><br><span class="line">    [<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line">- (<span class="type">void</span>)panGestureEventHandle:(<span class="built_in">UIPanGestureRecognizer</span> *)gesture &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-基本线条绘制"><a href="#1-3-基本线条绘制" class="headerlink" title="1.3. 基本线条绘制"></a>1.3. 基本线条绘制</h3><p>线条的绘制使用贝塞尔曲线，只需要两个点就可以连成一条直线。当两个点之间的距离很小的时候（颗粒度）就会觉得线条很自然。</p>
+<p>第一步，先在手势开始的时候创建一个贝塞尔曲线（每次手势只会创建一次），并记录起点；</p>
+<p>第二步，手势状态发生改变时，把手势移动的位置点拼接到曲线路径上，最后渲染就行了。</p>
+<p><strong><code>DBDrawboardView.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DBDrawboardView</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录当前操作路径</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIBezierPath</span> *path;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBDrawboardView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line">- (<span class="type">void</span>)panGestureEventHandle:(<span class="built_in">UIPanGestureRecognizer</span> *)gesture &#123;</span><br><span class="line">    <span class="built_in">CGPoint</span> current_point = [gesture locationInView:gesture.view];</span><br><span class="line">    <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">        <span class="comment">// 1.添加路径起点</span></span><br><span class="line">        <span class="built_in">UIBezierPath</span> *path = [<span class="built_in">UIBezierPath</span> bezierPath];</span><br><span class="line">        [path moveToPoint:current_point];</span><br><span class="line">        <span class="comment">// 2.记录当前操作路径</span></span><br><span class="line">        <span class="keyword">self</span>.path = path;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateChanged</span>) &#123;</span><br><span class="line">        <span class="comment">// 3.拼接曲线路径</span></span><br><span class="line">        [<span class="keyword">self</span>.path addLineToPoint:current_point];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4.绘制到画板上</span></span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制</span></span><br><span class="line">- (<span class="type">void</span>)drawRect:(<span class="built_in">CGRect</span>)rect &#123;</span><br><span class="line">    [<span class="keyword">self</span>.path stroke];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>通过上面的简单几行代码，就可以绘制出基本线条了。但是每次只能绘制一条连续的线条，正常画板是可以绘制不同状态多个线条的，其实只需要添加一个路径栈就行。</p>
+<h3 id="1-4-路径栈"><a href="#1-4-路径栈" class="headerlink" title="1.4. 路径栈"></a>1.4. 路径栈</h3><p>使用栈来保存每一条路径，等需要绘制的时候，从栈底依次取出。OC中最适合的容器栈就是数组了。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存历史栈</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *pathArray;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line">- (<span class="type">void</span>)panGestureEventHandle:(<span class="built_in">UIPanGestureRecognizer</span> *)gesture &#123;</span><br><span class="line">    <span class="built_in">CGPoint</span> current_point = [gesture locationInView:gesture.view];</span><br><span class="line">    <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">        <span class="comment">// 1.添加路径起点</span></span><br><span class="line">        <span class="built_in">UIBezierPath</span> *path = [<span class="built_in">UIBezierPath</span> bezierPath];</span><br><span class="line">        [path moveToPoint:current_point];</span><br><span class="line">        <span class="comment">// 2.记录当前操作路径</span></span><br><span class="line">        <span class="keyword">self</span>.path = path;</span><br><span class="line">        <span class="comment">// 3.保存到历史栈</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray addObject:path];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateChanged</span>) &#123;</span><br><span class="line">        <span class="comment">// 4.拼接曲线路径</span></span><br><span class="line">        [<span class="keyword">self</span>.path addLineToPoint:current_point];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 5.绘制到画板上</span></span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制</span></span><br><span class="line">- (<span class="type">void</span>)drawRect:(<span class="built_in">CGRect</span>)rect &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIBezierPath</span> *path <span class="keyword">in</span> <span class="keyword">self</span>.pathArray) &#123;</span><br><span class="line">        [path stroke];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.4和1.3的diff：</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *pathArray;</span><br><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.pathArray addObject:path];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">UIBezierPath</span> *path <span class="keyword">in</span> <span class="keyword">self</span>.pathArray) &#123;</span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，整个画板的基础功能就算完成了，只需要把其他高级功能完善。</p>
+<h3 id="1-5-设置颜色和线宽"><a href="#1-5-设置颜色和线宽" class="headerlink" title="1.5. 设置颜色和线宽"></a>1.5. 设置颜色和线宽</h3><p>颜色和线宽在自定义的画板view内部实现后，只需要对外提供接口。由于<code>UIBezierPath</code>不支持设置线条颜色，所以我们需要新建一个子类扩展一个颜色属性。</p>
+<p><strong><code>DBDrawboardView</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DBDrawboardView.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DBDrawboardView</span> : <span class="title">UIView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 线宽，默认1.0</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="built_in">CGFloat</span> lineWidth;</span><br><span class="line"><span class="comment">// 颜色，默认黑色</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UIColor</span> *lineColor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DBDrawBezierPath</span> : <span class="title">UIBezierPath</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UIColor</span> *lineColor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DBDrawboardView.m</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DBDrawboardView</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录当前操作路径</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) DBDrawBezierPath *path;</span><br><span class="line"><span class="comment">// 保存历史栈</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *pathArray;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DBDrawBezierPath</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化配置</span></span><br><span class="line">- (<span class="type">void</span>)initConfig &#123;</span><br><span class="line">    <span class="comment">// 添加滑动手势</span></span><br><span class="line">    <span class="built_in">UIPanGestureRecognizer</span> *panGesture = [[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(panGestureEventHandle:)];</span><br><span class="line">    [<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置默认状态</span></span><br><span class="line">    <span class="keyword">self</span>.lineColor = [<span class="built_in">UIColor</span> blackColor];</span><br><span class="line">    <span class="keyword">self</span>.lineWidth = <span class="number">1.0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line">- (<span class="type">void</span>)panGestureEventHandle:(<span class="built_in">UIPanGestureRecognizer</span> *)gesture &#123;</span><br><span class="line">    <span class="built_in">CGPoint</span> current_point = [gesture locationInView:gesture.view];</span><br><span class="line">    <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">        <span class="comment">// 1.添加路径起点</span></span><br><span class="line">        DBDrawBezierPath *path = [DBDrawBezierPath bezierPath];</span><br><span class="line">        [path moveToPoint:current_point];</span><br><span class="line">        <span class="comment">// 2.设置上下文状态</span></span><br><span class="line">        path.lineJoinStyle = kCGLineJoinRound;</span><br><span class="line">        path.lineCapStyle = kCGLineCapRound;</span><br><span class="line">        path.lineColor = <span class="keyword">self</span>.lineColor;</span><br><span class="line">        path.lineWidth = <span class="keyword">self</span>.lineWidth;</span><br><span class="line">        <span class="comment">// 3.记录当前操作路径</span></span><br><span class="line">        <span class="keyword">self</span>.path = path;</span><br><span class="line">        <span class="comment">// 4.保存到历史栈</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray addObject:path];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (gesture.state == <span class="built_in">UIGestureRecognizerStateChanged</span>) &#123;</span><br><span class="line">        <span class="comment">// 5.拼接曲线路径</span></span><br><span class="line">        [<span class="keyword">self</span>.path addLineToPoint:current_point];</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制</span></span><br><span class="line">- (<span class="type">void</span>)drawRect:(<span class="built_in">CGRect</span>)rect &#123;</span><br><span class="line">    <span class="keyword">for</span> (DBDrawBezierPath *path <span class="keyword">in</span> <span class="keyword">self</span>.pathArray) &#123;</span><br><span class="line">        [path.lineColor set];</span><br><span class="line">        [path stroke];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-橡皮擦"><a href="#1-6-橡皮擦" class="headerlink" title="1.6. 橡皮擦"></a>1.6. 橡皮擦</h3><p>橡皮擦是真的没有什么要说的，就是一个和画板背景色一样的路径。会Photoshop的同学应该不陌生，毕竟橡皮擦掉的东西也是可以撤回的。</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 橡皮擦</span></span><br><span class="line">- (<span class="literal">void</span>)eraser &#123;</span><br><span class="line">    <span class="built_in">self</span>.lineColor = <span class="built_in">self</span>.backgroundColor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-7-清空"><a href="#1-7-清空" class="headerlink" title="1.7. 清空"></a>1.7. 清空</h3><p>把当前路径栈元素清空，重新绘制。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[self.pathArray removeAllObjects]</span><span class="comment">;</span></span><br><span class="line"><span class="section">[self setNeedsDisplay]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-8-撤回和重做"><a href="#1-8-撤回和重做" class="headerlink" title="1.8. 撤回和重做"></a>1.8. 撤回和重做</h3><p>同样可以对比Photoshop的历史记录面板，撤回的时候可以重做，重做后还可以撤回，重做的思路和撤回基本一致，一个操作的是当前路径栈，一个操作的移除栈。但是撤回或重做的时候，不管层级关系是怎样的，只要有任何影响画板重绘的操作，重做都会失效。</p>
+<h4 id="撤回"><a href="#撤回" class="headerlink" title="撤回"></a>撤回</h4><p>把路径栈栈顶的路径去除，同时把该路径添加到移除栈中，重新绘制。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">self</span>.pathArray.count != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="regexp">//</span> <span class="number">1</span>.把最后一个路径移入到移除栈中</span><br><span class="line">    [<span class="variable language_">self</span>.removeArray <span class="symbol">addObject:</span><span class="variable language_">self</span>.pathArray.lastObject];</span><br><span class="line">    <span class="regexp">//</span> <span class="number">2</span>.把路径从当前栈中移除</span><br><span class="line">    [<span class="variable language_">self</span>.pathArray removeLastObject];</span><br><span class="line">    <span class="regexp">//</span> <span class="number">3</span>.重绘</span><br><span class="line">    [<span class="variable language_">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="重做"><a href="#重做" class="headerlink" title="重做"></a>重做</h4><p>把移除栈中的栈顶路径移除，并压入到当前栈，重新绘制。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">self</span>.removeArray.count != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="regexp">//</span> <span class="number">1</span>.把移除栈中的最后一个路径移入到当前栈中</span><br><span class="line">    [<span class="variable language_">self</span>.pathArray <span class="symbol">addObject:</span><span class="variable language_">self</span>.removeArray.lastObject];</span><br><span class="line">    <span class="regexp">//</span> <span class="number">2</span>.把路径从移除栈中移除</span><br><span class="line">    [<span class="variable language_">self</span>.removeArray removeLastObject];</span><br><span class="line">    <span class="regexp">//</span> <span class="number">3</span>.重绘</span><br><span class="line">    [<span class="variable language_">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是仅仅这样做还是有问题的，上面提到其他任何操作都会影响重做是否有效。所以我们需要记录下每个功能的状态，更新重做功能的时效性。并且橡皮擦之后有清空操作，画板颜色如果没有调整，会看不到绘制的内容。</p>
+<h3 id="1-9-优化"><a href="#1-9-优化" class="headerlink" title="1.9. 优化"></a>1.9. 优化</h3><p>新建一个记录画板不同绘制状态的变量。每次操作都记录对应状态，然后及时更新画板就行了。</p>
+<p><strong><code>DBDrawboardView</code></strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DBDrawboardView.h</span></span><br><span class="line">typedef <span class="type">NS_ENUM</span>(<span class="type">NSUInteger</span>, <span class="type">DBDrawboardDrawState</span>) &#123;</span><br><span class="line">    <span class="type">DBDrawboardDrawStateNormal</span>, <span class="comment">// 普通绘制</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateClear</span>, <span class="comment">// 清空</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateUndo</span>, <span class="comment">// 撤销</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateRedo</span>, <span class="comment">// 重做</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateEraser</span> <span class="comment">// 橡皮擦</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawboardView</span> : <span class="type">UIView</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 线宽，默认1.0</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic) <span class="type">CGFloat</span> lineWidth;</span><br><span class="line"><span class="comment">// 颜色，默认黑色</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>lineColor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 清除</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)clear;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 撤销</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)undo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 重做</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)redo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 橡皮擦</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)eraser;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawBezierPath</span> : <span class="type">UIBezierPath</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>lineColor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DBDrawboardView.m</span></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawboardView</span> ()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录当前操作路径</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, <span class="keyword">weak</span>) <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>path;</span><br><span class="line"><span class="comment">// 保存历史栈</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">NSMutableArray</span> <span class="operator">*</span>pathArray;</span><br><span class="line"><span class="comment">// 移除保存栈</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">NSMutableArray</span> <span class="operator">*</span>removeArray;</span><br><span class="line"><span class="comment">// 当前绘制状态</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic) <span class="type">DBDrawboardDrawState</span> currentState;</span><br><span class="line"><span class="comment">// 正常绘制颜色</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>normalColor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">DBDrawboardView</span></span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)awakeFromNib &#123;</span><br><span class="line">    [<span class="keyword">super</span> awakeFromNib];</span><br><span class="line">    [<span class="keyword">self</span> initConfig];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (instancetype)initWithFrame:(<span class="type">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> <span class="operator">=</span> [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> initConfig];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化配置</span></span><br><span class="line"><span class="operator">-</span> (void)initConfig &#123;</span><br><span class="line">    <span class="comment">// 添加滑动手势</span></span><br><span class="line">    <span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>panGesture <span class="operator">=</span> [[<span class="type">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="meta">@selector</span>(panGestureEventHandle:)];</span><br><span class="line">    [<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置默认状态</span></span><br><span class="line">    <span class="keyword">self</span>.lineColor <span class="operator">=</span> [<span class="type">UIColor</span> blackColor];</span><br><span class="line">    <span class="keyword">self</span>.lineWidth <span class="operator">=</span> <span class="number">1.0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Public</span> <span class="type">Method</span></span><br><span class="line"><span class="comment">// 清空</span></span><br><span class="line"><span class="operator">-</span> (void)clear &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateClear</span>;</span><br><span class="line">    <span class="comment">// 防止橡皮擦状态直接清空后画笔还是白色</span></span><br><span class="line">    <span class="keyword">self</span>.lineColor <span class="operator">=</span> <span class="keyword">self</span>.normalColor;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.pathArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.pathArray removeAllObjects];</span><br><span class="line">        [<span class="keyword">self</span>.removeArray removeLastObject];</span><br><span class="line">        [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 撤销</span></span><br><span class="line"><span class="operator">-</span> (void)undo &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateUndo</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.pathArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 1.把最后一个路径移入到移除栈中</span></span><br><span class="line">        [<span class="keyword">self</span>.removeArray addObject:<span class="keyword">self</span>.pathArray.lastObject];</span><br><span class="line">        <span class="comment">// 2.把路径从当前栈中移除</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray removeLastObject];</span><br><span class="line">        <span class="comment">// 3.重绘</span></span><br><span class="line">        [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重做</span></span><br><span class="line"><span class="operator">-</span> (void)redo &#123;</span><br><span class="line">    <span class="comment">// 防止已经绘制，重做还是有数据</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.currentState <span class="operator">==</span> <span class="type">DBDrawboardDrawStateNormal</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.removeArray removeAllObjects];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateRedo</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.removeArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 1.把移除栈中的最后一个路径移入到当前栈中</span></span><br><span class="line">            [<span class="keyword">self</span>.pathArray addObject:<span class="keyword">self</span>.removeArray.lastObject];</span><br><span class="line">            <span class="comment">// 2.把路径从移除栈中移除</span></span><br><span class="line">            [<span class="keyword">self</span>.removeArray removeLastObject];</span><br><span class="line">            <span class="comment">// 3.重绘</span></span><br><span class="line">            [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 橡皮擦</span></span><br><span class="line"><span class="operator">-</span> (void)eraser &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateEraser</span>;</span><br><span class="line">    _lineColor <span class="operator">=</span> <span class="keyword">self</span>.backgroundColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Private</span> <span class="type">Method</span></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line"><span class="operator">-</span> (void)panGestureEventHandle:(<span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>)gesture &#123;</span><br><span class="line">    <span class="type">CGPoint</span> current_point <span class="operator">=</span> [gesture locationInView:gesture.view];</span><br><span class="line">    <span class="keyword">if</span> (gesture.state <span class="operator">==</span> <span class="type">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateNormal</span>;</span><br><span class="line">        <span class="comment">// 1.添加路径起点</span></span><br><span class="line">        <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>path <span class="operator">=</span> [<span class="type">DBDrawBezierPath</span> bezierPath];</span><br><span class="line">        [path moveToPoint:current_point];</span><br><span class="line">        <span class="comment">// 2.设置上下文状态</span></span><br><span class="line">        path.lineJoinStyle <span class="operator">=</span> kCGLineJoinRound;</span><br><span class="line">        path.lineCapStyle <span class="operator">=</span> kCGLineCapRound;</span><br><span class="line">        path.lineColor <span class="operator">=</span> <span class="keyword">self</span>.lineColor;</span><br><span class="line">        path.lineWidth <span class="operator">=</span> <span class="keyword">self</span>.lineWidth;</span><br><span class="line">        <span class="comment">// 3.记录当前操作路径</span></span><br><span class="line">        <span class="keyword">self</span>.path <span class="operator">=</span> path;</span><br><span class="line">        <span class="comment">// 4.保存到历史栈</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray addObject:path];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (gesture.state <span class="operator">==</span> <span class="type">UIGestureRecognizerStateChanged</span>) &#123;</span><br><span class="line">        <span class="comment">// 5.拼接曲线路径</span></span><br><span class="line">        [<span class="keyword">self</span>.path addLineToPoint:current_point];</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制</span></span><br><span class="line"><span class="operator">-</span> (void)drawRect:(<span class="type">CGRect</span>)rect &#123;</span><br><span class="line">    <span class="keyword">for</span> (id path <span class="keyword">in</span> <span class="keyword">self</span>.pathArray) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([path isKindOfClass:[<span class="type">DBDrawBezierPath</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>linePath <span class="operator">=</span> (<span class="type">DBDrawBezierPath</span> <span class="operator">*</span>)path;</span><br><span class="line">            [linePath.lineColor <span class="keyword">set</span>];</span><br><span class="line">            [linePath stroke];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([path isKindOfClass:[<span class="type">UIImage</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="type">UIImage</span> <span class="operator">*</span>image <span class="operator">=</span> (<span class="type">UIImage</span> <span class="operator">*</span>)path;</span><br><span class="line">            <span class="type">CGFloat</span> margin <span class="operator">=</span> <span class="number">30.0</span>;</span><br><span class="line">            [image drawInRect:<span class="type">CGRectMake</span>(margin, margin, rect.size.width<span class="operator">-</span>margin<span class="operator">*</span><span class="number">2</span>, rect.size.height<span class="operator">-</span>margin<span class="operator">*</span><span class="number">2</span>)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Setter</span> and <span class="type">Getter</span></span><br><span class="line"><span class="operator">-</span> (void)setLineColor:(<span class="type">UIColor</span> <span class="operator">*</span>)lineColor &#123;</span><br><span class="line">    _lineColor <span class="operator">=</span> lineColor;</span><br><span class="line">    <span class="keyword">self</span>.normalColor <span class="operator">=</span> lineColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">NSMutableArray</span> <span class="operator">*</span>)pathArray &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_pathArray) &#123;</span><br><span class="line">        _pathArray <span class="operator">=</span> [<span class="type">NSMutableArray</span> array];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _pathArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">NSMutableArray</span> <span class="operator">*</span>)removeArray &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_removeArray) &#123;</span><br><span class="line">        _removeArray <span class="operator">=</span> [<span class="type">NSMutableArray</span> array];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _removeArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">DBDrawBezierPath</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-10-保存"><a href="#1-10-保存" class="headerlink" title="1.10. 保存"></a>1.10. 保存</h3><p>把画板内容截屏保存到本地相册。</p>
+<p>注意：相册权限需要配置。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)save:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    <span class="comment">// 截屏</span></span><br><span class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(<span class="keyword">self</span>.drawboardView.bounds.size);</span><br><span class="line">    <span class="built_in">CGContextRef</span> ctx = <span class="built_in">UIGraphicsGetCurrentContext</span>();</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView.layer drawInContext:ctx];</span><br><span class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 保存到相册</span></span><br><span class="line">    <span class="built_in">UIImageWriteToSavedPhotosAlbum</span>(image, <span class="keyword">self</span>, <span class="keyword">@selector</span>(image:didFinishSavingWithError:contextInfo:), <span class="literal">nil</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 图片保存结果</span></span><br><span class="line">- (<span class="type">void</span>)image:(<span class="built_in">UIImage</span> *)image didFinishSavingWithError:(<span class="built_in">NSError</span> *)error contextInfo:(<span class="type">void</span> *)contextInfo &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;保存失败：%@&quot;</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;保存成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-11-添加照片"><a href="#1-11-添加照片" class="headerlink" title="1.11. 添加照片"></a>1.11. 添加照片</h3><p>照片可以缩小、平移、旋转等形变操作，使用自定义view装载图片，并把形变操作直接应用到这个view上会更好。</p>
+<p>如果直接把图片添加到画板上，将来绘制图片的时候图片就会和画板一样大，不是我们要的效果。如果我们把图片先放到一个和画板尺寸一样的透明view上，在这个透明view上进行形变操作，最后把透明view渲染到画板上就可以解决问题了。</p>
+<h4 id="1-11-1-自定义装载图片的view"><a href="#1-11-1-自定义装载图片的view" class="headerlink" title="1.11.1. 自定义装载图片的view"></a>1.11.1. 自定义装载图片的view</h4><p><strong><code>DBImageContainerView</code></strong></p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">// DBImageContainerView.h</span></span><br><span class="line"><span class="language-xml">@protocol DBImageContainerViewDelegate <span class="tag">&lt;<span class="name">NSObject</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">/**</span></span><br><span class="line"><span class="language-xml"> * 生成图片</span></span><br><span class="line"><span class="language-xml"> */</span></span><br><span class="line"><span class="language-xml">- (void)imageContainerViewForGenerateImage:(UIImage *)image;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@interface DBImageContainerView : UIView</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@property (nonatomic, strong) UIImage *image;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">// DBImageContainerView.m</span></span><br><span class="line"><span class="language-xml">#import &quot;DBImageContainerView.h&quot;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@interface DBImageContainerView ()<span class="tag">&lt;<span class="name">UIGestureRecognizerDelegate</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@property (nonatomic, strong) UIImageView *imageView;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@implementation DBImageContainerView</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">- (instancetype)initWithFrame:(CGRect)frame &#123;</span></span><br><span class="line"><span class="language-xml">    self = [super initWithFrame:frame];</span></span><br><span class="line"><span class="language-xml">    if (self) &#123;</span></span><br><span class="line"><span class="language-xml">        CGRect rect = </span><span class="template-variable">&#123;&#123;<span class="name">0</span>, <span class="number">0</span>&#125;, frame.size&#125;;</span></span><br><span class="line"><span class="template-variable">        self.imageView.frame = rect;</span></span><br><span class="line"><span class="template-variable">        [self addSubview:self.imageView];</span></span><br><span class="line"><span class="template-variable">        [self addGestures];</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">    return self;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)setImage:(<span class="name">UIImage</span> *)image &#123;</span></span><br><span class="line"><span class="template-variable">    _image = image;</span></span><br><span class="line"><span class="template-variable">    self.imageView.image = image;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 添加手势</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)addGestures &#123;</span></span><br><span class="line"><span class="template-variable">    // 拖拽</span></span><br><span class="line"><span class="template-variable">    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">panGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:panGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 捏合</span></span><br><span class="line"><span class="template-variable">    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">pinchGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    pinchGesture.delegate = self;</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:pinchGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 旋转</span></span><br><span class="line"><span class="template-variable">    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">rotationGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    rotationGesture.delegate = self;</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:rotationGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 长按</span></span><br><span class="line"><span class="template-variable">    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">longPressGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:longPressGesture];</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 拖动</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)panGesture:(<span class="name">UIPanGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    CGPoint translate_point = [gesture translationInView:gesture.view];</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformTranslate(<span class="name">gesture.view.transform</span>, translate_point.x, translate_point.y);</span></span><br><span class="line"><span class="template-variable">    [gesture setTranslation:CGPointZero inView:gesture.view];</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 捏合</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)pinchGesture:(<span class="name">UIPinchGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformScale(<span class="name">gesture.view.transform</span>, gesture.scale, gesture.scale);</span></span><br><span class="line"><span class="template-variable">    gesture.scale = <span class="number">1.0</span>;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 旋转</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)rotationGesture:(<span class="name">UIRotationGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformRotate(<span class="name">gesture.view.transform</span>, gesture.rotation);</span></span><br><span class="line"><span class="template-variable">    gesture.rotation = <span class="number">0.0</span>;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 长按</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)longPressGesture:(<span class="name">UILongPressGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    if (<span class="name">gesture.state</span> == UIGestureRecognizerStateBegan) &#123;</span></span><br><span class="line"><span class="template-variable">        [UIView animateWithDuration:0.25 animations:^&#123;</span></span><br><span class="line"><span class="template-variable">            self.imageView.alpha = 0;</span></span><br><span class="line"><span class="template-variable">        &#125; completion:^(BOOL finished) &#123;</span></span><br><span class="line"><span class="template-variable">            [UIView animateWithDuration:0.25 animations:^&#123;</span></span><br><span class="line"><span class="template-variable">                self.imageView.alpha = 1;</span></span><br><span class="line"><span class="template-variable">            &#125; completion:^(BOOL finished) &#123;</span></span><br><span class="line"><span class="template-variable">                // 截屏</span></span><br><span class="line"><span class="template-variable">                UIGraphicsBeginImageContext(self.bounds.size);</span></span><br><span class="line"><span class="template-variable">                CGContextRef ctx = UIGraphicsGetCurrentContext();</span></span><br><span class="line"><span class="template-variable">                [self.layer renderInContext:ctx];</span></span><br><span class="line"><span class="template-variable">                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span></span><br><span class="line"><span class="template-variable">                UIGraphicsEndImageContext();</span></span><br><span class="line"><span class="template-variable">                if (<span class="name">self.delegate</span> &amp;&amp; [self.delegate respondsToSelector:@selector(imageContainerViewForGenerateImage:)]) &#123;</span></span><br><span class="line"><span class="template-variable">                    [self.delegate imageContainerViewForGenerateImage:image];</span></span><br><span class="line"><span class="template-variable">                &#125;</span></span><br><span class="line"><span class="template-variable">                [self removeFromSuperview];</span></span><br><span class="line"><span class="template-variable">            &#125;];</span></span><br><span class="line"><span class="template-variable">        &#125;];</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">#pragma mark - UIGestureRecognizerDelegate</span></span><br><span class="line"><span class="template-variable">// 允许同时支持多个手势</span></span><br><span class="line"><span class="template-variable">- (<span class="name">BOOL</span>)gestureRecognizer:(<span class="name">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="name">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span></span><br><span class="line"><span class="template-variable">    return YES;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">#pragma mark - Setter and Getter</span></span><br><span class="line"><span class="template-variable">- (<span class="name">UIImageView</span> *)imageView &#123;</span></span><br><span class="line"><span class="template-variable">    if (!<span class="name">_imageView</span>) &#123;</span></span><br><span class="line"><span class="template-variable">        _imageView = [[UIImageView alloc] init];</span></span><br><span class="line"><span class="template-variable">        _imageView.userInteractionEnabled = YES;</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">    return _imageView;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">@end</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-11-2-渲染"><a href="#1-11-2-渲染" class="headerlink" title="1.11.2. 渲染"></a>1.11.2. 渲染</h4><p>在画板视图中绘制添加的图片<br><strong><code>DBImageContainerView.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加照片</span></span><br><span class="line">- (<span class="type">void</span>)addPhoto:(<span class="built_in">UIImage</span> *)image &#123;</span><br><span class="line">    DBImageContainerView *imageContainerView = [[DBImageContainerView alloc] initWithFrame:<span class="keyword">self</span>.bounds];</span><br><span class="line">    imageContainerView.delegate = <span class="keyword">self</span>;</span><br><span class="line">    imageContainerView.image = image;</span><br><span class="line">    [<span class="keyword">self</span> addSubview:imageContainerView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - DBImageContainerViewDelegate</span></span><br><span class="line"><span class="comment">// 生成图片</span></span><br><span class="line">- (<span class="type">void</span>)imageContainerViewForGenerateImage:(<span class="built_in">UIImage</span> *)image &#123;</span><br><span class="line">    [<span class="keyword">self</span>.pathArray addObject:image];</span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、完整代码及效果"><a href="#二、完整代码及效果" class="headerlink" title="二、完整代码及效果"></a>二、完整代码及效果</h2><p><img src="http://blog.idbeny.com/6rs9g.gif@normal"></p>
+<p><strong><code>ViewController.m</code></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;ViewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;DBDrawboardView.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">UIImagePickerControllerDelegate</span>, <span class="title">UINavigationControllerDelegate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 画板</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> DBDrawboardView *drawboardView;</span><br><span class="line"><span class="comment">// 当前选中的按钮</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>) <span class="built_in">UIButton</span> *currentBtn;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> <span class="built_in">UIButton</span> *firstBtn;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span>.currentBtn = <span class="keyword">self</span>.firstBtn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 清空</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)clear:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView clear];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 撤销</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)undo:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView undo];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重做</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)redo:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView redo];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 橡皮擦</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)eraser:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView eraser];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 照片</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)photos:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    <span class="built_in">UIImagePickerController</span> *pickerVC = [[<span class="built_in">UIImagePickerController</span> alloc] init];</span><br><span class="line">    pickerVC.sourceType = <span class="built_in">UIImagePickerControllerSourceTypeSavedPhotosAlbum</span>;</span><br><span class="line">    pickerVC.delegate = <span class="keyword">self</span>;</span><br><span class="line">    [<span class="keyword">self</span> presentViewController:pickerVC animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 保存</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)save:(<span class="type">id</span>)sender &#123;</span><br><span class="line">    <span class="comment">// 截屏</span></span><br><span class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(<span class="keyword">self</span>.drawboardView.bounds.size);</span><br><span class="line">    <span class="built_in">CGContextRef</span> ctx = <span class="built_in">UIGraphicsGetCurrentContext</span>();</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView.layer drawInContext:ctx];</span><br><span class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 保存到相册</span></span><br><span class="line">    <span class="built_in">UIImageWriteToSavedPhotosAlbum</span>(image, <span class="keyword">self</span>, <span class="keyword">@selector</span>(image:didFinishSavingWithError:contextInfo:), <span class="literal">nil</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 图片保存结果</span></span><br><span class="line">- (<span class="type">void</span>)image:(<span class="built_in">UIImage</span> *)image didFinishSavingWithError:(<span class="built_in">NSError</span> *)error contextInfo:(<span class="type">void</span> *)contextInfo &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;保存失败：%@&quot;</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;保存成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改颜色</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)colorChanged:(<span class="built_in">UIButton</span> *)sender &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentBtn = sender;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改线宽</span></span><br><span class="line">- (<span class="keyword">IBAction</span>)lineWidthChanged:(<span class="built_in">UISlider</span> *)sender &#123;</span><br><span class="line">    <span class="keyword">self</span>.drawboardView.lineWidth = sender.value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - UIImagePickerControllerDelegate</span></span><br><span class="line"><span class="comment">// 图片选择完成</span></span><br><span class="line">- (<span class="type">void</span>)imagePickerController:(<span class="built_in">UIImagePickerController</span> *)picker didFinishPickingMediaWithInfo:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">UIImagePickerControllerInfoKey</span>,<span class="type">id</span>&gt; *)info &#123;</span><br><span class="line">    <span class="built_in">UIImage</span> *image = info[<span class="built_in">UIImagePickerControllerOriginalImage</span>];</span><br><span class="line">    [<span class="keyword">self</span>.drawboardView addPhoto:image];</span><br><span class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - Setter and Getter</span></span><br><span class="line">- (<span class="type">void</span>)setCurrentBtn:(<span class="built_in">UIButton</span> *)currentBtn &#123;</span><br><span class="line">    <span class="keyword">if</span> (![_currentBtn isEqual:currentBtn]) &#123;</span><br><span class="line">        _currentBtn.transform = <span class="built_in">CGAffineTransformIdentity</span>;</span><br><span class="line">        currentBtn.transform = <span class="built_in">CGAffineTransformMakeScale</span>(<span class="number">1.2</span>, <span class="number">1.2</span>);</span><br><span class="line">        _currentBtn = currentBtn;</span><br><span class="line">        <span class="keyword">self</span>.drawboardView.lineColor = currentBtn.backgroundColor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">BOOL</span>)prefersStatusBarHidden &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBDrawboardView</code></strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DBDrawboardView.h</span></span><br><span class="line">typedef <span class="type">NS_ENUM</span>(<span class="type">NSUInteger</span>, <span class="type">DBDrawboardDrawState</span>) &#123;</span><br><span class="line">    <span class="type">DBDrawboardDrawStateNormal</span>, <span class="comment">// 普通绘制</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateClear</span>, <span class="comment">// 清空</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateUndo</span>, <span class="comment">// 撤销</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateRedo</span>, <span class="comment">// 重做</span></span><br><span class="line">    <span class="type">DBDrawboardDrawStateEraser</span> <span class="comment">// 橡皮擦</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawboardView</span> : <span class="type">UIView</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 线宽，默认1.0</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic) <span class="type">CGFloat</span> lineWidth;</span><br><span class="line"><span class="comment">// 颜色，默认黑色</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>lineColor;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 清除</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)clear;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 撤销</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)undo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 重做</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)redo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 橡皮擦</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)eraser;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 添加图片</span></span><br><span class="line"><span class="comment"> * @param image 图片</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="operator">-</span> (void)addPhoto:(<span class="type">UIImage</span> <span class="operator">*</span>)image;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawBezierPath</span> : <span class="type">UIBezierPath</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>lineColor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DBDrawboardView.m</span></span><br><span class="line">#<span class="keyword">import</span> &quot;DBDrawboardView.h&quot;</span><br><span class="line">#<span class="keyword">import</span> &quot;DBImageContainerView.h&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">@interface</span> <span class="type">DBDrawboardView</span> ()<span class="operator">&lt;</span><span class="type">DBImageContainerViewDelegate</span><span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录当前操作路径</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, <span class="keyword">weak</span>) <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>path;</span><br><span class="line"><span class="comment">// 保存历史栈</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">NSMutableArray</span> <span class="operator">*</span>pathArray;</span><br><span class="line"><span class="comment">// 移除保存栈</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">NSMutableArray</span> <span class="operator">*</span>removeArray;</span><br><span class="line"><span class="comment">// 当前绘制状态</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic) <span class="type">DBDrawboardDrawState</span> currentState;</span><br><span class="line"><span class="comment">// 正常绘制颜色</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIColor</span> <span class="operator">*</span>normalColor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">DBDrawboardView</span></span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)awakeFromNib &#123;</span><br><span class="line">    [<span class="keyword">super</span> awakeFromNib];</span><br><span class="line">    [<span class="keyword">self</span> initConfig];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (instancetype)initWithFrame:(<span class="type">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> <span class="operator">=</span> [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> initConfig];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化配置</span></span><br><span class="line"><span class="operator">-</span> (void)initConfig &#123;</span><br><span class="line">    <span class="keyword">self</span>.clipsToBounds <span class="operator">=</span> <span class="type">YES</span>;</span><br><span class="line">    <span class="comment">// 添加滑动手势</span></span><br><span class="line">    <span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>panGesture <span class="operator">=</span> [[<span class="type">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="meta">@selector</span>(panGestureEventHandle:)];</span><br><span class="line">    [<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置默认状态</span></span><br><span class="line">    <span class="keyword">self</span>.lineColor <span class="operator">=</span> [<span class="type">UIColor</span> blackColor];</span><br><span class="line">    <span class="keyword">self</span>.lineWidth <span class="operator">=</span> <span class="number">1.0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Public</span> <span class="type">Method</span></span><br><span class="line"><span class="comment">// 清空</span></span><br><span class="line"><span class="operator">-</span> (void)clear &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateClear</span>;</span><br><span class="line">    <span class="comment">// 防止橡皮擦状态直接清空后画笔还是白色</span></span><br><span class="line">    <span class="keyword">self</span>.lineColor <span class="operator">=</span> <span class="keyword">self</span>.normalColor;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.pathArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.pathArray removeAllObjects];</span><br><span class="line">        [<span class="keyword">self</span>.removeArray removeLastObject];</span><br><span class="line">        [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 撤销</span></span><br><span class="line"><span class="operator">-</span> (void)undo &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateUndo</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.pathArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 1.把最后一个路径移入到移除栈中</span></span><br><span class="line">        [<span class="keyword">self</span>.removeArray addObject:<span class="keyword">self</span>.pathArray.lastObject];</span><br><span class="line">        <span class="comment">// 2.把路径从当前栈中移除</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray removeLastObject];</span><br><span class="line">        <span class="comment">// 3.重绘</span></span><br><span class="line">        [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重做</span></span><br><span class="line"><span class="operator">-</span> (void)redo &#123;</span><br><span class="line">    <span class="comment">// 防止已经绘制，重做还是有数据</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.currentState <span class="operator">==</span> <span class="type">DBDrawboardDrawStateNormal</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.removeArray removeAllObjects];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateRedo</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.removeArray.count <span class="operator">!=</span> <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 1.把移除栈中的最后一个路径移入到当前栈中</span></span><br><span class="line">            [<span class="keyword">self</span>.pathArray addObject:<span class="keyword">self</span>.removeArray.lastObject];</span><br><span class="line">            <span class="comment">// 2.把路径从移除栈中移除</span></span><br><span class="line">            [<span class="keyword">self</span>.removeArray removeLastObject];</span><br><span class="line">            <span class="comment">// 3.重绘</span></span><br><span class="line">            [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 橡皮擦</span></span><br><span class="line"><span class="operator">-</span> (void)eraser &#123;</span><br><span class="line">    <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateEraser</span>;</span><br><span class="line">    _lineColor <span class="operator">=</span> <span class="keyword">self</span>.backgroundColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加照片</span></span><br><span class="line"><span class="operator">-</span> (void)addPhoto:(<span class="type">UIImage</span> <span class="operator">*</span>)image &#123;</span><br><span class="line">    <span class="type">DBImageContainerView</span> <span class="operator">*</span>imageContainerView <span class="operator">=</span> [[<span class="type">DBImageContainerView</span> alloc] initWithFrame:<span class="keyword">self</span>.bounds];</span><br><span class="line">    imageContainerView.delegate <span class="operator">=</span> <span class="keyword">self</span>;</span><br><span class="line">    imageContainerView.image <span class="operator">=</span> image;</span><br><span class="line">    [<span class="keyword">self</span> addSubview:imageContainerView];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">DBImageContainerViewDelegate</span></span><br><span class="line"><span class="comment">// 生成图片</span></span><br><span class="line"><span class="operator">-</span> (void)imageContainerViewForGenerateImage:(<span class="type">UIImage</span> <span class="operator">*</span>)image &#123;</span><br><span class="line">    [<span class="keyword">self</span>.pathArray addObject:image];</span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Private</span> <span class="type">Method</span></span><br><span class="line"><span class="comment">// 滑动手势事件处理</span></span><br><span class="line"><span class="operator">-</span> (void)panGestureEventHandle:(<span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>)gesture &#123;</span><br><span class="line">    <span class="type">CGPoint</span> current_point <span class="operator">=</span> [gesture locationInView:gesture.view];</span><br><span class="line">    <span class="keyword">if</span> (gesture.state <span class="operator">==</span> <span class="type">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.currentState <span class="operator">=</span> <span class="type">DBDrawboardDrawStateNormal</span>;</span><br><span class="line">        <span class="comment">// 1.添加路径起点</span></span><br><span class="line">        <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>path <span class="operator">=</span> [<span class="type">DBDrawBezierPath</span> bezierPath];</span><br><span class="line">        [path moveToPoint:current_point];</span><br><span class="line">        <span class="comment">// 2.设置上下文状态</span></span><br><span class="line">        path.lineJoinStyle <span class="operator">=</span> kCGLineJoinRound;</span><br><span class="line">        path.lineCapStyle <span class="operator">=</span> kCGLineCapRound;</span><br><span class="line">        path.lineColor <span class="operator">=</span> <span class="keyword">self</span>.lineColor;</span><br><span class="line">        path.lineWidth <span class="operator">=</span> <span class="keyword">self</span>.lineWidth;</span><br><span class="line">        <span class="comment">// 3.记录当前操作路径</span></span><br><span class="line">        <span class="keyword">self</span>.path <span class="operator">=</span> path;</span><br><span class="line">        <span class="comment">// 4.保存到历史栈</span></span><br><span class="line">        [<span class="keyword">self</span>.pathArray addObject:path];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (gesture.state <span class="operator">==</span> <span class="type">UIGestureRecognizerStateChanged</span>) &#123;</span><br><span class="line">        <span class="comment">// 5.拼接曲线路径</span></span><br><span class="line">        [<span class="keyword">self</span>.path addLineToPoint:current_point];</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span> setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制</span></span><br><span class="line"><span class="operator">-</span> (void)drawRect:(<span class="type">CGRect</span>)rect &#123;</span><br><span class="line">    <span class="keyword">for</span> (id path <span class="keyword">in</span> <span class="keyword">self</span>.pathArray) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([path isKindOfClass:[<span class="type">DBDrawBezierPath</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="type">DBDrawBezierPath</span> <span class="operator">*</span>linePath <span class="operator">=</span> (<span class="type">DBDrawBezierPath</span> <span class="operator">*</span>)path;</span><br><span class="line">            [linePath.lineColor <span class="keyword">set</span>];</span><br><span class="line">            [linePath stroke];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([path isKindOfClass:[<span class="type">UIImage</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="type">UIImage</span> <span class="operator">*</span>image <span class="operator">=</span> (<span class="type">UIImage</span> <span class="operator">*</span>)path;</span><br><span class="line">            <span class="type">CGFloat</span> margin <span class="operator">=</span> <span class="number">30.0</span>;</span><br><span class="line">            [image drawInRect:<span class="type">CGRectMake</span>(margin, margin, rect.size.width<span class="operator">-</span>margin<span class="operator">*</span><span class="number">2</span>, rect.size.height<span class="operator">-</span>margin<span class="operator">*</span><span class="number">2</span>)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Setter</span> and <span class="type">Getter</span></span><br><span class="line"><span class="operator">-</span> (void)setLineColor:(<span class="type">UIColor</span> <span class="operator">*</span>)lineColor &#123;</span><br><span class="line">    _lineColor <span class="operator">=</span> lineColor;</span><br><span class="line">    <span class="keyword">self</span>.normalColor <span class="operator">=</span> lineColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">NSMutableArray</span> <span class="operator">*</span>)pathArray &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_pathArray) &#123;</span><br><span class="line">        _pathArray <span class="operator">=</span> [<span class="type">NSMutableArray</span> array];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _pathArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">NSMutableArray</span> <span class="operator">*</span>)removeArray &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_removeArray) &#123;</span><br><span class="line">        _removeArray <span class="operator">=</span> [<span class="type">NSMutableArray</span> array];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _removeArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">DBDrawBezierPath</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>DBImageContainerView</code></strong></p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">// DBImageContainerView.h</span></span><br><span class="line"><span class="language-xml">#import &lt;UIKit/UIKit.h&gt;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@protocol DBImageContainerViewDelegate <span class="tag">&lt;<span class="name">NSObject</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">/**</span></span><br><span class="line"><span class="language-xml"> * 生成图片</span></span><br><span class="line"><span class="language-xml"> */</span></span><br><span class="line"><span class="language-xml">- (void)imageContainerViewForGenerateImage:(UIImage *)image;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@interface DBImageContainerView : UIView</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@property (nonatomic, weak) id<span class="tag">&lt;<span class="name">DBImageContainerViewDelegate</span>&gt;</span> delegate;</span></span><br><span class="line"><span class="language-xml">@property (nonatomic, strong) UIImage *image;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">// DBImageContainerView.m</span></span><br><span class="line"><span class="language-xml">#import &quot;DBImageContainerView.h&quot;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@interface DBImageContainerView ()<span class="tag">&lt;<span class="name">UIGestureRecognizerDelegate</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@property (nonatomic, strong) UIImageView *imageView;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@end</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">@implementation DBImageContainerView</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">- (instancetype)initWithFrame:(CGRect)frame &#123;</span></span><br><span class="line"><span class="language-xml">    self = [super initWithFrame:frame];</span></span><br><span class="line"><span class="language-xml">    if (self) &#123;</span></span><br><span class="line"><span class="language-xml">        CGRect rect = </span><span class="template-variable">&#123;&#123;<span class="name">0</span>, <span class="number">0</span>&#125;, frame.size&#125;;</span></span><br><span class="line"><span class="template-variable">        self.imageView.frame = rect;</span></span><br><span class="line"><span class="template-variable">        [self addSubview:self.imageView];</span></span><br><span class="line"><span class="template-variable">        [self addGestures];</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">    return self;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)setImage:(<span class="name">UIImage</span> *)image &#123;</span></span><br><span class="line"><span class="template-variable">    _image = image;</span></span><br><span class="line"><span class="template-variable">    self.imageView.image = image;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 添加手势</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)addGestures &#123;</span></span><br><span class="line"><span class="template-variable">    // 拖拽</span></span><br><span class="line"><span class="template-variable">    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">panGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:panGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 捏合</span></span><br><span class="line"><span class="template-variable">    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">pinchGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    pinchGesture.delegate = self;</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:pinchGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 旋转</span></span><br><span class="line"><span class="template-variable">    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">rotationGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    rotationGesture.delegate = self;</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:rotationGesture];</span></span><br><span class="line"><span class="template-variable">    </span></span><br><span class="line"><span class="template-variable">    // 长按</span></span><br><span class="line"><span class="template-variable">    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(<span class="name">longPressGesture:</span>)];</span></span><br><span class="line"><span class="template-variable">    [self.imageView addGestureRecognizer:longPressGesture];</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 拖动</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)panGesture:(<span class="name">UIPanGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    CGPoint translate_point = [gesture translationInView:gesture.view];</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformTranslate(<span class="name">gesture.view.transform</span>, translate_point.x, translate_point.y);</span></span><br><span class="line"><span class="template-variable">    [gesture setTranslation:CGPointZero inView:gesture.view];</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 捏合</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)pinchGesture:(<span class="name">UIPinchGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformScale(<span class="name">gesture.view.transform</span>, gesture.scale, gesture.scale);</span></span><br><span class="line"><span class="template-variable">    gesture.scale = <span class="number">1.0</span>;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 旋转</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)rotationGesture:(<span class="name">UIRotationGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    gesture.view.transform = CGAffineTransformRotate(<span class="name">gesture.view.transform</span>, gesture.rotation);</span></span><br><span class="line"><span class="template-variable">    gesture.rotation = <span class="number">0.0</span>;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">// 长按</span></span><br><span class="line"><span class="template-variable">- (<span class="name">void</span>)longPressGesture:(<span class="name">UILongPressGestureRecognizer</span> *)gesture &#123;</span></span><br><span class="line"><span class="template-variable">    if (<span class="name">gesture.state</span> == UIGestureRecognizerStateBegan) &#123;</span></span><br><span class="line"><span class="template-variable">        [UIView animateWithDuration:0.0 animations:^&#123;</span></span><br><span class="line"><span class="template-variable">//            self.imageView.alpha = 0;</span></span><br><span class="line"><span class="template-variable">        &#125; completion:^(BOOL finished) &#123;</span></span><br><span class="line"><span class="template-variable">            [UIView animateWithDuration:0.0 animations:^&#123;</span></span><br><span class="line"><span class="template-variable">//                self.imageView.alpha = 1;</span></span><br><span class="line"><span class="template-variable">            &#125; completion:^(BOOL finished) &#123;</span></span><br><span class="line"><span class="template-variable">                // 截屏</span></span><br><span class="line"><span class="template-variable">                UIGraphicsBeginImageContext(self.bounds.size);</span></span><br><span class="line"><span class="template-variable">                CGContextRef ctx = UIGraphicsGetCurrentContext();</span></span><br><span class="line"><span class="template-variable">                [self.layer renderInContext:ctx];</span></span><br><span class="line"><span class="template-variable">                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span></span><br><span class="line"><span class="template-variable">                UIGraphicsEndImageContext();</span></span><br><span class="line"><span class="template-variable">                if (<span class="name">self.delegate</span> &amp;&amp; [self.delegate respondsToSelector:@selector(imageContainerViewForGenerateImage:)]) &#123;</span></span><br><span class="line"><span class="template-variable">                    [self.delegate imageContainerViewForGenerateImage:image];</span></span><br><span class="line"><span class="template-variable">                &#125;</span></span><br><span class="line"><span class="template-variable">                [self removeFromSuperview];</span></span><br><span class="line"><span class="template-variable">            &#125;];</span></span><br><span class="line"><span class="template-variable">        &#125;];</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">#pragma mark - UIGestureRecognizerDelegate</span></span><br><span class="line"><span class="template-variable">// 允许同时支持多个手势</span></span><br><span class="line"><span class="template-variable">- (<span class="name">BOOL</span>)gestureRecognizer:(<span class="name">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="name">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span></span><br><span class="line"><span class="template-variable">    return YES;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">#pragma mark - Setter and Getter</span></span><br><span class="line"><span class="template-variable">- (<span class="name">UIImageView</span> *)imageView &#123;</span></span><br><span class="line"><span class="template-variable">    if (!<span class="name">_imageView</span>) &#123;</span></span><br><span class="line"><span class="template-variable">        _imageView = [[UIImageView alloc] init];</span></span><br><span class="line"><span class="template-variable">        _imageView.userInteractionEnabled = YES;</span></span><br><span class="line"><span class="template-variable">    &#125;</span></span><br><span class="line"><span class="template-variable">    return _imageView;</span></span><br><span class="line"><span class="template-variable">&#125;</span></span><br><span class="line"><span class="template-variable"></span></span><br><span class="line"><span class="template-variable">@end</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2016/10/06/ios-quartz2d-drawboard/" title="【iOS】Quartz 2D之画板">http://idbeny.com/2016/10/06/ios-quartz2d-drawboard/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Quartz2D/" rel="tag"># Quartz2D</a>
+          
+            <a href="/tags/UIBezierPath/" rel="tag"># UIBezierPath</a>
+          
+            <a href="/tags/%E7%94%BB%E6%9D%BF/" rel="tag"># 画板</a>
+          
+            <a href="/tags/%E6%B6%82%E9%B8%A6/" rel="tag"># 涂鸦</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/13/ios-quartz2d-image/" rel="next" title="【iOS】Quartz 2D之图片添加水印、裁剪、截屏">
+                <i class="fa fa-chevron-left"></i> 【iOS】Quartz 2D之图片添加水印、裁剪、截屏
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/19/ios-quartz2d-gesturelock/" rel="prev" title="【iOS】Quartz 2D之手势解锁">
+                【iOS】Quartz 2D之手势解锁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">一、功能开发流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-UI%E4%BD%BF%E7%94%A8storyboard%E8%BF%9B%E8%A1%8C%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. UI使用storyboard进行快速搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%98%E5%9B%BE%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 自定义绘图区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%9F%BA%E6%9C%AC%E7%BA%BF%E6%9D%A1%E7%BB%98%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 基本线条绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%B7%AF%E5%BE%84%E6%A0%88"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 路径栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E8%AE%BE%E7%BD%AE%E9%A2%9C%E8%89%B2%E5%92%8C%E7%BA%BF%E5%AE%BD"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 设置颜色和线宽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E6%A9%A1%E7%9A%AE%E6%93%A6"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 橡皮擦</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-%E6%B8%85%E7%A9%BA"><span class="nav-number">1.7.</span> <span class="nav-text">1.7. 清空</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-%E6%92%A4%E5%9B%9E%E5%92%8C%E9%87%8D%E5%81%9A"><span class="nav-number">1.8.</span> <span class="nav-text">1.8. 撤回和重做</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%A4%E5%9B%9E"><span class="nav-number">1.8.1.</span> <span class="nav-text">撤回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%81%9A"><span class="nav-number">1.8.2.</span> <span class="nav-text">重做</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9-%E4%BC%98%E5%8C%96"><span class="nav-number">1.9.</span> <span class="nav-text">1.9. 优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-10-%E4%BF%9D%E5%AD%98"><span class="nav-number">1.10.</span> <span class="nav-text">1.10. 保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-11-%E6%B7%BB%E5%8A%A0%E7%85%A7%E7%89%87"><span class="nav-number">1.11.</span> <span class="nav-text">1.11. 添加照片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-11-1-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A3%85%E8%BD%BD%E5%9B%BE%E7%89%87%E7%9A%84view"><span class="nav-number">1.11.1.</span> <span class="nav-text">1.11.1. 自定义装载图片的view</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-11-2-%E6%B8%B2%E6%9F%93"><span class="nav-number">1.11.2.</span> <span class="nav-text">1.11.2. 渲染</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E5%8F%8A%E6%95%88%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">二、完整代码及效果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

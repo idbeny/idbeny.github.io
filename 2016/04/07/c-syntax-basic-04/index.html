@@ -1,38 +1,1533 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C,if,switch,while,do-while,for,goto,流程控制," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="流程控制在开发中必然会用到，其实高中数学也会讲流程控制，但仅仅是初级阶段。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【C】C系列四 - 流程控制">
+<meta property="og:url" content="http://idbeny.com/2016/04/07/c-syntax-basic-04/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="流程控制在开发中必然会用到，其实高中数学也会讲流程控制，但仅仅是初级阶段。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/wst8x.png@normal">
+<meta property="article:published_time" content="2016-04-07T14:50:18.000Z">
+<meta property="article:modified_time" content="2020-11-27T12:12:19.705Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="if">
+<meta property="article:tag" content="switch">
+<meta property="article:tag" content="while">
+<meta property="article:tag" content="do-while">
+<meta property="article:tag" content="for">
+<meta property="article:tag" content="goto">
+<meta property="article:tag" content="流程控制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/wst8x.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2016/04/07/c-syntax-basic-04/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【C】C系列四 - 流程控制 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2016/04/07/c-syntax-basic-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【C】C系列四 - 流程控制</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-07T22:50:18+08:00">
+                2016-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  6.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  28 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>流程控制在开发中必然会用到，其实高中数学也会讲流程控制，但仅仅是初级阶段。</p>
+<span id="more"></span>
+
+<h2 id="一、流程控制"><a href="#一、流程控制" class="headerlink" title="一、流程控制"></a>一、流程控制</h2><p>按照执行流程的不同，可以将平时编写的代码分为 3 大结构：</p>
+<ul>
+<li>顺序结构：默认的流程结构，按照代码的书写顺序执行每一句代码</li>
+<li>选择结构：根据表达式的真假性，决定执行哪一段代码</li>
+<li>循环结构：在表达式为真的情况下，重复执行某一段代码</li>
+</ul>
+<h3 id="1-1-顺序结构"><a href="#1-1-顺序结构" class="headerlink" title="1.1. 顺序结构"></a>1.1. 顺序结构</h3><p>无论执行多少次<code>main</code>函数，打印结果都是顺序执行：1234</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;3&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;4&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-选择结构"><a href="#1-2-选择结构" class="headerlink" title="1.2. 选择结构"></a>1.2. 选择结构</h3><ul>
+<li><code>if</code>语句</li>
+<li><code>if-else</code>语句</li>
+<li><code>else if</code>语句</li>
+<li><code>switch</code>语句</li>
+</ul>
+<h3 id="1-3-循环结构"><a href="#1-3-循环结构" class="headerlink" title="1.3. 循环结构"></a>1.3. 循环结构</h3><ul>
+<li><code>while</code>语句</li>
+<li><code>do-while</code>语句</li>
+<li><code>for</code>语句</li>
+</ul>
+<h2 id="二、选择结构"><a href="#二、选择结构" class="headerlink" title="二、选择结构"></a>二、选择结构</h2><h3 id="2-1-if-语句"><a href="#2-1-if-语句" class="headerlink" title="2.1. if 语句"></a>2.1. if 语句</h3><p>格式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">代码<span class="number">1</span><span class="comment">;</span></span><br><span class="line"></span><br><span class="line">if (表达式) &#123;</span><br><span class="line">  代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">代码<span class="number">3</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>如果表达式为假，不会执行大括号中的代码 2；</li>
+<li>如果表达式为真，就会执行大括号中的代码 2。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;请输入本次考试成绩：&quot;</span>);</span><br><span class="line"><span class="type">int</span> score;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;score);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;表现优秀\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;加油\n&quot;</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：请输入本次考试成绩：30</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    加油</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：请输入本次考试成绩：90</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    表现优秀</span></span><br><span class="line"><span class="comment">    加油</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-if-else-语句"><a href="#2-2-if-else-语句" class="headerlink" title="2.2. if-else 语句"></a>2.2. if-else 语句</h3><p>格式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">代码<span class="number">1</span><span class="comment">;</span></span><br><span class="line"></span><br><span class="line">if (表达式) &#123;</span><br><span class="line">  代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">  代码<span class="number">3</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">代码<span class="number">4</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>如果表达式为真，就会执行代码 2，不会执行代码 3；</li>
+<li>如果表达式为假，就会执行代码 3，不会执行代码 1。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;请输入本次考试成绩：&quot;</span>);</span><br><span class="line"><span class="type">int</span> score;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;score);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;表现优秀\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;再接再厉\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;加油\n&quot;</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：请输入本次考试成绩：30</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    再接再厉</span></span><br><span class="line"><span class="comment">    加油</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：请输入本次考试成绩：90</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    表现优秀</span></span><br><span class="line"><span class="comment">    加油</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-if-语句-和-if-else-语句"><a href="#2-3-if-语句-和-if-else-语句" class="headerlink" title="2.3. if 语句 和 if-else 语句"></a>2.3. if 语句 和 if-else 语句</h3><p>案例一：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">80</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">80</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;表现优秀&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    printf(<span class="string">&quot;再接再厉&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">// 输出：表现优秀</span><br></pre></td></tr></table></figure>
+
+<p>案例二：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">80</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">80</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;表现优秀&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">if (score &lt; <span class="number">80</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;再接再厉&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">// 输出：再接再厉</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>案例一的代码更简洁，省掉了不必要的判断（案例二的<code>score &lt; 80</code>）；</li>
+<li>案例一的代码执行效率更高，只需要进行 1 次表达式判断；</li>
+<li>案例二的代码需要进行 2 次表达式判断；<ul>
+<li><code>score &gt;= 80</code></li>
+<li><code>score &lt; 80</code></li>
+</ul>
+</li>
+<li>所以推荐使用案例一。</li>
+</ul>
+<h3 id="2-4-else-if-语句"><a href="#2-4-else-if-语句" class="headerlink" title="2.4. else if 语句"></a>2.4. else if 语句</h3><p>格式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if (表达式<span class="number">1</span>) &#123;</span><br><span class="line">  代码<span class="number">1</span><span class="comment">;</span></span><br><span class="line">&#125; else if (表达式<span class="number">2</span>) &#123;</span><br><span class="line">  代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">&#125; else if (表达式<span class="number">3</span>) &#123;</span><br><span class="line">  代码<span class="number">3</span><span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">  代码<span class="number">4</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">代码<span class="number">5</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表达式对应的大括号代码是一一对应的，如果表达式成立，就执行大括号中的代码（不会再判断后面的表达式），否则进入下一个表达式判断；</li>
+<li>应该把小范围写在前面，大范围写在后面，否则就永远不会进入后面的表达式判断。</li>
+</ul>
+<p>案例：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">80</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else if (score &gt;<span class="operator">=</span> <span class="number">80</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;良\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else if (score &gt;<span class="operator">=</span> <span class="number">60</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;中\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    printf(<span class="string">&quot;差\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">// 输出：良</span><br><span class="line"></span><br><span class="line">// 下面的代码永远不会进入score &gt;<span class="operator">=</span> <span class="number">80</span>和score &gt;<span class="operator">=</span> <span class="number">90</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">60</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;中\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else if (score &gt;<span class="operator">=</span> <span class="number">80</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;良\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else if (score &gt;<span class="operator">=</span> <span class="number">90</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    printf(<span class="string">&quot;差\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">// 输出：中</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-if-语句-和-else-if-语句"><a href="#2-5-if-语句-和-else-if-语句" class="headerlink" title="2.5. if 语句 和 else if 语句"></a>2.5. if 语句 和 else if 语句</h3><p>案例一：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">80</span>;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">90</span>) &#123; <span class="comment">// 范围：[90, +∞)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score &gt;= <span class="number">80</span>) &#123; <span class="comment">// 范围：[80, 90)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;良\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score &gt;= <span class="number">60</span>) &#123; <span class="comment">// 范围：[60, 80)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; <span class="comment">// 范围：(-∞, 60)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;差\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：良</span></span><br><span class="line"><span class="comment">  分析：</span></span><br><span class="line"><span class="comment">    1.判断score &gt;= 90，不符合条件（即条件为假），进入下一个判断</span></span><br><span class="line"><span class="comment">    2.判断score &gt;= 80，符合条件（即条件为真），输出：良，不再执行该流程结构（即其他条件不再判断）</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>案例二：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">80</span>;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">90</span>) &#123; <span class="comment">// 范围：[90, +∞)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">80</span>) &#123; <span class="comment">// 范围：[80, +∞)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;良\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">60</span>) &#123; <span class="comment">// 范围：[60, +∞)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (score &lt; <span class="number">60</span>) &#123; <span class="comment">// 范围：(-∞, 60)</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;差\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出：良 中</span></span><br><span class="line"><span class="comment">分析：</span></span><br><span class="line"><span class="comment">    1.判断score &gt;= 90，不符合条件（即条件为假），顺序执行代码</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    2.判断score &gt;= 80，符合条件（即条件为真），输出：良，顺序执行代码</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    3.判断score &gt;= 60，符合条件（即条件为真），输出：中，顺序执行代码</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    4.判断score &lt; 60，不符合条件（即条件为假），顺序执行代码</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>案例三：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">int <span class="built_in">num</span> = <span class="number">0</span>;</span><br><span class="line">scanf(<span class="string">&quot;%d&quot;</span>, &amp;<span class="built_in">num</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">num</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;正数\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">num</span> == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;自然数\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;负数\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">num</span> &amp; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;奇数\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;偶数\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：8</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    正数</span></span><br><span class="line"><span class="comment">    偶数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：11</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    正数</span></span><br><span class="line"><span class="comment">    奇数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：-12</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    负数</span></span><br><span class="line"><span class="comment">    偶数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：0</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    自然数</span></span><br><span class="line"><span class="comment">    偶数</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>三个案例比较后发现，如果判断体是互斥且单一的，用<code>else if</code>，如果需要多个判断体验证多套逻辑，就用<code>if</code>。</p>
+<h3 id="2-6-表达式的等价性"><a href="#2-6-表达式的等价性" class="headerlink" title="2.6. 表达式的等价性"></a>2.6. 表达式的等价性</h3><p><img src="http://blog.idbeny.com/wst8x.png@normal"></p>
+<p>案例一：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">90</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">90</span> &lt;=score &amp;&amp; score &lt;= <span class="number">100</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优秀&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;其他&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：优秀</span></span><br></pre></td></tr></table></figure>
+
+<p>案例二：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">90</span>;</span><br><span class="line"><span class="keyword">if</span> (!(<span class="number">90</span> &lt;=score &amp;&amp; score &lt;= <span class="number">100</span>)) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;其他&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优秀&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：优秀</span></span><br></pre></td></tr></table></figure>
+
+<p>案例三：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">90</span>;</span><br><span class="line"><span class="keyword">if</span> (score &lt; <span class="number">90</span> || score &gt; <span class="number">100</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;其他&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优秀&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：优秀</span></span><br></pre></td></tr></table></figure>
+
+<p>以上三个案例都是等价的</p>
+<h3 id="2-7-if-语句-省略大括号"><a href="#2-7-if-语句-省略大括号" class="headerlink" title="2.7. if 语句-省略大括号"></a>2.7. if 语句-省略大括号</h3><p><code>if</code>、<code>else</code>后可以省略大括号，只会跟其后的第一条语句进行关联。</p>
+<p>案例一：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">90</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>)</span><br><span class="line">printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;加油&quot;</span>)<span class="comment">;</span></span><br><span class="line">// 输出：优  加油</span><br></pre></td></tr></table></figure>
+
+<p>案例一等价写法：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">90</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">printf(<span class="string">&quot;加油&quot;</span>)<span class="comment">;</span></span><br><span class="line">// 输出：优  加油</span><br></pre></td></tr></table></figure>
+
+<p>案例二：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">80</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>)</span><br><span class="line">printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">else</span><br><span class="line">printf(<span class="string">&quot;其他\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;加油&quot;</span>)<span class="comment">;</span></span><br><span class="line">// 输出：其他  加油</span><br></pre></td></tr></table></figure>
+
+<p>案例二等价写法：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">80</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    printf(<span class="string">&quot;其他\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">printf(<span class="string">&quot;加油&quot;</span>)<span class="comment">;</span></span><br><span class="line">// 输出：其他  加油</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>多个<code>if-else</code>一起使用的时候，<code>else</code>后会跟其前面最接近的<code>if</code>相关联</p>
+<p>案例一：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int a <span class="operator">=</span> <span class="number">10</span><span class="comment">;</span></span><br><span class="line">int b <span class="operator">=</span> <span class="number">5</span><span class="comment">;</span></span><br><span class="line">if (a &gt; <span class="number">0</span>)</span><br><span class="line">if (b &gt; <span class="number">2</span>)</span><br><span class="line">printf(<span class="string">&quot;1&quot;</span>)<span class="comment">;</span></span><br><span class="line">else</span><br><span class="line">printf(<span class="string">&quot;2&quot;</span>)<span class="comment">;</span></span><br><span class="line">// 输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>案例一等价写法：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int a <span class="operator">=</span> <span class="number">10</span><span class="comment">;</span></span><br><span class="line">int b <span class="operator">=</span> <span class="number">5</span><span class="comment">;</span></span><br><span class="line">if (a &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    if (b &gt; <span class="number">2</span>) &#123;</span><br><span class="line">        printf(<span class="string">&quot;1&quot;</span>)<span class="comment">;</span></span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        printf(<span class="string">&quot;2&quot;</span>)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>编译错误案例：<br>案例一：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">90</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>)</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">    printf(<span class="string">&quot;666\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">else</span><br><span class="line">    printf(<span class="string">&quot;再接再厉\n&quot;</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>案例一等价拆解：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int score <span class="operator">=</span> <span class="number">90</span><span class="comment">;</span></span><br><span class="line">if (score &gt;<span class="operator">=</span> <span class="number">90</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;优\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">printf(<span class="string">&quot;666\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">else &#123;</span><br><span class="line">    printf(<span class="string">&quot;再接再厉\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-8-注意点"><a href="#2-8-注意点" class="headerlink" title="2.8. 注意点"></a>2.8. 注意点</h3><p>案例一：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span> (a &gt; <span class="number">0</span>); &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：10</span></span><br></pre></td></tr></table></figure>
+
+<p>案例一分析：if 条件判断后面是一个空实现体，分号代表了 if 结构的结束，所以后面的大括号和 if 没有任何关系</p>
+<p>案例二：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span> (a = <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价拆解</span></span><br><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确做法</span></span><br><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">1</span> == a) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：</span></span><br></pre></td></tr></table></figure>
+
+<p>案例二分析：不管 a 的原始值是多少，都会打印 a 的值，因为条件表达式里面是赋值操作而不是逻辑判断，相当于先给 a 赋值，再判断 a 是否等于 0。所以在开发中<font style="color:red">一般建议把数值写在左边，变量写在右边，如果这样，即使错把&#x3D;&#x3D;写成了&#x3D;，在代码编写及编译阶段就会报错。</font></p>
+<hr>
+<h3 id="2-9-if-else-语句和条件运算符"><a href="#2-9-if-else-语句和条件运算符" class="headerlink" title="2.9. if-else 语句和条件运算符"></a>2.9. if-else 语句和条件运算符</h3><p>一些简单的<code>if-else</code>语句可以使用条件运算符来替代，这样能够使代码更简洁。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">60</span>;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">90</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;差\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：差</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用条件运算符</span></span><br><span class="line"><span class="comment">// 写法一：</span></span><br><span class="line">score &gt;= <span class="number">90</span> ? <span class="built_in">printf</span>(<span class="string">&quot;优\n&quot;</span>) : <span class="built_in">printf</span>(<span class="string">&quot;差\n&quot;</span>);</span><br><span class="line"><span class="comment">// 输出：差</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法二：</span></span><br><span class="line"><span class="built_in">printf</span>(score &gt;= <span class="number">90</span> ? <span class="string">&quot;优\n&quot;</span> : <span class="string">&quot;差\n&quot;</span>);</span><br><span class="line"><span class="comment">// 输出：差</span></span><br></pre></td></tr></table></figure>
+
+<p>稍微复杂的代码就不能用条件运算符了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> score = <span class="number">60</span>;</span><br><span class="line"><span class="keyword">if</span> (score &gt;= <span class="number">90</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> b = <span class="number">20</span> + a;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;差 - %d\n&quot;</span>, a + b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：差 - 40</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-10-switch-语句"><a href="#2-10-switch-语句" class="headerlink" title="2.10. switch 语句"></a>2.10. switch 语句</h3><p>格式：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (表达式) &#123;</span><br><span class="line">  <span class="keyword">case</span> 表达式<span class="number">1</span>:</span><br><span class="line">      代码<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> 表达式<span class="number">2</span>:</span><br><span class="line">      代码<span class="number">2</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">      代码<span class="number">3</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>switch 语句用 if 语句表示：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (表达式 <span class="operator">=</span><span class="operator">=</span> 表达式<span class="number">1</span>) &#123;</span><br><span class="line">    代码<span class="number">1</span><span class="comment">;</span></span><br><span class="line">&#125; else if (表达式 <span class="operator">=</span><span class="operator">=</span> 表达式<span class="number">2</span>) &#123;</span><br><span class="line">    代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">&#125; else &#123;</span><br><span class="line">    代码<span class="number">3</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>可以没有<code>default</code>语句；</li>
+<li>表达式、表达式 1、表达式 2 都必须是整形表达式；</li>
+<li>表达式 1、表达式 2 都必须是常量表达式；</li>
+<li><code>case</code>中的表达式不能重复，并且不能带有变量。</li>
+</ul>
+<p>案例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> score = <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line"><span class="keyword">switch</span> (score) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;A&#x27;</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;优&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;B&#x27;</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;良&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;C&#x27;</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;中&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;差&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价if语句的写法</span></span><br><span class="line"><span class="keyword">if</span> (score == <span class="string">&#x27;A&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;优&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score == <span class="string">&#x27;B&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;良&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (score == <span class="string">&#x27;C&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;差&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：中</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><code>case</code>表达式后面如果没有声明新的变量，大括号可加可不加。如果想在<code>case</code>表达式后面声明新的变量，那就必须加上大括号，否则编译出错。</p>
+<p>案例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> score = <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line"><span class="keyword">switch</span> (score) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;A&#x27;</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;优&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;B&#x27;</span>: &#123;</span><br><span class="line">        <span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;良&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;C&#x27;</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;中&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>: &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;差&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：中</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li><p>在<code>switch</code>语句中，<code>break</code>语句的作用就是终止<code>switch</code>语句执行；</p>
+</li>
+<li><p>如果<code>case</code>、<code>default</code>后面没有<code>break</code>语句，会出现“贯穿”现象，会继续往下执行其他<code>case</code>、<code>default</code>中的代码，直到遇到<code>break</code>语句或<code>switch</code>语句的结尾为止；</p>
+</li>
+<li><p><code>case</code>、<code>default</code>没有可以自由调换顺序。</p>
+</li>
+</ul>
+<p>案例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;请输入1~12的月份：&quot;</span>);</span><br><span class="line"><span class="type">int</span> month;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;month);</span><br><span class="line"><span class="keyword">switch</span> (month) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;3&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;4&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;5&quot;</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;春季&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;非法输入&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>: <span class="keyword">case</span> <span class="number">7</span>: <span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;夏季&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="number">9</span>: <span class="keyword">case</span> <span class="number">10</span>: <span class="keyword">case</span> <span class="number">11</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;秋季&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="number">12</span>: <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;冬季&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：3</span></span><br><span class="line"><span class="comment">  输出：345春季</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：4</span></span><br><span class="line"><span class="comment">  输出：45春季</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：11</span></span><br><span class="line"><span class="comment">  输出：秋季</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：13</span></span><br><span class="line"><span class="comment">  输出：非法输入</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><code>if</code>和<code>switch</code>相互替代</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;num);</span><br><span class="line"><span class="keyword">if</span> (num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;正数&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;负数&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：11</span></span><br><span class="line"><span class="comment">  输出：正数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：-9</span></span><br><span class="line"><span class="comment">  输出：负数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：0</span></span><br><span class="line"><span class="comment">  输出：0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价写法</span></span><br><span class="line"><span class="keyword">switch</span> (num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;正数&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">switch</span> (num &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;负数&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：11</span></span><br><span class="line"><span class="comment">  输出：正数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：-9</span></span><br><span class="line"><span class="comment">  输出：负数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：0</span></span><br><span class="line"><span class="comment">  输出：0</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>思考：什么时候用<code>if</code>，什么时候用<code>switch</code>? 当表示一个范围时，使用<code>if</code>，当判断一个变量是否等于固定值时，两者都可以，但只要<code>switch</code>能表达的，必然都可以用<code>if</code>。</p>
+</blockquote>
+<h2 id="三、循环结构"><a href="#三、循环结构" class="headerlink" title="三、循环结构"></a>三、循环结构</h2><p>循环结构包括：</p>
+<ul>
+<li><code>while</code>语句</li>
+<li><code>do-while</code>语句</li>
+<li><code>for</code>语句</li>
+</ul>
+<h3 id="3-1-while-语句"><a href="#3-1-while-语句" class="headerlink" title="3.1. while 语句"></a>3.1. while 语句</h3><p>格式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while (表达式) &#123;</span><br><span class="line">  循环体<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">代码<span class="number">1</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>while</code>语句也叫<code>while</code>循环，<code>while</code>语句大括号中的代码，称为循环体。</p>
+<p>特点：</p>
+<ul>
+<li>如果表达式为假，不会执行循环体，直接终止<code>while</code>语句；</li>
+<li>如果表达式为真，执行循环体；</li>
+<li>执行完循环体后，会再次回到第一步，根据表达式的真假来做出选择；</li>
+<li><code>while</code>语句执行完成后，才会继续往下执行代码 1，否则将会一直循环，直到循环结束。</li>
+</ul>
+<p>案例一：（输入正整数 n，使用<code>while</code>语句依次打印区间[1, n]的整数）</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">// 方法一：</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;请输入一个正整数：&quot;</span>);</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">times</span> = <span class="number">1</span>, num = <span class="number">1</span>;</span><br><span class="line">scanf(<span class="string">&quot;%d&quot;</span>, &amp;num);</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">times</span> &lt;= num) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="keyword">times</span>);</span><br><span class="line">    <span class="keyword">times</span>++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;完成&quot;</span>);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：5</span></span><br><span class="line"><span class="regexp">  输出：</span></span><br><span class="line"><span class="regexp">    1</span></span><br><span class="line"><span class="regexp">    2</span></span><br><span class="line"><span class="regexp">    3</span></span><br><span class="line"><span class="regexp">    4</span></span><br><span class="line"><span class="regexp">    5</span></span><br><span class="line"><span class="regexp">    完成</span></span><br><span class="line"><span class="regexp">  */</span></span><br><span class="line"></span><br><span class="line">// 方法二：</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;请输入一个正整数：&quot;</span>);</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">times</span> = <span class="number">1</span>, num = <span class="number">1</span>;</span><br><span class="line">scanf(<span class="string">&quot;%d&quot;</span>, &amp;num);</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">times</span>++ &lt;= num) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="keyword">times</span>-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;完成&quot;</span>);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：5</span></span><br><span class="line"><span class="regexp">  输出：</span></span><br><span class="line"><span class="regexp">    1</span></span><br><span class="line"><span class="regexp">    2</span></span><br><span class="line"><span class="regexp">    3</span></span><br><span class="line"><span class="regexp">    4</span></span><br><span class="line"><span class="regexp">    5</span></span><br><span class="line"><span class="regexp">    完成</span></span><br><span class="line"><span class="regexp">  */</span></span><br><span class="line"></span><br><span class="line">// 方法三：</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;请输入一个正整数：&quot;</span>);</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">times</span> = <span class="number">1</span>, num = <span class="number">1</span>;</span><br><span class="line">scanf(<span class="string">&quot;%d&quot;</span>, &amp;num);</span><br><span class="line"><span class="keyword">while</span> (++<span class="keyword">times</span> &lt;= num+<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="keyword">times</span>-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;完成&quot;</span>);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：5</span></span><br><span class="line"><span class="regexp">  输出：</span></span><br><span class="line"><span class="regexp">    1</span></span><br><span class="line"><span class="regexp">    2</span></span><br><span class="line"><span class="regexp">    3</span></span><br><span class="line"><span class="regexp">    4</span></span><br><span class="line"><span class="regexp">    5</span></span><br><span class="line"><span class="regexp">    完成</span></span><br><span class="line"><span class="regexp">  */</span></span><br><span class="line"></span><br><span class="line">// 方法四……（方法有很多，不再举例）</span><br></pre></td></tr></table></figure>
+
+<p>案例二：（输入一个 1 ~ 100 之间的正整数 n，求 1~n 之间的整数相加结果）</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (n &lt; <span class="number">1</span> || <span class="number">100</span> &lt; n) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入1~100之间的整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">times</span> = <span class="number">1</span>, sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">times</span> &lt;= n) &#123;</span><br><span class="line">    sum += <span class="keyword">times</span>;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;times：%d\n&quot;</span>, <span class="keyword">times</span>); <span class="regexp">//</span> 打印每次相加的值看起来更明显</span><br><span class="line">    <span class="keyword">times</span>++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;结果：%d\n&quot;</span>, sum);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：5</span></span><br><span class="line"><span class="regexp">  输出：</span></span><br><span class="line"><span class="regexp">    times：1</span></span><br><span class="line"><span class="regexp">    times：2</span></span><br><span class="line"><span class="regexp">    times：3</span></span><br><span class="line"><span class="regexp">    times：4</span></span><br><span class="line"><span class="regexp">    times：5</span></span><br><span class="line"><span class="regexp">    结果：15</span></span><br><span class="line"><span class="regexp">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>案例二延伸：（求 1~n 之间奇数相加，偶数相减的结果）</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (n &lt; <span class="number">1</span> || <span class="number">100</span> &lt; n) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入1~100之间的整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">times</span> = <span class="number">1</span>, sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">times</span> &lt;= n) &#123;</span><br><span class="line">    sum += (<span class="keyword">times</span> &amp; <span class="number">1</span>) ? <span class="keyword">times</span> : -<span class="keyword">times</span>;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;times：%d\n&quot;</span>, <span class="keyword">times</span>); <span class="regexp">//</span> 打印每次相加的值看起来更明显</span><br><span class="line">    <span class="keyword">times</span>++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;结果：%d\n&quot;</span>, sum);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：5</span></span><br><span class="line"><span class="regexp">  输出：</span></span><br><span class="line"><span class="regexp">    times：1</span></span><br><span class="line"><span class="regexp">    times：2</span></span><br><span class="line"><span class="regexp">    times：3</span></span><br><span class="line"><span class="regexp">    times：4</span></span><br><span class="line"><span class="regexp">    times：5</span></span><br><span class="line"><span class="regexp">    结果：3</span></span><br><span class="line"><span class="regexp">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>案例二延伸：（求 1~n 之间奇数相加的结果）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">int n = 0;</span><br><span class="line"><span class="keyword">while</span> (n &lt; 1 || 100 &lt; n) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入1~100之间的整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="built_in">times</span> = 1, <span class="built_in">sum</span> = 0;</span><br><span class="line"><span class="keyword">while</span> (<span class="built_in">times</span> &lt;= n) &#123;</span><br><span class="line">    <span class="built_in">sum</span> += (<span class="built_in">times</span> &amp; 1) ? <span class="built_in">times</span> : 0;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;times：%d\n&quot;</span>, <span class="built_in">times</span>); // 打印每次相加的值看起来更明显</span><br><span class="line">    <span class="built_in">times</span>++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;结果：%d\n&quot;</span>, <span class="built_in">sum</span>);</span><br><span class="line">/*</span><br><span class="line">  输入：5</span><br><span class="line">  输出：</span><br><span class="line">    <span class="built_in">times</span>：1</span><br><span class="line">    <span class="built_in">times</span>：2</span><br><span class="line">    <span class="built_in">times</span>：3</span><br><span class="line">    <span class="built_in">times</span>：4</span><br><span class="line">    <span class="built_in">times</span>：5</span><br><span class="line">    结果：9</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> 优化版本：</span><br><span class="line"> 上面的做法循环体会执行n次，其实没必要，这样比较浪费性能。如果把偶数直接在外面过滤掉就会好很多。</span><br><span class="line"> */</span><br><span class="line">int n = 0;</span><br><span class="line"><span class="keyword">while</span> (n &lt; 1 || 100 &lt; n) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入1~100之间的整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="built_in">times</span> = 1, <span class="built_in">sum</span> = 0;</span><br><span class="line"><span class="keyword">while</span> (<span class="built_in">times</span> &lt;= n) &#123;</span><br><span class="line">    <span class="built_in">sum</span> += <span class="built_in">times</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;times：%d\n&quot;</span>, <span class="built_in">times</span>); // 打印每次相加的值看起来更明显</span><br><span class="line">    <span class="built_in">times</span> += 2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;结果：%d\n&quot;</span>, <span class="built_in">sum</span>);</span><br><span class="line">/*</span><br><span class="line">  输入：5</span><br><span class="line">  输出：</span><br><span class="line">    <span class="built_in">times</span>：1</span><br><span class="line">    <span class="built_in">times</span>：3</span><br><span class="line">    <span class="built_in">times</span>：5</span><br><span class="line">    结果：9</span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-for-语句"><a href="#3-2-for-语句" class="headerlink" title="3.2. for 语句"></a>3.2. for 语句</h3><p>格式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (代码<span class="number">1</span><span class="comment">; 表达式; 代码2) &#123;</span></span><br><span class="line">  循环体<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">代码<span class="number">3</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>for</code>语句也叫<code>for</code>循环，<code>for</code>语句大括号中的代码，称为循环体。</p>
+<p>特点：</p>
+<ul>
+<li>无论表达式是真还是假，都会先执行代码 1；</li>
+<li>如果表达式为假，不会执行循环体、代码 2，直接终止<code>for</code>语句；</li>
+<li>如果表达式为真，依次执行循环体、代码 2；</li>
+<li>执行完循环体后，会再次回到第二步，根据表达式的真假来做出选择；</li>
+<li><code>for</code>语句执行完成后，才会继续往下执行代码 3，否则将会一直循环，直到循环结束。</li>
+</ul>
+<p>注意点：</p>
+<ul>
+<li>代码 2 后面不能加分号(;)；</li>
+<li>无论表达式是真是假，都会在第一次执行代码 1，并且在 for 语句后面的执行过程中，都不会在执行代码 1。</li>
+</ul>
+<h3 id="3-3-for-语句和-while-语句比较"><a href="#3-3-for-语句和-while-语句比较" class="headerlink" title="3.3. for 语句和 while 语句比较"></a>3.3. for 语句和 while 语句比较</h3><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (代码<span class="number">1</span><span class="comment">; 表达式; 代码3) &#123;</span></span><br><span class="line">  代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 等价while</span><br><span class="line">代码<span class="number">1</span><span class="comment">;</span></span><br><span class="line">while (表达式) &#123;</span><br><span class="line">  代码<span class="number">2</span><span class="comment">;</span></span><br><span class="line">  代码<span class="number">3</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>案例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    1</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    3</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    5</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// while语句</span></span><br><span class="line"><span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (i &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    1</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    3</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    5</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>根据代码的执行顺序我们可以得出下面的结论：</p>
+<ul>
+<li>表达式后面的代码可以拿出来</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>;) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    1</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    3</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    5</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表达式后面可以使用逗号运算符</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i), i++) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    1</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    3</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    5</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表达式前面声明变量时可以同时声明多个变量</li>
+</ul>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">for (int i = <span class="number">1</span>, <span class="keyword">j </span>= <span class="number">0</span><span class="comment">; i &lt;= 5; i++, j += 1) &#123;</span></span><br><span class="line">    printf(<span class="string">&quot;i：%d - j：%d\n&quot;</span>, i, <span class="keyword">j);</span></span><br><span class="line"><span class="keyword"></span>&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    i：1 - j：0</span></span><br><span class="line"><span class="comment">    i：2 - j：1</span></span><br><span class="line"><span class="comment">    i：3 - j：2</span></span><br><span class="line"><span class="comment">    i：4 - j：3</span></span><br><span class="line"><span class="comment">    i：5 - j：4</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表达式前后的分号不能省略</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (; i &lt;= <span class="number">5</span>; ) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    1</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    3</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    5</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>案例：（输入一个 1 ~ 100 之间的正整数 n，求 1~n 之间的整数相加结果）</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">n</span> = <span class="number">0</span>;</span><br><span class="line">for (; <span class="built_in">n</span> &lt; <span class="number">1</span> || <span class="number">100</span> &lt; <span class="built_in">n</span>;) &#123;</span><br><span class="line">    printf(<span class="string">&quot;请输入1~100之间的整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;<span class="built_in">n</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> <span class="built_in">sum</span> = <span class="number">0</span>;</span><br><span class="line">for (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= <span class="built_in">n</span>; i++) &#123;</span><br><span class="line">    printf(<span class="string">&quot;i：%d\n&quot;</span>, i); // 打印每次相加的值看起来更明显</span><br><span class="line">    <span class="built_in">sum</span> += i;</span><br><span class="line">&#125;</span><br><span class="line">printf(<span class="string">&quot;结果：%d\n&quot;</span>, <span class="built_in">sum</span>);</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    i：<span class="number">1</span></span><br><span class="line">    i：<span class="number">2</span></span><br><span class="line">    i：<span class="number">3</span></span><br><span class="line">    i：<span class="number">4</span></span><br><span class="line">    i：<span class="number">5</span></span><br><span class="line">    结果：<span class="number">15</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>上面的案例可以看出，<code>while</code>循环写出的代码一定可以用<code>for</code>循环实现。只是有时候<code>while</code>写出的代码可能会更加简洁，在实际开发过程中应根据业务场景选择更合适的循环语句。</p>
+<h3 id="3-4-do-while-语句"><a href="#3-4-do-while-语句" class="headerlink" title="3.4. do-while 语句"></a>3.4. do-while 语句</h3><p>格式：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">  循环体;</span><br><span class="line">&#125; <span class="keyword">while</span> <span class="comment">(表达式)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>无论表达式是真是假，先执行一次循环体；</li>
+<li>如果表达式为假，不会执行循环体，直接终止<code>while</code>语句；</li>
+<li>如果表达式为真，就会执行循环体；</li>
+<li>执行完循环体后，会再次回到第二步根据表达式的真假来做出选择。</li>
+</ul>
+<p>注意点：</p>
+<ul>
+<li><code>while</code>表达式后面一定要加分号(<code>;</code>)；</li>
+<li>无论表达式真假，都会在开头先执行一次循环体。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;i);</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125; <span class="keyword">while</span> (i &lt;= <span class="number">5</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：1</span></span><br><span class="line"><span class="comment">  输出：12345</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：6</span></span><br><span class="line"><span class="comment">  输出：6</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// while语句</span></span><br><span class="line"><span class="keyword">while</span> (i &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：1</span></span><br><span class="line"><span class="comment">  输出：12345</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：6</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// for语句</span></span><br><span class="line"><span class="keyword">for</span> (; i &lt;= <span class="number">5</span>;) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, i);</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：1</span></span><br><span class="line"><span class="comment">  输出：12345</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：6</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>总结：很多时候，使用<code>while</code>、<code>do-while</code>，<code>for</code>可以完成一样的功能，只是书写格式不一样。</p>
+<p>案例一：<br>(场景：提示输入一个 1 ~ 100 之间的正整数 n，如果输入错误，要求重新输入，直到输入正确为止)</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~100之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">100</span>);</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;输入正确：%d&quot;</span>, n);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：-10</span></span><br><span class="line"><span class="regexp">  输出：请输入一个1~100之间的正整数：</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  输入：102</span></span><br><span class="line"><span class="regexp">  输出：请输入一个1~100之间的正整数：</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  输入：20</span></span><br><span class="line"><span class="regexp">  输出：输入正确：20</span></span><br><span class="line"><span class="regexp">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>案例一对比：（使用<code>while</code>语句比较）</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">100</span>) &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~100之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;输入正确：%d&quot;</span>, n);</span><br><span class="line"><span class="regexp">/*</span></span><br><span class="line"><span class="regexp">  输入：-10</span></span><br><span class="line"><span class="regexp">  输出：请输入一个1~100之间的正整数：</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  输入：102</span></span><br><span class="line"><span class="regexp">  输出：请输入一个1~100之间的正整数：</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  输入：20</span></span><br><span class="line"><span class="regexp">  输出：输入正确：20</span></span><br><span class="line"><span class="regexp">  */</span></span><br></pre></td></tr></table></figure>
+
+<p>总结：对比<code>while</code>语句发现，<code>do-while</code>语句会少一次最初没有必要的判断，因为不论表达式真假，都会先执行一次循环体。</p>
+<h3 id="3-5-循环嵌套"><a href="#3-5-循环嵌套" class="headerlink" title="3.5. 循环嵌套"></a>3.5. 循环嵌套</h3><p>场景一：严格要求输入一个 1~20 之间的正整数 n，输入 n 行 n 列的图形，图形用<code>#</code>表示。</p>
+<p>图示：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请输入一个<span class="number">1</span>~<span class="number">20</span>之间的正整数：<span class="number">5</span></span><br><span class="line">#####</span><br><span class="line">#####</span><br><span class="line">#####</span><br><span class="line">#####</span><br><span class="line">#####</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~20之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">        <span class="keyword">printf</span>(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>场景二：严格要求输入一个 1~20 之间的正整数 n，输入 n 行 n 列的图形，图形用<code>#</code>表示。</p>
+<p>图示：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请输入一个<span class="number">1</span>~<span class="number">20</span>之间的正整数：<span class="number">5</span></span><br><span class="line">#</span><br><span class="line">##</span><br><span class="line">###</span><br><span class="line">####</span><br><span class="line">#####</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~20之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++) &#123;</span><br><span class="line">        <span class="keyword">printf</span>(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="comment">###</span></span><br><span class="line">    <span class="comment">####</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>场景三：严格要求输入一个 1~20 之间的正整数 n，输入 n 行 n 列的图形，图形用<code>#</code>表示。</p>
+<p>图示：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请输入一个<span class="number">1</span>~<span class="number">20</span>之间的正整数：<span class="number">5</span></span><br><span class="line">#####</span><br><span class="line">####</span><br><span class="line">###</span><br><span class="line">##</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~20之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 方法一：</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt;= n; j++) &#123;</span><br><span class="line">        <span class="keyword">printf</span>(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">####</span></span><br><span class="line">    <span class="comment">###</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">  *<span class="regexp">/</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 方法二：</span></span><br><span class="line"><span class="regexp">for (int i = 1; i &lt;= n; i++) &#123;</span></span><br><span class="line"><span class="regexp">    for (int j = n; j &gt;= i; j--) &#123;</span></span><br><span class="line"><span class="regexp">        printf(&quot;#&quot;);</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    printf(&quot;\n&quot;);</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">/</span>*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">####</span></span><br><span class="line">    <span class="comment">###</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>场景四：严格要求输入一个 1~20 之间的正整数 n，输入 n 行 n 列的图形，图形用<code>#</code>表示。</p>
+<p>图示：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请输入一个<span class="number">1</span>~<span class="number">20</span>之间的正整数：<span class="number">5</span></span><br><span class="line">#####</span><br><span class="line">$$$$$</span><br><span class="line">#####</span><br><span class="line">$$$$$</span><br><span class="line">#####</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    printf(<span class="string">&quot;请输入一个1~20之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (int i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    char c = (i &amp; <span class="number">1</span>) ? <span class="string">&#x27;#&#x27;</span> : <span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> (int j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">        printf(<span class="string">&quot;%c&quot;</span>, c);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="variable">$</span><span class="variable">$</span><span class="variable">$</span><span class="variable">$</span><span class="variable">$</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="variable">$</span><span class="variable">$</span><span class="variable">$</span><span class="variable">$</span><span class="variable">$</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>场景五：严格要求输入一个 1~20 之间的正整数 n，输入 n 行 n 列的图形，图形用<code>#</code>表示。</p>
+<p>图示：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请输入一个<span class="number">1</span>~<span class="number">20</span>之间的正整数：<span class="number">5</span></span><br><span class="line">#####</span><br><span class="line">#$$$#</span><br><span class="line">#$$$#</span><br><span class="line">#$$$#</span><br><span class="line">#####</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;请输入一个1~20之间的正整数：&quot;</span>);</span><br><span class="line">    scanf(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125; <span class="keyword">while</span> (n &lt; <span class="number">1</span> || n &gt; <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">        char c;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span> || i == n || j == <span class="number">1</span> || j == n) &#123;</span><br><span class="line">            c = <span class="string">&#x27;#&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            c = <span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">printf</span>(<span class="string">&quot;%c&quot;</span>, c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输入：<span class="number">5</span></span><br><span class="line">  输出：</span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">    <span class="comment">#$$$#</span></span><br><span class="line">    <span class="comment">#$$$#</span></span><br><span class="line">    <span class="comment">#$$$#</span></span><br><span class="line">    <span class="comment">#####</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<p>场景六：输出九九乘法表</p>
+<p>图示：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1x1</span>=1</span><br><span class="line"><span class="attribute">1x2</span>=2   <span class="attribute">2x2</span>=4</span><br><span class="line">1x3-3   <span class="attribute">2x3</span>=6   <span class="attribute">3x3</span>=9</span><br><span class="line">……</span><br><span class="line"><span class="attribute">1x9</span>=9   <span class="attribute">2x9</span>=18  ……      <span class="attribute">9x9</span>=81</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">for (int i <span class="operator">=</span> <span class="number">1</span><span class="comment">; i &lt;= 9; i++) &#123;</span></span><br><span class="line">    for (int j <span class="operator">=</span> <span class="number">1</span><span class="comment">; j &lt;= i; j++) &#123;</span></span><br><span class="line">        printf(<span class="string">&quot;%dx%d=%d\t&quot;</span><span class="punctuation">,</span> i<span class="punctuation">,</span> j<span class="punctuation">,</span> i * j)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    printf(<span class="string">&quot;\n&quot;</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line">  输出：</span><br><span class="line">    <span class="number">1</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">1</span></span><br><span class="line">    <span class="number">2</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">2</span>    <span class="number">2</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">4</span></span><br><span class="line">    <span class="number">3</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">3</span>    <span class="number">3</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">6</span>    <span class="number">3</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">9</span></span><br><span class="line">    <span class="number">4</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">4</span>    <span class="number">4</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">8</span>    <span class="number">4</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">12</span>    <span class="number">4</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">16</span></span><br><span class="line">    <span class="number">5</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">5</span>    <span class="number">5</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">10</span>    <span class="number">5</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">15</span>    <span class="number">5</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">20</span>    <span class="number">5</span><span class="keyword">x</span><span class="number">5</span><span class="operator">=</span><span class="number">25</span></span><br><span class="line">    <span class="number">6</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">6</span>    <span class="number">6</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">12</span>    <span class="number">6</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">18</span>    <span class="number">6</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">24</span>    <span class="number">6</span><span class="keyword">x</span><span class="number">5</span><span class="operator">=</span><span class="number">30</span>    <span class="number">6</span><span class="keyword">x</span><span class="number">6</span><span class="operator">=</span><span class="number">36</span></span><br><span class="line">    <span class="number">7</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">7</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">14</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">21</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">28</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">5</span><span class="operator">=</span><span class="number">35</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">6</span><span class="operator">=</span><span class="number">42</span>    <span class="number">7</span><span class="keyword">x</span><span class="number">7</span><span class="operator">=</span><span class="number">49</span></span><br><span class="line">    <span class="number">8</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">8</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">16</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">24</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">32</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">5</span><span class="operator">=</span><span class="number">40</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">6</span><span class="operator">=</span><span class="number">48</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">7</span><span class="operator">=</span><span class="number">56</span>    <span class="number">8</span><span class="keyword">x</span><span class="number">8</span><span class="operator">=</span><span class="number">64</span></span><br><span class="line">    <span class="number">9</span><span class="keyword">x</span><span class="number">1</span><span class="operator">=</span><span class="number">9</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">2</span><span class="operator">=</span><span class="number">18</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">3</span><span class="operator">=</span><span class="number">27</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">4</span><span class="operator">=</span><span class="number">36</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">5</span><span class="operator">=</span><span class="number">45</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">6</span><span class="operator">=</span><span class="number">54</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">7</span><span class="operator">=</span><span class="number">63</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">8</span><span class="operator">=</span><span class="number">72</span>    <span class="number">9</span><span class="keyword">x</span><span class="number">9</span><span class="operator">=</span><span class="number">81</span></span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-6-break-语句"><a href="#3-6-break-语句" class="headerlink" title="3.6. break 语句"></a>3.6. break 语句</h3><p><code>break</code>语句只用在<code>while</code>、<code>do-while</code>、<code>for</code>、<code>switch</code>语句中，它的作用就是终止并跳出所在的循环语句。</p>
+<p>示例：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">4</span>) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= <span class="number">5</span>; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (j == <span class="number">3</span>) <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;end&quot;</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输出：</span></span><br><span class="line"><span class="comment">    ##</span></span><br><span class="line"><span class="comment">    ##</span></span><br><span class="line"><span class="comment">    ##</span></span><br><span class="line"><span class="comment">    end</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-7-continue-语句"><a href="#3-7-continue-语句" class="headerlink" title="3.7. continue 语句"></a>3.7. continue 语句</h3><p><code>continue</code>语句只用在<code>while</code>、<code>do-while</code>、<code>for</code>语句中，它的作用是跳过所在循环语句的循环体剩余部分</p>
+<p>示例：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">3</span>) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">printf</span>(<span class="string">&quot;%c&quot;</span>, (i &amp; <span class="number">1</span>) ? <span class="string">&#x27;#&#x27;</span> : <span class="string">&#x27;$&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line">// 输出：<span class="comment">#$$#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-8-goto-语句"><a href="#3-8-goto-语句" class="headerlink" title="3.8. goto 语句"></a>3.8. goto 语句</h3><p><code>goto</code>语句的作用：可以为所欲为地灵活跳转</p>
+<p>示例：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">n</span> = <span class="number">1</span>;</span><br><span class="line">co<span class="symbol">de:</span></span><br><span class="line">    printf(<span class="string">&quot;#&quot;</span>);</span><br><span class="line">    <span class="built_in">n</span>++;</span><br><span class="line"><span class="built_in">if</span> (<span class="built_in">n</span> &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">    printf(<span class="string">&quot;%d&quot;</span>, <span class="built_in">n</span>);</span><br><span class="line">    goto <span class="built_in">code</span>;</span><br><span class="line">&#125;</span><br><span class="line">// 输出：#<span class="number">2</span>#<span class="number">3</span>#<span class="number">4</span>#<span class="number">5</span>#</span><br></pre></td></tr></table></figure>
+
+<p><code>goto</code>语句使用起来非常灵活，在一定情况下，可以提高程序的效率，但是他破坏了结构化的设计风格，容易造成代码执行流程的混乱（一般情况下，代码的执行顺序是从上到下），导致代码难以调试和维护。所以非常不建议使用<code>goto</code>语句（这也是在开发中几乎看不到<code>goto</code>语句的原因）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2016/04/07/c-syntax-basic-04/" title="【C】C系列四 - 流程控制">http://idbeny.com/2016/04/07/c-syntax-basic-04/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+            <a href="/tags/if/" rel="tag"># if</a>
+          
+            <a href="/tags/switch/" rel="tag"># switch</a>
+          
+            <a href="/tags/while/" rel="tag"># while</a>
+          
+            <a href="/tags/do-while/" rel="tag"># do-while</a>
+          
+            <a href="/tags/for/" rel="tag"># for</a>
+          
+            <a href="/tags/goto/" rel="tag"># goto</a>
+          
+            <a href="/tags/%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="tag"># 流程控制</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/15/c-syntax-basic-03/" rel="next" title="【C】C系列三 - 运算符">
+                <i class="fa fa-chevron-left"></i> 【C】C系列三 - 运算符
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/10/c-syntax-basic-05/" rel="prev" title="【C】C系列五 - 数组">
+                【C】C系列五 - 数组 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">一、流程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%A1%BA%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 顺序结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 选择结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 循环结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%80%89%E6%8B%A9%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">二、选择结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-if-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. if 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-if-else-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. if-else 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-if-%E8%AF%AD%E5%8F%A5-%E5%92%8C-if-else-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. if 语句 和 if-else 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-else-if-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. else if 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-if-%E8%AF%AD%E5%8F%A5-%E5%92%8C-else-if-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. if 语句 和 else if 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E7%AD%89%E4%BB%B7%E6%80%A7"><span class="nav-number">2.6.</span> <span class="nav-text">2.6. 表达式的等价性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-if-%E8%AF%AD%E5%8F%A5-%E7%9C%81%E7%95%A5%E5%A4%A7%E6%8B%AC%E5%8F%B7"><span class="nav-number">2.7.</span> <span class="nav-text">2.7. if 语句-省略大括号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">2.8.</span> <span class="nav-text">2.8. 注意点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-if-else-%E8%AF%AD%E5%8F%A5%E5%92%8C%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.9.</span> <span class="nav-text">2.9. if-else 语句和条件运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-10-switch-%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.10.</span> <span class="nav-text">2.10. switch 语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">三、循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-while-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. while 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-for-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. for 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-for-%E8%AF%AD%E5%8F%A5%E5%92%8C-while-%E8%AF%AD%E5%8F%A5%E6%AF%94%E8%BE%83"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. for 语句和 while 语句比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-do-while-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. do-while 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%BE%AA%E7%8E%AF%E5%B5%8C%E5%A5%97"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. 循环嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-break-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.6.</span> <span class="nav-text">3.6. break 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-continue-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.7.</span> <span class="nav-text">3.7. continue 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-goto-%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.8.</span> <span class="nav-text">3.8. goto 语句</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,38 +1,1299 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Swift,协议," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="协议在Swift中极其重要，可以说任何项目开发都会用到协议。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift系列十六 - 协议">
+<meta property="og:url" content="http://idbeny.com/2019/08/08/swift-syntax-protocol/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="协议在Swift中极其重要，可以说任何项目开发都会用到协议。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/4ho2o.png@normal">
+<meta property="article:published_time" content="2019-08-08T11:35:15.000Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.296Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/4ho2o.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/08/08/swift-syntax-protocol/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Swift系列十六 - 协议 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/08/08/swift-syntax-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列十六 - 协议</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-08T19:35:15+08:00">
+                2019-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.6k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>协议在Swift中极其重要，可以说任何项目开发都会用到协议。</p>
+<span id="more"></span>
+<h2 id="一、协议（Protocol）的定义"><a href="#一、协议（Protocol）的定义" class="headerlink" title="一、协议（Protocol）的定义"></a>一、协议（Protocol）的定义</h2><p>协议可以用来定义方法、属性、下标的声明，协议可以被枚举、结构体、类遵守（多个协议之间用逗号隔开）。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义协议</span></span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</span><br><span class="line">    <span class="keyword">var</span> y: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Test1</span> &#123; &#125;</span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Test2</span> &#123; &#125;</span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Test3</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遵守协议</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestClass</span>: <span class="title class_">Test1</span>, <span class="title class_">Test2</span>, <span class="title class_">Test3</span>, <span class="title class_">Drawable</span> &#123;</span><br><span class="line">  <span class="comment">// do something...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点：</strong></p>
+<ul>
+<li>协议中定义方法时不能有默认参数值；</li>
+<li>默认情况下，协议中定义的内容必须全部都实现。</li>
+</ul>
+<h2 id="二、协议中的属性"><a href="#二、协议中的属性" class="headerlink" title="二、协议中的属性"></a>二、协议中的属性</h2><p>协议中定义属性时必须用<code>var</code>关键字。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</span><br><span class="line">    <span class="keyword">var</span> y: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面示例代码中协议属性<code>x</code>和<code>y</code>并不是计算属性的意思，它的意思仅仅是表达该属性是具备可读&#x2F;可写&#x2F;可读写功能。</p>
+<p><strong>协议属性的实现：</strong><br>实现协议时的属性权限要【不小于】协议中定义的属性权限：</p>
+<ul>
+<li>协议定义<code>get</code>、<code>set</code>，用<code>var</code>存储属性 或 <code>get</code>、<code>set</code>计算属性去实现；</li>
+<li>协议定义<code>get</code>，用任何属性都可以实现。</li>
+</ul>
+<p>场景一：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="comment">// 可读写的存储属性</span></span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="comment">// 只读的存储属性</span></span><br><span class="line">    <span class="keyword">let</span> y: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person draw&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">set</span> &#123; &#125;</span><br><span class="line">        <span class="keyword">get</span> &#123; index &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>场景二：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="comment">// 可读写的计算属性</span></span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">set</span> &#123; &#125;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="number">0</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 只读的计算属性</span></span><br><span class="line">    <span class="keyword">var</span> y: <span class="type">Int</span> &#123; <span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person draw&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">set</span> &#123; &#125;</span><br><span class="line">        <span class="keyword">get</span> &#123; index &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、static、class、mutating、init在协议中的使用"><a href="#三、static、class、mutating、init在协议中的使用" class="headerlink" title="三、static、class、mutating、init在协议中的使用"></a>三、static、class、mutating、init在协议中的使用</h2><h3 id="3-1-static、class"><a href="#3-1-static、class" class="headerlink" title="3.1. static、class"></a>3.1. static、class</h3><p>为了保证通用，协议中必须用<code>static</code>定义类型方法，类型属性、类型下标。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现协议的时候既可以使用<code>static</code>，也可以使用<code>class</code>，取决于子类是否需要重写。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person1</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person1 draw&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person2</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">func</span> <span class="title class_">draw</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person2 draw&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-mutating"><a href="#3-2-mutating" class="headerlink" title="3.2. mutating"></a>3.2. mutating</h3><p>只有将协议中的实例方法标记为<code>mutating</code>，才允许结构体、枚举的具体实现修改自身内存。</p>
+<p>类在实现方法时不加<code>mutating</code>（加了会报错），枚举、结构体才需要加<code>mutating</code>（不加会报错）。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Size</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> width: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;</span><br><span class="line">        width <span class="operator">=</span> <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;</span><br><span class="line">        x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果协议中没有加<code>mutating</code>，不影响<code>class</code>修改属性值。但是值类型实现协议函数时也不能加<code>mutating</code>，否则报错。</p>
+</blockquote>
+<h3 id="3-3-init"><a href="#3-3-init" class="headerlink" title="3.3. init"></a>3.3. init</h3><ol>
+<li>协议中还可以定义初始化器<code>init</code>，非<code>final</code>类实现时必须加上<code>required</code>。</li>
+</ol>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">x</span>: <span class="type">Int</span>, <span class="params">y</span>: <span class="type">Int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Point</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">x</span>: <span class="type">Int</span>, <span class="params">y</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Size</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">x</span>: <span class="type">Int</span>, <span class="params">y</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>思考：为什么协议限制非<code>final</code>类必须加上<code>required</code>？因为协议肯定希望定义的初始化器被遵守协议的类及其子类都能实现，所以需要加上<code>required</code>，遵守协议的子类也必须实现该协议。但是加上<code>final</code>的类是不能被继承的，所以也就没必要加<code>required</code>。</p>
+</blockquote>
+<ol start="2">
+<li>如果从协议实现的初始化器，刚好是重写了父类的指定初始化器，那么这个初始化必须同时加上<code>required</code>、<code>override</code>。</li>
+</ol>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">age</span>: <span class="type">Int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">age</span>: <span class="type">Int</span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_">Person</span>, <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">override</span> <span class="keyword">init</span>(<span class="params">age</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(age: age)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：子类重写父类的<code>required</code>指定初始化器，子类不用加<code>override</code>，和是否遵守协议无关。上面的示例中<code>required</code>代表遵守协议，<code>override</code>代表重写父类。</p>
+</blockquote>
+<p><strong>init、init？、init！的使用：</strong></p>
+<ul>
+<li>协议中定义的<code>init?</code>、<code>init!</code>，可以用<code>init</code>、<code>init?</code>、<code>init!</code>去实现；</li>
+<li>协议中定义的<code>init</code>，可以用<code>init</code>、<code>init!</code>去实现。</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">    <span class="keyword">init?</span>(<span class="params">age</span>: <span class="type">Int</span>)</span><br><span class="line">    <span class="keyword">init!</span>(<span class="params">height</span>: <span class="type">Int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>() &#123; &#125;</span><br><span class="line">    <span class="comment">// required init!() &#123; &#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init?</span>(<span class="params">age</span>: <span class="type">Int</span>) &#123; &#125;</span><br><span class="line">    <span class="comment">// required init!(age: Int) &#123; &#125;</span></span><br><span class="line">    <span class="comment">// required init(age: Int) &#123; &#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init!</span>(<span class="params">height</span>: <span class="type">Int</span>) &#123; &#125;</span><br><span class="line">    <span class="comment">// required init?(height: Int) &#123; &#125;</span></span><br><span class="line">    <span class="comment">// required init(height: Int) &#123; &#125;</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：在继承关系中，可以用一个非可失败初始化器重写一个可失败初始化器，但反过来是不行的。但是实现协议初始化器时，可以用且只能用隐式解包的可失败初始化器。</p>
+</blockquote>
+<h2 id="四、协议的继承和组合"><a href="#四、协议的继承和组合" class="headerlink" title="四、协议的继承和组合"></a>四、协议的继承和组合</h2><h3 id="4-1-协议继承"><a href="#4-1-协议继承" class="headerlink" title="4.1. 协议继承"></a>4.1. 协议继承</h3><p>一个协议可以继承其他协议（也可以说是遵守）。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Livable</span>: <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">breath</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">Livable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">breath</span>() &#123; &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">run</span>() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-协议组合"><a href="#4-2-协议组合" class="headerlink" title="4.2. 协议组合"></a>4.2. 协议组合</h3><ul>
+<li>协议组合最多可以包含1个类类型</li>
+<li>多个协议和类类型用<code>&amp;</code>连接</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义协议和类</span></span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Runnable</span> &#123; &#125;</span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Livable</span>: <span class="title class_">Runnable</span> &#123; &#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">Livable</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收Person或者其子类的实例</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">fn0</span>(<span class="params">obj</span>: <span class="type">Person</span>) &#123; &#125;</span><br><span class="line"><span class="comment">// 接收遵守Livable协议的实例</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">fn1</span>(<span class="params">obj</span>: <span class="type">Livable</span>) &#123; &#125;</span><br><span class="line"><span class="comment">// 接收同时遵守Livable、Runnable协议的实例</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">fn2</span>(<span class="params">obj</span>: <span class="type">Livable</span> &amp; <span class="type">Runnable</span>) &#123; &#125;</span><br><span class="line"><span class="comment">// 接收同时遵守Livable、Runnable协议、并且是Person或者其子类的实例</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">fn3</span>(<span class="params">obj</span>: <span class="type">Person</span> &amp; <span class="type">Livable</span> &amp; <span class="type">Runnable</span>) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面示例代码中<code>fn2</code>和<code>fn3</code>就是协议组合。</p>
+<p><code>fn3</code>还可以使用下面的方式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">RealPerson</span> <span class="operator">=</span> <span class="type">Person</span> &amp; <span class="type">Livable</span> &amp; <span class="type">Runnable</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">fn4</span>(<span class="params">obj</span>: <span class="type">RealPerson</span>) &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、常用协议"><a href="#五、常用协议" class="headerlink" title="五、常用协议"></a>五、常用协议</h2><h3 id="5-1-CaseIterable协议（枚举迭代器）"><a href="#5-1-CaseIterable协议（枚举迭代器）" class="headerlink" title="5.1. CaseIterable协议（枚举迭代器）"></a>5.1. CaseIterable协议（枚举迭代器）</h3><p>让枚举遵守<code>CaseIterable</code>协议，可以实现遍历枚举值。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Season</span>: <span class="title class_">CaseIterable</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> spring, summer, autumn, winter</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> seasons <span class="operator">=</span> <span class="type">Season</span>.allCases</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: seasons))</span><br><span class="line"><span class="comment">// 输出：Array&lt;Season&gt;</span></span><br><span class="line"><span class="built_in">print</span>(seasons.count)</span><br><span class="line"><span class="comment">// 输出：4</span></span><br><span class="line"><span class="keyword">for</span> season <span class="keyword">in</span> seasons &#123;</span><br><span class="line">    <span class="built_in">print</span>(season)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> spring</span></span><br><span class="line"><span class="comment"> summer</span></span><br><span class="line"><span class="comment"> autumn</span></span><br><span class="line"><span class="comment"> winter</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p><code>CaseIterable</code>提供了一个<code>allCases</code>的类型属性，返回一个数组，数组包含了枚举的所有值。</p>
+<blockquote>
+<p>扩展：<code>let seasons = Season.allCases</code>等价于<code>let seasons = [Season.spring, Season.summer, Season.autumn, Season.winter]</code></p>
+</blockquote>
+<h3 id="5-2-CustomStringConvertible-x2F-CustomDebugStringConvertible"><a href="#5-2-CustomStringConvertible-x2F-CustomDebugStringConvertible" class="headerlink" title="5.2. CustomStringConvertible&#x2F;CustomDebugStringConvertible"></a>5.2. CustomStringConvertible&#x2F;CustomDebugStringConvertible</h3><p>遵守<code>CustomStringConvertible</code>、<code>CustomDebugStringConvertible</code>协议，都可以自定义实例的打印字符串。</p>
+<p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_">CustomStringConvertible</span>, <span class="title class_">CustomDebugStringConvertible</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="string">&quot;person_<span class="subst">\(age)</span>&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> debugDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="string">&quot;debug_person_<span class="subst">\(age)</span>&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line"><span class="built_in">print</span>(p) <span class="comment">// 输出：person_0</span></span><br><span class="line"><span class="built_in">debugPrint</span>(p) <span class="comment">// 输出：debug_person_0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/4ho2o.png@normal"></p>
+<ul>
+<li><code>print</code>调用的是<code>CustomStringConvertible</code>协议的<code>description</code></li>
+<li><code>debugPrint</code>、<code>po</code>调用的是<code>CustomDebugStringConvertible</code>协议的<code>debugDescription</code></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/08/08/swift-syntax-protocol/" title="【iOS】Swift系列十六 - 协议">http://idbeny.com/2019/08/08/swift-syntax-protocol/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/%E5%8D%8F%E8%AE%AE/" rel="tag"># 协议</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/06/swift-syntax-optionalchaining/" rel="next" title="【iOS】Swift系列十五 - 可选链">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列十五 - 可选链
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/12/swift-syntax-any/" rel="prev" title="【iOS】Swift系列十七 - 任意类型">
+                【iOS】Swift系列十七 - 任意类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8D%8F%E8%AE%AE%EF%BC%88Protocol%EF%BC%89%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">一、协议（Protocol）的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8D%8F%E8%AE%AE%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">二、协议中的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81static%E3%80%81class%E3%80%81mutating%E3%80%81init%E5%9C%A8%E5%8D%8F%E8%AE%AE%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">三、static、class、mutating、init在协议中的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-static%E3%80%81class"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. static、class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-mutating"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. mutating</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-init"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. init</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%BB%A7%E6%89%BF%E5%92%8C%E7%BB%84%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">四、协议的继承和组合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%8D%8F%E8%AE%AE%E7%BB%A7%E6%89%BF"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 协议继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%8D%8F%E8%AE%AE%E7%BB%84%E5%90%88"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 协议组合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B8%B8%E7%94%A8%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">五、常用协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-CaseIterable%E5%8D%8F%E8%AE%AE%EF%BC%88%E6%9E%9A%E4%B8%BE%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">5.1. CaseIterable协议（枚举迭代器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-CustomStringConvertible-x2F-CustomDebugStringConvertible"><span class="nav-number">5.2.</span> <span class="nav-text">5.2. CustomStringConvertible&#x2F;CustomDebugStringConvertible</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

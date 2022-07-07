@@ -1,38 +1,1225 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,CoreAnimation,粘性动画,果冻效果," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="QQ中的未读消息可以通过拖拽根据手指移动，在范围内拖拽会有一个粘性动画，当松开手指时还会有一个果冻效果。看到这个动画时，眨眼一看挺好看，仔细一想挺难，但深入分析后发现做起来不难。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】QQ粘性动画果冻效果">
+<meta property="og:url" content="http://idbeny.com/2016/12/12/ios-animation-sticky/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="QQ中的未读消息可以通过拖拽根据手指移动，在范围内拖拽会有一个粘性动画，当松开手指时还会有一个果冻效果。看到这个动画时，眨眼一看挺好看，仔细一想挺难，但深入分析后发现做起来不难。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/6j08o.gif@normal">
+<meta property="og:image" content="http://blog.idbeny.com/96qkn.png@normal">
+<meta property="article:published_time" content="2016-12-12T12:32:27.000Z">
+<meta property="article:modified_time" content="2020-08-23T09:33:45.959Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="CoreAnimation">
+<meta property="article:tag" content="粘性动画">
+<meta property="article:tag" content="果冻效果">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/6j08o.gif@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2016/12/12/ios-animation-sticky/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】QQ粘性动画果冻效果 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2016/12/12/ios-animation-sticky/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】QQ粘性动画果冻效果</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-12T20:32:27+08:00">
+                2016-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>QQ中的未读消息可以通过拖拽根据手指移动，在范围内拖拽会有一个粘性动画，当松开手指时还会有一个果冻效果。看到这个动画时，眨眼一看挺好看，仔细一想挺难，但深入分析后发现做起来不难。</p>
+<span id="more"></span>
+<p><img src="http://blog.idbeny.com/6j08o.gif@normal"></p>
+<h2 id="一、整体思路"><a href="#一、整体思路" class="headerlink" title="一、整体思路"></a>一、整体思路</h2><h3 id="1-1-构建UI"><a href="#1-1-构建UI" class="headerlink" title="1.1. 构建UI"></a>1.1. 构建UI</h3><ol>
+<li>既然可以拖动，应该是一个view，使用<code>UIButton</code>或者<code>UILabel</code>都可以，我们选择使用<code>UIButton</code>；</li>
+<li>在按钮的原始位置创建一个尺寸小于按钮的view，作为‘吸盘’固定在该位置，吸盘和按钮是同一级，不是父子关系。<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">self.placeView</span> = [[UIView alloc] init]<span class="comment">;</span></span><br><span class="line"><span class="attr">self.placeView.frame</span> = self.frame<span class="comment">;</span></span><br><span class="line"><span class="attr">self.placeView.layer.cornerRadius</span> = self.placeView.bounds.size.width * <span class="number">0.5</span><span class="comment">;</span></span><br><span class="line"><span class="section">[self.superview insertSubview:self.placeView belowSubview:self]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="1-2-添加拖动事件"><a href="#1-2-添加拖动事件" class="headerlink" title="1.2. 添加拖动事件"></a>1.2. 添加拖动事件</h3><ol>
+<li>给<code>UIButton</code>添加拖动事件，让按钮能够跟随手指在屏幕上移动；</li>
+<li>拖动按钮时，让吸盘随着拖动距离按比例收缩；</li>
+<li>拖动位移达到限定距离后让吸盘消失，按钮继续跟随手指位置；</li>
+<li>取消拖动后，如果在限定距离内，让按钮回到原始位置，否则停留在当前触摸点。<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIPanGestureRecognizer</span> *panGesture = [[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(panGestureHandle:)];</span><br><span class="line">[<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="1-3-计算路径（重点）"><a href="#1-3-计算路径（重点）" class="headerlink" title="1.3. 计算路径（重点）"></a>1.3. 计算路径（重点）</h3><p>由于<code>transform</code>不会修改<code>center</code>，只会修改<code>frame</code>，为了方便计算两个圆心之间的距离，所以不使用<code>transform</code>让按钮发生位移动画。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)panGestureHandle:(<span class="built_in">UIPanGestureRecognizer</span> *)gesture &#123;</span><br><span class="line">    <span class="built_in">CGPoint</span> translatePoint = [gesture translationInView:gesture.view];</span><br><span class="line">    <span class="comment">// 计算按钮中心点</span></span><br><span class="line">    <span class="built_in">CGPoint</span> center = <span class="keyword">self</span>.center;</span><br><span class="line">    center.x += translatePoint.x;</span><br><span class="line">    center.y += translatePoint.y;</span><br><span class="line">    <span class="keyword">self</span>.center = center;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 位移复位</span></span><br><span class="line">    [gesture setTranslation:<span class="built_in">CGPointZero</span> inView:gesture.view];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取两个view的圆心距离</span></span><br><span class="line">    <span class="built_in">CGFloat</span> distance = [<span class="keyword">self</span> getCircleCenterDistanceWithView:<span class="keyword">self</span> otherView:<span class="keyword">self</span>.placeView];</span><br><span class="line">    <span class="comment">// 计算缩放比例</span></span><br><span class="line">    <span class="built_in">CGFloat</span> place_radius = <span class="keyword">self</span>.bounds.size.width * <span class="number">0.5</span>;</span><br><span class="line">    place_radius = place_radius - distance / <span class="number">10.0</span>;</span><br><span class="line">    <span class="keyword">self</span>.placeView.bounds = <span class="built_in">CGRectMake</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, place_radius * <span class="number">2</span>, place_radius * <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">self</span>.placeView.layer.cornerRadius = place_radius;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取圆心距离</span></span><br><span class="line">- (<span class="built_in">CGFloat</span>)getCircleCenterDistanceWithView:(<span class="built_in">UIView</span> *)aView otherView:(<span class="built_in">UIView</span> *)bView &#123;</span><br><span class="line">    <span class="comment">// 1.斜边 = 临边两个数平方的和的平方根</span></span><br><span class="line">    <span class="built_in">CGFloat</span> offset_x = fabs(aView.center.x - bView.center.x);</span><br><span class="line">    <span class="built_in">CGFloat</span> offset_y = fabs(aView.center.y - bView.center.y);</span><br><span class="line">    <span class="built_in">CGFloat</span> distance = sqrtf(offset_x * offset_x + offset_y * offset_y);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.求直角三角形斜边长度的C函数：hypotf(a, b)</span></span><br><span class="line">    <span class="comment">// distance = hypotf(offset_x, offset_y);</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> distance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>圆心距离有了，只需要计算出两个圆的四个外切连线点坐标，然后把四个点连接起来并填充颜色就可以了。</p>
+<p><strong>四个点的坐标如何计算呢？</strong></p>
+<p><img src="http://blog.idbeny.com/96qkn.png@normal"></p>
+<p>$已知 OA \perp  AB { , } PB \perp AB { , } OA&#x3D;PB&#x3D; d  \div  2 $</p>
+<p>由上图可知，当动画改变时，两个圆距离和角度会发生变化，变换的值是<strong>距离d</strong>和<strong>角度θ</strong>。根据已知条件，用三角定理可以求出<strong>距离d</strong>，使用三角函数和相似三角原理可以求出其他各点的坐标（计算坐标时要用数学思维，不要把屏幕坐标系考虑在内）。</p>
+<p>求距离d：<br>$ d &#x3D;  \sqrt{  (x_{1}-x_{2}) ^{2}+ (y_{1}-y_{2}) ^{2}  }  $</p>
+<p>优先求出<code>MN</code>和<code>x2轴</code>的角θ正弦和余弦：</p>
+<p>$ \sin  \theta &#x3D; \frac{ x_{2}-x_{1} }{d}  $</p>
+<p>$  \cos  \theta &#x3D; \frac{ y_{2}-y_{1} }{d}  $</p>
+<p>求A的坐标：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AE = r1 * cosθ</span><br><span class="line">EM = r1 * sinθ</span><br><span class="line"><span class="keyword">A</span>的x坐标 = x1 - AE</span><br><span class="line"><span class="keyword">A</span>的y坐标 = y1 + EM</span><br><span class="line"><span class="keyword">A</span>(x1 - AE, y1 + EM)</span><br></pre></td></tr></table></figure>
+
+<p>同理可得其他点坐标：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="constructor">B(<span class="params">x1</span> + <span class="params">r1</span> <span class="operator">*</span> <span class="params">cos</span>θ, <span class="params">y1</span> - <span class="params">r1</span> <span class="operator">*</span> <span class="params">sin</span>θ)</span></span><br><span class="line"><span class="constructor">C(<span class="params">x2</span> + <span class="params">r2</span> <span class="operator">*</span> <span class="params">cos</span>θ, <span class="params">y2</span> - <span class="params">r2</span> <span class="operator">*</span> <span class="params">sin</span>θ)</span></span><br><span class="line"><span class="constructor">D(<span class="params">x2</span> - <span class="params">r2</span> <span class="operator">*</span> <span class="params">cos</span>θ, <span class="params">y2</span> + <span class="params">r2</span> <span class="operator">*</span> <span class="params">sin</span>θ)</span></span><br><span class="line"><span class="constructor">O(A坐标<span class="params">x</span> + 2<span class="operator">/</span><span class="params">d</span> <span class="operator">*</span> <span class="params">sin</span>θ, A坐标<span class="params">y</span> + 2<span class="operator">/</span><span class="params">d</span> <span class="operator">*</span> <span class="params">cos</span>θ)</span></span><br><span class="line"><span class="constructor">P(B坐标<span class="params">x</span> + 2<span class="operator">/</span><span class="params">d</span> <span class="operator">*</span> <span class="params">sin</span>θ, B坐标<span class="params">y</span> + 2<span class="operator">/</span><span class="params">d</span> <span class="operator">*</span> <span class="params">cos</span>θ)</span></span><br></pre></td></tr></table></figure>
+
+<p>最后只需要把所有点用贝塞尔曲线连接起来就行了。</p>
+<h3 id="1-4-绘制形状（重点）"><a href="#1-4-绘制形状（重点）" class="headerlink" title="1.4. 绘制形状（重点）"></a>1.4. 绘制形状（重点）</h3><p>直接使用<code>UIBezierPath</code>不能填充路径，而且超出路径范围后不显示，所以需要使用<code>CAShapeLayer</code>根据路径生成一个形状，并形状添加到父视图上。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UIBezierPath</span> <span class="operator">*</span>path <span class="operator">=</span> [<span class="keyword">self</span> getBezierPathWithView:<span class="keyword">self</span>.placeView otherView:<span class="keyword">self</span>];</span><br><span class="line"><span class="comment">// 根据路径填充形状</span></span><br><span class="line"><span class="keyword">self</span>.shapeLayer.path <span class="operator">=</span> path.<span class="type">CGPath</span>;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">CAShapeLayer</span> <span class="operator">*</span>)shapeLayer &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_shapeLayer) &#123;</span><br><span class="line">        <span class="type">CAShapeLayer</span> <span class="operator">*</span>shapeLayer <span class="operator">=</span> [<span class="type">CAShapeLayer</span> layer];</span><br><span class="line">        shapeLayer.fillColor <span class="operator">=</span> <span class="keyword">self</span>.backgroundColor.<span class="type">CGColor</span>;</span><br><span class="line">        [<span class="keyword">self</span>.superview.layer insertSublayer:shapeLayer atIndex:<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">self</span>.shapeLayer <span class="operator">=</span> shapeLayer;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _shapeLayer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、实现细节"><a href="#二、实现细节" class="headerlink" title="二、实现细节"></a>二、实现细节</h2><p><strong><code>DBBadgeButton</code></strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@interface</span> <span class="type">DBBadgeButton</span> ()</span><br><span class="line"></span><br><span class="line"><span class="meta">@property</span> (nonatomic, strong) <span class="type">UIView</span> <span class="operator">*</span>placeView; <span class="comment">// 占位</span></span><br><span class="line"><span class="meta">@property</span> (nonatomic, <span class="keyword">weak</span>) <span class="type">CAShapeLayer</span> <span class="operator">*</span>shapeLayer; <span class="comment">// 路径形状</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">DBBadgeButton</span></span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)awakeFromNib &#123;</span><br><span class="line">    [<span class="keyword">super</span> awakeFromNib];</span><br><span class="line">    [<span class="keyword">self</span> initConfig];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (instancetype)initWithFrame:(<span class="type">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> <span class="operator">=</span> [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> initConfig];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取消高亮状态（不调用super即可）</span></span><br><span class="line"><span class="operator">-</span> (void)setHighlighted:(<span class="type">BOOL</span>)highlighted &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)willMoveToSuperview:(<span class="type">UIView</span> <span class="operator">*</span>)newSuperview &#123;</span><br><span class="line">    [newSuperview insertSubview:<span class="keyword">self</span>.placeView belowSubview:<span class="keyword">self</span>];</span><br><span class="line">    [newSuperview.layer insertSublayer:<span class="keyword">self</span>.shapeLayer atIndex:<span class="number">0</span>];</span><br><span class="line">    [<span class="keyword">super</span> willMoveToSuperview:newSuperview];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化配置</span></span><br><span class="line"><span class="operator">-</span> (void)initConfig &#123;</span><br><span class="line">    <span class="keyword">self</span>.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> redColor];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setTitleColor:[<span class="type">UIColor</span> whiteColor] forState:<span class="type">UIControlStateNormal</span>];</span><br><span class="line">    <span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>panGesture <span class="operator">=</span> [[<span class="type">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="meta">@selector</span>(panGestureHandle:)];</span><br><span class="line">    [<span class="keyword">self</span> addGestureRecognizer:panGesture];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)layoutSubviews &#123;</span><br><span class="line">    [<span class="keyword">super</span> layoutSubviews];</span><br><span class="line">    <span class="keyword">self</span>.layer.cornerRadius <span class="operator">=</span> <span class="keyword">self</span>.bounds.size.width <span class="operator">*</span> <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">self</span>.placeView.frame <span class="operator">=</span> <span class="keyword">self</span>.frame;</span><br><span class="line">    <span class="keyword">self</span>.placeView.layer.cornerRadius <span class="operator">=</span> <span class="keyword">self</span>.placeView.bounds.size.width <span class="operator">*</span> <span class="number">0.5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Private</span> <span class="type">Method</span></span><br><span class="line"><span class="comment">// 拖动手势</span></span><br><span class="line"><span class="operator">-</span> (void)panGestureHandle:(<span class="type">UIPanGestureRecognizer</span> <span class="operator">*</span>)gesture &#123;</span><br><span class="line">    <span class="type">CGPoint</span> translatePoint <span class="operator">=</span> [gesture translationInView:gesture.view];</span><br><span class="line">    <span class="comment">// 跟随手指移动</span></span><br><span class="line">    <span class="type">CGPoint</span> center <span class="operator">=</span> <span class="keyword">self</span>.center;</span><br><span class="line">    center.x <span class="operator">+=</span> translatePoint.x;</span><br><span class="line">    center.y <span class="operator">+=</span> translatePoint.y;</span><br><span class="line">    <span class="keyword">self</span>.center <span class="operator">=</span> center;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 位移复位</span></span><br><span class="line">    [gesture setTranslation:<span class="type">CGPointZero</span> inView:gesture.view];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取两个view的圆心距离</span></span><br><span class="line">    <span class="type">CGFloat</span> distance <span class="operator">=</span> [<span class="keyword">self</span> getCircleCenterDistanceWithView:<span class="keyword">self</span>.placeView otherView:<span class="keyword">self</span>];</span><br><span class="line">    <span class="comment">// 计算缩放比例</span></span><br><span class="line">    <span class="type">CGFloat</span> place_radius <span class="operator">=</span> <span class="keyword">self</span>.bounds.size.width <span class="operator">*</span> <span class="number">0.5</span>;</span><br><span class="line">    place_radius <span class="operator">=</span> place_radius <span class="operator">-</span> distance <span class="operator">/</span> <span class="number">10.0</span>;</span><br><span class="line">    <span class="keyword">self</span>.placeView.bounds <span class="operator">=</span> <span class="type">CGRectMake</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, place_radius <span class="operator">*</span> <span class="number">2</span>, place_radius <span class="operator">*</span> <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">self</span>.placeView.layer.cornerRadius <span class="operator">=</span> place_radius;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 范围内显示路径</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.placeView.hidden <span class="operator">==</span> <span class="type">NO</span>) &#123;</span><br><span class="line">        <span class="type">UIBezierPath</span> <span class="operator">*</span>path <span class="operator">=</span> [<span class="keyword">self</span> getBezierPathWithView:<span class="keyword">self</span>.placeView otherView:<span class="keyword">self</span>];</span><br><span class="line">        <span class="comment">// 根据路径填充形状</span></span><br><span class="line">        <span class="keyword">self</span>.shapeLayer.path <span class="operator">=</span> path.<span class="type">CGPath</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 超出范围隐藏路径</span></span><br><span class="line">    <span class="keyword">if</span> (distance <span class="operator">&gt;</span> <span class="number">60</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.placeView.hidden <span class="operator">=</span> <span class="type">YES</span>;</span><br><span class="line">        [<span class="keyword">self</span>.shapeLayer removeFromSuperlayer];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 手势结束</span></span><br><span class="line">    <span class="keyword">if</span> (gesture.state <span class="operator">==</span> <span class="type">UIGestureRecognizerStateEnded</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (distance <span class="operator">&lt;=</span> <span class="number">60</span>) &#123; <span class="comment">// 复位</span></span><br><span class="line">            [<span class="type">UIView</span> animateWithDuration:<span class="number">0.25</span> delay:<span class="number">0</span> usingSpringWithDamping:<span class="number">0.6</span> initialSpringVelocity:<span class="number">0</span> options:<span class="type">UIViewAnimationOptionCurveLinear</span> animations:<span class="operator">^</span>&#123;</span><br><span class="line">                <span class="keyword">self</span>.center <span class="operator">=</span> <span class="keyword">self</span>.placeView.center;</span><br><span class="line">            &#125; completion:<span class="literal">nil</span>];</span><br><span class="line">            <span class="keyword">self</span>.placeView.hidden <span class="operator">=</span> <span class="type">NO</span>;</span><br><span class="line">            [<span class="keyword">self</span>.shapeLayer removeFromSuperlayer];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 做动画</span></span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取路径</span></span><br><span class="line"><span class="operator">-</span> (<span class="type">UIBezierPath</span> <span class="operator">*</span>)getBezierPathWithView:(<span class="type">UIView</span> <span class="operator">*</span>)aView otherView:(<span class="type">UIView</span> <span class="operator">*</span>)bView &#123;</span><br><span class="line">    <span class="comment">// 获取圆心距离</span></span><br><span class="line">    <span class="type">CGFloat</span> d <span class="operator">=</span> [<span class="keyword">self</span> getCircleCenterDistanceWithView:aView otherView:bView];</span><br><span class="line">    <span class="comment">// 距离小于0不绘制曲线</span></span><br><span class="line">    <span class="keyword">if</span> (d <span class="operator">&lt;=</span> <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 计算坐标点</span></span><br><span class="line">    <span class="type">CGFloat</span> x1 <span class="operator">=</span> aView.center.x;</span><br><span class="line">    <span class="type">CGFloat</span> y1 <span class="operator">=</span> aView.center.y;</span><br><span class="line">    </span><br><span class="line">    <span class="type">CGFloat</span> x2 <span class="operator">=</span> bView.center.x;</span><br><span class="line">    <span class="type">CGFloat</span> y2 <span class="operator">=</span> bView.center.y;</span><br><span class="line">    </span><br><span class="line">    <span class="type">CGFloat</span> sinθ <span class="operator">=</span> (x2 <span class="operator">-</span> x1) <span class="operator">/</span> d;</span><br><span class="line">    <span class="type">CGFloat</span> cosθ <span class="operator">=</span> (y2 <span class="operator">-</span> y1) <span class="operator">/</span> d;</span><br><span class="line">    </span><br><span class="line">    <span class="type">CGFloat</span> r1 <span class="operator">=</span> aView.bounds.size.width <span class="operator">*</span> <span class="number">0.5</span>;</span><br><span class="line">    <span class="type">CGFloat</span> r2 <span class="operator">=</span> bView.bounds.size.width <span class="operator">*</span> <span class="number">0.5</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">CGPoint</span> pointA <span class="operator">=</span> <span class="type">CGPointMake</span>(x1 <span class="operator">-</span> r1 <span class="operator">*</span> cosθ, y1 <span class="operator">+</span> r1 <span class="operator">*</span> sinθ);</span><br><span class="line">    <span class="type">CGPoint</span> pointB <span class="operator">=</span> <span class="type">CGPointMake</span>(x1 <span class="operator">+</span> r1 <span class="operator">*</span> cosθ, y1 <span class="operator">-</span> r1 <span class="operator">*</span> sinθ);</span><br><span class="line">    <span class="type">CGPoint</span> pointC <span class="operator">=</span> <span class="type">CGPointMake</span>(x2 <span class="operator">+</span> r2 <span class="operator">*</span> cosθ, y2 <span class="operator">-</span> r2 <span class="operator">*</span> sinθ);</span><br><span class="line">    <span class="type">CGPoint</span> pointD <span class="operator">=</span> <span class="type">CGPointMake</span>(x2 <span class="operator">-</span> r2 <span class="operator">*</span> cosθ, y2 <span class="operator">+</span> r2 <span class="operator">*</span> sinθ);</span><br><span class="line">    <span class="type">CGPoint</span> pointO <span class="operator">=</span> <span class="type">CGPointMake</span>(pointA.x <span class="operator">+</span> <span class="number">2</span><span class="operator">/</span>d <span class="operator">*</span> sinθ, pointA.y <span class="operator">+</span> <span class="number">2</span><span class="operator">/</span>d <span class="operator">*</span> cosθ);</span><br><span class="line">    <span class="type">CGPoint</span> pointP <span class="operator">=</span> <span class="type">CGPointMake</span>(pointB.x <span class="operator">+</span> <span class="number">2</span><span class="operator">/</span>d <span class="operator">*</span> sinθ, pointB.y <span class="operator">+</span> <span class="number">2</span><span class="operator">/</span>d <span class="operator">*</span> cosθ);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 绘制路径</span></span><br><span class="line">    <span class="type">UIBezierPath</span> <span class="operator">*</span>path <span class="operator">=</span> [<span class="type">UIBezierPath</span> bezierPath];</span><br><span class="line">    <span class="comment">// AB直线</span></span><br><span class="line">    [path moveToPoint:pointA];</span><br><span class="line">    [path addLineToPoint:pointB];</span><br><span class="line">    <span class="comment">// BC曲线</span></span><br><span class="line">    [path addQuadCurveToPoint:pointC controlPoint:pointP];</span><br><span class="line">    <span class="comment">// CD直线</span></span><br><span class="line">    [path addLineToPoint:pointD];</span><br><span class="line">    <span class="comment">// DA曲线</span></span><br><span class="line">    [path addQuadCurveToPoint:pointA controlPoint:pointO];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> path;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取圆心距离</span></span><br><span class="line"><span class="operator">-</span> (<span class="type">CGFloat</span>)getCircleCenterDistanceWithView:(<span class="type">UIView</span> <span class="operator">*</span>)aView otherView:(<span class="type">UIView</span> <span class="operator">*</span>)bView &#123;</span><br><span class="line">    <span class="comment">// 1.斜边 = 临边两个数平方的和的平方根</span></span><br><span class="line">    <span class="type">CGFloat</span> offset_x <span class="operator">=</span> fabs(aView.center.x <span class="operator">-</span> bView.center.x);</span><br><span class="line">    <span class="type">CGFloat</span> offset_y <span class="operator">=</span> fabs(aView.center.y <span class="operator">-</span> bView.center.y);</span><br><span class="line">    <span class="type">CGFloat</span> distance <span class="operator">=</span> sqrtf(offset_x <span class="operator">*</span> offset_x <span class="operator">+</span> offset_y <span class="operator">*</span> offset_y);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.求直角三角形斜边长度的C函数：hypotf(a, b)</span></span><br><span class="line">    distance <span class="operator">=</span> hypotf(offset_x, offset_y);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> distance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark <span class="operator">-</span> <span class="type">Setter</span> and <span class="type">Getter</span></span><br><span class="line"><span class="operator">-</span> (void)setBackgroundColor:(<span class="type">UIColor</span> <span class="operator">*</span>)backgroundColor &#123;</span><br><span class="line">    [<span class="keyword">super</span> setBackgroundColor:backgroundColor];</span><br><span class="line">    <span class="keyword">self</span>.placeView.backgroundColor <span class="operator">=</span> backgroundColor;</span><br><span class="line">    <span class="keyword">self</span>.shapeLayer.fillColor <span class="operator">=</span> backgroundColor.<span class="type">CGColor</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">UIView</span> <span class="operator">*</span>)placeView &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_placeView) &#123;</span><br><span class="line">        _placeView <span class="operator">=</span> [[<span class="type">UIView</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _placeView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">CAShapeLayer</span> <span class="operator">*</span>)shapeLayer &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="operator">!</span>_shapeLayer) &#123;</span><br><span class="line">        <span class="type">CAShapeLayer</span> <span class="operator">*</span>shapeLayer <span class="operator">=</span> [<span class="type">CAShapeLayer</span> layer];</span><br><span class="line">        shapeLayer.fillColor <span class="operator">=</span> <span class="keyword">self</span>.backgroundColor.<span class="type">CGColor</span>;</span><br><span class="line">        [<span class="keyword">self</span>.superview.layer insertSublayer:shapeLayer atIndex:<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">self</span>.shapeLayer <span class="operator">=</span> shapeLayer;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _shapeLayer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2016/12/12/ios-animation-sticky/" title="【iOS】QQ粘性动画果冻效果">http://idbeny.com/2016/12/12/ios-animation-sticky/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/CoreAnimation/" rel="tag"># CoreAnimation</a>
+          
+            <a href="/tags/%E7%B2%98%E6%80%A7%E5%8A%A8%E7%94%BB/" rel="tag"># 粘性动画</a>
+          
+            <a href="/tags/%E6%9E%9C%E5%86%BB%E6%95%88%E6%9E%9C/" rel="tag"># 果冻效果</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/02/ios-coreanimation/" rel="next" title="【iOS】CoreAnimation的使用及综合案例">
+                <i class="fa fa-chevron-left"></i> 【iOS】CoreAnimation的使用及综合案例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/11/mac-terminal-not-work/" rel="prev" title="【Mac】Terminal(终端)命令不能用">
+                【Mac】Terminal(终端)命令不能用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">一、整体思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%9E%84%E5%BB%BAUI"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 构建UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%B7%BB%E5%8A%A0%E6%8B%96%E5%8A%A8%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 添加拖动事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E8%AE%A1%E7%AE%97%E8%B7%AF%E5%BE%84%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 计算路径（重点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E7%BB%98%E5%88%B6%E5%BD%A2%E7%8A%B6%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 绘制形状（重点）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">2.</span> <span class="nav-text">二、实现细节</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,38 +1,1487 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C,整型,浮点型,字面量,类型转换," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="C 语言的数据类型有很多，可以分为 4 大类型：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【C】C系列二 - 数据类型">
+<meta property="og:url" content="http://idbeny.com/2016/03/10/c-syntax-basic-02/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="C 语言的数据类型有很多，可以分为 4 大类型：">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/zmwjx.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/xov4u.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/boemg.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/p5pri.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/qt35f.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mwldo.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/yq9eg.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1gq03.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/x8dk0.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/7f2d7.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/25z21.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/2qf6x.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/urq0c.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/aeaw4.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/rreu2.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/5avxl.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/n66h6.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/17tym.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/s44xs.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/d31io.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/hxa9o.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/eed5s.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6zizm.png@normal">
+<meta property="article:published_time" content="2016-03-10T04:58:30.000Z">
+<meta property="article:modified_time" content="2020-11-27T12:12:19.703Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="整型">
+<meta property="article:tag" content="浮点型">
+<meta property="article:tag" content="字面量">
+<meta property="article:tag" content="类型转换">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/zmwjx.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2016/03/10/c-syntax-basic-02/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【C】C系列二 - 数据类型 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2016/03/10/c-syntax-basic-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【C】C系列二 - 数据类型</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-10T12:58:30+08:00">
+                2016-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>C 语言的数据类型有很多，可以分为 4 大类型：</p>
+<span id="more"></span>
+
+<ul>
+<li>void 类型</li>
+<li>基本类型<ul>
+<li>字符类型</li>
+<li>有符号整数类型</li>
+<li>无符号整数类型</li>
+<li>浮点类型</li>
+</ul>
+</li>
+<li>枚举类型</li>
+<li>派生类型<ul>
+<li>数组类型</li>
+<li>结构体类型</li>
+<li>联合体类型（也叫共同体类型）</li>
+<li>函数类型</li>
+<li>指针类型</li>
+</ul>
+</li>
+</ul>
+<h2 id="一、基本类型"><a href="#一、基本类型" class="headerlink" title="一、基本类型"></a>一、基本类型</h2><ul>
+<li><p>有符号整数类型</p>
+<ul>
+<li><code>char</code>（等价类型：<code>signed char</code>）</li>
+<li><code>short</code>（等价类型：<code>signed short</code>、<code>short int</code>、<code>signed short int</code>）</li>
+<li><code>int</code>（等价类型：<code>signed int</code>、<code>signed</code>）</li>
+<li><code>long</code>（等价类型：<code>signed long</code>、<code>long int</code>、<code>signed long int</code>）（C99 起）</li>
+<li><code>long long</code>（等价类型：<code>signed long long</code>、<code>long long int</code>、<code>signed long long in</code>t&#96;）（C99 起）</li>
+</ul>
+</li>
+<li><p>无符号整数类型</p>
+<ul>
+<li>unsigned char</li>
+<li>unsigned short（等价类型：<code>unsigned short int</code>）</li>
+<li>unsigned int（等价类型：<code>unsigned</code>）</li>
+<li>unsigned long（等价类型：<code>unsigned long int</code>）（C99 起）</li>
+<li>unsigned long long（等价类型：<code>unsigned long long int</code>）（C99 起）</li>
+</ul>
+</li>
+<li><p>字符类型</p>
+<ul>
+<li><code>char</code></li>
+</ul>
+</li>
+<li><p>浮点类型</p>
+<ul>
+<li><code>float</code></li>
+<li><code>double</code></li>
+<li><code>long double</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-整数类型"><a href="#1-1-整数类型" class="headerlink" title="1.1. 整数类型"></a>1.1. 整数类型</h3><h4 id="1-1-1-整数类型大小"><a href="#1-1-1-整数类型大小" class="headerlink" title="1.1.1. 整数类型大小"></a>1.1.1. 整数类型大小</h4><p>C 标准规定</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> == <span class="keyword">sizeof</span>(<span class="built_in">char</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="built_in">short</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="built_in">int</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="built_in">long</span>)</span><br><span class="line">  &lt;= <span class="keyword">sizeof</span>(<span class="built_in">long</span> <span class="built_in">long</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-2-数据模型"><a href="#1-1-2-数据模型" class="headerlink" title="1.1.2. 数据模型"></a>1.1.2. 数据模型</h4><p>关于基本类型大小的是实现方案，统称为：数据模型。有 4 种常见的数据模型</p>
+<ul>
+<li><p>32bit 系统（指针为 32 位）</p>
+<ul>
+<li>LP32<ul>
+<li>Win16 API</li>
+</ul>
+</li>
+<li>ILP32<ul>
+<li>Win32 API</li>
+<li>Unix、类 Unix 系统（Linux、Mac OS X）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>64bit 系统（指针为 64 位）</p>
+<ul>
+<li>LLP64<ul>
+<li>Win64 API</li>
+</ul>
+</li>
+<li>LP64<ul>
+<li>Unix、类 Unix 系统（Linux、Mac OS X）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>比较少见的数据模型</p>
+<ul>
+<li>ILP64：int、long、指针均为 64 位<ul>
+<li>仅出现在早期 64 位 Unix 系统（例如 Unicos on Cray）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://blog.idbeny.com/zmwjx.png@normal"></p>
+<h4 id="1-1-3-有符号整数类型和无符号整数类型区别"><a href="#1-1-3-有符号整数类型和无符号整数类型区别" class="headerlink" title="1.1.3. 有符号整数类型和无符号整数类型区别"></a>1.1.3. 有符号整数类型和无符号整数类型区别</h4><p>整数类型可分为：有符号整数类型、无符号整数类型。<br><img src="http://blog.idbeny.com/xov4u.png@normal"></p>
+<h4 id="1-1-4-有符号整数-char、无符号整数-unsigned-char"><a href="#1-1-4-有符号整数-char、无符号整数-unsigned-char" class="headerlink" title="1.1.4. 有符号整数 char、无符号整数 unsigned char"></a>1.1.4. 有符号整数 char、无符号整数 unsigned char</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// <span class="number">0xBD</span> &lt;=&gt; <span class="number">0b10111101</span></span><br><span class="line">char c1 = <span class="number">0xBD</span>;</span><br><span class="line">unsigned char c2 = <span class="number">0xBD</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d %d&quot;</span>, c1, c2); // 输出：-<span class="number">67</span> <span class="number">189</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/boemg.png@normal"></p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// <span class="number">0x43</span> &lt;=&gt; <span class="number">0b01000011</span></span><br><span class="line">char c1 = <span class="number">0x43</span>;</span><br><span class="line">unsigned char c2 = <span class="number">0x43</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d %d&quot;</span>, c1, c2); // 输出：<span class="number">67</span> <span class="number">67</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/p5pri.png@normal"></p>
+<ul>
+<li>c1、c2 变量在内存中存放的二进制数据是完全一样的；</li>
+<li>对于同一份二进制数据，分别以有符号数形式、无符号数形式解读出来的含义可能是不一样的。</li>
+</ul>
+<h4 id="1-1-5-整数的取值范围"><a href="#1-1-5-整数的取值范围" class="headerlink" title="1.1.5. 整数的取值范围"></a>1.1.5. 整数的取值范围</h4><p><code>char</code>、<code>unsigned char</code> 都只占用一个字节，能够存放的二进制数据范围都是<code>[0b0000 0000, 0b1111 1111]</code>。<br><img src="http://blog.idbeny.com/qt35f.png@normal"></p>
+<ul>
+<li><code>char</code>的取值范围：$[-128, 127] &#x3D; [-2^7, 2^7-1]$</li>
+<li><code>unsigned char</code>的取值范围：$[0, 255] &#x3D; [0, 2^8-1]$</li>
+<li>有 n 个二进制位的有符号数的取值范围$[-2^{n-1}, 2^{n-1}-1]$</li>
+<li>有 n 个二进制位的无符号数的取值范围$[0, 2^n-1]$</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">位数</th>
+<th align="center">符号</th>
+<th align="center">最小值</th>
+<th align="center">最大值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">8</td>
+<td align="center">有符号</td>
+<td align="center">$$-2^7(128)$$</td>
+<td align="center">$$2^7-1(127)$$</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">无符号</td>
+<td align="center">0</td>
+<td align="center">$$2^8-1(255)$$</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center">有符号</td>
+<td align="center">$$-2^{15}(-32768)$$</td>
+<td align="center">$$2^{15}-1(32767)$$</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center">无符号</td>
+<td align="center">0</td>
+<td align="center">$$2^{16}-1(65535)$$</td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="center">有符号</td>
+<td align="center">$$-2^{31}(-2147483648)$$</td>
+<td align="center">$$2^{31}-1(2147483647)$$</td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="center">无符号</td>
+<td align="center">0</td>
+<td align="center">$$2^{32}-1(4294967295)$$</td>
+</tr>
+<tr>
+<td align="center">64</td>
+<td align="center">有符号</td>
+<td align="center">$$-2^{63}(-922337203685477808)$$</td>
+<td align="center">$$2^{63}-1(922337203685477807)$$</td>
+</tr>
+<tr>
+<td align="center">64</td>
+<td align="center">无符号</td>
+<td align="center">0</td>
+<td align="center">$$2^{64}-1(18446744073709551615)$$</td>
+</tr>
+</tbody></table>
+<h4 id="1-1-6-溢出（Overflow）"><a href="#1-1-6-溢出（Overflow）" class="headerlink" title="1.1.6. 溢出（Overflow）"></a>1.1.6. 溢出（Overflow）</h4><p>溢出指的是内容超过了已知容器的容量。</p>
+<p>例：<code>short s;</code></p>
+<ul>
+<li><code>short</code>类型的变量 s 有 2 个字节的内存空间</li>
+<li>如果要将超过 2 个字节（比如 4 个字节）的数据存储到变量 s 中去，就会产生内存溢出</li>
+</ul>
+<p>案例一：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">16909292</span>;</span><br><span class="line">short s = <span class="number">16909292</span>;</span><br><span class="line">char c = i;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i); <span class="regexp">//</span> 输出：<span class="number">16909292</span></span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, s); <span class="regexp">//</span> 输出：<span class="number">1004</span></span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, c); <span class="regexp">//</span> 输出：-<span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/mwldo.png@normal"></p>
+<ul>
+<li>当出现溢出时，会优先保留低字节的数据，舍弃高字节的数据；</li>
+<li>所以在给取值范围小的变量赋值时要注意防止数据溢出，否则结果可能会跟预期不符合。</li>
+</ul>
+<blockquote>
+<p>思考：那是不是以后都统一使用取值范围比较大的变量就好了？<br>应该根据已知的数据范围选择合适大小的变量，不然会造成内存空间的浪费</p>
+</blockquote>
+<p>案例二：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">16909292</span>;</span><br><span class="line">char c = i;</span><br><span class="line">i = c;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i); <span class="regexp">//</span> 输出：-<span class="number">20</span></span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%d\n&quot;</span>, c); <span class="regexp">//</span> 输出：-<span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/yq9eg.png@normal"></p>
+<p>案例三：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">255</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> -<span class="number">1</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/1gq03.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=0, c2=0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/x8dk0.png@normal"></p>
+<p>案例四：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">0</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> <span class="number">0</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/7f2d7.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=255, c2=-1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/25z21.png@normal"></p>
+<p>案例五：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">127</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> <span class="number">127</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/2qf6x.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=128, c2=-128</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/urq0c.png@normal"></p>
+<p>案例六：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">128</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> -<span class="number">128</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/aeaw4.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=127, c2=127</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/rreu2.png@normal"></p>
+<p>案例七：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">255</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> -<span class="number">1</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/5avxl.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> + <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=0, c2=0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/n66h6.png@normal"></p>
+<p>案例八：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsigned char c1 <span class="operator">=</span> <span class="number">0</span><span class="comment">;</span></span><br><span class="line">char c2 <span class="operator">=</span> <span class="number">0</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/17tym.png@normal"></p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">c</span><span class="number">1</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">1</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">c</span><span class="number">2</span> <span class="operator">=</span> <span class="keyword">c</span><span class="number">2</span> - <span class="number">1</span><span class="comment">;</span></span><br><span class="line">printf(<span class="string">&quot;c1=%d, c2=%d&quot;</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">1</span><span class="punctuation">,</span> <span class="keyword">c</span><span class="number">2</span>)<span class="comment">; // 输出：c1=255, c2=-1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.idbeny.com/s44xs.png@normal"></p>
+<h4 id="1-1-7-unsigned-char、char-的取值范围"><a href="#1-1-7-unsigned-char、char-的取值范围" class="headerlink" title="1.1.7. unsigned char、char 的取值范围"></a>1.1.7. unsigned char、char 的取值范围</h4><p><img src="http://blog.idbeny.com/d31io.png@normal"></p>
+<h3 id="1-2-浮点类型"><a href="#1-2-浮点类型" class="headerlink" title="1.2. 浮点类型"></a>1.2. 浮点类型</h3><p>浮点类型可以用来表示小数（比如 3.14），包括<code>float</code>,<code>double</code>,<code>long double</code>类型</p>
+<p>最常用的浮点类型是<code>float</code>和<code>double</code>，一般在数值后面加上 f 或者 F 表示十 float 类型的数值</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">float</span> f = <span class="number">3</span>.<span class="number">14</span>F;</span><br><span class="line"><span class="attribute">double</span> d = <span class="number">10</span>.<span class="number">24</span>;</span><br><span class="line"><span class="attribute">printf</span>(<span class="string">&quot;%f %f&quot;</span>, f, d); // 输出：<span class="number">3</span>.<span class="number">140000</span> <span class="number">10</span>.<span class="number">240000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>float</code>：单精度（Single）浮点类型，占用 32bit，可以保证精确到小数点后 6 位<ul>
+<li>最小值：$$-3.4*10^{38}$$</li>
+<li>最大值：$$3.4*10^{38}$$</li>
+</ul>
+</li>
+<li><code>double</code>：双精度（Double）浮点类型，占用 64bit，可以保证精确到小数点后 15 位<ul>
+<li>最小值：$$-1.8*10^{308}$$</li>
+<li>最大值：$$1.8*10^{308}$$</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-1-浮点类型的存储细节"><a href="#1-2-1-浮点类型的存储细节" class="headerlink" title="1.2.1. 浮点类型的存储细节"></a>1.2.1. 浮点类型的存储细节</h4><blockquote>
+<p>思考：为什么 32bit 的<code>unsigned int</code>最大值是 2^32-1，而 32bit 的<code>float</code>最大值是 3.4 * 10^38？<br>因为他们的存储方式不一样，浮点数在计算机中是按照 IEEE 754 标准存储的。</p>
+</blockquote>
+<p><img src="http://blog.idbeny.com/hxa9o.png@normal"><br><img src="http://blog.idbeny.com/eed5s.png@normal"></p>
+<h3 id="1-3-整数、浮点数字面量"><a href="#1-3-整数、浮点数字面量" class="headerlink" title="1.3. 整数、浮点数字面量"></a>1.3. 整数、浮点数字面量</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c = <span class="number">10</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> uc = <span class="number">10</span>;</span><br><span class="line"><span class="type">short</span> s = <span class="number">10</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">short</span> us = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> ui1 = <span class="number">10u</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> ui2 = <span class="number">10U</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">long</span> l1 = <span class="number">10l</span>;</span><br><span class="line"><span class="type">long</span> l2 = <span class="number">10L</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> ul1 = <span class="number">10ul</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> ul2 = <span class="number">10UL</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能是lL或Ll</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> ll1 = <span class="number">10ll</span>;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> ll2 = <span class="number">10ll</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> f1 = <span class="number">10.24F</span>;</span><br><span class="line"><span class="type">double</span> d1 = <span class="number">10.24</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 小数部分可选：1.0</span></span><br><span class="line"><span class="type">float</span> f2 = <span class="number">1.F</span>;</span><br><span class="line"><span class="type">double</span> d2 = <span class="number">1.</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 整数部分可选：0.1</span></span><br><span class="line"><span class="type">float</span> f3 = <span class="number">.1</span>F;</span><br><span class="line"><span class="type">double</span> d3 = <span class="number">.1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制小数 1.2 * 10^3 = 1200.0</span></span><br><span class="line"><span class="type">float</span> f4 = <span class="number">1.2e3</span>F; <span class="comment">// 1.2E3F</span></span><br><span class="line"><span class="type">double</span> d4 = <span class="number">1.2e3</span>; <span class="comment">// 1.2E3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十六进制小数 1.125 * 2^10 = 1152.0</span></span><br><span class="line"><span class="type">float</span> f5 = <span class="number">0x1</span><span class="number">.2</span>p10F; <span class="comment">// 0x1.2P10F</span></span><br><span class="line"><span class="type">double</span> d5 = <span class="number">0x1</span><span class="number">.2</span>p10; <span class="comment">// 0x1.2P10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制 1.875 * 2^3 = 15.0</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f&quot;</span>, <span class="number">0x1</span>.ep+<span class="number">3</span>); <span class="comment">// 可写：0x1.EP+3 输出：15.000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 十进制 1.875 * 2^(-2) = 0.46875</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f&quot;</span>, <span class="number">0x1</span>.ep<span class="number">-2</span>); <span class="comment">// 可写：0x1.EP-2 输出：0.468750</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> v <span class="number">0xE</span>+<span class="number">2</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="type">int</span> x = <span class="number">0xe</span>+<span class="number">2</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="type">int</span> y = <span class="number">0xA</span>+<span class="number">2</span>; <span class="comment">// OK</span></span><br><span class="line"><span class="type">int</span> z = <span class="number">0xE</span> +<span class="number">2</span>; <span class="comment">// OK</span></span><br><span class="line"><span class="type">int</span> q = (<span class="number">0xE</span>)+<span class="number">2</span> <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-printf-中的转换格式指定符"><a href="#1-4-printf-中的转换格式指定符" class="headerlink" title="1.4. printf 中的转换格式指定符"></a>1.4. printf 中的转换格式指定符</h3><p><img src="http://blog.idbeny.com/6zizm.png@normal"></p>
+<h4 id="1-4-1-案例一"><a href="#1-4-1-案例一" class="headerlink" title="1.4.1. 案例一"></a>1.4.1. 案例一</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%zd\n&quot;</span>, sizeof(<span class="keyword">int</span>)); <span class="regexp">//</span> 输出：<span class="number">4</span></span><br><span class="line"></span><br><span class="line">long long age = <span class="number">10</span>LL;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, age); <span class="regexp">//</span> 输出：<span class="number">10</span></span><br><span class="line"></span><br><span class="line">unsigned long <span class="keyword">no</span> = <span class="number">8</span>UL;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;%lu\n&quot;</span>, <span class="keyword">no</span>); <span class="regexp">//</span> 输出：<span class="number">8</span></span><br><span class="line"></span><br><span class="line">char *name = <span class="string">&quot;idbeny&quot;</span>;</span><br><span class="line">char *place = <span class="string">&quot;1024星球&quot;</span>;</span><br><span class="line"><span class="keyword">printf</span>(<span class="string">&quot;我是%s，欢迎来到%s\n&quot;</span>, name, place); <span class="regexp">//</span> 输出：我是idbeny，欢迎来到<span class="number">1024</span>星球</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-2-案例二"><a href="#1-4-2-案例二" class="headerlink" title="1.4.2. 案例二"></a>1.4.2. 案例二</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span> 用%%来显示一个%</span><br><span class="line">printf(<span class="string">&quot;%d%%%d\n&quot;</span>, <span class="number">10</span>, <span class="number">20</span>); <span class="regexp">//</span> 输出：<span class="number">10</span>%<span class="number">20</span></span><br><span class="line"></span><br><span class="line">int i1 = <span class="number">10</span>;</span><br><span class="line"><span class="regexp">//</span> %<span class="number">6</span>d表示占用<span class="number">6</span>个字符位置，默认靠右对齐（左边空白）</span><br><span class="line">printf(<span class="string">&quot;welcome%6d24星球\n&quot;</span>, i1); <span class="regexp">//</span> 输出：welcome    <span class="number">1024</span>星球</span><br><span class="line"><span class="regexp">//</span> %-<span class="number">6</span>d表示占用<span class="number">6</span>个字符位置，靠左对齐（右边空白）</span><br><span class="line">printf(<span class="string">&quot;welcome%-6d24星球\n&quot;</span>, i1); <span class="regexp">//</span> 输出：welcome10    <span class="number">24</span>星球</span><br><span class="line"></span><br><span class="line">int i2 = -<span class="number">6</span>;</span><br><span class="line"><span class="regexp">//</span> %+<span class="number">6</span>d：加号(+)表示显示正负号</span><br><span class="line">printf(<span class="string">&quot;%+6d和%+-6d\n&quot;</span>, i1, i2); <span class="regexp">//</span> 输出：   +<span class="number">10</span>和-<span class="number">6</span></span><br><span class="line"></span><br><span class="line">double d = <span class="number">3.1415926</span>;</span><br><span class="line"><span class="regexp">//</span> 四舍五入保留<span class="number">2</span>位小数</span><br><span class="line">printf(<span class="string">&quot;%.2f\n&quot;</span>, d); <span class="regexp">//</span> 输出：<span class="number">3.14</span></span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * 占用<span class="number">10</span>个字符位置</span><br><span class="line"> * 四舍五入保留<span class="number">4</span>位小数</span><br><span class="line"> * 显示正负号</span><br><span class="line"> * 靠左对齐</span><br><span class="line"> */</span><br><span class="line">printf(<span class="string">&quot;1%+-10.4f2\n&quot;</span>, d); <span class="regexp">//</span> 输出：<span class="number">1</span>+<span class="number">3.1416</span>          <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-5-scanf-中的转换格式指定符"><a href="#1-5-scanf-中的转换格式指定符" class="headerlink" title="1.5. scanf 中的转换格式指定符"></a>1.5. scanf 中的转换格式指定符</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用%%来匹配一个%</span></span><br><span class="line"><span class="type">int</span> age = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%%%d&quot;</span>, &amp;age); <span class="comment">// 输入：%30</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;age is %d\n&quot;</span>, age); <span class="comment">// 输出：age is 30</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：30</span></span><br><span class="line"><span class="comment">  输出：age is 10</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：%30</span></span><br><span class="line"><span class="comment">  输出：age is 30</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，float类型用%f</span></span><br><span class="line"><span class="type">float</span> f;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%f&quot;</span>, &amp;f);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在scanf中，double类型用%lf</span></span><br><span class="line"><span class="type">double</span> d;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%lf&quot;</span>, &amp;d);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在printf中，float、double都可以用%f、%lf</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f %lf %f %lf&quot;</span>, f, f, d, d);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10（回车）20</span></span><br><span class="line"><span class="comment">  输出：10.000000 10.000000 20.000000 20.000000</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i1 = <span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> i2 = <span class="number">2</span>;</span><br><span class="line"><span class="comment">// %*3d是跳过长度为3的整数</span></span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%2d%*3d%4d&quot;</span>, &amp;i1, &amp;i2);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;i1=%d,i2=%d&quot;</span>, i1, i2);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  输入：10   20   40</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=40</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  输入：10111140</span></span><br><span class="line"><span class="comment">  输出：i1=10,i2=140</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-类型转换"><a href="#1-6-类型转换" class="headerlink" title="1.6. 类型转换"></a>1.6. 类型转换</h3><p><strong>格式：</strong></p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">类型<span class="number">1</span> v1 <span class="operator">=</span> xx<span class="comment">;</span></span><br><span class="line">类型<span class="number">2</span> v2 <span class="operator">=</span> (类型<span class="number">1</span>)v1<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>案例：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"><span class="type">int</span> i = (<span class="type">int</span>)c;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i); <span class="comment">// 输出：65</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i2 = <span class="number">200</span>;</span><br><span class="line"><span class="type">short</span> s = (<span class="type">short</span>)i2;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, s); <span class="comment">// 输出：200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 会丢失精度</span></span><br><span class="line"><span class="type">double</span> d = <span class="number">3.14</span>;</span><br><span class="line"><span class="type">int</span> i3 = (<span class="type">int</span>)d;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i3); <span class="comment">// 输出：3</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i4 = <span class="number">333</span>;</span><br><span class="line"><span class="type">double</span> d2 = (<span class="type">double</span>)i4;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>, d2); <span class="comment">// 输出：333.000000</span></span><br></pre></td></tr></table></figure>
+
+<p>其实在很多时候，编译器都会进行隐式类型转换：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"><span class="type">int</span> i = c;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i); <span class="comment">// 输出：65</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i2 = <span class="number">200L</span>;</span><br><span class="line"><span class="type">short</span> s = i2;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, s); <span class="comment">// 输出：200</span></span><br><span class="line"></span><br><span class="line"><span class="type">double</span> d = <span class="number">3.14</span>;</span><br><span class="line"><span class="type">int</span> i3 = d;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i3); <span class="comment">// 输出：3</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i4 = <span class="number">333</span>;</span><br><span class="line"><span class="type">double</span> d2 = i4;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>, d2); <span class="comment">// 输出：333.000000</span></span><br></pre></td></tr></table></figure>
+
+<p>大类型转小类型的时候，可能会丢失精度：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">3.14</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>, d); <span class="comment">// 输出：3.140000</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i = d;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, i); <span class="comment">// 输出：3</span></span><br><span class="line"></span><br><span class="line"><span class="type">double</span> d2 = <span class="number">1.1234567890123456789123</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%.20f\n&quot;</span>, d2); <span class="comment">// 输出：1.12345678901234569125</span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> f = d2;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%.20f\n&quot;</span>, f); <span class="comment">// 输出：1.12345683574676513672</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2016/03/10/c-syntax-basic-02/" title="【C】C系列二 - 数据类型">http://idbeny.com/2016/03/10/c-syntax-basic-02/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+            <a href="/tags/%E6%95%B4%E5%9E%8B/" rel="tag"># 整型</a>
+          
+            <a href="/tags/%E6%B5%AE%E7%82%B9%E5%9E%8B/" rel="tag"># 浮点型</a>
+          
+            <a href="/tags/%E5%AD%97%E9%9D%A2%E9%87%8F/" rel="tag"># 字面量</a>
+          
+            <a href="/tags/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" rel="tag"># 类型转换</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/07/c-syntax-basic-01/" rel="next" title="【C】C系列一 - 基本认识">
+                <i class="fa fa-chevron-left"></i> 【C】C系列一 - 基本认识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/15/c-syntax-basic-03/" rel="prev" title="【C】C系列三 - 运算符">
+                【C】C系列三 - 运算符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">一、基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 整数类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%A4%A7%E5%B0%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1. 整数类型大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2. 数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.1.3. 有符号整数类型和无符号整数类型区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0-char%E3%80%81%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0-unsigned-char"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4. 有符号整数 char、无符号整数 unsigned char</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-%E6%95%B4%E6%95%B0%E7%9A%84%E5%8F%96%E5%80%BC%E8%8C%83%E5%9B%B4"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.1.5. 整数的取值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-6-%E6%BA%A2%E5%87%BA%EF%BC%88Overflow%EF%BC%89"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.1.6. 溢出（Overflow）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-7-unsigned-char%E3%80%81char-%E7%9A%84%E5%8F%96%E5%80%BC%E8%8C%83%E5%9B%B4"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.1.7. unsigned char、char 的取值范围</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%B5%AE%E7%82%B9%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E6%B5%AE%E7%82%B9%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%86%E8%8A%82"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1. 浮点类型的存储细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%95%B4%E6%95%B0%E3%80%81%E6%B5%AE%E7%82%B9%E6%95%B0%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 整数、浮点数字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-printf-%E4%B8%AD%E7%9A%84%E8%BD%AC%E6%8D%A2%E6%A0%BC%E5%BC%8F%E6%8C%87%E5%AE%9A%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. printf 中的转换格式指定符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1. 案例一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2. 案例二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-scanf-%E4%B8%AD%E7%9A%84%E8%BD%AC%E6%8D%A2%E6%A0%BC%E5%BC%8F%E6%8C%87%E5%AE%9A%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. scanf 中的转换格式指定符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 类型转换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

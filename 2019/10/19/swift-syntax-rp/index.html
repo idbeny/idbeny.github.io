@@ -1,38 +1,1299 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Swift,响应式编程,RxSwift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="响应式编程（Reactive Programming，简称RP）也是一种编程范式，于1997年提出，可以简化异步编程，提供更优雅的数据绑定。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用）">
+<meta property="og:url" content="http://idbeny.com/2019/10/19/swift-syntax-rp/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="响应式编程（Reactive Programming，简称RP）也是一种编程范式，于1997年提出，可以简化异步编程，提供更优雅的数据绑定。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/m8x3e.png@normal">
+<meta property="article:published_time" content="2019-10-19T04:34:26.000Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.298Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="响应式编程">
+<meta property="article:tag" content="RxSwift">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/m8x3e.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/10/19/swift-syntax-rp/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用） | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/10/19/swift-syntax-rp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T12:34:26+08:00">
+                2019-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.6k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>响应式编程（Reactive Programming，简称RP）也是一种编程范式，于1997年提出，可以简化异步编程，提供更优雅的数据绑定。</p>
+<span id="more"></span>
+<h2 id="一、初始响应式编程"><a href="#一、初始响应式编程" class="headerlink" title="一、初始响应式编程"></a>一、初始响应式编程</h2><p>响应式编程一般与函数式融合在一起，所以也会叫做：函数响应式编程（Functional Reactive Programming，简称FRP）。</p>
+<p>比较著名的，成熟的响应式框架：</p>
+<ul>
+<li><p><strong>ReactiveCocoa</strong></p>
+<ul>
+<li>简称RAC，有OC、Swift版本</li>
+<li>官网：<a target="_blank" rel="noopener" href="http://reactivecocoa.io/">http://reactivecocoa.io/</a></li>
+<li>github：<a target="_blank" rel="noopener" href="https://github.com/ReactiveCocoa">https://github.com/ReactiveCocoa</a></li>
+</ul>
+</li>
+<li><p><strong>ReactiveX</strong></p>
+<ul>
+<li>简称Rx，有众多编程语言的版本，比如RxJava、RxKotlin、RxJS、RxCpp、RxPHP、RxGo、RxDart、<strong>RxSwift</strong>等等</li>
+<li>官网：<a target="_blank" rel="noopener" href="http://reactivex.io/">http://reactivex.io</a></li>
+<li>github：<a target="_blank" rel="noopener" href="https://github.com/ReactiveX">https://github.com/ReactiveX</a></li>
+</ul>
+</li>
+</ul>
+<p>Swift响应式编程一般使用<strong>RxSwift</strong>框架。</p>
+<h2 id="二、RxSwift"><a href="#二、RxSwift" class="headerlink" title="二、RxSwift"></a>二、RxSwift</h2><h3 id="2-1-安装RxSwift"><a href="#2-1-安装RxSwift" class="headerlink" title="2.1. 安装RxSwift"></a>2.1. 安装RxSwift</h3><p>源码：<a target="_blank" rel="noopener" href="https://github.com/ReactiveX/RxSwift">https://github.com/ReactiveX/RxSwift</a></p>
+<p>中文文档（非官方）：<a target="_blank" rel="noopener" href="https://beethoven.github.io/RxSwift-Chinese-Documentation">https://beethOven.github.io/RxSwift-Chinese-Documentation</a></p>
+<p>RxSwift的github上已经有详细的安装教程，这里只演示CocoaPods方式的安装。</p>
+<p>第一步：创建<code>Podfile</code>（可以直接在项目根目录执行<code>pod init</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Podfile</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;YOUR_TARGET_NAME&#x27; do</span><br><span class="line">    pod &#x27;RxSwift&#x27;, &#x27;~&gt;5.0.1&#x27;</span><br><span class="line">    pod &#x27;RxCocoa&#x27;, &#x27;~&gt;5.0.1&#x27;</span><br><span class="line">end</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">RxTest and RxBlocking make the most sense <span class="keyword">in</span> the context of unit/integration tests</span></span><br><span class="line">target &#x27;YOUR_TESTING_TARGET&#x27; do</span><br><span class="line">    pod &#x27;RxBlocking&#x27;, &#x27;~&gt;5.0.1&#x27;</span><br><span class="line">    pod &#x27;RxTest&#x27;, &#x27;~&gt;5.0.1&#x27;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>第二步：命令行安装<br>注意把<code>YOUR_TARGET_NAME</code>替换为自己的工程名。然后在<code>Podfile</code>所在文件夹执行<code>pod install</code>。</p>
+<p>第三步：导入模块</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> RxSwift</span><br><span class="line"><span class="keyword">import</span> RxCocoa</span><br></pre></td></tr></table></figure>
+
+<p>模块说明：</p>
+<ul>
+<li>RxSwift：Rx标准API的Swift实现，不包括任何iOS相关的内容</li>
+<li>RxCocoa：基于RxSwift，给iOS的UI控件扩展了很多Rx特性</li>
+</ul>
+<h3 id="2-2-RxSwift的核心角色"><a href="#2-2-RxSwift的核心角色" class="headerlink" title="2.2. RxSwift的核心角色"></a>2.2. RxSwift的核心角色</h3><ul>
+<li><strong>Observable</strong>：负责发送事件（Event）</li>
+<li><strong>Observer</strong>：负责订阅<code>Observable</code>，监听<code>Observable</code>发送的事件（Event）</li>
+</ul>
+<p><img src="http://blog.idbeny.com/m8x3e.png@normal"></p>
+<p>每次发送的事件是枚举类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Event</span>&lt;<span class="title class_">Element</span>&gt; &#123;</span><br><span class="line">    <span class="comment">/// Next element is produced.</span></span><br><span class="line">    <span class="keyword">case</span> next(<span class="type">Element</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Sequence terminated with an error.</span></span><br><span class="line">    <span class="keyword">case</span> error(<span class="type">Swift</span>.<span class="type">Error</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Sequence completed successfully.</span></span><br><span class="line">    <span class="keyword">case</span> completed</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>next</code>：携带具体数据</li>
+<li><code>error</code>：携带错误信息，表明<code>Observable</code>终止，不会再发出事件</li>
+<li><code>completed</code>：表明<code>Observable</code>终止，不会再发出事件</li>
+</ul>
+<h4 id="2-2-1-创建、订阅Observable"><a href="#2-2-1-创建、订阅Observable" class="headerlink" title="2.2.1. 创建、订阅Observable"></a>2.2.1. 创建、订阅Observable</h4><p>示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Observable第一种写法</span></span><br><span class="line"><span class="keyword">var</span> observable <span class="operator">=</span> <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.create &#123; observer <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// 发消息</span></span><br><span class="line">    observer.onNext(<span class="number">1</span>)</span><br><span class="line">    observer.onCompleted()</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Disposables</span>.create()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line">observable <span class="operator">=</span> <span class="type">Observable</span>.just(<span class="number">1</span>)</span><br><span class="line">observable <span class="operator">=</span> <span class="type">Observable</span>.of(<span class="number">1</span>)</span><br><span class="line">observable <span class="operator">=</span> <span class="type">Observable</span>.from([<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建Observable第二种写法</span></span><br><span class="line"><span class="keyword">var</span> observable2 <span class="operator">=</span> <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.create &#123; observer <span class="keyword">in</span></span><br><span class="line">    observer.onNext(<span class="number">1</span>)</span><br><span class="line">    observer.onNext(<span class="number">2</span>)</span><br><span class="line">    observer.onNext(<span class="number">3</span>)</span><br><span class="line">    observer.onCompleted()</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Disposables</span>.create()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line">observable2 <span class="operator">=</span> <span class="type">Observable</span>.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">observable2 <span class="operator">=</span> <span class="type">Observable</span>.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 订阅Observable</span></span><br><span class="line">observable.subscribe &#123; event <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">switch</span> event &#123;</span><br><span class="line">    <span class="keyword">case</span> .next(<span class="keyword">let</span> element):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;switch next&quot;</span>, element)</span><br><span class="line">    <span class="keyword">case</span> .error(<span class="keyword">let</span> error):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;switch error&quot;</span>, error)</span><br><span class="line">    <span class="keyword">case</span> .completed:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;switch completed&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.dispose()</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line">observable.subscribe(onNext: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;block next&quot;</span>, <span class="variable">$0</span>)</span><br><span class="line">&#125;, onError: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;block error&quot;</span>, <span class="variable">$0</span>)</span><br><span class="line">&#125;, onCompleted: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;block completed&quot;</span>)</span><br><span class="line">&#125;, onDisposed: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;block dispose&quot;</span>)</span><br><span class="line">&#125;).dispose()</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> switch next 1</span></span><br><span class="line"><span class="comment"> switch completed</span></span><br><span class="line"><span class="comment"> block next 1</span></span><br><span class="line"><span class="comment"> block completed</span></span><br><span class="line"><span class="comment"> block dispose</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>只要有订阅<code>Observable</code>的地方，<code>subscribe</code>都会收到消息。</p>
+<h4 id="2-2-2-Disposable取消订阅"><a href="#2-2-2-Disposable取消订阅" class="headerlink" title="2.2.2. Disposable取消订阅"></a>2.2.2. Disposable取消订阅</h4><p>每当<code>Observable</code>被订阅时，都会返回一个<code>Disposable</code>实例，当调用<code>Disposable</code>的<code>dispose</code>，就相当于取消订阅。</p>
+<p>在不需要再接收事件时，建议取消订阅，释放资源。有3种常见方式取消订阅：</p>
+<p>第一种：立即取消订阅（一次性订阅）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribe &#123; event <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(event)</span><br><span class="line">&#125;.dispose()</span><br></pre></td></tr></table></figure>
+
+<p>第二种：当bag销毁（<code>deinit</code>）时，会自动调用<code>Disposable</code>实例的<code>dispose</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bag <span class="operator">=</span> <span class="type">DisposeBag</span>()</span><br><span class="line">observable.subscribe &#123; event <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(event)</span><br><span class="line">&#125;.disposed(by: bag)</span><br></pre></td></tr></table></figure>
+
+<p>第三种：<code>self</code>销毁（<code>deinit</code>）时，会自动调用<code>Disposable</code>实例的<code>dispose</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">_</span> <span class="operator">=</span> observable.takeUntil(<span class="keyword">self</span>.rx.deallocated).subscribe &#123; event <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(event)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-创建Observer"><a href="#2-2-3-创建Observer" class="headerlink" title="2.2.3. 创建Observer"></a>2.2.3. 创建Observer</h4><p>第一种：AnyObserver</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> observer <span class="operator">=</span> <span class="type">AnyObserver</span>&lt;<span class="type">Int</span>&gt;.<span class="keyword">init</span> &#123; event <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">switch</span> event &#123;</span><br><span class="line">    <span class="keyword">case</span> .next(<span class="keyword">let</span> data):</span><br><span class="line">        <span class="built_in">print</span>(data)</span><br><span class="line">    <span class="keyword">case</span> .completed:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;completed&quot;</span>)</span><br><span class="line">    <span class="keyword">case</span> .error(<span class="keyword">let</span> error):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;error&quot;</span>, error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Observable</span>.just(<span class="number">1</span>).subscribe(observer).dispose() <span class="comment">// 输出：1 completed</span></span><br></pre></td></tr></table></figure>
+
+<p>第二种：Binder</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> label <span class="operator">=</span> <span class="type">UILabel</span>.<span class="keyword">init</span>()</span><br><span class="line"><span class="keyword">let</span> binder <span class="operator">=</span> <span class="type">Binder</span>&lt;<span class="type">String</span>&gt;(label) &#123; label, text <span class="keyword">in</span></span><br><span class="line">    label.text <span class="operator">=</span> text</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Observable</span>.just(<span class="number">1</span>).map(&#123; <span class="string">&quot;数值是<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span> &#125;).subscribe(binder).dispose()</span><br><span class="line"><span class="type">Observable</span>.just(<span class="number">1</span>).map(&#123; <span class="string">&quot;数值是<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span> &#125;).bind(to: binder).dispose()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-状态监听"><a href="#2-3-状态监听" class="headerlink" title="2.3. 状态监听"></a>2.3. 状态监听</h3><h4 id="2-3-1-传统的状态监听"><a href="#2-3-1-传统的状态监听" class="headerlink" title="2.3.1. 传统的状态监听"></a>2.3.1. 传统的状态监听</h4><p>在开发中经常要对各种状态进行监听，传统的常见监听方案有：</p>
+<ul>
+<li>KVO</li>
+<li>Target-Action</li>
+<li>Notification</li>
+<li>Delegate</li>
+<li>Block Callback</li>
+</ul>
+<p>传统方案经常会出现错综复杂的依赖关系、耦合性高，还需要编写重复的非业务代码。</p>
+<h4 id="2-3-2-RxSwift的状态监听"><a href="#2-3-2-RxSwift的状态监听" class="headerlink" title="2.3.2. RxSwift的状态监听"></a>2.3.2. RxSwift的状态监听</h4><p>示例代码一（Target-Action）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> buttton <span class="operator">=</span> <span class="type">UIButton</span>.<span class="keyword">init</span>(type: .custom)</span><br><span class="line"><span class="keyword">let</span> btnObservable <span class="operator">=</span> buttton.rx.controlEvent(.touchUpInside)</span><br><span class="line">btnObservable.subscribe(onNext: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;按钮被点击&quot;</span>)</span><br><span class="line">&#125;).dispose()</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line">buttton.rx.tap.subscribe(onNext: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;按钮被点击&quot;</span>)</span><br><span class="line">&#125;).dispose()</span><br></pre></td></tr></table></figure>
+
+<p>示例代码二（KVO）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>: <span class="title class_">NSObject</span> &#123;</span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> dog <span class="operator">=</span> <span class="type">Dog</span>()</span><br><span class="line">dog.rx.observe(<span class="type">String</span>.<span class="keyword">self</span>, <span class="string">&quot;name&quot;</span>).subscribe(onNext: &#123; name <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;name is&quot;</span>, name <span class="operator">??</span> <span class="string">&quot;nil&quot;</span>)</span><br><span class="line">    &#125;).disposed(by: bag)</span><br><span class="line">dog.name <span class="operator">=</span> <span class="string">&quot;富贵&quot;</span></span><br><span class="line">dog.name <span class="operator">=</span> <span class="string">&quot;旺财&quot;</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 输出：</span></span><br><span class="line"><span class="comment"> name is nil</span></span><br><span class="line"><span class="comment"> name is 富贵</span></span><br><span class="line"><span class="comment"> name is 旺财</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>使用KVO的本质是调用了<code>addObserver:forKeyPath:</code>，所以要使用<code>runtime</code>。并且初始化实例时对属性进行了赋值，因此也会监听到初始化值。</p>
+<p>示例代码三（Notification）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NotificationCenter</span>.default.rx</span><br><span class="line">    .notification(<span class="type">UIApplication</span>.didEnterBackgroundNotification)</span><br><span class="line">    .subscribe(onNext: &#123; notification <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;App进入后台&quot;</span>, notification)</span><br><span class="line">    &#125;).disposed(by: bag)</span><br></pre></td></tr></table></figure>
+
+<p>示例代码四（既是Observable，又是Observer）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> slider <span class="operator">=</span> <span class="type">UISlider</span>()</span><br><span class="line"><span class="keyword">let</span> textField <span class="operator">=</span> <span class="type">UITextField</span>()</span><br><span class="line"><span class="comment">// slider作为Observer</span></span><br><span class="line"><span class="type">Observable</span>.just(<span class="number">0.2</span>).bind(to: slider.rx.value).disposed(by: bag)</span><br><span class="line"><span class="comment">// slider作为Observable</span></span><br><span class="line">slider.rx.value.map &#123; <span class="string">&quot;slider数值是<span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span> &#125;.bind(to: textField.rx.text).disposed(by: bag)</span><br><span class="line"><span class="comment">// textField也可以既作为Observer，又作为Observable</span></span><br><span class="line">textField.rx.text.subscribe(onNext: &#123; text <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(text <span class="operator">??</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line">    &#125;).disposed(by: bag)</span><br></pre></td></tr></table></figure>
+
+<p><code>label.rx.text</code>返回的是<code>Binder</code>类型，而<code>Binder</code>本质是<code>ObserverType</code>，所以<code>label</code>只能作为<code>Observer</code>。</p>
+<p><code>slider.rx.value</code>返回的是<code>ControlProperty</code>类型，<code>ControlProperty</code>遵守了<code>ControlPropertyType</code>协议，<code>ControlPropertyType</code>协议遵守了<code>ObservableType, ObserverType</code>协议，所以既可以作为<code>Observable</code>，又可以作为<code>Observer</code>。</p>
+<p>示例代码五（UITableView）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> tableView <span class="operator">=</span> <span class="type">UITableView</span>.<span class="keyword">init</span>(frame: .zero, style: .plain)</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span>?</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 发送数据</span></span><br><span class="line"><span class="keyword">let</span> persons <span class="operator">=</span> <span class="type">Observable</span>.just([</span><br><span class="line">    <span class="type">Person</span>(name: <span class="string">&quot;Kiki&quot;</span>, age: <span class="number">10</span>),</span><br><span class="line">    <span class="type">Person</span>(name: <span class="string">&quot;DaBen&quot;</span>, age: <span class="number">20</span>),</span><br><span class="line">    <span class="type">Person</span>(name: <span class="string">&quot;Frank&quot;</span>, age: <span class="number">30</span>)</span><br><span class="line">])</span><br><span class="line"><span class="comment">// 数据绑定到tableView</span></span><br><span class="line">persons.bind(to: tableView.rx.items(cellIdentifier: <span class="string">&quot;cell&quot;</span>, cellType: <span class="type">UITableViewCell</span>.<span class="keyword">self</span>)) &#123; row, person, cell <span class="keyword">in</span></span><br><span class="line">    cell.textLabel<span class="operator">?</span>.text <span class="operator">=</span> person.name</span><br><span class="line">    cell.detailTextLabel<span class="operator">?</span>.text <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(String(describing: person.age))</span>&quot;</span></span><br><span class="line">&#125;.disposed(by: bag)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 选择cell</span></span><br><span class="line">tableView.rx.itemSelected.subscribe(onNext: &#123; path <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;点击了cell&quot;</span>, path)</span><br><span class="line">&#125;).disposed(by: bag)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 选择数据模型</span></span><br><span class="line">tableView.rx.modelSelected(<span class="type">Person</span>.<span class="keyword">self</span>).subscribe(onNext: &#123; person <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;点击了&quot;</span>, person)</span><br><span class="line">&#125;).disposed(by: bag)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：如果使用<code>RxSwift</code>，就不要遵守代理和数据源协议，否则<code>RxSwift</code>就会失效。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/10/19/swift-syntax-rp/" title="【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用）">http://idbeny.com/2019/10/19/swift-syntax-rp/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" rel="tag"># 响应式编程</a>
+          
+            <a href="/tags/RxSwift/" rel="tag"># RxSwift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/15/pod-download-issues/" rel="next" title="【CocoaPods】CDN trunk URL couldn’t be downloaded:https://raw.githubusercontent.com/CocoaPods/">
+                <i class="fa fa-chevron-left"></i> 【CocoaPods】CDN trunk URL couldn’t be downloaded:https://raw.githubusercontent.com/CocoaPods/
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/19/dev-any/" rel="prev" title="【开发小记】Mac工具使用">
+                【开发小记】Mac工具使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%88%9D%E5%A7%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">一、初始响应式编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81RxSwift"><span class="nav-number">2.</span> <span class="nav-text">二、RxSwift</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85RxSwift"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 安装RxSwift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-RxSwift%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A7%92%E8%89%B2"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. RxSwift的核心角色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E5%88%9B%E5%BB%BA%E3%80%81%E8%AE%A2%E9%98%85Observable"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1. 创建、订阅Observable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-Disposable%E5%8F%96%E6%B6%88%E8%AE%A2%E9%98%85"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2. Disposable取消订阅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E5%88%9B%E5%BB%BAObserver"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3. 创建Observer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E7%8A%B6%E6%80%81%E7%9B%91%E5%90%AC"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 状态监听</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E4%BC%A0%E7%BB%9F%E7%9A%84%E7%8A%B6%E6%80%81%E7%9B%91%E5%90%AC"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1. 传统的状态监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-RxSwift%E7%9A%84%E7%8A%B6%E6%80%81%E7%9B%91%E5%90%AC"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2. RxSwift的状态监听</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

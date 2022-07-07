@@ -1,38 +1,1413 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="WebSocket、FTP、RESTful、SMTP、IMAP、POP等协议很多人可能仅仅听说过，但没有了解过。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列十七 - WebSocket&#x2F;FTP">
+<meta property="og:url" content="http://idbeny.com/2021/01/15/network-ftp/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="WebSocket、FTP、RESTful、SMTP、IMAP、POP等协议很多人可能仅仅听说过，但没有了解过。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/emrmq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/az375.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/olcji.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/jumlg.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3v1dh.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/x92yv.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/as3il.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lxrya.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/cbqgx.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/gng4d.png@origin">
+<meta property="og:image" content="https://blog.idbeny.com/q034x.png@origin">
+<meta property="article:published_time" content="2021-01-15T14:06:29.000Z">
+<meta property="article:modified_time" content="2021-03-22T17:58:44.676Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/emrmq.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2021/01/15/network-ftp/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列十七 - WebSocket/FTP | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2021/01/15/network-ftp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列十七 - WebSocket/FTP</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-15T22:06:29+08:00">
+                2021-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WebSocket/" itemprop="url" rel="index">
+                    <span itemprop="name">WebSocket</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FTP/" itemprop="url" rel="index">
+                    <span itemprop="name">FTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>WebSocket、FTP、RESTful、SMTP、IMAP、POP等协议很多人可能仅仅听说过，但没有了解过。</p>
+<span id="more"></span>
+
+<h2 id="一、ARP-x2F-RARP-x2F-ICMP"><a href="#一、ARP-x2F-RARP-x2F-ICMP" class="headerlink" title="一、ARP&#x2F;RARP&#x2F;ICMP"></a>一、ARP&#x2F;RARP&#x2F;ICMP</h2><p>ARP（<em>Address Resolution Protocol</em>），地址解析协议。</p>
+<ul>
+<li>通过IP地址获取MAC地址。</li>
+</ul>
+<p>RARP（<em>Reverse Address Resolution Protocol</em>），逆地址解析协议。</p>
+<ul>
+<li>使用与ARP相同的报头结构</li>
+<li>作用与ARP相反，用于将MAC地址转换为IP地址</li>
+<li>后来被BOOTP、DHCP所取代</li>
+</ul>
+<p>ICMP（<em>Internet Control Message Protocol</em>），互联网控制消息协议。</p>
+<ul>
+<li>IPV4中的ICMP被称作ICMPv4，IPV6中的ICMP则被称作ICMPv6</li>
+<li>通常用于返回错误信息，比如TTL值过期，目的不可达</li>
+<li>ICMP的错误消息总是包括了源数据并返回给发送者</li>
+</ul>
+<h2 id="二、WebSocket"><a href="#二、WebSocket" class="headerlink" title="二、WebSocket"></a>二、WebSocket</h2><p>WebSocket是基于TCP的支持全双工通信的应用层协议（全双工：客户端和服务器均可主动发消息给对方）。在2011年由IETF标准化为<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6455">RFC_6455</a>，后由<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7936">RFC_7936</a>补充规范。</p>
+<p>WebSocket的应用场景很多：社交订阅、股票基金报价、体育实况更新、多媒体聊天、多玩家游戏等。</p>
+<blockquote>
+<p>Socket是一套网络编程API，几乎所有的网络应用协议（HTTP&#x2F;FTP&#x2F;SMTP等）都是基于Socket实现的。而WebSocket是Web端的一个应用层通信协议。</p>
+</blockquote>
+<h3 id="2-1-HTTP和WebSocket"><a href="#2-1-HTTP和WebSocket" class="headerlink" title="2.1. HTTP和WebSocket"></a>2.1. HTTP和WebSocket</h3><p>HTTP请求的特点：通信只能由客户端发起，所以早期很多网站为了实现推送技术，使用的技术都是轮询。</p>
+<p>轮询是指由浏览器每隔一段时间（如每秒）向服务器发出HTTP请求，然后服务器返回最新的数据给客户端。为了能更好的节省服务器资源和带宽，并且能够更实时地进行通讯，HTML5规范中出现了WebSocket协议。</p>
+<p><img src="https://blog.idbeny.com/emrmq.png@normal"></p>
+<p>WebSocket和HTTP属于平级关系，都是应用层的协议。其实TCP本身就是支持全双工通信的，只是HTTP的“请求-应答”模式限制了TCP的能力。</p>
+<p>WebSocket使用80（<code>ws://</code>）、443（<code>wss://</code>）端口，可以绕过大多数防火墙的限制（http默认使用80端口，https默认使用443端口）。</p>
+<p>与HTTP不同的是，WebSocket需要先建立连接（应用层连接）。这就使得WebSocket成为一种有状态的协议，之后通信时可以省略部分状态信息。而HTTP请求可能需要在每个请求都额外携带状态信息（如身份认证等）。</p>
+<h3 id="2-2-建立连接"><a href="#2-2-建立连接" class="headerlink" title="2.2. 建立连接"></a>2.2. 建立连接</h3><p>WebSocket需要借助HTTP协议来建立连接（也叫作握手，<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6455#section-1.3">Handshake</a>）。</p>
+<p>由客户端（浏览器）主动发出握手请求：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/chat</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>server.example.com</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>websocket</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Sec-WebSocket-Key</span><span class="punctuation">: </span>dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line"><span class="attribute">Origin</span><span class="punctuation">: </span>http://example.com</span><br><span class="line"><span class="attribute">Sec-WebSocket-Protocol</span><span class="punctuation">: </span>chat, superchat</span><br><span class="line"><span class="attribute">Sec-WebSocket-Version</span><span class="punctuation">: </span>13</span><br></pre></td></tr></table></figure>
+
+<p>服务器响应：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> Switching Protocols</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>websocket</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Sec-WebSocket-Accept</span><span class="punctuation">: </span>s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</span><br><span class="line"><span class="attribute">Sec-WebSocket-Protocol</span><span class="punctuation">: </span>chat</span><br></pre></td></tr></table></figure>
+
+<p>Connection：必须设置Upgrade，表示客户端希望连接升级。</p>
+<p>Upgrade：必须设置websocket，表示希望升级到WebSocket协议。</p>
+<p>Sec-WebSocket-Version：表示支持的WebSocket版本，<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6455">RFC_6455</a>要求使用的版本是13。</p>
+<p>Sec-WebSocket-Key：客户端生成的随机字符串（比如例子中的dGhlIHNhbXBsZSBub25jZQ&#x3D;&#x3D;）。</p>
+<p>服务器接收到客户端的Sec-WebSocket-Key后，会进行以下操作：</p>
+<ol>
+<li><p>Sec-WebSocket-Key拼接一个固定的GUID值（258EAFA5-E914-47DA-95CA-C5AB0DC85B11）。例：<code>dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11</code>。</p>
+</li>
+<li><p>将1的结果进行<a target="_blank" rel="noopener" href="http://encode.chahuo.com/">SHA-1摘要计算</a><br>，结果：<code>b37a4f2cc0624f1690f64606cf385945b2bec4ea</code>。</p>
+</li>
+<li><p>将2的结果进行<a target="_blank" rel="noopener" href="https://base64.guru/converter/encode/hex">Hex to Base64编码</a>，结果：<code>s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</code>。</p>
+</li>
+<li><p>将3的结果作为Sec-WebSocket-Accept响应头的值，返回给客户端。</p>
+</li>
+</ol>
+<p>如此操作，可以尽量避免普通HTTP请求被误认为WebSocket协议。</p>
+<h3 id="2-3-使用"><a href="#2-3-使用" class="headerlink" title="2.3. 使用"></a>2.3. 使用</h3><p>WebSocket体验和演示：<a target="_blank" rel="noopener" href="https://www.websocket.org/echo.html">https://www.websocket.org/echo.html</a></p>
+<p>W3C标准化了一套WebSocket API，可以直接使用JS调用。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ws = <span class="keyword">new</span> <span class="constructor">WebSocket(&#x27;<span class="params">wss</span>:<span class="operator">/</span><span class="operator">/</span><span class="params">example</span>.<span class="params">com</span>&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="三、WebService"><a href="#三、WebService" class="headerlink" title="三、WebService"></a>三、WebService</h2><p>WebService（Web服务）是一种跨编程语言和跨操作系统平台的远程调用技术标准。</p>
+<p>WebService使用场景举例：</p>
+<ul>
+<li>天气预报、手机归属地查询、航班信息查询、物流信息查询等。</li>
+<li>比如天气预报，是气象局把自己的服务以WebService形式暴露出来，让第三方程序可以调用这些服务功能（<a target="_blank" rel="noopener" href="http://www.webxml.com.cn/zh_cn/index.aspx%EF%BC%89%E3%80%82">http://www.webxml.com.cn/zh_cn/index.aspx）。</a></li>
+</ul>
+<p>事实上，WebService完全可以用普通的Web API取代（比如HTTP + JSON），现在很多企业的开放平台都是直接采用Web API。</p>
+<h3 id="3-1-WebService-核心概念"><a href="#3-1-WebService-核心概念" class="headerlink" title="3.1. WebService - 核心概念"></a>3.1. WebService - 核心概念</h3><p>SOAP（<em>Simple Object Access Protocol</em>），简单对象访问协议。很多时候，SOAP &#x3D; HTTP + XML。WebService使用SOAP协议来封装传递数据。</p>
+<p><img src="https://blog.idbeny.com/az375.png@normal"></p>
+<blockquote>
+<p>SOAP其实就是正常的HTTP请求和有规范格式的XML，请求和响应都是XML文件。</p>
+</blockquote>
+<p>WSDL（<em>Web Services Description Language</em>），Web服务描述语言。一个XML文档，用以描述WebService接口的细节（比如参数、返回值等）。一般在WebService的URL后面跟上<code>?wsdl</code>获取WSDL信息。比如：<a target="_blank" rel="noopener" href="http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl">http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl</a></p>
+<h2 id="四、RESTful"><a href="#四、RESTful" class="headerlink" title="四、RESTful"></a>四、RESTful</h2><p>REST（<em>Representatioanl State Transfer</em>），表现层状态转移。</p>
+<p>REST是一种互联网软件架构设计风格，定义了一组用于创建Web服务的约束。符合REST架构的Web服务，称为RESTful Web服务器。</p>
+<blockquote>
+<p>RESTful后面的ful表示形容词，例如wonder -&gt; wonderful 。</p>
+</blockquote>
+<p><strong>实践建议：</strong></p>
+<ul>
+<li><p>URL中使用名词（建议用复数形式），不使用动词。</p>
+<ul>
+<li>推荐：<code>/users</code>、<code>/users/6</code></li>
+<li>不推荐：<code>listUsers</code>、<code>/getUser?id=6</code>、<code>/user/list</code>、<code>/user/get?id=6</code></li>
+</ul>
+</li>
+<li><p>使用HTTP的方法表达动作：<br><img src="https://blog.idbeny.com/olcji.png@normal"></p>
+</li>
+<li><p>一个资源连接到其他资源，使用子资源的形式</p>
+<ul>
+<li>GET：<code>/users/6/cars/88</code></li>
+<li>POST：<code>/users/8/cars</code></li>
+</ul>
+</li>
+<li><p>API版本化</p>
+<ul>
+<li><code>idbeny.com/v1/users</code></li>
+<li><code>idbeny.com/v2/users/66</code></li>
+</ul>
+</li>
+<li><p>返回JSON格式的数据</p>
+</li>
+<li><p>发生错误时，不要返回200状态码</p>
+</li>
+</ul>
+<h2 id="五、HTTPDNS"><a href="#五、HTTPDNS" class="headerlink" title="五、HTTPDNS"></a>五、HTTPDNS</h2><p>HTTPDNS是基于HTTP协议向DNS服务器发送域名解析请求。替代了基于DNS协议向运营商Local DNS发起解析请求的传统方式，可以避免Local DNS造成的域名劫持和跨网访问问题。常用在移动互联网中（比如Android、iOS开发中）。</p>
+<p><img src="https://blog.idbeny.com/jumlg.png@normal"></p>
+<p>市面上已经有现成的解决方案，移动端集成相关的SDK即可使用HTTPDNS服务。</p>
+<ul>
+<li>腾讯云：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/httpdns">https://cloud.tencent.com/product/httpdns</a></li>
+<li>阿里云：<a target="_blank" rel="noopener" href="https://help.aliyun.com/product/30100.html">https://help.aliyun.com/product/30100.html</a></li>
+</ul>
+<h2 id="六、FTP"><a href="#六、FTP" class="headerlink" title="六、FTP"></a>六、FTP</h2><p>FTP（<em>File Transport Protocol</em>），文件传输协议。<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc959">RFC_959</a>定义了此规范，是基于TCP的应用层协议。在<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1738">RFC_1738</a>中有定义，FTP的URL格式为：<code>ftp://[user[:password]@]host:[:port]/url-path</code>。</p>
+<p><img src="https://blog.idbeny.com/3v1dh.png@normal"></p>
+<h3 id="6-1-连接模式"><a href="#6-1-连接模式" class="headerlink" title="6.1. 连接模式"></a>6.1. 连接模式</h3><p>FTP有2种连接模式：主动（<em>Active</em>）和被动（<em>Passive</em>）。</p>
+<p>不管是哪种方式，都需要客户端和服务器建立2个连接：</p>
+<ul>
+<li>控制连接：用于传输状态信息（指令）</li>
+<li>数据连接：用于传输文件和目录信息（数据）</li>
+</ul>
+<p><img src="https://blog.idbeny.com/x92yv.png@normal"></p>
+<h4 id="6-1-1-主动模式"><a href="#6-1-1-主动模式" class="headerlink" title="6.1.1. 主动模式"></a>6.1.1. 主动模式</h4><p>主动模式是服务器主动，客户端被动。</p>
+<p><img src="https://blog.idbeny.com/as3il.png@normal"></p>
+<ul>
+<li>客户端打开一个随机的命令端口<ul>
+<li>端口号大于1024，假设为N。同时连接至服务器的命令端口21（固定）</li>
+</ul>
+</li>
+<li>客户端开始监听N+1数据端口<ul>
+<li>同时向服务器发送一个Port命令给服务器的命令端口21</li>
+<li>此命令告诉服务器，客户端正在监听的数据端口是N+1，并且已准备好从此端口接收数据</li>
+</ul>
+</li>
+<li>服务器打开20号数据端口（固定），并且创建和客户端数据端口（N+1）的连接</li>
+</ul>
+<h4 id="6-1-2-被动模式"><a href="#6-1-2-被动模式" class="headerlink" title="6.1.2. 被动模式"></a>6.1.2. 被动模式</h4><p>被动模式是客户端主动，服务器被动。</p>
+<p><img src="https://blog.idbeny.com/lxrya.png@normal"></p>
+<p>客户端通过两个随机的端口与服务器建立连接：命令端口N、数据端口N+1。</p>
+<ul>
+<li>客户端的命令端口N用于连接服务器的命令端口21（固定）</li>
+<li>客户端通过命令端口N发送PASV命令给服务器的命令端口21</li>
+<li>服务器打开一个随机的数据端口P，并告知客户端该端口号是P</li>
+<li>客户端数据端口N+1发起与服务器数据端口P的连接</li>
+</ul>
+<h2 id="七、邮件相关的协议"><a href="#七、邮件相关的协议" class="headerlink" title="七、邮件相关的协议"></a>七、邮件相关的协议</h2><ul>
+<li><p>发邮件使用的协议：</p>
+<ul>
+<li>SMTP（<em>Simple Mail Transfer Protocol</em>），简单邮件传输协议。<ul>
+<li>基于TCP，标准参考<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc5321">RFC_5321</a></li>
+<li>服务器默认使用25端口，SSL&#x2F;TLS使用465端口</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>收邮件使用的协议：</p>
+<ul>
+<li><p>POP（<em>Post Office Protocol</em>），邮局协议。</p>
+<ul>
+<li>基于TCP，最新版是POP3，标准参考<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1939">RFC_1939</a></li>
+<li>服务器默认使用110端口，SSL&#x2F;TLS使用995端口</li>
+</ul>
+</li>
+<li><p>IMAP（<em>Internet Message Access Protocol</em>），因特网信息访问协议。</p>
+<ul>
+<li>基于TCP，最新版是IMAP4，标准参考<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3501">RFC_3501</a></li>
+<li>服务器默认使用143端口，SSL&#x2F;TLS使用993端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-1-收发邮件的过程"><a href="#7-1-收发邮件的过程" class="headerlink" title="7.1. 收发邮件的过程"></a>7.1. 收发邮件的过程</h3><p><img src="https://blog.idbeny.com/cbqgx.png@normal"></p>
+<p>不同邮箱服务是不同直接通信的，例如腾讯邮箱（@qq.com）要想发邮件给网易邮箱（@163.com），客户端通过SMTP协议发送至腾讯邮箱服务，腾讯邮箱服务器通过SMTP协议转发给网易邮箱服务器，网易邮箱用户通过POP&#x2F;IMAP协议拉取网易邮箱服务器上的邮件。</p>
+<h3 id="7-2-POP的特点"><a href="#7-2-POP的特点" class="headerlink" title="7.2. POP的特点"></a>7.2. POP的特点</h3><p><img src="https://blog.idbeny.com/gng4d.png@origin"></p>
+<ul>
+<li>客户端连接服务器时，将会从服务器下载所有邮件。<ul>
+<li>可以设置下载完后，立即或一段时间后删除服务器邮件。</li>
+</ul>
+</li>
+<li>客户端的操作（比如删除邮件、移动到文件夹）不会跟服务器同步。</li>
+<li>每个客户端都是独立的，都可以获得其自己的电子邮件副本。</li>
+</ul>
+<h3 id="7-3-IMAP的特点"><a href="#7-3-IMAP的特点" class="headerlink" title="7.3. IMAP的特点"></a>7.3. IMAP的特点</h3><p><img src="https://blog.idbeny.com/q034x.png@origin"></p>
+<ul>
+<li>客户端连接服务器时，获取的是服务器上邮件的基本信息，并不会下载邮件。<ul>
+<li>等打开邮件时，才开始下载邮件。</li>
+</ul>
+</li>
+<li>客户端的操作（比如删除邮件、移动到文件夹）会跟服务器同步。</li>
+<li>所有客户端始终会看到相同的邮件和相同的文件夹。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2021/01/15/network-ftp/" title="【网络协议】网络协议系列十七 - WebSocket/FTP">http://idbeny.com/2021/01/15/network-ftp/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/10/network-http2-http3/" rel="next" title="【网络协议】网络协议系列十六 - HTTP2/HTTP3">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列十六 - HTTP2/HTTP3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/27/network-vpn/" rel="prev" title="【网络协议】网络协议系列十八 - 网络爬虫/HTTP缓存/IPv6">
+                【网络协议】网络协议系列十八 - 网络爬虫/HTTP缓存/IPv6 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81ARP-x2F-RARP-x2F-ICMP"><span class="nav-number">1.</span> <span class="nav-text">一、ARP&#x2F;RARP&#x2F;ICMP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81WebSocket"><span class="nav-number">2.</span> <span class="nav-text">二、WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-HTTP%E5%92%8CWebSocket"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. HTTP和WebSocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 建立连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81WebService"><span class="nav-number">3.</span> <span class="nav-text">三、WebService</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-WebService-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. WebService - 核心概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81RESTful"><span class="nav-number">4.</span> <span class="nav-text">四、RESTful</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81HTTPDNS"><span class="nav-number">5.</span> <span class="nav-text">五、HTTPDNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81FTP"><span class="nav-number">6.</span> <span class="nav-text">六、FTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E8%BF%9E%E6%8E%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.1.</span> <span class="nav-text">6.1. 连接模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-1-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.1.1.</span> <span class="nav-text">6.1.1. 主动模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-2-%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.1.2.</span> <span class="nav-text">6.1.2. 被动模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E9%82%AE%E4%BB%B6%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8D%8F%E8%AE%AE"><span class="nav-number">7.</span> <span class="nav-text">七、邮件相关的协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E6%94%B6%E5%8F%91%E9%82%AE%E4%BB%B6%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-number">7.1.</span> <span class="nav-text">7.1. 收发邮件的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-POP%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">7.2.</span> <span class="nav-text">7.2. POP的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-IMAP%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">7.3.</span> <span class="nav-text">7.3. IMAP的特点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

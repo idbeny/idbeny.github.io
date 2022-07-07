@@ -1,38 +1,1416 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="本文假设你具备HTML+CSS+JS+Java基础（知道基本语法及如何使用即可）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列二 - 集线器&#x2F;网桥&#x2F;交换机&#x2F;路由器">
+<meta property="og:url" content="http://idbeny.com/2020/10/15/network-bridge/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="本文假设你具备HTML+CSS+JS+Java基础（知道基本语法及如何使用即可）。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/l0kak.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/tl7x1.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6ky1m.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1ljrc.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/xyk8l.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8mf4g.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/a68pr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/elhju.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/vwbqh.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/gvteg.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ifq13.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/cfoob.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zt7n1.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/gi6vw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ddqmu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/m7wii.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/o1yun.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/syku9.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/kgagk.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ea9qp.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/f7t9o.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/1vikk.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ew8dw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/iilzu.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/x5rg3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/trna5.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/jq2sj.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/vxo0p.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/4t2zv.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/0jh3l.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/ckn33.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/dbozj.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/zvwrw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/hcjf3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/3lgw3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/nq8rk.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/0rhnw.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/93nqn.png@normal">
+<meta property="article:published_time" content="2020-10-15T11:21:36.000Z">
+<meta property="article:modified_time" content="2021-03-01T15:44:12.604Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/l0kak.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/10/15/network-bridge/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列二 - 集线器/网桥/交换机/路由器 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/10/15/network-bridge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列二 - 集线器/网桥/交换机/路由器</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-15T19:21:36+08:00">
+                2020-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E6%A1%A5/" itemprop="url" rel="index">
+                    <span itemprop="name">网桥</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9B%86%E7%BA%BF%E5%99%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">集线器</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%A4%E6%8D%A2%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">交换机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">路由器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文假设你具备<code>HTML+CSS+JS+Java</code>基础（知道基本语法及如何使用即可）。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="一、新建Java项目并部署"><a href="#一、新建Java项目并部署" class="headerlink" title="一、新建Java项目并部署"></a>一、新建Java项目并部署</h2><p>我们自己搭建一个简单的登录页面和服务，以此了解客户端和服务端之间的数据交互流程。</p>
+<blockquote>
+<p>提示：路径、类名、资源名尽量不要出现中文或者特殊字符。</p>
+</blockquote>
+<h3 id="1-1-服务端（Java）"><a href="#1-1-服务端（Java）" class="headerlink" title="1.1. 服务端（Java）"></a>1.1. 服务端（Java）</h3><ol>
+<li><p>新建空项目<br><img src="http://blog.idbeny.com/l0kak.png@normal"></p>
+</li>
+<li><p>工程命名（工程名其实就是工程根目录文件夹名称）<br><img src="http://blog.idbeny.com/tl7x1.png@normal"></p>
+</li>
+<li><p>新建模块（一个工程是由多个模块组成的）<br><img src="http://blog.idbeny.com/6ky1m.png@normal"><br><img src="http://blog.idbeny.com/1ljrc.png@normal"><br><img src="http://blog.idbeny.com/xyk8l.png@normal"><br><img src="http://blog.idbeny.com/8mf4g.png@normal"></p>
+</li>
+<li><p>在刚刚创建的模块src下新建一个java类（src是存放模块代码的）<br><img src="http://blog.idbeny.com/a68pr.png@normal"><br><img src="http://blog.idbeny.com/elhju.png@normal"></p>
+</li>
+<li><p>运行<br><img src="http://blog.idbeny.com/vwbqh.png@normal"><br><img src="http://blog.idbeny.com/gvteg.png@normal"></p>
+</li>
+</ol>
+<p>上面的配置只是单机运行，并没有任何客户端交互，我们可以建立一个JavaWeb服务器让HTML页面和服务器进行交互。</p>
+<h3 id="1-2-JavaWeb"><a href="#1-2-JavaWeb" class="headerlink" title="1.2. JavaWeb"></a>1.2. JavaWeb</h3><ol>
+<li><p>添加Web框架支持，完成后会在模块中出现一个web文件夹<br><img src="http://blog.idbeny.com/ifq13.png@normal"><br><img src="http://blog.idbeny.com/cfoob.png@normal"><br><img src="http://blog.idbeny.com/zt7n1.png@normal"></p>
+</li>
+<li><p>新建一个测试网页<br><img src="http://blog.idbeny.com/gi6vw.png@normal"></p>
+</li>
+</ol>
+<p>要想通过浏览器直接访问网页，需要启动Tomcat并把项目部署到上面。</p>
+<h3 id="1-3-启动tomcat"><a href="#1-3-启动tomcat" class="headerlink" title="1.3. 启动tomcat"></a>1.3. 启动tomcat</h3><p>虽然可以直接在外面启动tomcat，但不是很方便。我们可以把tomcat集成到IDEA中，跟随项目启动和部署非常便捷。</p>
+<ol>
+<li><p>编辑配置<br><img src="http://blog.idbeny.com/ddqmu.png@normal"></p>
+</li>
+<li><p>添加tomcat服务<br><img src="http://blog.idbeny.com/m7wii.png@normal"></p>
+</li>
+<li><p>配置tomcat<br><img src="http://blog.idbeny.com/o1yun.png@normal"><br><img src="http://blog.idbeny.com/syku9.png@normal"><br><img src="http://blog.idbeny.com/kgagk.png@normal"></p>
+</li>
+<li><p>运行（使用debug）<br><img src="http://blog.idbeny.com/ea9qp.png@normal"><br><img src="http://blog.idbeny.com/f7t9o.png@normal"></p>
+</li>
+</ol>
+<h3 id="1-4-访问资源"><a href="#1-4-访问资源" class="headerlink" title="1.4. 访问资源"></a>1.4. 访问资源</h3><ol>
+<li>运行成功后IDEA会自动打开网址<code>http://localhost:8080/hello/</code>，<code>hello</code>就是刚才上面配置的路径，默认访问<code>index.htm/index.html/index.jsp</code>其中一个。</li>
+</ol>
+<p>也可以指定要访问的完整资源名。例如访问<code>test.html</code>：<br><img src="http://blog.idbeny.com/1vikk.png@normal"></p>
+<ol start="2">
+<li>如果web文件夹有变更，变更后不需要重启服务，只需要重新部署即可。<br><img src="http://blog.idbeny.com/ew8dw.png@normal"></li>
+</ol>
+<p>建议到配置文件中修该按钮默认事件为<strong>部署</strong>：<br><img src="http://blog.idbeny.com/iilzu.png@normal"></p>
+<h3 id="1-5-登录"><a href="#1-5-登录" class="headerlink" title="1.5. 登录"></a>1.5. 登录</h3><p>简单的登录界面：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/hello&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>用户名<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>密码<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>信息提交给服务器后，服务器如何处理呢？需要使用<code>servlet</code>，而tomcat有对应的库：<code>jsp-api</code>和<code>servlet-api</code>，把这两个库加入到项目中即可。</p>
+<blockquote>
+<p>action后面直接拼接路径，就是根据项目所在服务器找对应资源。</p>
+</blockquote>
+<h3 id="1-6-servlet配置"><a href="#1-6-servlet配置" class="headerlink" title="1.6. servlet配置"></a>1.6. servlet配置</h3><p>由于已经在IDEA中集成了tomcat，只需要把tomcat的库添加到项目依赖。</p>
+<p><img src="http://blog.idbeny.com/x5rg3.png@normal"><br><img src="http://blog.idbeny.com/trna5.png@normal"><br><img src="http://blog.idbeny.com/jq2sj.png@normal"></p>
+<h4 id="1-6-1-创建请求类"><a href="#1-6-1-创建请求类" class="headerlink" title="1.6.1. 创建请求类"></a>1.6.1. 创建请求类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.idbeny.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 处理登录请求</span></span><br><span class="line"><span class="comment"> * 1.继承HttpServlet（处理HTTP请求）</span></span><br><span class="line"><span class="comment"> * 2.使用WebServlet（处理的请求路径）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/login&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        doPost(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> HttpServletRequest req 请求：用来获取客户端发送的数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> HttpServletResponse resp 响应：用来给客户端返回数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 1.获取客户端发送的数据（请求参数）</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> req.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> req.getParameter(<span class="string">&quot;password&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.登录业务判断</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;idbeny&quot;</span>.equals(username) &amp;&amp; <span class="string">&quot;123456&quot;</span>.equals(password)) &#123;</span><br><span class="line">            <span class="comment">// 登录成功</span></span><br><span class="line">            resp.getWriter().write(<span class="string">&quot;Login Success&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 登录失败</span></span><br><span class="line">            resp.getWriter().write(<span class="string">&quot;Login Failure&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>修改<code>login.html</code>中的<code>action</code>：<code>action=&quot;/hello/login&quot;</code></p>
+</li>
+<li><p>重新部署后并提交表单后输出<code>doGet</code>，并且页面地址显示<code>http://localhost:8080/hello/login?username=idbeny&amp;password=123456</code>，内容显示<code>Login Success</code>。</p>
+</li>
+<li><p>修改<code>method=&quot;post&quot;</code>，重新部署后并提交表单后输出<code>doPost</code>，并且页面地址显示<code>http://localhost:8080/hello/login</code>，页面内容显示<code>Login Success</code>。表单参数可以通过浏览器的开发者工具看到。</p>
+</li>
+</ol>
+<blockquote>
+<p>Java中的包类似于C++中的命名空间。</p>
+</blockquote>
+<h2 id="二、计算机之间通信基础"><a href="#二、计算机之间通信基础" class="headerlink" title="二、计算机之间通信基础"></a>二、计算机之间通信基础</h2><p>计算机通信需要得知对方的IP地址，但最终是根据MAC地址（网卡地址），输送数据到网卡，被网卡接收。</p>
+<ul>
+<li>如果网卡发现数据的目标MAC地址是自己，就会将数据传递给上一层进行处理（例如Java虚拟机）</li>
+<li>如果网卡发现数据的目标MAC地址不是自己，就会将数据丢弃，不会传递给上一层进行处理</li>
+</ul>
+<p><img src="http://blog.idbeny.com/vxo0p.png@normal"></p>
+<h2 id="三、计算机之间的连接方式"><a href="#三、计算机之间的连接方式" class="headerlink" title="三、计算机之间的连接方式"></a>三、计算机之间的连接方式</h2><p>可以通过<strong>Cisco Packet Tracer</strong>模拟网络连接。</p>
+<h3 id="3-1-网线直连"><a href="#3-1-网线直连" class="headerlink" title="3.1. 网线直连"></a>3.1. 网线直连</h3><p>两台计算机之间最简单的连接方式就是网线直连（交叉线）。</p>
+<p><img src="http://blog.idbeny.com/4t2zv.png@normal"></p>
+<p>模拟通信的时候，会使用到<code>ICMP、ARP</code>协议。<code>ping</code>使用的是<code>ICMP</code>协议，<code>ARP</code>协议其实就是一个广播（<code>ARP</code>是有缓存的），让同一个网段中的指定IP响应当前计算机的网卡地址（广播找MAC地址）。</p>
+<h3 id="3-2-同轴电缆"><a href="#3-2-同轴电缆" class="headerlink" title="3.2. 同轴电缆"></a>3.2. 同轴电缆</h3><p>很早之前用的是<strong>半双工通信</strong>方式，特点是非常容易冲突（冲突域），不安全，只要断了全域瘫痪。因为一台设备在发送数据的时候，另一台设备只能接收数据，不能发送数据。现在基本上都是<strong>全双工通信</strong>，在接收数据的同时也可以发送数据。</p>
+<h3 id="3-3-集线器（Hub）"><a href="#3-3-集线器（Hub）" class="headerlink" title="3.3. 集线器（Hub）"></a>3.3. 集线器（Hub）</h3><p>采用的也是<strong>半双工通信</strong>，所以特点和同轴电缆一样，但仅仅比同轴电缆多一个优点：如果一台设备出现问题不会影响其他设备。</p>
+<p><img src="http://blog.idbeny.com/0jh3l.png@normal"><br><img src="http://blog.idbeny.com/ckn33.png@normal"></p>
+<p>通过模拟通信看到，计算机0给计算机2发送数据的步骤如下：</p>
+<ul>
+<li>计算机0发送数据给计算机2</li>
+<li>首先发送ARP给集线器0，由集线器0转送ARP给连接设备（计算机1和计算机2），找寻IP对应的MAC地址</li>
+<li>计算机1发现不是自己，就丢弃</li>
+<li>计算机2发现要找的是自己（通过IP识别），然后把MAC地址等信息通过ARP发送给集线器0</li>
+<li>集线器0又把数据转送给了其他的连接设备（计算机0和计算机1），</li>
+<li>计算机0接收到数据后（MAC地址）开始使用ICMP传输</li>
+<li>计算机1发现不是自己的数据，就丢弃</li>
+<li>反复…</li>
+</ul>
+<p><strong>总结：</strong> 集线器和同轴电缆都是没有智商的，只要有设备发数据，就把数据转给其他所有已连接设备，设备越多效率越低。</p>
+<h3 id="3-4-网桥（Bridge）"><a href="#3-4-网桥（Bridge）" class="headerlink" title="3.4. 网桥（Bridge）"></a>3.4. 网桥（Bridge）</h3><p>网桥连接的是同一个网段的计算机。</p>
+<p><img src="http://blog.idbeny.com/dbozj.png@normal"></p>
+<p>网桥能够通过自学习得知每个接口那侧的MAC地址，从而起到隔绝冲突域的作用（变成两个冲突域）</p>
+<p><img src="http://blog.idbeny.com/zvwrw.png@normal"></p>
+<ul>
+<li>计算机0发送数据给计算机4，ARP结束后网桥0就会记录计算机0和计算机4的MAC地址，下次如果网桥左边的设备发送数据给计算机0时，网桥就会优先找右边的设备</li>
+<li>如果计算机0发送给计算机1，由于集线器没有智商，也会发送给网桥0。网桥记录计算机0的MAC地址，并继续向下转发。下次网桥左边的设备发送数据给计算机1时，集线器0把数据转发给网桥0时，网桥发现已经记录的MAC地址对应的设备在左侧，就不会继续向下转发数据</li>
+</ul>
+<h3 id="3-5-交换机（Switch）"><a href="#3-5-交换机（Switch）" class="headerlink" title="3.5. 交换机（Switch）"></a>3.5. 交换机（Switch）</h3><p>网桥虽然解决了隔绝冲突域的问题。但同一个冲突域，还是不能互相同时收发数据。交换机的出现解决了该问题。</p>
+<p><img src="http://blog.idbeny.com/hcjf3.png@normal"></p>
+<ul>
+<li>交换机相当于集线器和网桥的集合</li>
+<li>全双工通信</li>
+<li>比集线器安全（不会因为抓包而拦截数据）</li>
+</ul>
+<p><img src="http://blog.idbeny.com/3lgw3.png@normal"></p>
+<blockquote>
+<p>首次发送数据时，还是会ARP广播所有设备，因为此时交换机还不知道源和目标的MAC地址。</p>
+</blockquote>
+<blockquote>
+<p>思考：全球所有的设备都用交换机连接会是什么情况？</p>
+<p>意味着都在同一个网段。首先产生的第一个问题就是IP地址不够用，其次如果使用ARP时，全球所有的设备都会收到该消息（广播风暴）。路由器的出现就是解决这个问题的。</p>
+</blockquote>
+<h3 id="3-6-路由器（Router）"><a href="#3-6-路由器（Router）" class="headerlink" title="3.6. 路由器（Router）"></a>3.6. 路由器（Router）</h3><p>网线直连、同轴电缆、集线器、网桥、交换机的共同特点：</p>
+<ul>
+<li>连接的设备必须在同一个网段</li>
+<li>连接的设备处在同一个广播域</li>
+</ul>
+<p>路由器的特点：</p>
+<ul>
+<li>可以在不同网段之间转发数据</li>
+<li>隔绝广播域</li>
+</ul>
+<p><img src="http://blog.idbeny.com/nq8rk.png@normal"></p>
+<p>主机发数据之前，首先会判断目标主机的IP地址和它是否在同一个网段：</p>
+<ul>
+<li>在同一个网段<br>通过交换机&#x2F;集线器传递数据</li>
+<li>不在同一个网段<br>通过路由器转发数据（网关）</li>
+</ul>
+<p><img src="http://blog.idbeny.com/0rhnw.png@normal"><br>交换机0和交换机1处于不同的网段，要想让不同网段之间通信，就需要在两个交换机之间增加一个路由器。</p>
+<ul>
+<li>计算机4发送数据给计算机7时，先把发送ARP找到对应IP地址&#x2F;网关</li>
+<li>网关把数据转发给另一个网关（计算机7IP段的网关），找到计算机7后，再反向把MAC地址给到计算机4，此时即可开始数据传输</li>
+</ul>
+<p><img src="http://blog.idbeny.com/93nqn.png@normal"></p>
+<blockquote>
+<p>路由器是解决不同网段之间通信的，不要试图在同一个网段使用路由器（应该使用交换机）。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/10/15/network-bridge/" title="【网络协议】网络协议系列二 - 集线器/网桥/交换机/路由器">http://idbeny.com/2020/10/15/network-bridge/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/10/network-basic/" rel="next" title="【网络协议】网络协议系列一 - 基本认识">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列一 - 基本认识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/15/network-address/" rel="prev" title="【网络协议】网络协议系列三 - MAC地址/IP地址/子网掩码">
+                【网络协议】网络协议系列三 - MAC地址/IP地址/子网掩码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%96%B0%E5%BB%BAJava%E9%A1%B9%E7%9B%AE%E5%B9%B6%E9%83%A8%E7%BD%B2"><span class="nav-number">1.</span> <span class="nav-text">一、新建Java项目并部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%88Java%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 服务端（Java）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-JavaWeb"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. JavaWeb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%90%AF%E5%8A%A8tomcat"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 启动tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%AE%BF%E9%97%AE%E8%B5%84%E6%BA%90"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 访问资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E7%99%BB%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-servlet%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. servlet配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-%E5%88%9B%E5%BB%BA%E8%AF%B7%E6%B1%82%E7%B1%BB"><span class="nav-number">1.6.1.</span> <span class="nav-text">1.6.1. 创建请求类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">二、计算机之间通信基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">三、计算机之间的连接方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%BD%91%E7%BA%BF%E7%9B%B4%E8%BF%9E"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 网线直连</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%90%8C%E8%BD%B4%E7%94%B5%E7%BC%86"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 同轴电缆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E9%9B%86%E7%BA%BF%E5%99%A8%EF%BC%88Hub%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 集线器（Hub）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%BD%91%E6%A1%A5%EF%BC%88Bridge%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. 网桥（Bridge）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%88Switch%EF%BC%89"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. 交换机（Switch）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%88Router%EF%BC%89"><span class="nav-number">3.6.</span> <span class="nav-text">3.6. 路由器（Router）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

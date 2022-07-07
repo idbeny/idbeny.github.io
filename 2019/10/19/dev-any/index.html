@@ -1,38 +1,1258 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具,日常开发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Mac端好用的工具记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【开发小记】Mac工具使用">
+<meta property="og:url" content="http://idbeny.com/2019/10/19/dev-any/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="Mac端好用的工具记录。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/w2wjo.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/1kcq3.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/nj3vc.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/s7kyd.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/wjo2i.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/mx4ks.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/pzwx6.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/kcwzf.png@origin">
+<meta property="og:image" content="http://blog.idbeny.com/o1xda.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/lzclr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/l1f2p.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/6smkl.png@normal">
+<meta property="article:published_time" content="2019-10-19T12:19:04.000Z">
+<meta property="article:modified_time" content="2021-02-21T17:41:51.237Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="日常开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/w2wjo.png@origin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/10/19/dev-any/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【开发小记】Mac工具使用 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/10/19/dev-any/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【开发小记】Mac工具使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T20:19:04+08:00">
+                2019-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B0%8F%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">开发小记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  5 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Mac端好用的工具记录。</p>
+<span id="more"></span>
+<h2 id="Wireshark"><a href="#Wireshark" class="headerlink" title="Wireshark"></a>Wireshark</h2><p>网络分析软件，可以得到网卡过滤后的数据，是分析网络数据的绝佳工具。</p>
+<p><img src="http://blog.idbeny.com/w2wjo.png@origin"></p>
+<p><img src="http://blog.idbeny.com/1kcq3.png@origin"></p>
+<p><a target="_blank" rel="noopener" href="https://www.wireshark.org/">点击前往</a></p>
+<h2 id="Markdown风格编辑器"><a href="#Markdown风格编辑器" class="headerlink" title="Markdown风格编辑器"></a>Markdown风格编辑器</h2><p>简约的风格非常清爽，支持一键复制到公众号、掘金、知乎等平台。</p>
+<p><img src="http://blog.idbeny.com/nj3vc.png@origin"></p>
+<p><a target="_blank" rel="noopener" href="https://www.mdnice.com/">点击前往</a></p>
+<h2 id="创客贴"><a href="#创客贴" class="headerlink" title="创客贴"></a>创客贴</h2><p>可以在线编辑设计图片和文字，制作公众号或博客封面非常好用。</p>
+<p><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">点击前往</a></p>
+<h2 id="开发者文档在线浏览器-Dash"><a href="#开发者文档在线浏览器-Dash" class="headerlink" title="开发者文档在线浏览器-Dash"></a>开发者文档在线浏览器-Dash</h2><p>几乎涵盖所有语言，非常强大，自动更新新版API文档。<br><img src="http://blog.idbeny.com/s7kyd.png@origin"><br><img src="http://blog.idbeny.com/wjo2i.png@normal"></p>
+<h2 id="Gif录制-Annotate"><a href="#Gif录制-Annotate" class="headerlink" title="Gif录制-Annotate"></a>Gif录制-Annotate</h2><p>可以自定义绘制区域，是目前用过最简洁的Gif录制软件了。但是有一个小缺点，录制完成后保存时间有点久（期间应该是在生成Gif），有时候会以为电脑卡了。<br><img src="http://blog.idbeny.com/mx4ks.png@origin"></p>
+<h2 id="截屏-Snipaste"><a href="#截屏-Snipaste" class="headerlink" title="截屏-Snipaste"></a>截屏-Snipaste</h2><p>个人用过最好用的截屏软件了。<br><img src="http://blog.idbeny.com/pzwx6.png@origin"><br><img src="http://blog.idbeny.com/kcwzf.png@origin"></p>
+<h2 id="图床软件-iPic破解"><a href="#图床软件-iPic破解" class="headerlink" title="图床软件-iPic破解"></a>图床软件-iPic破解</h2><p>支持多个平台，快捷键绑定后，一键即可上传，并自动把MD格式的上传地址复制到剪切板。<br><img src="http://blog.idbeny.com/o1xda.png@normal"><br><a target="_blank" rel="noopener" href="https://toolinbox.net/">iPic</a>仅支持试用7天，试用期校验采取的是本地验证。</p>
+<p>打开如下位置plist文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Users/y</span>ourname<span class="regexp">/Library/</span>Containers<span class="regexp">/net.toolinbox.ipic/</span>Data<span class="regexp">/Library/</span>SyncedPreferences/net.toolinbox.ipic.plist</span><br></pre></td></tr></table></figure>
+
+<p>将<code>values</code> -&gt; <code>Markdown Flag</code> -&gt; <code>value</code>更换为七天之内的时间戳即可实现无限试用。</p>
+<p>强烈建议购买使用，支持作者才会有更好的功能输出。</p>
+<h2 id="FileMerge-文件比较"><a href="#FileMerge-文件比较" class="headerlink" title="FileMerge-文件比较"></a>FileMerge-文件比较</h2><p>Xcode自带的工具，用于文件比较、合并等。可以单独打开，也可以在Xcode的工具箱中找到。<br><img src="http://blog.idbeny.com/lzclr.png@normal"></p>
+<h2 id="数学编辑软件"><a href="#数学编辑软件" class="headerlink" title="数学编辑软件"></a>数学编辑软件</h2><h3 id="Grapher"><a href="#Grapher" class="headerlink" title="Grapher"></a>Grapher</h3><p>Mac自带的工具，可以编写2D、3D等常用数学方程。而且有动画自动演示功能。<br><img src="http://blog.idbeny.com/l1f2p.png@normal"></p>
+<h3 id="Word"><a href="#Word" class="headerlink" title="Word"></a>Word</h3><p>WPS的Word中包含<em>LaTeX</em>公式，常用数学运算和函数公式基本覆盖。而且支持Markdown，直接复制粘贴就可以，非常便捷。<br><img src="http://blog.idbeny.com/6smkl.png@normal"></p>
+<h3 id="常用LaTeX公式"><a href="#常用LaTeX公式" class="headerlink" title="常用LaTeX公式"></a>常用LaTeX公式</h3><h4 id="1-起止符"><a href="#1-起止符" class="headerlink" title="1. 起止符"></a>1. 起止符</h4><p>1.1. 行内公式（不会换行）使用$作为起止符：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="keyword">$a</span>$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$m+n$</p>
+<p>1.2. 块级公式（单独一行）使用$$作为起止符：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$$m+n$$</p>
+<h4 id="2-角标"><a href="#2-角标" class="headerlink" title="2. 角标"></a>2. 角标</h4><p>2.1. 上标使用^表示，上标长度大于一时，使用{}包围：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^<span class="number">2</span><span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^&#123;<span class="number">1</span>+<span class="number">1</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a^2$、$a^{m+n}$</p>
+<p>2.2. 下标使用_表示，下标长度大于一时，使用{}包围：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_2<span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_&#123;<span class="number">1</span>+<span class="number">1</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a_2$、$a_{m+n}$</p>
+<p>2.3. 上下标可以同时使用，相互嵌套：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a_2^<span class="number">2</span><span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^<span class="number">2</span>_2<span class="symbol">$</span><span class="symbol">$</span></span><br><span class="line"><span class="symbol">$</span><span class="symbol">$</span>a^&#123;b^<span class="number">2</span>&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$a_2^2$、$a_{m+n}^{i+j}$、$a^{b^2}_{m+n}$</p>
+<h4 id="3-符号"><a href="#3-符号" class="headerlink" title="3. 符号"></a>3. 符号</h4><p>符号一般由\和英文缩写组成<br>3.1. 根式使用\sqrt[指数]{表达式}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\<span class="built_in">sqrt</span>[<span class="number">2</span>]&#123;a+b&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\sqrt[3]{6+3}$、$\sqrt[3]{(6+3)^2}^3$</p>
+<p>3.2. 分式使用\frac{分子}{分母}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\<span class="built_in">frac</span>&#123;dy&#125;&#123;dx&#125;<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\frac{4}{5}$、$({\frac{i+j}{(m+n)^2}})^2$</p>
+<p>3.3. 求和使用\sum_{下限}^{上限}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\sum_&#123;i=<span class="number">1</span>&#125;^&#123;i=<span class="number">10</span>&#125;a_i<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\sum$、$\sum_{i&#x3D;1}^{i&#x3D;10}a_i$</p>
+<p>3.4. 负无穷使用-\infty表示，正无穷使用+\infty表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\sum_&#123;i=-\infty&#125;^&#123;i=+\infty&#125;a_i<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\infty$、$\sum_{i&#x3D;-\infty}^{i&#x3D;+\infty}a_i$</p>
+<p>3.5. 积分使用\int_{下限}^{上限}表示：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$</span><span class="symbol">$</span>\int_&#123;-\infty&#125;^<span class="number">0</span>\<span class="built_in">frac</span>&#123;<span class="number">1</span>&#125;&#123;x&#125;dx<span class="symbol">$</span><span class="symbol">$</span></span><br></pre></td></tr></table></figure>
+<p>示例：$\int$、$\int_{10}^0\frac{1}{x}dx$</p>
+<h4 id="4-矩阵"><a href="#4-矩阵" class="headerlink" title="4. 矩阵"></a>4. 矩阵</h4><p>4.1. 矩阵使用\begin{matrix}和\end{matrix}作为起止符，使用&amp;表示空格，使用\表示换行：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">  <span class="number"> 1 </span>&amp;<span class="number"> 0 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 1 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 0 </span>&amp; 1</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>$</p>
+<p>4.2. 使用\left符号 和\right符号 作为起止符，包围矩阵，可以为矩阵添加括号：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">  <span class="number"> 1 </span>&amp;<span class="number"> 0 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 1 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 0 </span>&amp; 1</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$\left[ a \right]$、$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right]<br>$</p>
+<p>4.3. 需要注意的是，如果想使用{}括号，需要在其前面添加反斜杠：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left\&#123;</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">  <span class="number"> 1 </span>&amp;<span class="number"> 0 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 1 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 0 </span>&amp; 1</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right\&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$\left{ a \right}$、$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right]<br>$</p>
+<h4 id="5-公式号"><a href="#5-公式号" class="headerlink" title="5. 公式号"></a>5. 公式号</h4><p>5.1. 我们可能需要给块级公式末尾添加公式号，只需要使用\tag{编号}即可，仅在块级有效，行内会报错：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left\&#123;</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">  <span class="number"> 1 </span>&amp;<span class="number"> 0 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 1 </span>&amp;<span class="number"> 0 </span>\\</span><br><span class="line">  <span class="number"> 0 </span>&amp;<span class="number"> 0 </span>&amp; 1</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right\&#125; \tag&#123;1&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>示例：$$<br>\left[<br>\begin{matrix}<br>   1 &amp; 0 &amp; 0 \<br>   0 &amp; 1 &amp; 0 \<br>   0 &amp; 0 &amp; 1<br>\end{matrix}<br>\right] \tag{1.1}<br>$$</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/10/19/dev-any/" title="【开发小记】Mac工具使用">http://idbeny.com/2019/10/19/dev-any/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          
+            <a href="/tags/%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91/" rel="tag"># 日常开发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/19/swift-syntax-rp/" rel="next" title="【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用）">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列三十四 - 响应式编程（RxSwift的使用）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/23/datastructure-union-find/" rel="prev" title="【数据结构与算法】系列二十八 - 并查集">
+                【数据结构与算法】系列二十八 - 并查集 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Wireshark"><span class="nav-number">1.</span> <span class="nav-text">Wireshark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown%E9%A3%8E%E6%A0%BC%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">Markdown风格编辑器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%AE%A2%E8%B4%B4"><span class="nav-number">3.</span> <span class="nav-text">创客贴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E6%96%87%E6%A1%A3%E5%9C%A8%E7%BA%BF%E6%B5%8F%E8%A7%88%E5%99%A8-Dash"><span class="nav-number">4.</span> <span class="nav-text">开发者文档在线浏览器-Dash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gif%E5%BD%95%E5%88%B6-Annotate"><span class="nav-number">5.</span> <span class="nav-text">Gif录制-Annotate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%AA%E5%B1%8F-Snipaste"><span class="nav-number">6.</span> <span class="nav-text">截屏-Snipaste</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BA%8A%E8%BD%AF%E4%BB%B6-iPic%E7%A0%B4%E8%A7%A3"><span class="nav-number">7.</span> <span class="nav-text">图床软件-iPic破解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FileMerge-%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83"><span class="nav-number">8.</span> <span class="nav-text">FileMerge-文件比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E7%BC%96%E8%BE%91%E8%BD%AF%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">数学编辑软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Grapher"><span class="nav-number">9.1.</span> <span class="nav-text">Grapher</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word"><span class="nav-number">9.2.</span> <span class="nav-text">Word</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8LaTeX%E5%85%AC%E5%BC%8F"><span class="nav-number">9.3.</span> <span class="nav-text">常用LaTeX公式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%B5%B7%E6%AD%A2%E7%AC%A6"><span class="nav-number">9.3.1.</span> <span class="nav-text">1. 起止符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%A7%92%E6%A0%87"><span class="nav-number">9.3.2.</span> <span class="nav-text">2. 角标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%AC%A6%E5%8F%B7"><span class="nav-number">9.3.3.</span> <span class="nav-text">3. 符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E7%9F%A9%E9%98%B5"><span class="nav-number">9.3.4.</span> <span class="nav-text">4. 矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%85%AC%E5%BC%8F%E5%8F%B7"><span class="nav-number">9.3.5.</span> <span class="nav-text">5. 公式号</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

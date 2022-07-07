@@ -1,38 +1,1420 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络协议,计算机," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="很多开发人员经常听说加解密，但对其中原理不太了解，今天我们就一起探讨一下常用的加密原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络协议】网络协议系列十四 - (非)对称加密&#x2F;数字签名&#x2F;证书">
+<meta property="og:url" content="http://idbeny.com/2020/12/02/network-encrypt/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="很多开发人员经常听说加解密，但对其中原理不太了解，今天我们就一起探讨一下常用的加密原理。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/pm9wp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/qrk81.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/a3wv9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/iv3yk.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/csy4r.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/y98yq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/64fmi.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/9v147.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/zmjxe.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/go0in.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0x447.webp@normal">
+<meta property="og:image" content="https://blog.idbeny.com/y1460.jpeg@normal">
+<meta property="og:image" content="https://blog.idbeny.com/88e45.jpeg@normal">
+<meta property="og:image" content="https://blog.idbeny.com/96ox4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/wut5r.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/1munc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/yqz8y.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/l0vh4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pq9u5.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tom03.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3v57z.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/sj5am.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/4g3t8.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ylxum.png@normal">
+<meta property="article:published_time" content="2020-12-02T13:43:52.000Z">
+<meta property="article:modified_time" content="2021-03-21T23:21:42.827Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/pm9wp.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/12/02/network-encrypt/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【网络协议】网络协议系列十四 - (非)对称加密/数字签名/证书 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/12/02/network-encrypt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【网络协议】网络协议系列十四 - (非)对称加密/数字签名/证书</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-02T21:43:52+08:00">
+                2020-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">对称加密</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">非对称加密</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" itemprop="url" rel="index">
+                    <span itemprop="name">数字签名</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%81%E4%B9%A6/" itemprop="url" rel="index">
+                    <span itemprop="name">证书</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>很多开发人员经常听说加解密，但对其中原理不太了解，今天我们就一起探讨一下常用的加密原理。</p>
+<span id="more"></span>
+
+<p><img src="https://blog.idbeny.com/pm9wp.png@normal"></p>
+<h2 id="一、对称加密"><a href="#一、对称加密" class="headerlink" title="一、对称加密"></a>一、对称加密</h2><p>在对称加密中（也叫对称密码），加密和解密使用的是同一个密钥。</p>
+<p><img src="https://blog.idbeny.com/qrk81.png@normal"></p>
+<p><img src="https://blog.idbeny.com/a3wv9.png@normal"></p>
+<p>常见的对称加密算法：</p>
+<ul>
+<li>DES</li>
+<li>3DES</li>
+<li>AES</li>
+</ul>
+<h3 id="1-1-DES（Data-Encryption-Standard）"><a href="#1-1-DES（Data-Encryption-Standard）" class="headerlink" title="1.1. DES（Data Encryption Standard）"></a>1.1. DES（<em>Data Encryption Standard</em>）</h3><p><img src="https://blog.idbeny.com/iv3yk.png@normal"></p>
+<p>DES是一种将64bit明文加密成64bit密文的对称加密算法，密钥长度是56bit。</p>
+<p>规格上来说，密钥长度是64bit，但每隔7bit会设置一个用于错误检查的bit，因此密钥长度实质上是56bit。由于DES每次只能加密64bit的数据，遇到比较大的数据，需要对DES加密进行迭代（反复）。目前已经可以在短时间内被破解，所以不建议使用。</p>
+<h3 id="1-2-3DES（Triple-Data-Encryption-Algorithm）"><a href="#1-2-3DES（Triple-Data-Encryption-Algorithm）" class="headerlink" title="1.2. 3DES（Triple Data Encryption Algorithm）"></a>1.2. 3DES（<em>Triple Data Encryption Algorithm</em>）</h3><p>3DES，是将DES重复3次所得到的的一种密码算法，也叫做3重DES。</p>
+<p>三重DES并不是进行三次DES加密（<code>加密 -&gt; 加密 -&gt; 加密</code>），而是<code>加密 -&gt; 解密 -&gt; 加密</code>的过程。目前还被一些银行等机构使用，但处理速度不高，安全性逐渐暴露出问题。</p>
+<p><img src="https://blog.idbeny.com/csy4r.png@normal"></p>
+<p>3个密钥都是不同的，也称为DES-EDE3。EDE是<em>Encryption Decryption Encryption</em>的缩写。</p>
+<p>如果所有密钥都使用同一个，则结果与普通的DES是等价的。</p>
+<p><img src="https://blog.idbeny.com/y98yq.png@normal"></p>
+<p>如果密钥1、密钥3相同，密钥2不同，称为DES-EDE2。</p>
+<p><img src="https://blog.idbeny.com/64fmi.png@normal"></p>
+<h3 id="1-3-AES（Advanced-Encryption-Standard）"><a href="#1-3-AES（Advanced-Encryption-Standard）" class="headerlink" title="1.3. AES（Advanced Encryption Standard）"></a>1.3. AES（<em>Advanced Encryption Standard</em>）</h3><p>AES是取代DES成为新标准的一种对称加密算法，又称为Rijndael加密法（算法发明人叫做Rijndael）。</p>
+<p>AES的密钥长度有128、192、256bit三种。目前AES已经逐步取代DES、3DES，成为首选的对称加密算法。</p>
+<p>一般来说，我们也不应该去使用任何自制的密码算法，而是应该使用AES。因为它经过了全世界密码学家所进行的高品质验证工作。</p>
+<h3 id="1-4-密钥配送问题"><a href="#1-4-密钥配送问题" class="headerlink" title="1.4. 密钥配送问题"></a>1.4. 密钥配送问题</h3><p>在使用对称加密时，一定会遇到密钥配送问题。</p>
+<p><img src="https://blog.idbeny.com/9v147.png@normal"></p>
+<p>如果Alice将使用对称加密过的消息发给了Bob，只有将密钥发送给Bob，Bob才能完成解密。在发送密钥过程中，可能会被Eve窃取密钥，最后Eve也能完成解密。</p>
+<p><strong>如何解决密钥配送问题？</strong><br>有以下几种解决密钥配送的方法：</p>
+<ul>
+<li>事先共享密钥（比如私下共享）</li>
+<li>密钥分配中心（<em>Key Distribution Center</em>，简称KDC）</li>
+<li>Diffie-Hellman密钥交换</li>
+<li>非对称加密</li>
+</ul>
+<h2 id="二、非对称加密"><a href="#二、非对称加密" class="headerlink" title="二、非对称加密"></a>二、非对称加密</h2><p>在非对称加密（<em>Asymmetric Cryptography</em>）中，密钥分为加密密钥、解密密钥2种，它们并不是同一个密钥。</p>
+<p>加密密钥：一般是公开的，因此该密钥称为公钥（<em>public key</em>）。因此，非对称加密也被称为公钥密码（<em>Public-key Cryptography</em>）。</p>
+<p>解密密钥：由消息接收者自己保管的，不能公开，因此也称为私钥（<em>private key</em>）。</p>
+<p><img src="https://blog.idbeny.com/zmjxe.png@normal"></p>
+<p><img src="https://blog.idbeny.com/go0in.png@normal"></p>
+<h3 id="2-1-公钥和私钥"><a href="#2-1-公钥和私钥" class="headerlink" title="2.1. 公钥和私钥"></a>2.1. 公钥和私钥</h3><p>公钥和私钥是一一对应的，不能单独生成。一对公钥和私钥统称为密钥对（<em>key pair</em>）。</p>
+<p>由公钥加密的密文，必须使用与该公钥对应的私钥才能解密。</p>
+<p>由私钥加密的密文，必须使用与该私钥对应的公钥才能解密。</p>
+<p>因为非对称加密算法更加复杂（安全），所以加密解密速度会比较慢（效率低）。相反而言，对称加密简单（不安全），所以加密解密速度更快（效率高）。</p>
+<h3 id="2-2-解决密钥配送问题"><a href="#2-2-解决密钥配送问题" class="headerlink" title="2.2. 解决密钥配送问题"></a>2.2. 解决密钥配送问题</h3><p>由消息的接收者生成一对公钥和私钥。将公钥发给消息的发送者，消息的发送者使用公钥加密消息。</p>
+<p><img src="https://blog.idbeny.com/0x447.webp@normal"></p>
+<h3 id="2-3-RSA"><a href="#2-3-RSA" class="headerlink" title="2.3. RSA"></a>2.3. RSA</h3><p>RSA的名字由它的3位开发者姓氏首字母组成（<em>Rivest、Adi Shamir、Leonard Adleman</em>），也是目前使用最广泛的非对称加密算法。</p>
+<h3 id="2-4-混合密码系统（Hybrid-Cryptosystem）"><a href="#2-4-混合密码系统（Hybrid-Cryptosystem）" class="headerlink" title="2.4. 混合密码系统（Hybrid Cryptosystem）"></a>2.4. 混合密码系统（<em>Hybrid Cryptosystem</em>）</h3><p>对称加密的缺点：不能很好地解决密钥配送问题（密钥会被窃取）。</p>
+<p>非对称加密的缺点：加密解密速度比较慢。</p>
+<p>混合密码系统：是将对称加密和非对称加密的优势相结合的方法。<strong>解决了非对称加密速度慢的问题</strong>，并通过非对称加密解决了对称加密的密钥配送问题。</p>
+<p>网络上的密码通信所用的SSL&#x2F;TLS都运用了混合密码系统。</p>
+<h4 id="2-4-1-混合密码-加密"><a href="#2-4-1-混合密码-加密" class="headerlink" title="2.4.1. 混合密码-加密"></a>2.4.1. 混合密码-加密</h4><p>会话密钥（<em>session key</em>）：</p>
+<ul>
+<li>为本次通信随机生成的临时密钥</li>
+<li>作为对称加密的密钥，用于加密消息，提高速度</li>
+</ul>
+<p>加密步骤（发送消息）：</p>
+<ul>
+<li>首先，消息发送者要拥有消息接收者的公钥</li>
+<li>生成会话密钥，作为对称加密的密钥，加密消息</li>
+<li>用消息接收者的公钥，加密会话密钥</li>
+<li>将前2步生成的加密结果，一并发给消息接收者</li>
+</ul>
+<p>发送出去的内容包括：</p>
+<ul>
+<li>用会话密钥加密的消息（加密方法：对称加密）</li>
+<li>用公钥加密的会话密钥（加密方法：非对称加密）</li>
+</ul>
+<p><img src="https://blog.idbeny.com/y1460.jpeg@normal"></p>
+<h4 id="2-4-2-混合密码-解密"><a href="#2-4-2-混合密码-解密" class="headerlink" title="2.4.2. 混合密码-解密"></a>2.4.2. 混合密码-解密</h4><p>解密步骤（收到消息）：</p>
+<ul>
+<li>消息接收者用自己的私钥解密出会话密钥</li>
+<li>再用第一步解密出来的会话密钥解密消息</li>
+</ul>
+<p><img src="https://blog.idbeny.com/88e45.jpeg@normal"></p>
+<h4 id="2-4-2-混合密码-加密解密流程"><a href="#2-4-2-混合密码-加密解密流程" class="headerlink" title="2.4.2. 混合密码-加密解密流程"></a>2.4.2. 混合密码-加密解密流程</h4><p>场景：Alice发送消息给Bob。</p>
+<p>发送过程（加密过程）：</p>
+<ol>
+<li>Bob先生成一对公钥和私钥</li>
+<li>Bob把公钥共享给Alice</li>
+<li>Alice随机生成一个会话密钥（临时密钥）</li>
+<li>Alice用会话密钥加密需要发送的消息（使用的是对称加密）</li>
+<li>Alice用Bob的公钥加密会话密钥（使用的是非对称加密）</li>
+<li>Alice把第4、5步的加密结果一并发送给Bob</li>
+</ol>
+<p>接收过程（解密过程）：</p>
+<ol>
+<li>Bob利用自己的私钥解密会话密钥（使用的是非对称加密算法进行解密）</li>
+<li>Bob利用会话密钥解密发送过来的消息（使用的是对称加密算法进行解密）</li>
+</ol>
+<h2 id="三、数字签名"><a href="#三、数字签名" class="headerlink" title="三、数字签名"></a>三、数字签名</h2><p>例如，Alice发送内容给Bob（明文）。Alice发的内容有可能是被篡改的，或者有人伪装成Alice发消息，或者就是Alice发的，但她可以否认。</p>
+<p>问题来了：Bob如何确定这段消息的真实性？如何识别篡改、伪装、否认？</p>
+<p>解决方案：数字签名。</p>
+<h3 id="3-1-数字签名过程"><a href="#3-1-数字签名过程" class="headerlink" title="3.1. 数字签名过程"></a>3.1. 数字签名过程</h3><p>在数字签名技术中，有以下2种行为：</p>
+<ul>
+<li>生成签名<ul>
+<li>由消息的发送者完成，通过“签名密钥”生成</li>
+</ul>
+</li>
+<li>验证签名<ul>
+<li>由消息的接收者完成，通过“验证密钥”验证</li>
+</ul>
+</li>
+</ul>
+<p>如何能保证这个签名是消息发送者自己签的？用消息发送者的私钥进行签名。</p>
+<p>签名过程：</p>
+<p><img src="https://blog.idbeny.com/96ox4.png@normal"></p>
+<p>由于非对称加密速度比较慢，当消息体量比较大时效率就会下降，所以可以利用单向散列函数对其过程进行改进（对散列值进行加密解密，然后比较散列值）：</p>
+<p><img src="https://blog.idbeny.com/wut5r.png@normal"></p>
+<p><img src="https://blog.idbeny.com/1munc.png@normal"></p>
+<blockquote>
+<p>消息发送者生成密钥对是为了防止密钥被篡改。消息接收者生成密钥对是不想消息被其他人看到。</p>
+</blockquote>
+<ul>
+<li><p>如果有人篡改了消息内容或签名内容，会是什么结果？</p>
+<ul>
+<li>签名验证失败，证明内容被篡改了。</li>
+</ul>
+</li>
+<li><p>数字签名不能保证机密性？</p>
+<ul>
+<li>数字签名的作用不是为了保证机密性，仅仅是为了能够识别内容有没有被篡改。</li>
+</ul>
+</li>
+<li><p>数字签名的作用</p>
+<ul>
+<li>确认消息的完整性</li>
+<li>识别消息是否被篡改</li>
+<li>防止消息发送人否认</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-非对称加密和数字签名对比"><a href="#3-2-非对称加密和数字签名对比" class="headerlink" title="3.2. 非对称加密和数字签名对比"></a>3.2. 非对称加密和数字签名对比</h3><p>在非对称加密中，任何人都可以使用公钥进行加密。</p>
+<p><img src="https://blog.idbeny.com/yqz8y.png@normal"></p>
+<p>在数字签名中，任何人都可以使用公钥验证签名。</p>
+<p><img src="https://blog.idbeny.com/l0vh4.png@normal"></p>
+<p>数字签名，其实就是将非对称加密反过来使用。<br><img src="https://blog.idbeny.com/pq9u5.png@normal"></p>
+<p>非对称加密：既然是加密，那肯定是不希望别人知道我的消息，所以只有我才能解密。公钥负责加密，私钥负责解密。</p>
+<p>数字签名：既然是签名，肯定是不希望有人冒充我发消息，所以只有我才能签名。 私钥负责签名，公钥负责验签。</p>
+<h3 id="3-3-公钥的合法性"><a href="#3-3-公钥的合法性" class="headerlink" title="3.3. 公钥的合法性"></a>3.3. 公钥的合法性</h3><p>如果遭遇了中间人攻击，那么公钥将可能是伪造的。</p>
+<p><img src="https://blog.idbeny.com/tom03.png@normal"></p>
+<p>对称加密无法保证密钥的安全，后面有了非对称加密。但是非对称加密也有公钥被窃取的风险（混合加密和签名也是一样的，只要有传输公钥这一步骤，就会有窃取风险），所以如何才能验证公钥的合法性呢？使用证书。</p>
+<h2 id="四、证书"><a href="#四、证书" class="headerlink" title="四、证书"></a>四、证书</h2><p>说到证书，首先联想到的是驾驶证、毕业证、英语四六级证等，这些都是由权威机构认证的。</p>
+<p>密码学中的证书，全程叫<strong>公钥证书</strong>（<em>Public-key Certificate，PKC</em>），跟驾驶证类似，里面有姓名、邮箱等个人信息，以及此人的公钥。并由认证机构（<em>Certificate Authority，CA</em>）进行数字签名。</p>
+<p>CA就是能够认定“公钥确实属于此人”并能够生成数字签名的个人或者组织。</p>
+<p>CA可以是有国际性的组织、政府设立的组织、通过提供认证服务来盈利的企业，个人也可以成立认证机构。</p>
+<h3 id="4-1-注册和下载"><a href="#4-1-注册和下载" class="headerlink" title="4.1. 注册和下载"></a>4.1. 注册和下载</h3><p><img src="https://blog.idbeny.com/3v57z.png@normal"></p>
+<h3 id="4-2-证书的使用"><a href="#4-2-证书的使用" class="headerlink" title="4.2. 证书的使用"></a>4.2. 证书的使用</h3><p><img src="https://blog.idbeny.com/sj5am.png@normal"></p>
+<p>第4步和第5步只要被篡改，就会认证失败。因为证书签名始终都是围绕CA认证机构验证的。</p>
+<p>各大CA的公钥，默认已经内置在浏览器和操作系统中。</p>
+<h3 id="4-3-查看证书"><a href="#4-3-查看证书" class="headerlink" title="4.3. 查看证书"></a>4.3. 查看证书</h3><h4 id="4-3-1-Windows"><a href="#4-3-1-Windows" class="headerlink" title="4.3.1. Windows"></a>4.3.1. Windows</h4><ol>
+<li><code>Windows + R</code> -&gt; 输入<code>mmc</code></li>
+<li>文件 -&gt; 添加&#x2F;删除管理单元</li>
+<li>证书 -&gt; 添加 -&gt; 我的用户账户 -&gt; 完成 -&gt; 确定</li>
+</ol>
+<p><img src="https://blog.idbeny.com/4g3t8.png@normal"></p>
+<h4 id="4-3-2-Mac"><a href="#4-3-2-Mac" class="headerlink" title="4.3.2. Mac"></a>4.3.2. Mac</h4><p>Mac系统的证书统一在<code>钥匙串</code>中管理。</p>
+<p><img src="https://blog.idbeny.com/ylxum.png@normal"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/12/02/network-encrypt/" title="【网络协议】网络协议系列十四 - (非)对称加密/数字签名/证书">http://idbeny.com/2020/12/02/network-encrypt/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/25/network-proxy-cdn/" rel="next" title="【网络协议】网络协议系列十三 - 代理/CDN/网络安全">
+                <i class="fa fa-chevron-left"></i> 【网络协议】网络协议系列十三 - 代理/CDN/网络安全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/12/network-https/" rel="prev" title="【网络协议】网络协议系列十五 - HTTPS">
+                【网络协议】网络协议系列十五 - HTTPS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">一、对称加密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-DES%EF%BC%88Data-Encryption-Standard%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. DES（Data Encryption Standard）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3DES%EF%BC%88Triple-Data-Encryption-Algorithm%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 3DES（Triple Data Encryption Algorithm）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-AES%EF%BC%88Advanced-Encryption-Standard%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. AES（Advanced Encryption Standard）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%AF%86%E9%92%A5%E9%85%8D%E9%80%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 密钥配送问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86"><span class="nav-number">2.</span> <span class="nav-text">二、非对称加密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%85%AC%E9%92%A5%E5%92%8C%E7%A7%81%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 公钥和私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%A7%A3%E5%86%B3%E5%AF%86%E9%92%A5%E9%85%8D%E9%80%81%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 解决密钥配送问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-RSA"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. RSA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81%E7%B3%BB%E7%BB%9F%EF%BC%88Hybrid-Cryptosystem%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 混合密码系统（Hybrid Cryptosystem）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81-%E5%8A%A0%E5%AF%86"><span class="nav-number">2.4.1.</span> <span class="nav-text">2.4.1. 混合密码-加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81-%E8%A7%A3%E5%AF%86"><span class="nav-number">2.4.2.</span> <span class="nav-text">2.4.2. 混合密码-解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81-%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="nav-number">2.4.3.</span> <span class="nav-text">2.4.2. 混合密码-加密解密流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">三、数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 数字签名过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E5%92%8C%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%AF%B9%E6%AF%94"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 非对称加密和数字签名对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%85%AC%E9%92%A5%E7%9A%84%E5%90%88%E6%B3%95%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 公钥的合法性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%AF%81%E4%B9%A6"><span class="nav-number">4.</span> <span class="nav-text">四、证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%B3%A8%E5%86%8C%E5%92%8C%E4%B8%8B%E8%BD%BD"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 注册和下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%AF%81%E4%B9%A6%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 证书的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6"><span class="nav-number">4.3.</span> <span class="nav-text">4.3. 查看证书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1-Windows"><span class="nav-number">4.3.1.</span> <span class="nav-text">4.3.1. Windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2-Mac"><span class="nav-number">4.3.2.</span> <span class="nav-text">4.3.2. Mac</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
