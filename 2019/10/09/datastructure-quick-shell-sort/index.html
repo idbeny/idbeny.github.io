@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法,排序,快速排序,希尔排序," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="快速排序的平均时间复杂度和堆排序、归并排序的平均时间复杂度一样都是O(nlogn)，但是快速排序的最坏时间复杂度是O(n^2)。实际上，快速排序的效率比堆排序和归并排序都要快，我们可以通过代码来调节最坏时间复杂度的出现的概率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列二十六 - 快速排序&#x2F;希尔排序">
+<meta property="og:url" content="http://idbeny.com/2019/10/09/datastructure-quick-shell-sort/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="快速排序的平均时间复杂度和堆排序、归并排序的平均时间复杂度一样都是O(nlogn)，但是快速排序的最坏时间复杂度是O(n^2)。实际上，快速排序的效率比堆排序和归并排序都要快，我们可以通过代码来调节最坏时间复杂度的出现的概率。">
+<meta property="og:image" content="https://blog.idbeny.com/ofo03.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5r55v.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5pn1g.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/mniy8.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/jcvrd.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/2nxns.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/72l4k.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0c42b.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/rj2fk.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/gt4g1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/gmy18.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/mn259.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tn8cc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/scancode.png">
+<meta property="article:published_time" content="2019-10-09T05:15:02.000Z">
+<meta property="article:modified_time" content="2021-07-08T14:02:37.748Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="排序">
+<meta property="article:tag" content="快速排序">
+<meta property="article:tag" content="希尔排序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/ofo03.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/10/09/datastructure-quick-shell-sort/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列二十六 - 快速排序/希尔排序 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/10/09/datastructure-quick-shell-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列二十六 - 快速排序/希尔排序</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T13:15:02+08:00">
+                2019-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>快速排序的平均时间复杂度和堆排序、归并排序的平均时间复杂度一样都是<code>O(nlogn)</code>，但是快速排序的最坏时间复杂度是<code>O(n^2)</code>。实际上，快速排序的效率比堆排序和归并排序都要快，我们可以通过代码来调节最坏时间复杂度的出现的概率。</p>
+<a id="more"></a>
+
+<h2 id="一、快速排序"><a href="#一、快速排序" class="headerlink" title="一、快速排序"></a>一、快速排序</h2><p>快速排序（<em>Quick Sort<em>）在1960年由查尔斯·安东尼·理查德·霍尔（</em>Charles Antony Richard Hoare<em>，缩写为</em>C. A. R. Hoare<em>）提出，昵称为东尼·霍尔(</em>Tony Hoare</em>)。</p>
+<h3 id="1-1-执行流程"><a href="#1-1-执行流程" class="headerlink" title="1.1. 执行流程"></a>1.1. 执行流程</h3><ol>
+<li>从序列中选择一个轴点元素（<code>pivot</code>）；<ul>
+<li>假设每次选择0位置的元素为轴点元素</li>
+</ul>
+</li>
+<li>利用<code>pivot</code>将序列分割成2个子序列；<ul>
+<li>将小于<code>pivot</code>的元素放在<code>pivot</code>前面（左侧）</li>
+<li>将大于<code>pivot</code>的元素放在<code>pivot</code>后面（右侧）</li>
+<li>等于<code>pivot</code>的元素放哪边都可以</li>
+</ul>
+</li>
+<li>对子序列进行1、2操作，直到不能再分割（子序列中只剩下1个元素）。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/ofo03.png@normal" alt=""></p>
+<p><strong>快速排序的本质</strong>：逐渐将每一个元素都转换成轴点元素。</p>
+<h3 id="1-2-轴点构造"><a href="#1-2-轴点构造" class="headerlink" title="1.2. 轴点构造"></a>1.2. 轴点构造</h3><p><img src="https://blog.idbeny.com/5r55v.png@normal" alt=""></p>
+<p>如上图，<code>begin</code>指向首元素、<code>end</code>指向尾部元素（注意，这里的<code>end</code>和之前排序算法中的<code>end</code>不太一样）。</p>
+<ul>
+<li>排序之前，先把首元素（轴点元素）备份，数组中的元素从后往前开始比较</li>
+<li>当<code>end</code>指向的元素大于备份的元素时，只需要<code>end--</code></li>
+<li>当<code>end</code>指向的元素小于备份的元素时，<code>end</code>指向的元素覆盖<code>begin</code>指向的位置，并且<code>begin++</code></li>
+<li>当<code>begin</code>指向的元素大于备份的元素时，<code>begin</code>指向的元素覆盖<code>end</code>指向的位置，并且<code>end--</code></li>
+<li>当<code>begin</code>指向的元素小于备份的元素时，只需要<code>begin++</code></li>
+<li>当<code>begin</code>或<code>end</code>指向的元素和备份元素相等时，为了统一步骤，也让他做上面的覆盖操作</li>
+<li>当<code>begin</code>和<code>end</code>指向同一个位置时，轴点元素构造完毕，并把备份元素放入这个位置</li>
+</ul>
+<p>上面的步骤中，当<code>begin</code>发生覆盖时，下一步取<code>end</code>指向的位置进行比较。当<code>end</code>位置发生覆盖时，下一步取<code>begin</code>指向的位置进行比较。两个交替运行。</p>
+<blockquote>
+<p>注意：轴点把数据分割成了两部分，只要这两部分的<code>begin</code>和<code>end</code>不在同一个位置，都需要再次进行快排（递归）。</p>
+</blockquote>
+<h3 id="1-3-代码实现"><a href="#1-3-代码实现" class="headerlink" title="1.3. 代码实现"></a>1.3. 代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  sort(<span class="number">0</span>, array.length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 对 [begin, end) 范围的元素进行快速排序</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> begin</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> end</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123; </span><br><span class="line">  <span class="keyword">if</span> (end - begin &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 确定轴点位置 O(n)</span></span><br><span class="line">  <span class="keyword">int</span> mid = pivotIndex(begin, end);</span><br><span class="line">  <span class="comment">// 对子序列进行快速排序</span></span><br><span class="line">  sort(begin, mid); </span><br><span class="line">  sort(mid + <span class="number">1</span>, end); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 构造出 [begin, end) 范围的轴点元素</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 轴点元素的最终位置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">pivotIndex</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 备份begin位置的元素</span></span><br><span class="line">  <span class="keyword">int</span> pivot = array[begin];</span><br><span class="line">  <span class="comment">// end指向最后一个元素</span></span><br><span class="line">  end--;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (begin &lt; end) &#123;</span><br><span class="line">    <span class="keyword">while</span> (begin &lt; end) &#123;</span><br><span class="line">      <span class="keyword">if</span> (pivot - array[end] &lt; <span class="number">0</span>) &#123; <span class="comment">// 右边元素 &gt; 轴点元素</span></span><br><span class="line">        end--;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">// 右边元素 &lt;= 轴点元素</span></span><br><span class="line">        array[begin++] = array[end];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (begin &lt; end) &#123;</span><br><span class="line">      <span class="keyword">if</span> (pivot - array[begin] &gt; <span class="number">0</span>) &#123; <span class="comment">// 左边元素 &lt; 轴点元素</span></span><br><span class="line">        begin++;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">// 左边元素 &gt;= 轴点元素</span></span><br><span class="line">        array[end--] = array[begin];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将轴点元素放入最终的位置</span></span><br><span class="line">  array[begin] = pivot;</span><br><span class="line">  <span class="comment">// 返回轴点元素的位置</span></span><br><span class="line">  <span class="keyword">return</span> begin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-时间复杂度"><a href="#1-4-时间复杂度" class="headerlink" title="1.4. 时间复杂度"></a>1.4. 时间复杂度</h3><p>在轴点左右元素数量比较均匀的情况下，同时也是最好的情况：<code>T(n) = 2 * T(n/2) + O(n) = O(nlogn)</code></p>
+<p>如果轴点左右元素数量极度不均匀，最坏情况：<code>T(n) = T(n−1) + O(n) = O(n^2)</code></p>
+<p>从下图也可以看出，最坏时间复杂度是三角形面积：</p>
+<p><img src="https://blog.idbeny.com/5pn1g.png@normal" alt=""></p>
+<p>由于右边数据是空的，所以不考虑右边数据排序<code>sort(mid + 1, end)</code>的耗时，只需要考虑左边的排序<code>sort(begin, mid);</code>（即<code>T(n-1)</code>），所以总耗时是<code>T(n) = T(n-1) + O(n)</code>，计算得出（或者对比之前的公式）时间复杂度是<code>O(n^2)</code>。</p>
+<p>为了降低最坏情况的出现概率，一般采取的做法是：<strong>随机选择轴点元素</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">pivotIndex</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 随机选择一个元素跟begin位置进行交换</span></span><br><span class="line">  <span class="keyword">int</span> randomIndex = begin + (<span class="keyword">int</span>)(Math.random() * (end - begin));</span><br><span class="line">  <span class="keyword">int</span> tmp = array[begin];</span><br><span class="line">  array[begin] = array[randomIndex];</span><br><span class="line">  array[randomIndex] = tmp;</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> begin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最好、平均时间复杂度：<code>O(nlogn)</code></p>
+<p>最坏时间复杂度：<code>O(n^2)</code></p>
+<p>由于递归调用的缘故，空间复杂度：<code>O(logn)</code></p>
+<p>快速排序属于不稳定排序。</p>
+<h3 id="1-5-与轴点相等的元素"><a href="#1-5-与轴点相等的元素" class="headerlink" title="1.5. 与轴点相等的元素"></a>1.5. 与轴点相等的元素</h3><p>如果序列中的所有元素都与轴点元素相等，利用目前的算法实现，轴点元素可以将序列分割成2个均匀的子序列：</p>
+<p><img src="https://blog.idbeny.com/mniy8.png@normal" alt=""></p>
+<p>思考：比较元素大小的判断分别改为<code>≤、≥</code> 会起到什么效果？</p>
+<p><img src="https://blog.idbeny.com/jcvrd.png@normal" alt=""></p>
+<p><img src="https://blog.idbeny.com/2nxns.png@normal" alt=""></p>
+<p>通过上图的分析可以发现，如果加上条件等于，轴点元素分割出来的子序列极度不均匀，最坏时间复杂度是<code>O(n^2)</code>，效率极大降低。</p>
+<blockquote>
+<p>误区：上面分析的是和轴点元素相等的情况，并不意味着加上等于就是稳定排序，比如上图中如果轴点元素是8，元素<code>...6a...6b...</code>排序后就是<code>...6b...6a...</code>。</p>
+</blockquote>
+<h2 id="二、希尔排序"><a href="#二、希尔排序" class="headerlink" title="二、希尔排序"></a>二、希尔排序</h2><p>希尔排序（<em>Shell Sort</em>）在1959年由唐纳德·希尔（<em>Donald Shell</em>）提出。</p>
+<p>希尔排序把序列看作是一个<strong>矩阵</strong>，分成m列，逐列进行排序，m从某个整数逐渐减为1，当m为1时，整个序列将完全有序。因此，希尔排序也被称为<strong>递减增量排序</strong>（<em>Diminishing Increment Sort</em>）。</p>
+<p>矩阵的列数取决于步长序列（<em>step sequence</em>），比如，如果步长序列为<code>{1,5,19,41,109,...}</code>，就代表依次分成109列、41列、19列、5列、1列进行排序。不同的步长序列，执行效率也不同。</p>
+<h3 id="2-1-实例一"><a href="#2-1-实例一" class="headerlink" title="2.1. 实例一"></a>2.1. 实例一</h3><p>希尔本人给出的步长序列是<code>n/(2^k)</code>，比如n为16时，步长序列是<code>{1, 2, 4, 8}</code>。</p>
+<p><img src="https://blog.idbeny.com/72l4k.png@normal" alt=""></p>
+<p><strong>1. 分成8列进行排序</strong></p>
+<p><img src="https://blog.idbeny.com/0c42b.png@normal" alt=""></p>
+<p><strong>2. 分成4列进行排序（在8列排序后的基础上排序）</strong></p>
+<p><img src="https://blog.idbeny.com/rj2fk.png@normal" alt=""></p>
+<p><strong>3. 分成2列进行排序（在4列排序后的基础上排序）</strong></p>
+<p><img src="https://blog.idbeny.com/gt4g1.png@normal" alt=""></p>
+<p><strong>4. 分成1列进行排序（在2列排序后的基础上排序）</strong></p>
+<p><img src="https://blog.idbeny.com/gmy18.png@normal" alt=""></p>
+<p><em>思考：最后一次排序只有一列，为什么不直接分成一列呢？前面的3次排序有什么作用呢？</em></p>
+<p>从上面的实例不难看出来，从8列变为1列的过程中，逆序对的数量在逐渐减少。因此希尔排序底层一般使用插入排序对每一列进行排序，也有很多资料认为希尔排序是插入排序的改进版。</p>
+<h3 id="2-2-实例二"><a href="#2-2-实例二" class="headerlink" title="2.2. 实例二"></a>2.2. 实例二</h3><p>假设有11个元素，步长序列是<code>{1, 2, 5}</code>：</p>
+<p><img src="https://blog.idbeny.com/mn259.png@normal" alt=""></p>
+<p>假设元素在第<code>col</code>列、第<code>row</code>行，步长（总列数）是<code>step</code>，那么这个元素在数组中的索引是<code>col + row * step</code>。</p>
+<ul>
+<li>比如<code>9</code>在排序前是第2列、第0行，那么它排序前的索引是<code>2 + 0 * 5 = 2</code></li>
+<li>比如<code>4</code>在排序前是第2列、第1行，那么它排序前的索引是<code>2 + 1 * 5 = 7</code></li>
+</ul>
+<h3 id="2-3-代码实现"><a href="#2-3-代码实现" class="headerlink" title="2.3. 代码实现"></a>2.3. 代码实现</h3><p>希尔排序的核心逻辑就是分成多少列，每列进行插入排序（使用插入排序的原因是，后面的排序建立在之前已经排序好的基础上）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">shellSort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  List&lt;Integer&gt; stepSequence = shellStepSequence();</span><br><span class="line">  <span class="keyword">for</span> (Integer step : stepSequence) &#123;</span><br><span class="line">    sort(step);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 分成step列进行排序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> step)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// col : 第几列，column的简称</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> col = <span class="number">0</span>; col &lt; step; col++) &#123; <span class="comment">// 对第col列进行插入排序</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     注意：这里的核心思想就是换行。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     之前插入排序的begin是从1开始，也就是从原数据的第二个索引开始。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     但是这里的begin不是1，begin是col、col+step、col+2*step、col+3*step（这些数据代表的是每一列）里面的第二个（即col + step）。</span></span><br><span class="line"><span class="comment">     增长条件不是begin++，是begin = begin + step。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     cur - step 指的是上一行的列首数据。</span></span><br><span class="line"><span class="comment">     */</span> </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> begin = col + step; begin &lt; array.length; begin += step) &#123;</span><br><span class="line">      <span class="keyword">int</span> cur = begin;</span><br><span class="line">      <span class="keyword">while</span> (cur &gt; col &amp;&amp; cur - (cur - step) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = array[cur];</span><br><span class="line">        array[cur] = array[cur - step];</span><br><span class="line">        array[cur - step] = tmp;</span><br><span class="line">        cur -= step;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取希尔步长序列（n/(2^k))</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;Integer&gt; <span class="title">shellStepSequence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  List&lt;Integer&gt; stepSequence = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="keyword">int</span> step = array.length;</span><br><span class="line">  <span class="keyword">while</span> ((step &gt;&gt;= <span class="number">1</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    stepSequence.add(step);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> stepSequence;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-步长序列"><a href="#2-4-步长序列" class="headerlink" title="2.4. 步长序列"></a>2.4. 步长序列</h3><p>希尔本人给出的步长序列，最坏情况时间复杂度是<code>O(n^2)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> List&lt;Integer&gt; <span class="title">shellStepSequence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  List&lt;Integer&gt; stepSequence = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="keyword">int</span> step = array.length;</span><br><span class="line">  <span class="keyword">while</span> ((step &gt;&gt;= <span class="number">1</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    stepSequence.add(step);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> stepSequence;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目前已知的最好的步长序列，最坏情况时间复杂度是<code>O(n^(4/3))</code>，1986年由<em>Robert Sedgewick</em>提出。</p>
+<p><img src="https://blog.idbeny.com/tn8cc.png@normal" alt=""></p>
+<ul>
+<li>当<code>k = 0</code>时，结果是<code>1</code>；</li>
+<li>当<code>k = 1</code>时，结果是<code>5</code>；</li>
+<li>当<code>k = 2</code>时，结果是<code>19</code>；</li>
+<li>当<code>k = 3</code>时，结果是<code>41</code>；</li>
+<li>当<code>k = 4</code>时，结果是<code>109</code>；</li>
+<li>……</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> List&lt;Integer&gt; <span class="title">sedgewickStepSequence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  List&lt;Integer&gt; stepSequence = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">  <span class="keyword">int</span> k = <span class="number">0</span>, step = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (k % <span class="number">2</span> == <span class="number">0</span>) &#123; <span class="comment">// 偶数</span></span><br><span class="line">      <span class="keyword">int</span> pow = (<span class="keyword">int</span>) Math.pow(<span class="number">2</span>, k &gt;&gt; <span class="number">1</span>);</span><br><span class="line">      step = <span class="number">1</span> + <span class="number">9</span> * (pow * pow - pow);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 基数</span></span><br><span class="line">      <span class="keyword">int</span> pow1 = (<span class="keyword">int</span>) Math.pow(<span class="number">2</span>, (k - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">int</span> pow2 = (<span class="keyword">int</span>) Math.pow(<span class="number">2</span>, (k + <span class="number">1</span>) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">      step = <span class="number">1</span> + <span class="number">8</span> * pow1 * pow2 - <span class="number">6</span> * pow2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (step &gt;= array.length) <span class="keyword">break</span>;</span><br><span class="line">    stepSequence.add(<span class="number">0</span>, step);</span><br><span class="line">    k++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> stepSequence;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不同的步长序列，希尔排序的时间复杂度是不一样的（所以平均时间复杂度取决于步长序列），但是最坏时间复杂度范围是<code>O(n^(4/3)) ~ O(n^2)</code>。因为没有用到额外的存储空间，所以是原地排序，空间复杂度是<code>O(1)</code>，是不稳定排序。在实际开发中也几乎用不到希尔排序，很多底层排序使用频率最高的还是快速排序、归并排序、插入排序等其他排序。</p>
+</blockquote>
+<p><img src="https://blog.idbeny.com/scancode.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/10/09/datastructure-quick-shell-sort/" title="【数据结构与算法】系列二十六 - 快速排序/希尔排序">http://idbeny.com/2019/10/09/datastructure-quick-shell-sort/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag"># 排序</a>
+          
+            <a href="/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" rel="tag"># 快速排序</a>
+          
+            <a href="/tags/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/" rel="tag"># 希尔排序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/05/swift-syntax-thread/" rel="next" title="【iOS】Swift系列三十一 - 多线程">
+                <i class="fa fa-chevron-left"></i> 【iOS】Swift系列三十一 - 多线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/swift-syntax-fp/" rel="prev" title="【iOS】Swift系列三十二 - 函数式编程">
+                【iOS】Swift系列三十二 - 函数式编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、快速排序"><span class="nav-number">1.</span> <span class="nav-text">一、快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-执行流程"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 执行流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-轴点构造"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 轴点构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-代码实现"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-时间复杂度"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-与轴点相等的元素"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 与轴点相等的元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、希尔排序"><span class="nav-number">2.</span> <span class="nav-text">二、希尔排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-实例一"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 实例一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-实例二"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 实例二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-代码实现"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-步长序列"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 步长序列</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

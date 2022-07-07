@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法,B+树," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="B+树是B树的变体，常用于数据库和操作系统的文件系统中。MySQL数据库的索引就是基于B+树实现的。 常见面试题：MySQL数据库的索引实现原理？为什么MySQL数据库的索引是基于B+树实现而不是B树？  本章节不写B+树的代码实现，主要分析MySQL数据库的索引为什么使用B+树实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列四十一 - B+树">
+<meta property="og:url" content="http://idbeny.com/2020/01/10/datastructure-b-plus/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="B+树是B树的变体，常用于数据库和操作系统的文件系统中。MySQL数据库的索引就是基于B+树实现的。 常见面试题：MySQL数据库的索引实现原理？为什么MySQL数据库的索引是基于B+树实现而不是B树？  本章节不写B+树的代码实现，主要分析MySQL数据库的索引为什么使用B+树实现。">
+<meta property="og:image" content="https://blog.idbeny.com/3gx9w.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/9zwpb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/9ygmd.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/z0m4h.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5kxqz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/9d71d.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pfa6p.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/4hwg5.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/scancode.png">
+<meta property="article:published_time" content="2020-01-10T13:58:03.000Z">
+<meta property="article:modified_time" content="2021-07-08T14:02:37.733Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="B+树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/3gx9w.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2020/01/10/datastructure-b-plus/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列四十一 - B+树 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2020/01/10/datastructure-b-plus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列四十一 - B+树</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-10T21:58:03+08:00">
+                2020-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>B+树是B树的变体，常用于数据库和操作系统的文件系统中。MySQL数据库的索引就是基于B+树实现的。</p>
+<p>常见面试题：MySQL数据库的索引实现原理？为什么MySQL数据库的索引是基于B+树实现而不是B树？</p>
+<blockquote>
+<p>本章节不写B+树的代码实现，主要分析MySQL数据库的索引为什么使用B+树实现。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="一、B-树"><a href="#一、B-树" class="headerlink" title="一、B+树"></a>一、B+树</h2><p><img src="https://blog.idbeny.com/3gx9w.png@normal" alt=""></p>
+<p>B+树的特点：</p>
+<ul>
+<li>分为内部节点（就是非叶子节点）和叶子节点2种节点<ul>
+<li>内部节点只存储key，不存储具体数据</li>
+<li>叶子节点存储key和具体数据</li>
+</ul>
+</li>
+<li>所有的叶子节点形成一条<strong>有序链表</strong></li>
+</ul>
+<p><code>m</code>阶B+树非根节点的元素数量<code>x</code>满足：<code>ceilf(m/2) ≤ x ≤ m</code>。</p>
+<p>简单了解B+树的概念后，我们看下数据库和硬盘的概念，知道硬盘的存储原理后基本就能够知道为何MySQL数据库是基于B+树实现。</p>
+<h2 id="二、数据库和硬盘"><a href="#二、数据库和硬盘" class="headerlink" title="二、数据库和硬盘"></a>二、数据库和硬盘</h2><h3 id="2-1-数据库"><a href="#2-1-数据库" class="headerlink" title="2.1. 数据库"></a>2.1. 数据库</h3><p>MySQL的发音：<a href="https://dev.mysql.com/doc/refman/8.0/en/what-is-mysql.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/what-is-mysql.html</a></p>
+<blockquote>
+<p>The official way to pronounce “MySQL” is “My Ess Que Ell” (not “my sequel”).</p>
+<p>but we do not mind if you pronounce it as “my sequel” or in some other localized way.<br>大概意思：“MySQL”的发音是“My Ess Que Ell”（除了My是正常发音，后面的三个字母都按照26字母的发音标准即可），不是“my sequel”发音（连续发音），但是我们也不会介意你这样发音或者是一些地方口音。</p>
+</blockquote>
+<p>数据库其实就是一堆文件组成的库（例如，一堆书可以组成图书库（图书馆），那么一堆数据组成的就叫数据库）。</p>
+<p>数据库的数据都是存储在硬盘上面的（例如，一堆书都是存放在书架上面的），对数据库文件的读写操作也叫作<strong>IO操作</strong>（<em>Input Output</em>）。所以访问数据库的性能取决于IO效率，为了优化访问数据库的效率，我们需要优化IO操作效率。</p>
+<blockquote>
+<p>数据库索引主要是为了查询数据更快。</p>
+</blockquote>
+<p><em>在了解如何优化之前，我们先看下硬盘的存储原理。</em></p>
+<h3 id="2-2-硬盘的分类"><a href="#2-2-硬盘的分类" class="headerlink" title="2.2. 硬盘的分类"></a>2.2. 硬盘的分类</h3><p>市面上常见的硬盘：机械硬盘（<em>Hard Disk Drive，简称：HDD</em>）、固态硬盘（<em>Solid State Drive，简称：SSD</em>）。</p>
+<p>我们主要介绍一下机械硬盘相关概念：</p>
+<p><img src="https://blog.idbeny.com/9zwpb.png@normal" alt=""></p>
+<h3 id="2-3-硬盘的组成"><a href="#2-3-硬盘的组成" class="headerlink" title="2.3. 硬盘的组成"></a>2.3. 硬盘的组成</h3><h4 id="2-3-1-盘片-platter-、盘面-side-、读写磁头-head"><a href="#2-3-1-盘片-platter-、盘面-side-、读写磁头-head" class="headerlink" title="2.3.1. 盘片(platter)、盘面(side)、读写磁头(head)"></a>2.3.1. 盘片(platter)、盘面(side)、读写磁头(head)</h4><p><img src="https://blog.idbeny.com/9ygmd.png@normal" alt=""></p>
+<ul>
+<li>硬盘一般由多个盘片组成</li>
+<li>每个盘片包含2个盘面</li>
+<li>每个盘面有1个对应的读写磁头（每个盘面都可读写数据）</li>
+<li>盘面和磁头由上到下从0开始编号（盘片的两个面都有编号）</li>
+</ul>
+<h4 id="2-3-2-磁道-track-、扇区-sector"><a href="#2-3-2-磁道-track-、扇区-sector" class="headerlink" title="2.3.2. 磁道(track)、扇区(sector)"></a>2.3.2. 磁道(track)、扇区(sector)</h4><p><img src="https://blog.idbeny.com/z0m4h.png@normal" alt=""></p>
+<p>如上图，是一个盘面，盘面中的一圈圈灰色圆环是一条条的磁道，磁道由外到内从0开始编号。</p>
+<p>每条磁道上的一个弧段叫做一个扇区，扇区是磁盘的最小读写单位，一个扇区的大小通常是512字节（也有4096字节的）。</p>
+<p><strong>早期硬盘的扇区细节：</strong></p>
+<ul>
+<li>每条磁道的扇区数相同，所以外圈扇区的面积会比内圈扇区大</li>
+<li>为了更好的读取数据，它们会存放相同的字节数，所以外圈扇区的记录密度要比内圈小，会浪费大量的存储空间</li>
+<li>硬盘的存储容量 = 磁头数（盘面数） * 盘面磁道数 * 磁道扇区数 * 扇区字节数</li>
+</ul>
+<h4 id="2-3-3-柱面-cylinder"><a href="#2-3-3-柱面-cylinder" class="headerlink" title="2.3.3. 柱面(cylinder)"></a>2.3.3. 柱面(cylinder)</h4><p><img src="https://blog.idbeny.com/5kxqz.png@normal" alt=""></p>
+<p>相同编号的磁道形成一个圆柱，称为柱面。磁盘的柱面数与一个盘面的磁道数是相等的。</p>
+<h4 id="2-3-4-磁盘块"><a href="#2-3-4-磁盘块" class="headerlink" title="2.3.4. 磁盘块"></a>2.3.4. 磁盘块</h4><p>磁盘块，在Windows中叫做簇（<em>cluster</em>），在Linux中叫做块（<em>block</em>）。</p>
+<p>相邻的$2^n$个扇区组合在一起，形成一个磁盘块，操作系统对磁盘进行管理时，以磁盘块作为最小读写单位，一般一个磁盘块是4096字节（4KB，由8个连续的512字节扇区组成）。</p>
+<blockquote>
+<p>有些操作系统即使新建一个空文件夹也需要占用4KB空间。</p>
+</blockquote>
+<p>注意：磁盘块是操作系统中的一个虚拟概念，扇区是磁盘上真实存在的物理区域。</p>
+<h3 id="2-4-查看硬盘信息"><a href="#2-4-查看硬盘信息" class="headerlink" title="2.4. 查看硬盘信息"></a>2.4. 查看硬盘信息</h3><p><strong>Windows</strong>：如果是查看D盘，管理员权限打开命令行工具，输入<code>fsutil fsinfo ntfsinfo d:</code>。也可以直接到【系统信息】查看。</p>
+<p><img src="https://blog.idbeny.com/9d71d.png@normal" alt=""></p>
+<p><strong>Mac</strong>：使用【磁盘工具】。</p>
+<h3 id="2-5-操作系统读取硬盘数据的过程"><a href="#2-5-操作系统读取硬盘数据的过程" class="headerlink" title="2.5. 操作系统读取硬盘数据的过程"></a>2.5. 操作系统读取硬盘数据的过程</h3><ol>
+<li>操作系统将LBA（<em>Logical Block Address</em>，逻辑块地址）传送给磁盘驱动器并启动读取命令；<ul>
+<li>比如类似设备号4、磁头号4、磁道号8、扇区号16、扇区计数8这样的信息</li>
+</ul>
+</li>
+<li>磁盘驱动器根据LBA将磁头移动到正确的磁道，盘片开始旋转，将目标扇区旋转到磁头下；</li>
+<li>磁盘控制器将扇区数据等信息传送到一个处于磁盘界面的缓冲区；</li>
+<li>磁盘驱动器向操作系统发出“数据就绪”信号；</li>
+<li>操作系统从磁盘界面的缓冲区读取数据；<ul>
+<li>既可以按照一个字节一个字节的方式读取</li>
+<li>也可以启动DMA（<em>Direct Memory Access</em>，直接内存访问）命令读取</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-6-磁盘完成IO操作的时间"><a href="#2-6-磁盘完成IO操作的时间" class="headerlink" title="2.6. 磁盘完成IO操作的时间"></a>2.6. 磁盘完成IO操作的时间</h3><p>主要由寻道时间、旋转延迟时间、数据传输时间3部分构成。</p>
+<p><strong>寻道时间（<em>seek</em>）</strong>：将读写磁头移动至正确的磁道上所需要的时间，这部分时间代价最高。</p>
+<p><strong>旋转延迟时间（<em>rotation</em>）</strong>：盘片旋转将目标扇区移动到读写磁头下方所需要的时间，取决于磁盘转速。</p>
+<p><strong>数据传输时间（<em>transfer</em>）</strong>：完成传输数据所需要的时间，取决于接口（计算机内部硬件之间通讯就是通过接口传输的）的数据传输率，通常远小于前两部分消耗时间。</p>
+<p>决定时间长短的大部分因素是和硬件相关的，但所需移动的磁道数是可以通过操作系统来进行控制的。也就是说寻道时间可以通过代码优化，旋转延迟时间和数据传输时间完全依赖硬件，所以减少所需移动的磁道数是减少整个硬盘读写时间的有效办法，合理安排磁头的移动以减少寻道时间就是磁盘调度算法的目的所在。</p>
+<h2 id="三、MySQL的索引"><a href="#三、MySQL的索引" class="headerlink" title="三、MySQL的索引"></a>三、MySQL的索引</h2><p>MySQL的索引底层为何使用B+树？</p>
+<p>为了减小IO操作数量，一般把一个节点的大小设计成最小读写单位的大小，MySQL的存储引擎InnoDB的最小读写单位是16K（也就是说一个节点可以存储很多的key）。</p>
+<p>如下图，如果使用B树，一个节点就是一个磁盘块，而B树的节点存储的是key-value。一般情况下，key是比较小的（可以理解为数据表中的id），value是比较大的（可以理解为数据表中id对应的一整条数据），所以一个节点只能存储少量的信息，操作系统只能耗时（效率低）把数据读取出来。</p>
+<p><img src="https://blog.idbeny.com/pfa6p.png@normal" alt=""></p>
+<p>对比B树，B+树的优势是：</p>
+<ul>
+<li>每个节点存储的key数量更多，树的高度更低；<ul>
+<li>同样大小的节点，B树每个节点存储的数据包含value，所以能够容纳的key就少，树的高度也就更高</li>
+</ul>
+</li>
+<li>所有的具体数据都存在叶子节点上，所以每次查询都要查到叶子节点，查询速度比较稳定；<ul>
+<li>虽然B树数据是在节点上直接存储，但有可能要找的数据在树的最底层，所以查询速度不稳定</li>
+</ul>
+</li>
+<li>由于所有的叶子节点构成了一个有序链表，所以做区间查询时也更方便。<ul>
+<li>B树做区间查询就只能用中序遍历（只有中序遍历才是有顺序的），比较麻烦</li>
+</ul>
+</li>
+</ul>
+<p>综上比较B+树的优势，可以得出结论：MySQL的索引底层使用B+树效率更高（主要是树的高度更低）。</p>
+<h2 id="四、扩展：B-树"><a href="#四、扩展：B-树" class="headerlink" title="四、扩展：B*树"></a>四、扩展：B*树</h2><p>B*树是B+树的变体：给内部节点增加了指向兄弟节点的指针。</p>
+<p><code>m</code>阶B*树非根节点的元素数量<code>x</code>满足：<code>ceilf(2m/3) ≤ x ≤ m</code>。</p>
+<p><img src="https://blog.idbeny.com/4hwg5.png@normal" alt=""></p>
+<p>B*树相比B+树节点，可容纳元素数量更多，为什么数据库索引不使用B*树呢？</p>
+<p>B*树分配新结点的概率比B+树要低，空间利用率高，但为此，有几个性能问题，比如深度、分裂的时候性能会很差等等。同时因为数据是动态的，索引会增加，某个节点现在没满以后也会满的，如果贪图暂时的空间利用率，而减缓索引速度是不值得的。</p>
+<hr>
+<p><img src="https://blog.idbeny.com/scancode.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2020/01/10/datastructure-b-plus/" title="【数据结构与算法】系列四十一 - B+树">http://idbeny.com/2020/01/10/datastructure-b-plus/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/B-%E6%A0%91/" rel="tag"># B+树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/03/datastructure-skip-list/" rel="next" title="【数据结构与算法】系列四十 - 跳表">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列四十 - 跳表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/16/datastructure-sequence/" rel="prev" title="【数据结构与算法】系列四十二 - 串">
+                【数据结构与算法】系列四十二 - 串 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、B-树"><span class="nav-number">1.</span> <span class="nav-text">一、B+树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、数据库和硬盘"><span class="nav-number">2.</span> <span class="nav-text">二、数据库和硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-数据库"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-硬盘的分类"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 硬盘的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-硬盘的组成"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 硬盘的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-盘片-platter-、盘面-side-、读写磁头-head"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1. 盘片(platter)、盘面(side)、读写磁头(head)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-磁道-track-、扇区-sector"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2. 磁道(track)、扇区(sector)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-柱面-cylinder"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3. 柱面(cylinder)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-4-磁盘块"><span class="nav-number">2.3.4.</span> <span class="nav-text">2.3.4. 磁盘块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-查看硬盘信息"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 查看硬盘信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-操作系统读取硬盘数据的过程"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. 操作系统读取硬盘数据的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-磁盘完成IO操作的时间"><span class="nav-number">2.6.</span> <span class="nav-text">2.6. 磁盘完成IO操作的时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、MySQL的索引"><span class="nav-number">3.</span> <span class="nav-text">三、MySQL的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、扩展：B-树"><span class="nav-number">4.</span> <span class="nav-text">四、扩展：B*树</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

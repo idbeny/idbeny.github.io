@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://blog.idbeny.com/5iis1.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/c7hg4.png@normal">
 <meta property="article:published_time" content="2019-10-25T14:10:16.000Z">
-<meta property="article:modified_time" content="2020-11-27T12:12:19.709Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.299Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="Swift">
@@ -442,7 +442,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  935 字
+                  937 字
                 </span>
               
 
@@ -521,10 +521,10 @@
 <h3 id="4-2-图片缓存"><a href="#4-2-图片缓存" class="headerlink" title="4.2. 图片缓存"></a>4.2. 图片缓存</h3><p>Github：<a href="https://github.com/onevcat/Kingfisher" target="_blank" rel="noopener">https://github.com/onevcat/Kingfisher</a></p>
 <p>Kingfisher 默认不支持 WebP 格式的图片，需要额外安装 KingfisherWebP</p>
 <p>pod 导入：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">pod</span> <span class="string">'KingfisherWebP'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod '<span class="type">KingfisherWebP'</span></span><br></pre></td></tr></table></figure>
 
 <p>使用方法：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">imageView</span><span class="selector-class">.setImage</span>(<span class="attribute">with</span>: URL(<span class="string">string: user.avatar</span>),</span><br><span class="line">                   <span class="attribute">options</span>: [.processor(WebPProcessor.default),</span><br><span class="line">                             .cacheSerializer(WebPSerializer.default)])</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">imageView.setImage(with: <span class="type">URL</span>(string: user.avatar),</span><br><span class="line">                   options: [.processor(<span class="type">WebPProcessor</span>.<span class="keyword">default</span>),</span><br><span class="line">                             .cacheSerializer(<span class="type">WebPSerializer</span>.<span class="keyword">default</span>)])</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-3-JSON-访问"><a href="#4-3-JSON-访问" class="headerlink" title="4.3. JSON 访问"></a>4.3. JSON 访问</h3><p>Github：<a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" rel="noopener">https://github.com/SwiftyJSON/SwiftyJSON</a></p>
 <p>注意：该库仅仅是为了方便访问 JSON，而不是 JSON 转 Model</p>
@@ -532,11 +532,11 @@
 <h2 id="五、前缀"><a href="#五、前缀" class="headerlink" title="五、前缀"></a>五、前缀</h2><p>为防止和系统 API 或第三方库命名冲突，OC 中经常在类名、方法、属性前面加前缀（如 DBViewController）。</p>
 <p>但是在 Swift 中不需要加前缀，也不建议加前缀。因为当函数名和第三方库函数冲突的时候可以使用库名区分。</p>
 <p>示例代码：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">request</span><span class="params">(...)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三方库函数</span></span><br><span class="line">AF.request(...)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">request</span><span class="params">(...)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三方库函数</span></span><br><span class="line"><span class="type">AF</span>.request(...)</span><br></pre></td></tr></table></figure>
 
 <h2 id="六、全局引入"><a href="#六、全局引入" class="headerlink" title="六、全局引入"></a>六、全局引入</h2><p>以前 OC 常用<code>pch</code>作为预编译头文件导入第三方库，在纯 Swift 中如果需要全局导入，可以借助 OC 的桥接头文件<code>{TargetName}-Bridging-Header.h</code>。</p>
 <p>示例代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;SwiftyJSON/SwiftyJSON-Swift.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;SwiftyJSON&#x2F;SwiftyJSON-Swift.h&gt;</span><br><span class="line">#import &lt;UIKit&#x2F;UIKit.h&gt;</span><br></pre></td></tr></table></figure>
 
 <p>一般情况下，库的导入格式是：<code>库名-Swift.h</code>。当导入格式不正确时，可以进入<code>framework</code>查看头文件名称。</p>
 
@@ -593,8 +593,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/19/dev-any/" rel="next" title="【开发小记】Mac工具使用">
-                <i class="fa fa-chevron-left"></i> 【开发小记】Mac工具使用
+              <a href="/2019/10/23/datastructure-union-find/" rel="next" title="【数据结构与算法】系列二十八 - 并查集">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列二十八 - 并查集
               </a>
             
           </div>
@@ -603,8 +603,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/03/flutter-first/" rel="prev" title="【Flutter】初识Flutter">
-                【Flutter】初识Flutter <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/02/datastructure-graph-base/" rel="prev" title="【数据结构与算法】系列二十九 - 图（基本概念）">
+                【数据结构与算法】系列二十九 - 图（基本概念） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -682,7 +682,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">109</span>
+                <span class="site-state-item-count">155</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -693,7 +693,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -704,7 +704,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-count">224</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -797,7 +797,7 @@
         <div class="copyright" >
   
   &copy;  2016 - 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

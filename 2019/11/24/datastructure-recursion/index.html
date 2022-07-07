@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法,递归," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列三十三 - 递归">
+<meta property="og:url" content="http://idbeny.com/2019/11/24/datastructure-recursion/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="。。。">
+<meta property="og:image" content="https://blog.idbeny.com/a0fer.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/edlzh.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/em0v4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ev42q.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/j7p61.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/jej72.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/545go.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lwhgm.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ervlg.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/53kzf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/c1jl5.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/1uu6y.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/scancode.png">
+<meta property="article:published_time" content="2019-11-24T11:53:17.000Z">
+<meta property="article:modified_time" content="2021-07-08T14:02:37.751Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="递归">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/a0fer.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/11/24/datastructure-recursion/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列三十三 - 递归 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/11/24/datastructure-recursion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列三十三 - 递归</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-24T19:53:17+08:00">
+                2019-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>。。。</p>
+<a id="more"></a>
+
+<h2 id="一、递归"><a href="#一、递归" class="headerlink" title="一、递归"></a>一、递归</h2><p>递归（<em>Recursion</em>）：函数(方法)直接或间接调用自身。是一种常用的编程技巧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接调用</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> n + sum(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 间接调用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">a</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (v &lt; <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">  b(--v);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">b</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  a(--v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-函数的调用过程"><a href="#1-1-函数的调用过程" class="headerlink" title="1.1. 函数的调用过程"></a>1.1. 函数的调用过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  test1(<span class="number">10</span>);</span><br><span class="line">  test2(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  test3(<span class="number">30</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序运行<code>main</code>函数时，会为它在栈区分配一段连续的内存空间，运行到<code>test1</code>时，同样也是在栈区为其分配一段内存，当<code>test1</code>执行结束后，系统会自动回收其在栈区的内存。运行到<code>test2</code>时，同样在栈区为其分配一段内存，执行<code>test2</code>函数内部代码时，调用<code>test3</code>函数，只有<code>test3</code>函数执行完毕且内存被回收后才能释放<code>test2</code>函数的内存。</p>
+<p><img src="https://blog.idbeny.com/a0fer.png@normal" alt=""></p>
+<h3 id="1-2-函数的递归调用过程"><a href="#1-2-函数的递归调用过程" class="headerlink" title="1.2. 函数的递归调用过程"></a>1.2. 函数的递归调用过程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  sum(<span class="number">4</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> n + sum(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/edlzh.png@normal" alt=""></p>
+<p><img src="https://blog.idbeny.com/em0v4.png@normal" alt=""></p>
+<p>如果递归调用没有终止，将会一直消耗栈空间，最终导致栈内存溢出（<em>Stack Overflow</em>）。所以必需要有一个明确的结束递归的条件，也叫作边界条件、递归基。</p>
+<h3 id="1-3-示例分析"><a href="#1-3-示例分析" class="headerlink" title="1.3. 示例分析"></a>1.3. 示例分析</h3><p>求<code>1+2+3+...+(n-1)+n, (n&gt;0)</code>的和。</p>
+<h4 id="1-3-1-递归"><a href="#1-3-1-递归" class="headerlink" title="1.3.1. 递归"></a>1.3.1. 递归</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> n + sum(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总消耗时间<code>T(n) = T(n−1) + O(1)</code>，因此：</p>
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(n)</code></p>
+<h4 id="1-3-2-for循环"><a href="#1-3-2-for循环" class="headerlink" title="1.3.2. for循环"></a>1.3.2. for循环</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    result += i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(1)</code></p>
+<h4 id="1-3-3-等差数列求和"><a href="#1-3-3-等差数列求和" class="headerlink" title="1.3.3. 等差数列求和"></a>1.3.3. 等差数列求和</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> (<span class="number">1</span> + n) * n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(1)</code></p>
+<p>空间复杂度：<code>O(1)</code></p>
+<p>注意：递归求出来的很有可能不是最优解（时间和空间复杂度），也有可能是最优解。但使用递归不是为了求得最优解，是为了简化解决问题的思路，代码会更加简洁。</p>
+<h3 id="1-4-基本思想"><a href="#1-4-基本思想" class="headerlink" title="1.4. 基本思想"></a>1.4. 基本思想</h3><p><strong>拆解问题</strong>：</p>
+<ul>
+<li>把规模大的问题变成规模较小的同类型问题</li>
+<li>规模较小的问题又不断变成规模更小的问题</li>
+<li>规模小到一定程度可以直接得出它的解</li>
+</ul>
+<p><strong>求解</strong>：</p>
+<ul>
+<li>由最小规模问题的解得出较大规模问题的解</li>
+<li>由较大规模问题的解不断得出规模更大问题的解</li>
+<li>最后得出原来问题的解</li>
+</ul>
+<p>凡是可以利用上述思想解决问题的，都可以尝试使用递归。很多链表、二叉树相关的问题都可以使用递归来解决（因为链表、二叉树本身就是递归的结构（大链表中包含小链表，大二叉树中包含小二叉树））。</p>
+<h3 id="1-5-使用技巧"><a href="#1-5-使用技巧" class="headerlink" title="1.5. 使用技巧"></a>1.5. 使用技巧</h3><ol>
+<li>明确函数的功能<ul>
+<li>先不要去思考里面代码怎么写，首先搞清楚这个函数的干嘛用的，能完成什么功能？</li>
+</ul>
+</li>
+<li>明确原问题与子问题的关系<ul>
+<li>寻找<code>f(n)</code>与<code>f(n – 1)</code>的关系</li>
+</ul>
+</li>
+<li>明确递归基（边界条件）<ul>
+<li>递归的过程中，子问题的规模在不断减小，当小到一定程度时可以直接得出它的解</li>
+<li>寻找递归基，相当于是思考：问题规模小到什么程度可以直接得出解。</li>
+</ul>
+</li>
+</ol>
+<h2 id="二、经典案例"><a href="#二、经典案例" class="headerlink" title="二、经典案例"></a>二、经典案例</h2><h3 id="2-1-斐波那契数列"><a href="#2-1-斐波那契数列" class="headerlink" title="2.1. 斐波那契数列"></a>2.1. 斐波那契数列</h3><p>斐波那契数列：<code>1、1、2、3、5、8、13、21、34、......</code></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="constructor">F(1)</span> = <span class="number">1</span>，<span class="constructor">F(2)</span> = <span class="number">1</span>, <span class="constructor">F(<span class="params">n</span>)</span> = <span class="constructor">F(<span class="params">n</span>-1)</span> + <span class="constructor">F(<span class="params">n</span>-2)</span> (n≥<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>编写一个函数求第<code>n</code>项斐波那契数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据递推式<code>T(n) = T(n−1) + T(n−2) + O(1)</code>，可得知时间复杂度是<code>O(2^n)</code>，空间复杂度是<code>O(n)</code>。</p>
+<p>递归调用的空间复杂度 = 递归深度 * 每次调用所需的辅助空间</p>
+<p>如下图，出现了大量重复计算的步骤，而且每次调用<code>fib</code>只做加法操作，所以空间复杂度是<code>O(n)</code>。每次<code>fib</code>都被分裂为两个更小的<code>fib</code>执行，所以每次<code>fib</code>都是乘以2的执行次数，因此时间复杂度是<code>O(2^n)</code>。</p>
+<p><img src="https://blog.idbeny.com/ev42q.png@normal" alt=""></p>
+<p>每次执行<code>fib(n - 1)</code>，只要还未结束调用，就不会执行<code>fib(n - 2)</code>。但<code>fib(n - 1)</code>包含<code>fib(n - 2)</code>所有执行流程（这是一种“自顶向下”的调用过程）。因此我们可以把计算过的结果存下来，避免大量的重复计算。</p>
+<h4 id="2-1-1-优化1-记忆化"><a href="#2-1-1-优化1-记忆化" class="headerlink" title="2.1.1. 优化1 - 记忆化"></a>2.1.1. 优化1 - 记忆化</h4><p>用数组存放计算过的结果，避免重复计算。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 第n号位置对应数组的索引n</span></span><br><span class="line">  <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">  array[<span class="number">2</span>] = array[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> fib(array, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (array[n] == <span class="number">0</span>) &#123; <span class="comment">// java中int类型数组中存放的默认值是0</span></span><br><span class="line">    array[n] = fib(array, n - <span class="number">1</span>) + fib(array, n - <span class="number">2</span>);</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">return</span> array[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(n)</code></p>
+<h4 id="2-1-2-优化2-去除递归"><a href="#2-1-2-优化2-去除递归" class="headerlink" title="2.1.2. 优化2 - 去除递归"></a>2.1.2. 优化2 - 去除递归</h4><p>下面代码是一种“自底向上”的计算过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">  array[<span class="number">2</span>] = array[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    array[i] = array[i - <span class="number">1</span>] + array[i - <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> array[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(n)</code></p>
+<h4 id="2-1-3-优化3-滚动数组"><a href="#2-1-3-优化3-滚动数组" class="headerlink" title="2.1.3. 优化3 - 滚动数组"></a>2.1.3. 优化3 - 滚动数组</h4><p>由于每次运算只需要用到数组中的2个元素，所以可以使用<strong>滚动数组</strong>来优化。</p>
+<blockquote>
+<p>滚动数组：固定数组元素数量，反复循环更新元素值。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">  array[<span class="number">0</span>] = array[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    array[i % <span class="number">2</span>] = array[(i - <span class="number">1</span>) % <span class="number">2</span>] + array[(i - <span class="number">2</span>) % <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> array[n % <span class="number">2</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(1)</code></p>
+<p>乘、除、模运算效率较低，建议用位运算取代。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">  array[<span class="number">0</span>] = array[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    array[i &amp; <span class="number">1</span>] = array[(i - <span class="number">1</span>) &amp; <span class="number">1</span>] + array[(i - <span class="number">2</span>) &amp; <span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> array[n &amp; <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-4-优化4-累加"><a href="#2-1-4-优化4-累加" class="headerlink" title="2.1.4. 优化4 - 累加"></a>2.1.4. 优化4 - 累加</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span> second = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    second = first + second;</span><br><span class="line">    first = second - first;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> second;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：<code>O(n)</code></p>
+<p>空间复杂度：<code>O(1)</code></p>
+<h4 id="2-1-5-优化5-特征方程"><a href="#2-1-5-优化5-特征方程" class="headerlink" title="2.1.5. 优化5 - 特征方程"></a>2.1.5. 优化5 - 特征方程</h4><p>斐波那契数列有个线性代数解法：特征方程。</p>
+<p><img src="https://blog.idbeny.com/j7p61.png@normal" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">double</span> c = Math.sqrt(<span class="number">5</span>);</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">int</span>)((Math.pow((<span class="number">1</span> + c) / <span class="number">2</span>, n) - Math.pow((<span class="number">1</span> - c) / <span class="number">2</span>, n)) / c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度、空间复杂度取决于<code>pow</code>函数(至少可以低至<code>O(logn)</code>)。</p>
+<h3 id="2-2-上楼梯（跳台阶）"><a href="#2-2-上楼梯（跳台阶）" class="headerlink" title="2.2. 上楼梯（跳台阶）"></a>2.2. 上楼梯（跳台阶）</h3><p>楼梯有n阶台阶，上楼可以一步上1阶，也可以一步上2阶，走完n阶台阶共有多少种不同的走法？</p>
+<p>假设n阶台阶有<code>f(n)</code>种走法，第1步有2种走法：</p>
+<ul>
+<li>如果上1阶，那就还剩<code>n – 1</code>阶，共<code>f(n – 1)</code>种走法</li>
+<li>如果上2阶，那就还剩<code>n – 2</code>阶，共<code>f(n – 2)</code>种走法</li>
+</ul>
+<p>两种走法加起来就是总的走法，即<code>f(n) = f(n – 1) + f(n – 2)</code>，跟斐波那契数列几乎一样，因此优化思路也是一致的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 优化前</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> climbStairs(n - <span class="number">1</span>) + climbStairs(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化后</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">int</span> second = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    second = first + second;</span><br><span class="line">    first = second - first;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> second;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-汉诺塔（Hanoi）"><a href="#2-3-汉诺塔（Hanoi）" class="headerlink" title="2.3. 汉诺塔（Hanoi）"></a>2.3. 汉诺塔（Hanoi）</h3><p>编程实现把A的n个盘子移动到C（盘子编号是<code>[1, n]</code>）。</p>
+<p>要求：每次只能移动1个盘子，大盘子只能放在小盘子下面。</p>
+<p><img src="https://blog.idbeny.com/jej72.png@normal" alt=""></p>
+<p>1个盘子：</p>
+<p><img src="https://blog.idbeny.com/545go.png@normal" alt=""></p>
+<p>2个盘子：</p>
+<p><img src="https://blog.idbeny.com/lwhgm.png@normal" alt=""></p>
+<p>3个盘子：</p>
+<p><img src="https://blog.idbeny.com/ervlg.png@normal" alt=""></p>
+<h4 id="2-3-1-思路"><a href="#2-3-1-思路" class="headerlink" title="2.3.1. 思路"></a>2.3.1. 思路</h4><p>其实分2种情况讨论即可：</p>
+<ul>
+<li>当<code>n == 1</code>时，直接将盘子从A移动到C</li>
+<li>当<code>n &gt; 1</code>时，可以拆分成3大步骤<ol>
+<li>将<code>n – 1</code>个盘子从A移动到B；</li>
+<li>将编号为<code>n</code>的盘子从A移动到C；</li>
+<li>将<code>n – 1</code>个盘子从B移动到C。</li>
+</ol>
+<ul>
+<li>步骤1和3明显是个递归调用。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.idbeny.com/53kzf.png@normal" alt=""></p>
+<h4 id="2-3-2-实现"><a href="#2-3-2-实现" class="headerlink" title="2.3.2. 实现"></a>2.3.2. 实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将n个盘子从p1移动到p3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hanoi</span><span class="params">(<span class="keyword">int</span> n, String p1, String p2, String p3)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    move(n, p1, p3); </span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  hanoi(n - <span class="number">1</span>, p1, p3, p2);</span><br><span class="line">  move(n, p1, p3);</span><br><span class="line">  hanoi(n - <span class="number">1</span>, p2, p1, p3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将第i号盘子从from移动到to</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> i, String from, String to)</span> </span>&#123;</span><br><span class="line">  System.out.println(i + <span class="string">"号盘子:"</span> + from + <span class="string">"-&gt;"</span> + to);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>T(n) = 2 * T(n−1) + O(1)</code>，因此时间复杂度是<code>O(2^n)</code>，空间复杂度是<code>O(n)</code>。</p>
+<h2 id="三、递归转非递归"><a href="#三、递归转非递归" class="headerlink" title="三、递归转非递归"></a>三、递归转非递归</h2><p>递归调用的过程中，会将每一次调用的参数、局部变量都保存在对应的栈帧（<em>Stack Frame</em>）中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  log(<span class="number">4</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">  log(n - <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">int</span> v = n + <span class="number">10</span>;</span><br><span class="line">  System.out.println(v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/c1jl5.png@normal" alt=""></p>
+<p>若递归调用深度较大，会占用比较多的栈空间，甚至会导致栈溢出。在有些时候，递归会存在大量的重复计算，性能非常差。这时可以考虑将递归转为非递归（递归100%可以转换成非递归）。</p>
+<p><strong>递归转非递归的万能方法</strong>：自己维护一个栈，来保存参数、局部变量（这个操作仅仅是把系统化转为自定义，空间复杂度依然没有得到优化）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 栈帧</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Frame</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> n;</span><br><span class="line">  <span class="keyword">int</span> v;</span><br><span class="line">  Frame(<span class="keyword">int</span> n, <span class="keyword">int</span> v) &#123;</span><br><span class="line">    <span class="keyword">this</span>.n = n;</span><br><span class="line">    <span class="keyword">this</span>.v = v;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  Stack&lt;Frame&gt; frames = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">  <span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    frames.push(<span class="keyword">new</span> Frame(n, n + <span class="number">10</span>));</span><br><span class="line">    n--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (!frames.isEmpty()) &#123;</span><br><span class="line">    Frame frame = frames.pop();</span><br><span class="line">    System.out.println(frame.v);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在某些时候，也可以重复使用一组相同的变量来保存每个栈帧的内容。如下面代码，重复使用变量<code>i</code>（想象成自定义对象）保存原来栈帧中的参数，空间复杂度从<code>O(n)</code>降到了<code>O(1)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">    System.out.println(i + <span class="number">10</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、尾调用"><a href="#四、尾调用" class="headerlink" title="四、尾调用"></a>四、尾调用</h2><p>尾调用（<em>Tail Call</em>）：一个函数的最后一个动作是调用函数。</p>
+<p>如果最后一个动作是调用自身，称为尾递归（<em>Tail Recursion</em>），是尾调用的特殊情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">int</span> b = a + <span class="number">20</span>;</span><br><span class="line">  test2(b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt; <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">  test2(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一些编译器能对尾调用进行优化，以达到节省栈空间的目的。如下图，每次都会重复利用<code>test2</code>的内存。</p>
+<p><img src="https://blog.idbeny.com/1uu6y.png@normal" alt=""></p>
+<p>下面代码不是尾调用，因为它最后1个动作是乘法（<code>n * 1</code>）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 阶乘</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-尾调用优化"><a href="#4-1-尾调用优化" class="headerlink" title="4.1. 尾调用优化"></a>4.1. 尾调用优化</h3><p><strong>尾调用优化</strong>也叫做<strong>尾调用消除</strong>（<em>Tail Call Elimination</em>）。</p>
+<p>如果当前栈帧上的局部变量等内容都不需要用了，当前栈帧经过适当的改变后可以直接当作被尾调用的函数的栈帧使用，然后程序可以<code>jump</code>到被尾调用的函数代码。</p>
+<p>生成栈帧改变代码与<code>jump</code>的过程称作尾调用消除或尾调用优化。</p>
+<p>尾调用优化让位于尾位置的函数调用跟<code>goto</code>语句性能一样高。</p>
+<p>消除尾递归里的尾调用比消除一般的尾调用容易很多。比如Java虚拟机(<em>JVM</em>)会消除尾递归里的尾调用，但不会消除一般的尾调用（因为改变不了栈帧），因此尾递归优化相对比较普遍，平时的递归代码可以考虑尽量使用尾递归的形式。</p>
+<h3 id="4-2-尾递归示例"><a href="#4-2-尾递归示例" class="headerlink" title="4.2. 尾递归示例"></a>4.2. 尾递归示例</h3><h4 id="4-2-1-阶乘"><a href="#4-2-1-阶乘" class="headerlink" title="4.2.1. 阶乘"></a>4.2.1. 阶乘</h4><p>求n的阶乘<code>1*2*3*...*(n-1)*n (n&gt;0)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尾调用消除</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> factorial(n, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> result 从大到小累乘的结果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> result)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">return</span> factorial(n - <span class="number">1</span>, n * result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-2-斐波那契数列"><a href="#4-2-2-斐波那契数列" class="headerlink" title="4.2.2. 斐波那契数列"></a>4.2.2. 斐波那契数列</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 尾调用</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尾调用消除</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fib(n, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> first, <span class="keyword">int</span> second)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> first;</span><br><span class="line">  <span class="keyword">return</span> fib(n - <span class="number">1</span>, second, first + second);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><img src="https://blog.idbeny.com/scancode.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/11/24/datastructure-recursion/" title="【数据结构与算法】系列三十三 - 递归">http://idbeny.com/2019/11/24/datastructure-recursion/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/19/datastructure-graph-shortpath/" rel="next" title="【数据结构与算法】系列三十二 - 图（最短路径）">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列三十二 - 图（最短路径）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/01/datastructure-back-tracking/" rel="prev" title="【数据结构与算法】系列三十四 - 回溯">
+                【数据结构与算法】系列三十四 - 回溯 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、递归"><span class="nav-number">1.</span> <span class="nav-text">一、递归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-函数的调用过程"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 函数的调用过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-函数的递归调用过程"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 函数的递归调用过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-示例分析"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 示例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-递归"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1. 递归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-for循环"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2. for循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-3-等差数列求和"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3.3. 等差数列求和</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-基本思想"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-使用技巧"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 使用技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、经典案例"><span class="nav-number">2.</span> <span class="nav-text">二、经典案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-斐波那契数列"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 斐波那契数列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-优化1-记忆化"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1. 优化1 - 记忆化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-优化2-去除递归"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2. 优化2 - 去除递归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-优化3-滚动数组"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3. 优化3 - 滚动数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-优化4-累加"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4. 优化4 - 累加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-优化5-特征方程"><span class="nav-number">2.1.5.</span> <span class="nav-text">2.1.5. 优化5 - 特征方程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-上楼梯（跳台阶）"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 上楼梯（跳台阶）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-汉诺塔（Hanoi）"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 汉诺塔（Hanoi）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-思路"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1. 思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-实现"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2. 实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、递归转非递归"><span class="nav-number">3.</span> <span class="nav-text">三、递归转非递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、尾调用"><span class="nav-number">4.</span> <span class="nav-text">四、尾调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-尾调用优化"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 尾调用优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-尾递归示例"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 尾递归示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-阶乘"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1. 阶乘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-斐波那契数列"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2. 斐波那契数列</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法,图,广度优先搜索,深度优先搜索," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="邻接矩阵实现起来特别繁琐，而且没有通用性（适合稠密图），所以本章节以类似邻接表的方式（不是完全的邻接表，但比邻接表灵活）实现图（有向图可以表示无向图）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列三十 - 图（广度&#x2F;深度优先搜索）">
+<meta property="og:url" content="http://idbeny.com/2019/11/08/datastructure-graph-bfs-dfs/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="邻接矩阵实现起来特别繁琐，而且没有通用性（适合稠密图），所以本章节以类似邻接表的方式（不是完全的邻接表，但比邻接表灵活）实现图（有向图可以表示无向图）。">
+<meta property="og:image" content="https://blog.idbeny.com/6wl39.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/g7bqz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/k49kq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/k8zc3.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/arygf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/hnf6a.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/dikjg.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7dyg2.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/guanzhu.png">
+<meta property="article:published_time" content="2019-11-08T05:01:09.000Z">
+<meta property="article:modified_time" content="2021-07-08T14:02:37.742Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="图">
+<meta property="article:tag" content="广度优先搜索">
+<meta property="article:tag" content="深度优先搜索">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/6wl39.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/11/08/datastructure-graph-bfs-dfs/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列三十 - 图（广度/深度优先搜索） | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/11/08/datastructure-graph-bfs-dfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列三十 - 图（广度/深度优先搜索）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-08T13:01:09+08:00">
+                2019-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>邻接矩阵实现起来特别繁琐，而且没有通用性（适合稠密图），所以本章节以类似邻接表的方式（不是完全的邻接表，但比邻接表灵活）实现图（有向图可以表示无向图）。</p>
+<a id="more"></a>
+
+<h2 id="一、图的实现"><a href="#一、图的实现" class="headerlink" title="一、图的实现"></a>一、图的实现</h2><p>需要对<code>HashMap</code>和<code>HashSet</code>等数据结构有所了解，否则很难理解为什么使用这些数据结构实现对应的功能。</p>
+<h3 id="1-1-思路"><a href="#1-1-思路" class="headerlink" title="1.1. 思路"></a>1.1. 思路</h3><ol>
+<li>顶点包含：存储的数据、出边集（<code>HashSet</code>）、入边集（<code>HashSet</code>）<ul>
+<li>可以通过顶点知道该点包含哪些边，以及边的方向</li>
+</ul>
+</li>
+<li>边包含：出发的顶点、到达的顶点、权值<ul>
+<li>通过边可以知道连接的是哪两个顶点，以及边的权值</li>
+</ul>
+</li>
+<li>图包含：顶点集、边集<ul>
+<li>使用<code>HashMap</code>实现顶点集（存储方式：<code>顶点存储的数据 : 顶点</code>），目的是为了快速通过顶点存储的数据找到对应顶点</li>
+<li>使用<code>HashSet</code>实现边集，目的是能够快速找到对应的边（时间复杂度是<code>O(1)</code>，如果使用数组，时间复杂度是<code>O(n)</code>）</li>
+</ul>
+</li>
+<li>添加顶点：只需要往图的顶点集添加即可<ul>
+<li>如果顶级集中已经存在相同value的顶点，不需要重复添加</li>
+</ul>
+</li>
+<li>添加边<ul>
+<li>如果顶点不存在，就会创建对应顶点</li>
+<li>先删除之前存在的边，再添加新的边</li>
+</ul>
+</li>
+<li>移除边<ul>
+<li>只要有一个顶点不能存在就不需要做任何操作</li>
+<li>构建一条两个顶点之间的边，如果构建的边存在（利用<code>HashSet</code>的<code>equals</code>和<code>hashCode</code>方法进行判断），直接删除</li>
+</ul>
+</li>
+<li>移除顶点<ul>
+<li>删除顶点最主要的逻辑是删除和顶点相关的边（出边和入边）</li>
+<li>切记：大部分编程语言不能一边遍历一边删除（容易出bug），java中提供的迭代器可以安全删除迭代的元素</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>提示：java中<code>HashSet</code>的<code>remove</code>方法内部实现了<code>contains</code>逻辑。</p>
+</blockquote>
+<h3 id="1-2-实现"><a href="#1-2-实现" class="headerlink" title="1.2. 实现"></a>1.2. 实现</h3><p>虽然直接阅读代码有点枯燥，但还是很有必要的，下面的代码都已经加上了逻辑注释，顺着思路阅读会轻松很多。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 公共方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Graph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Graph</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 边的数量</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">edgesSize</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="comment">// 顶点数量</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">verticesSize</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加顶点</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">addVertex</span><span class="params">(V v)</span></span>;</span><br><span class="line">  <span class="comment">// 添加边</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(V from, V to)</span></span>;</span><br><span class="line">  <span class="comment">// 添加边（有权值）</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(V from, V to, E weight)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 移除顶点</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">removeVertex</span><span class="params">(V v)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 移除边</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">removeEdge</span><span class="params">(V from, V to)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListGraph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Graph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ListGraph</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 顶点</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Vertex</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 顶点存储的数据</span></span><br><span class="line">    V value;</span><br><span class="line">    <span class="comment">// 指向当前顶点的边</span></span><br><span class="line">    Set&lt;Edge&lt;V, E&gt;&gt; inEdges = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="comment">// 指向其他顶点的边</span></span><br><span class="line">    Set&lt;Edge&lt;V, E&gt;&gt; outEdges = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    Vertex(V value) &#123;</span><br><span class="line">      <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 两个顶点的value相同，就认为两个顶点相等</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> Objects.equals(value, ((Vertex&lt;V, E&gt;) obj).value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> value == <span class="keyword">null</span> ? <span class="number">0</span> : value.hashCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> value == <span class="keyword">null</span> ? <span class="string">"null"</span> : value.toString();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 边</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Edge</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 从哪个顶点出发</span></span><br><span class="line">    Vertex&lt;V, E&gt; from;</span><br><span class="line">    <span class="comment">// 到达哪个顶点</span></span><br><span class="line">    Vertex&lt;V, E&gt; to;</span><br><span class="line">    <span class="comment">// 权值</span></span><br><span class="line">    E weight;</span><br><span class="line"></span><br><span class="line">    Edge(Vertex&lt;V, E&gt; from, Vertex&lt;V, E&gt; to) &#123;</span><br><span class="line">      <span class="keyword">this</span>.from = from;</span><br><span class="line">      <span class="keyword">this</span>.to = to;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">EdgeInfo&lt;V, E&gt; <span class="title">info</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> EdgeInfo&lt;&gt;(from.value, to.value, weight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 两条边的起点和终点相同，就认为两条边相等</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">      Edge&lt;V, E&gt; edge = (Edge&lt;V, E&gt;) obj;</span><br><span class="line">      <span class="keyword">return</span> Objects.equals(from, edge.from) &amp;&amp; Objects.equals(to, edge.to);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> from.hashCode() * <span class="number">31</span> + to.hashCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"Edge [from="</span> + from + <span class="string">", to="</span> + to + <span class="string">", weight="</span> + weight + <span class="string">"]"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 顶点集（使用Map是为了快速通过V找到对应顶点）</span></span><br><span class="line">  <span class="keyword">private</span> Map&lt;V, Vertex&lt;V, E&gt;&gt; vertices = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">  <span class="comment">// 边集（没有顺序，所以使用Set）</span></span><br><span class="line">  <span class="keyword">private</span> Set&lt;Edge&lt;V, E&gt;&gt; edges = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 打印图相关信息</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"[顶点]-------------------"</span>);</span><br><span class="line">    vertices.forEach((V v, Vertex&lt;V, E&gt; vertex) -&gt; &#123;</span><br><span class="line">      System.out.println(v);</span><br><span class="line">      System.out.println(<span class="string">"out-----------"</span>);</span><br><span class="line">      System.out.println(vertex.outEdges);</span><br><span class="line">      System.out.println(<span class="string">"in-----------"</span>);</span><br><span class="line">      System.out.println(vertex.inEdges);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"[边]-------------------"</span>);</span><br><span class="line">    edges.forEach((Edge&lt;V, E&gt; edge) -&gt; &#123;</span><br><span class="line">      System.out.println(edge);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 边数量</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">edgesSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> edges.size();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 顶点数量</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">verticesSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> vertices.size();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加顶点</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addVertex</span><span class="params">(V v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (vertices.containsKey(v))</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    vertices.put(v, <span class="keyword">new</span> Vertex&lt;&gt;(v));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加边</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(V from, V to)</span> </span>&#123;</span><br><span class="line">    addEdge(from, to, <span class="keyword">null</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加边（含权值）</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(V from, V to, E weight)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果顶点不存在，就会创建对应顶点</span></span><br><span class="line">    Vertex&lt;V, E&gt; fromVertex = vertices.get(from);</span><br><span class="line">    <span class="keyword">if</span> (fromVertex == <span class="keyword">null</span>) &#123;</span><br><span class="line">      fromVertex = <span class="keyword">new</span> Vertex&lt;&gt;(from);</span><br><span class="line">      vertices.put(from, fromVertex);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Vertex&lt;V, E&gt; toVertex = vertices.get(to);</span><br><span class="line">    <span class="keyword">if</span> (toVertex == <span class="keyword">null</span>) &#123;</span><br><span class="line">      toVertex = <span class="keyword">new</span> Vertex&lt;&gt;(to);</span><br><span class="line">      vertices.put(to, toVertex);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Edge&lt;V, E&gt; edge = <span class="keyword">new</span> Edge&lt;&gt;(fromVertex, toVertex);</span><br><span class="line">    edge.weight = weight;</span><br><span class="line">    <span class="comment">// 不要认为edge是新创建的就无法删除，Edge对象存放在HashSet中（判断两个对象是否相等，需要看自定义的equals和hashCode方法）如果两个对象相等就可以删除（这里删除的不是上面新建的edge对象，而是存放在HashSet中和edge相等的（equals）那个对象）。</span></span><br><span class="line">    <span class="comment">// remove内部会判断是否包含edge（可阅读源码）</span></span><br><span class="line">    <span class="keyword">if</span> (fromVertex.outEdges.remove(edge)) &#123;</span><br><span class="line">      toVertex.inEdges.remove(edge);</span><br><span class="line">      edges.remove(edge);</span><br><span class="line">    &#125;</span><br><span class="line">    fromVertex.outEdges.add(edge);</span><br><span class="line">    toVertex.inEdges.add(edge);</span><br><span class="line">    edges.add(edge);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 移除边</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeEdge</span><span class="params">(V from, V to)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// from或to不存在直接返回</span></span><br><span class="line">    Vertex&lt;V, E&gt; fromVertex = vertices.get(from);</span><br><span class="line">    <span class="keyword">if</span> (fromVertex == <span class="keyword">null</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    Vertex&lt;V, E&gt; toVertex = vertices.get(to);</span><br><span class="line">    <span class="keyword">if</span> (toVertex == <span class="keyword">null</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建一条从from到to的边，如果从from顶点出发的边有一条和构建的边相等，就能够从其中删除（remove前HashSet内部会判断是否包含和edge相等的边），继而删除顶点to和边集合中的edge（注意：这里删除的不是新构建的edge对象，而是和edge对象相等的另外一个对象）</span></span><br><span class="line">    Edge&lt;V, E&gt; edge = <span class="keyword">new</span> Edge&lt;&gt;(fromVertex, toVertex);</span><br><span class="line">    <span class="keyword">if</span> (fromVertex.outEdges.remove(edge)) &#123;</span><br><span class="line">      toVertex.inEdges.remove(edge);</span><br><span class="line">      edges.remove(edge);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 移除顶点</span></span><br><span class="line">  <span class="comment">// 顶点被移除后，还要移除和顶点相关的所有边</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeVertex</span><span class="params">(V v)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// remove成功后，会返回v对应的value（value就是顶点）</span></span><br><span class="line">    Vertex&lt;V, E&gt; vertex = vertices.remove(v);</span><br><span class="line">    <span class="keyword">if</span> (vertex == <span class="keyword">null</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除从顶点出发的边</span></span><br><span class="line">    <span class="keyword">for</span> (Iterator&lt;Edge&lt;V, E&gt;&gt; iterator = vertex.outEdges.iterator(); iterator.hasNext();) &#123;</span><br><span class="line">      Edge&lt;V, E&gt; edge = iterator.next();</span><br><span class="line">      <span class="comment">// 删除to顶点和edge相等的入边</span></span><br><span class="line">      edge.to.inEdges.remove(edge);</span><br><span class="line">      <span class="comment">// 将当前遍历到的元素edge从集合vertex.outEdges中删掉（java语法）</span></span><br><span class="line">      iterator.remove();</span><br><span class="line">      <span class="comment">// 删除边集中的edge</span></span><br><span class="line">      edges.remove(edge);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除到达顶点的边</span></span><br><span class="line">    <span class="keyword">for</span> (Iterator&lt;Edge&lt;V, E&gt;&gt; iterator = vertex.inEdges.iterator(); iterator.hasNext();) &#123;</span><br><span class="line">      Edge&lt;V, E&gt; edge = iterator.next();</span><br><span class="line">      <span class="comment">// 删除from顶点和edge相等的出边</span></span><br><span class="line">      edge.from.outEdges.remove(edge);</span><br><span class="line">      <span class="comment">// 将当前遍历到的元素edge从集合vertex.inEdges中删掉</span></span><br><span class="line">      iterator.remove();</span><br><span class="line">      edges.remove(edge);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、遍历"><a href="#二、遍历" class="headerlink" title="二、遍历"></a>二、遍历</h2><p>图的遍历：从图中某一顶点出发访问图中其余顶点，且每一个顶点仅被访问一次。</p>
+<blockquote>
+<p>提示：遍历图时，需要指定遍历入口（从哪个顶点开始遍历）。</p>
+</blockquote>
+<p>图有2种常见的遍历方式（有向图、无向图都适用）：</p>
+<ul>
+<li><p><strong>广度优先搜索</strong>（<em>Breadth First Search，BFS</em>）：又称为宽度优先搜索、横向优先搜索。</p>
+</li>
+<li><p><strong>深度优先搜索</strong>（<em>Depth First Search，DFS</em>）</p>
+<ul>
+<li>发明该算法的2位科学家在1986年共同获得计算机领域的最高奖:图灵奖</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-广度优先搜索"><a href="#2-1-广度优先搜索" class="headerlink" title="2.1. 广度优先搜索"></a>2.1. 广度优先搜索</h3><p>之前所学的二叉树层序遍历就是一种广度优先搜索。</p>
+<p>二叉树层序遍历是从根节点开始每一层依次往下进行遍历。优先访问根节点那一层（第1层），然后依次访问距离根节点最近的一层（第2层、第3层、…）。图的遍历也是这样，优先访问入口顶点，然后依次访问距离入口顶点最近的一层（<strong>顶点到入口顶点只需要一条线（有向图需要考虑方向）就能访问到的属于同一层，同一层顶点没有访问顺序，已访问顶点不再访问</strong>）。</p>
+<p>无向图，入口顶点是A：</p>
+<p><img src="https://blog.idbeny.com/6wl39.png@normal" alt=""></p>
+<p>有向图，入口顶点是0：</p>
+<p><img src="https://blog.idbeny.com/g7bqz.png@normal" alt=""></p>
+<p>无向图，入口顶点是0：</p>
+<p><img src="https://blog.idbeny.com/k49kq.png@normal" alt=""></p>
+<p>有向图，入口顶点是5：</p>
+<p><img src="https://blog.idbeny.com/k8zc3.png@normal" alt=""></p>
+<p>上图中，如果0是入口，只会遍历0；如果2是入口，只会遍历2、0。所以使用广度优先搜索遍历有向图，入口不同遍历的结果也不同。</p>
+<h4 id="2-1-1-思路"><a href="#2-1-1-思路" class="headerlink" title="2.1.1. 思路"></a>2.1.1. 思路</h4><p>二叉树层序遍历使用的是队列，图也可以使用队列实现广度优先搜索。</p>
+<ol>
+<li>先把入口顶点入队；</li>
+<li>取出队列中的顶点并访问，然后遍历顶点的<code>outEdges</code>，找出顶点每一条边的终点（<code>Edge</code>中包含起始点和终点信息）并入队；</li>
+<li>重复2，直到队列为空。</li>
+</ol>
+<blockquote>
+<p>注意：入队时要记录已入队的顶点，防止已访问的顶点会被再次访问。</p>
+</blockquote>
+<h4 id="2-1-2-实现"><a href="#2-1-2-实现" class="headerlink" title="2.1.2. 实现"></a>2.1.2. 实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(V begin)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 入口顶点</span></span><br><span class="line">  Vertex&lt;V, E&gt; beginVertex = vertices.get(begin);</span><br><span class="line">  <span class="keyword">if</span> (beginVertex == <span class="keyword">null</span>)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  Set&lt;Vertex&lt;V, E&gt;&gt; visitedVertices = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">  Queue&lt;Vertex&lt;V, E&gt;&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">  <span class="comment">// 入口顶点入队</span></span><br><span class="line">  queue.offer(beginVertex);</span><br><span class="line">  <span class="comment">// 记录已入队的顶点</span></span><br><span class="line">  visitedVertices.add(beginVertex);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">// 入队并访问</span></span><br><span class="line">    Vertex&lt;V, E&gt; vertex = queue.poll();</span><br><span class="line">    System.out.println(vertex.value);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历出队顶点连接的终点</span></span><br><span class="line">    <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : vertex.outEdges) &#123;</span><br><span class="line">      <span class="comment">// 如果顶点被访问过，不用再次访问</span></span><br><span class="line">      <span class="keyword">if</span> (visitedVertices.contains(edge.to)) <span class="keyword">continue</span>;</span><br><span class="line">      <span class="comment">// 如果顶点未访问过，入队并记录</span></span><br><span class="line">      queue.offer(edge.to);</span><br><span class="line">      visitedVertices.add(edge.to);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：记录已访问顶点的时机很重要，不要只在出队时记录，因为同层顶点是连通时会有重复记录的情况发生。</p>
+</blockquote>
+<h3 id="2-2-深度优先搜索"><a href="#2-2-深度优先搜索" class="headerlink" title="2.2. 深度优先搜索"></a>2.2. 深度优先搜索</h3><p>深度优先搜索，理解起来很简单，就是一条路径走到黑，当没有路的时候开始折返，折返过程中遇到路口就看是否有其他未走过的路，如此反复，直到把所有路都走一遍。</p>
+<p>之前所学的二叉树前序遍历就是一种深度优先搜索。</p>
+<blockquote>
+<p>深度优先搜索能够保证让每一个连通的节点都能被访问到。</p>
+</blockquote>
+<p>如下，无向图，如果入口顶点是1，深度优先搜索的顺序（会有多种结果）：</p>
+<p><img src="https://blog.idbeny.com/arygf.png@normal" alt=""></p>
+<p>如下，有向图，如果入口顶点是a，深度优先搜索的顺序（会有多种结果）：</p>
+<p><img src="https://blog.idbeny.com/hnf6a.png@normal" alt=""></p>
+<p>如下，无向图，如果入口顶点是e，深度优先搜索的顺序（会有多种结果）：</p>
+<p><img src="https://blog.idbeny.com/dikjg.png@normal" alt=""></p>
+<h4 id="2-2-1-利用递归实现"><a href="#2-2-1-利用递归实现" class="headerlink" title="2.2.1. 利用递归实现"></a>2.2.1. 利用递归实现</h4><p>使用递归实现深度优先搜索是非常简单的。为了避免有环情况下死循环，可以把访问过的节点记录下来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(V begin)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 找到入口顶点</span></span><br><span class="line">  Vertex&lt;V, E&gt; beginVertex = vertices.get(begin);</span><br><span class="line">  <span class="keyword">if</span> (beginVertex == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="comment">// 用来记录已访问顶点</span></span><br><span class="line">  Set&lt;Vertex&lt;V, E&gt;&gt; visitedVertices = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">  <span class="comment">// 开始遍历</span></span><br><span class="line">  dfs(beginVertex, visitedVertices);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Vertex&lt;V, E&gt; vertex, Set&lt;Vertex&lt;V, E&gt;&gt; visitedVertices)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 访问顶点</span></span><br><span class="line">  System.out.println(vertex.value);</span><br><span class="line">  <span class="comment">// 记录已访问顶点</span></span><br><span class="line">  visitedVertices.add(vertex);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 访问从顶点出发的边的另外一个顶点</span></span><br><span class="line">  <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : vertex.outEdges) &#123;</span><br><span class="line">    <span class="comment">// 如果顶点被访问过，跳过</span></span><br><span class="line">    <span class="keyword">if</span> (visitedVertices.contains(edge.to)) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="comment">// 如果顶点未访问过，递归访问</span></span><br><span class="line">    dfs(edge.to, visitedVertices);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-利用栈实现"><a href="#2-2-2-利用栈实现" class="headerlink" title="2.2.2. 利用栈实现"></a>2.2.2. 利用栈实现</h4><h5 id="2-2-2-1-思路"><a href="#2-2-2-1-思路" class="headerlink" title="2.2.2.1. 思路"></a>2.2.2.1. 思路</h5><p>和二叉树前序遍历一样，可以使用栈实现深度优先搜索。</p>
+<p>如下图，顶点入栈和出栈的流程：</p>
+<ol>
+<li>先把入口顶点入栈并访问（记录已入栈的顶点到已访问集合中）；</li>
+<li>弹出栈顶顶点并在顶点的<code>outEdges</code>中任意选择一条边<code>edge</code>（如果<code>edge.to</code>已经被访问，这条边不需要做任何处理，直接返回）；</li>
+<li>把选中<code>edge</code>的开始顶点和结束顶点依次入栈（记录已入栈的结束顶点并访问它。<strong>开始顶点已经在栈顶弹出，但是必须再次入栈，因为这个顶点可能还有其他边</strong>）；</li>
+<li>重复2、3，直到栈顶为空。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/7dyg2.png@normal" alt=""></p>
+<h5 id="2-2-2-1-实现"><a href="#2-2-2-1-实现" class="headerlink" title="2.2.2.1. 实现"></a>2.2.2.1. 实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(V begin)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 找到入口顶点</span></span><br><span class="line">  Vertex&lt;V, E&gt; beginVertex = vertices.get(begin);</span><br><span class="line">  <span class="keyword">if</span> (beginVertex == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 用来记录已访问顶点</span></span><br><span class="line">  Set&lt;Vertex&lt;V, E&gt;&gt; visitedVertices = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">  <span class="comment">// 放入待访问的顶点</span></span><br><span class="line">  Stack&lt;Vertex&lt;V, E&gt;&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 入口顶点入栈并记录</span></span><br><span class="line">  stack.push(beginVertex);</span><br><span class="line">  visitedVertices.add(beginVertex);</span><br><span class="line">  System.out.println(begin);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (!stack.isEmpty()) &#123;</span><br><span class="line">    <span class="comment">// 栈顶顶点出栈</span></span><br><span class="line">    Vertex&lt;V, E&gt; vertex = stack.pop();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把栈顶顶点出边的另一端顶点入栈</span></span><br><span class="line">    <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : vertex.outEdges) &#123;</span><br><span class="line">      <span class="keyword">if</span> (visitedVertices.contains(edge.to)) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 一个顶点可能会有多条边，所以from也要入栈（不需要考虑是否会重复，因为上面一行代码已经起到了过滤作用）</span></span><br><span class="line">      stack.push(edge.from);</span><br><span class="line">      stack.push(edge.to);</span><br><span class="line">      visitedVertices.add(edge.to);</span><br><span class="line">      System.out.println(edge.to.value);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://blog.idbeny.com/guanzhu.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/11/08/datastructure-graph-bfs-dfs/" title="【数据结构与算法】系列三十 - 图（广度/深度优先搜索）">http://idbeny.com/2019/11/08/datastructure-graph-bfs-dfs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E5%9B%BE/" rel="tag"># 图</a>
+          
+            <a href="/tags/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" rel="tag"># 广度优先搜索</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" rel="tag"># 深度优先搜索</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/02/datastructure-graph-base/" rel="next" title="【数据结构与算法】系列二十九 - 图（基本概念）">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列二十九 - 图（基本概念）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/12/datastructure-graph-ts-mst/" rel="prev" title="【数据结构与算法】系列三十一 - 图（拓扑排序/最小生成树）">
+                【数据结构与算法】系列三十一 - 图（拓扑排序/最小生成树） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、图的实现"><span class="nav-number">1.</span> <span class="nav-text">一、图的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-思路"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-实现"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、遍历"><span class="nav-number">2.</span> <span class="nav-text">二、遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-广度优先搜索"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 广度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-思路"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1. 思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-实现"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2. 实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-深度优先搜索"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 深度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-利用递归实现"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1. 利用递归实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-利用栈实现"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2. 利用栈实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-1-思路"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">2.2.2.1. 思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-1-实现"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">2.2.2.1. 实现</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

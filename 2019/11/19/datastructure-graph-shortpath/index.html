@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法,图,最短路径,Dijkstra,Bellman-Ford,Floyd," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列三十二 - 图（最短路径）">
+<meta property="og:url" content="http://idbeny.com/2019/11/19/datastructure-graph-shortpath/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="。。。">
+<meta property="og:image" content="https://blog.idbeny.com/cfezf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/o4gav.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/65fgf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/irah7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/8y002.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/vvyvc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/r8sw9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/kay9n.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ncq5n.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/htfhk.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/omcm7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/afty0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/hl77s.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5k7ut.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/6h063.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/io5ec.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/99sj1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/393k0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/72wos.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tqd00.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/guanzhu.png">
+<meta property="article:published_time" content="2019-11-19T03:09:23.000Z">
+<meta property="article:modified_time" content="2021-07-08T14:02:37.743Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="图">
+<meta property="article:tag" content="最短路径">
+<meta property="article:tag" content="Dijkstra">
+<meta property="article:tag" content="Bellman-Ford">
+<meta property="article:tag" content="Floyd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/cfezf.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/11/19/datastructure-graph-shortpath/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列三十二 - 图（最短路径） | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/11/19/datastructure-graph-shortpath/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列三十二 - 图（最短路径）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T11:09:23+08:00">
+                2019-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  16 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>。。。</p>
+<a id="more"></a>
+
+<h2 id="一、最短路径"><a href="#一、最短路径" class="headerlink" title="一、最短路径"></a>一、最短路径</h2><p>最短路径是指两顶点之间权值之和最小的路径（有向图、无向图均适用，不能有负权环）。</p>
+<h3 id="1-1-有权图"><a href="#1-1-有权图" class="headerlink" title="1.1. 有权图"></a>1.1. 有权图</h3><p>有向图：</p>
+<p><img src="https://blog.idbeny.com/cfezf.png@normal" alt=""></p>
+<p>无向图：<br><img src="https://blog.idbeny.com/o4gav.png@normal" alt=""></p>
+<h3 id="1-2-无权图"><a href="#1-2-无权图" class="headerlink" title="1.2. 无权图"></a>1.2. 无权图</h3><p>无权图相当于是全部边权值为1的有权图。</p>
+<p>有向图：</p>
+<p><img src="https://blog.idbeny.com/65fgf.png@normal" alt=""></p>
+<p>无向图：</p>
+<p><img src="https://blog.idbeny.com/irah7.png@normal" alt=""></p>
+<h3 id="1-3-负权"><a href="#1-3-负权" class="headerlink" title="1.3. 负权"></a>1.3. 负权</h3><h4 id="1-3-1-负权边"><a href="#1-3-1-负权边" class="headerlink" title="1.3.1. 负权边"></a>1.3.1. 负权边</h4><p>有负权边，但没有负权环时，存在最短路径。</p>
+<p><img src="https://blog.idbeny.com/8y002.png@normal" alt=""></p>
+<p>A到E的最短路径是：<code>A → B → E</code>。</p>
+<h4 id="1-3-2-负权环"><a href="#1-3-2-负权环" class="headerlink" title="1.3.2. 负权环"></a>1.3.2. 负权环</h4><p>有负权环时，不存在最短路径。</p>
+<p><img src="https://blog.idbeny.com/vvyvc.png@normal" alt=""></p>
+<p>通过负权环时，A到E的路径可以无限短：<code>A → E → D → F → E → D → F → E → D → F → E → D → F → E → ......</code>。</p>
+<hr>
+<p>最短路径的典型应用之一：路径规划问题。</p>
+<p>求解最短路径的3个经典算法：</p>
+<ul>
+<li>单源最短路径算法<ul>
+<li>Dijkstra（迪杰斯特拉算法）</li>
+<li>Bellman-Ford（贝尔曼-福特算法）</li>
+</ul>
+</li>
+<li>多源最短路径算法<ul>
+<li>Floyd（弗洛伊德算法）</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、Dijkstra"><a href="#二、Dijkstra" class="headerlink" title="二、Dijkstra"></a>二、Dijkstra</h2><p>Dijkstra属于单源最短路径算法（由荷兰的科学家<em>Edsger Wybe Dijkstra</em>发明，曾在1972年获得图灵奖），用于计算一个顶点到其他所有顶点的最短路径。</p>
+<p><strong>使用前提</strong>：不能有负权边。</p>
+<p><strong>时间复杂度</strong>：可优化至<code>O(ElogV)</code>，<code>E</code>是边数量，<code>V</code>是节点数量。</p>
+<p>Dijkstra的原理其实跟生活中的一些自然现象完全一样。例如，把每1个顶点想象成是1块小石头，每1条边想象成是1条绳子，每一条绳子都连接着2块小石头，边的权值就是绳子的长度。将小石头和绳子平放在一张桌子上（下图是一张俯视图，图中黄颜色的是桌子）。</p>
+<p><img src="https://blog.idbeny.com/r8sw9.png@normal" alt=""></p>
+<p>接下来想象一下，手拽着小石头A，慢慢地向上提起来，远离桌面，B、D、C、E会依次离开桌面，最后绷直的绳子就是A到其他小石头的最短路径。</p>
+<p><img src="https://blog.idbeny.com/kay9n.png@normal" alt=""></p>
+<p>有一个很关键的信息：后离开桌面的小石头，都是被先离开桌面的小石头拉起来的（虽然是废话，但是代码执行中会不断用到该信息）。</p>
+<h3 id="2-1-执行过程"><a href="#2-1-执行过程" class="headerlink" title="2.1. 执行过程"></a>2.1. 执行过程</h3><p>如下图，就是求源头A到其他点的最短路径。</p>
+<ol>
+<li>A是源头（黑色），下一个被拉起的点必然是E、D、B（红色）其中一个，因为这些点直接连接A，所以更新A点到这几个终点的距离。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/ncq5n.png@normal" alt=""></p>
+<ol start="2">
+<li>A距离E、D、B最短的是AB（权值10）。此时A和B都已经被拉起，<em>由于后离开桌面的小石头，都是被先离开桌面的小石头拉起来的</em>，所以C和E、D一样都成为下次被拉起之一（更新A到终点C的路径和长度）。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/htfhk.png@normal" alt=""></p>
+<ul>
+<li><em>注意：由于D还没离开，所以不可能可存在A → D → C。</em></li>
+</ul>
+<ol start="3">
+<li>A距离C、D、E最短的是AD（权值30）。此时A、B、D都已经被拉起。由于D被拉起，所以出现了新的路径（ADE和ADC）。新的路径比之前路径更短（之前到达E的路径是AE，到达C的路径是ABC），因此更新到达终点E和C的路径和长度。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/omcm7.png@normal" alt=""></p>
+<ol start="4">
+<li>A距离C、E最短的是ADC（权值50）。此时A、B、C、D都已经被拉起。由于C被拉起，所以出现了新的路径（ADCE）。新的路径比之前路径更短（之前到达E的路径是ADE），因此更新到达终点E的路径和长度。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/afty0.png@normal" alt=""></p>
+<ol start="5">
+<li>最终E也被拉起。至此，A点到其他点的最短路径都已经确定。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/hl77s.png@normal" alt=""></p>
+<p>上面流程3、4都是发现了一条到达一个顶点的更短路径，如点A到达点E最短路径是100（AE），但当D被拉起后，发现可以通过D到达E，并且路径更短（到达E的最短路径是ADE），此时更新到达E的路径长度叫做<strong>松弛操作</strong>。</p>
+<p><strong>松弛操作（<em>Relaxation</em>）</strong>：更新2个顶点之间的最短路径。这里一般是指更新源点到另一个点的最短路径。</p>
+<p>松弛操作的意义：尝试找出更短的最短路径。</p>
+<blockquote>
+<p>对松弛两字的理解：假设两个顶点之间连接一条长度100的绳子，当两点靠拢时，绳子就会出现松弛现象，但是两点之间直线距离在变短（更新最短路径）。</p>
+</blockquote>
+<h3 id="2-2-具体实现"><a href="#2-2-具体实现" class="headerlink" title="2.2. 具体实现"></a>2.2. 具体实现</h3><p>下面的代码为了方便理解，在找最小路径时没有用到最小堆（用的是循环），所以代码时间复杂度并不是<code>O(ElogV)</code>，在实际开发中可以把对应方法换成最小堆。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 图的实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListGraph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Graph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ListGraph</span><span class="params">(WeightManager&lt;E&gt; weightManager)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(weightManager);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 比较器</span></span><br><span class="line">  <span class="keyword">private</span> Comparator&lt;Edge&lt;V, E&gt;&gt; edgeComparator = (Edge&lt;V, E&gt; e1, Edge&lt;V, E&gt; e2) -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> weightManager.compare(e1.weight, e2.weight);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取最短路径</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> begin 源头</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> begin到达其他顶点最短路径</span></span><br><span class="line"><span class="comment">   */</span> </span><br><span class="line">  <span class="keyword">public</span> Map&lt;V, PathInfo&lt;V, E&gt;&gt; shortestPath(V begin) &#123;</span><br><span class="line">    <span class="keyword">return</span> dijkstra(begin);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Map&lt;V, PathInfo&lt;V, E&gt;&gt; dijkstra(V begin) &#123;</span><br><span class="line">    Vertex&lt;V, E&gt; beginVertex = vertices.get(begin);</span><br><span class="line">    <span class="keyword">if</span> (beginVertex == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    Map&lt;V, PathInfo&lt;V, E&gt;&gt; selectedPaths = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    Map&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; paths = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="comment">// 第一种初始化做法</span></span><br><span class="line">    <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : beginVertex.outEdges) &#123;</span><br><span class="line">      PathInfo&lt;V, E&gt; path = <span class="keyword">new</span> PathInfo&lt;&gt;();</span><br><span class="line">      path.weight = edge.weight;</span><br><span class="line">      path.edges.add(edge);</span><br><span class="line">      paths.put(edge.to, path);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 第二种初始化做法：此处可参考Bellman-Ford的做法（让每条边都做松弛）</span></span><br><span class="line">    <span class="comment">// paths.put(beginVertex, new PathInfo&lt;&gt;(weightManager.zero()));</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!paths.isEmpty()) &#123;</span><br><span class="line">      Entry&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; minEntry = getMinPath(paths);</span><br><span class="line">      <span class="comment">// minVertex离开桌面</span></span><br><span class="line">      Vertex&lt;V, E&gt; minVertex = minEntry.getKey();</span><br><span class="line">      PathInfo&lt;V, E&gt; minPath = minEntry.getValue();</span><br><span class="line">      selectedPaths.put(minVertex.value, minPath);</span><br><span class="line">      paths.remove(minVertex);</span><br><span class="line">      <span class="comment">// 对它的minVertex的outEdges进行松弛操作</span></span><br><span class="line">      <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : minVertex.outEdges) &#123;</span><br><span class="line">        <span class="comment">// 如果edge.to已经离开桌面，就没必要进行松弛操作</span></span><br><span class="line">        <span class="keyword">if</span> (selectedPaths.containsKey(edge.to.value)) <span class="keyword">continue</span>;</span><br><span class="line">        relaxForDijkstra(edge, minPath, paths);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 源头不需要做松弛操作（针对无向图）</span></span><br><span class="line">    selectedPaths.remove(begin);</span><br><span class="line">    <span class="keyword">return</span> selectedPaths;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 松弛</span></span><br><span class="line"><span class="comment">   * </span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> edge     需要进行松弛的边</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> fromPath edge的from的最短路径信息</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> paths    存放着其他点（对于dijkstra来说，就是还没有离开桌面的点）的最短路径信息</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">relaxForDijkstra</span><span class="params">(Edge&lt;V, E&gt; edge, PathInfo&lt;V, E&gt; fromPath, Map&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; paths)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 新的可选择的最短路径：beginVertex到edge.from的最短路径 + edge.weight</span></span><br><span class="line">    <span class="comment">// weightManager是对外部开放的接口，需要自定义实现，因为weight不一定是int</span></span><br><span class="line">    E newWeight = weightManager.add(fromPath.weight, edge.weight);</span><br><span class="line">    <span class="comment">// 以前的最短路径：beginVertex到edge.to的最短路径</span></span><br><span class="line">    PathInfo&lt;V, E&gt; oldPath = paths.get(edge.to);</span><br><span class="line">    <span class="keyword">if</span> (oldPath != <span class="keyword">null</span> &amp;&amp; weightManager.compare(newWeight, oldPath.weight) &gt;= <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (oldPath == <span class="keyword">null</span>) &#123;</span><br><span class="line">      oldPath = <span class="keyword">new</span> PathInfo&lt;&gt;();</span><br><span class="line">      paths.put(edge.to, oldPath);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      oldPath.edges.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    oldPath.weight = newWeight;</span><br><span class="line">    <span class="comment">// 原来的路径信息</span></span><br><span class="line">    oldPath.edges.addAll(fromPath.edges);</span><br><span class="line">    <span class="comment">// 把最新的边添加到路径中</span></span><br><span class="line">    oldPath.edges.add(edge);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 从paths中挑一个最小的路径出来</span></span><br><span class="line"><span class="comment">   * </span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> paths</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">private</span> Entry&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; getMinPath(Map&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; paths) &#123;</span><br><span class="line">    Iterator&lt;Entry&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt;&gt; it = paths.entrySet().iterator();</span><br><span class="line">    Entry&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; minEntry = it.next();</span><br><span class="line">    <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">      Entry&lt;Vertex&lt;V, E&gt;, PathInfo&lt;V, E&gt;&gt; entry = it.next();</span><br><span class="line">      <span class="keyword">if</span> (weightManager.compare(entry.getValue().weight, minEntry.getValue().weight) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        minEntry = entry;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minEntry;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// other code...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象类（图的公共方法都在这里）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Graph</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">protected</span> WeightManager&lt;E&gt; weightManager;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Graph</span><span class="params">(WeightManager&lt;E&gt; weightManager)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.weightManager = weightManager;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 自定义权值管理接口</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WeightManager</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 比较</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(E w1, E w2)</span></span>;</span><br><span class="line">    <span class="comment">// 相加</span></span><br><span class="line">    <span class="function">E <span class="title">add</span><span class="params">(E w1, E w2)</span></span>; </span><br><span class="line">    <span class="comment">// 源头和自身的最短路径（防止松弛操作时weight是null）</span></span><br><span class="line">    <span class="function">E <span class="title">zero</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 路径信息</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">PathInfo</span>&lt;<span class="title">V</span>, <span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> E weight;</span><br><span class="line">    <span class="keyword">protected</span> List&lt;Edge&lt;V, E&gt;&gt; edges = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PathInfo</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PathInfo</span><span class="params">(E weight)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.weight = weight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getWeight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> weight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeight</span><span class="params">(E weight)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.weight = weight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Edge&lt;V, E&gt;&gt; getEdges() &#123;</span><br><span class="line">      <span class="keyword">return</span> edges;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEdges</span><span class="params">(List&lt;Edge&lt;V, E&gt;&gt; edges)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.edges = edges;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"PathInfo [weight="</span> + weight + <span class="string">", edges="</span> + edges + <span class="string">"]"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// other code...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> WeightManager&lt;Double&gt; weightManager = <span class="keyword">new</span> WeightManager&lt;Double&gt;() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Double w1, Double w2)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> w1.compareTo(w2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Double <span class="title">add</span><span class="params">(Double w1, Double w2)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> w1 + w2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Double <span class="title">zero</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  Graph&lt;Object, Double&gt; graph = <span class="keyword">new</span> ListGraph&lt;&gt;(weightManager);</span><br><span class="line">  Map&lt;Object, PathInfo&lt;Object, Double&gt;&gt; sp = graph.shortestPath(<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// other code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、Bellman-Ford"><a href="#三、Bellman-Ford" class="headerlink" title="三、Bellman-Ford"></a>三、Bellman-Ford</h2><p>Bellman-Ford也属于单源最短路径算法，<strong>支持负权边</strong>，还能检测出是否有负权环。</p>
+<p><strong>算法原理</strong>：对所有的边进行<code>V – 1</code>次松弛操作（<code>V</code>是节点数量。松弛操作也可能只需要1次），得到所有可能的最短路径。</p>
+<p><strong>时间复杂度</strong>：<code>O(EV)</code>，<code>E</code>是边数量，<code>V</code>是节点数量。</p>
+<p>下图的<strong>最好情况</strong>是恰好从左到右的顺序对边进行松弛操作（对所有边仅需进行1次松弛操作就能计算出A到达其他所有顶点的最短路径）：</p>
+<p><img src="https://blog.idbeny.com/5k7ut.png@normal" alt=""></p>
+<p><strong>最坏情况</strong>是恰好每次都从右到左的顺序对边进行松弛操作（对所有边需进行<code>V – 1</code>次松弛操作才能计算出A到达其他所有顶点的最短路径）：</p>
+<p><img src="https://blog.idbeny.com/6h063.png@normal" alt=""></p>
+<h3 id="3-1-执行过程"><a href="#3-1-执行过程" class="headerlink" title="3.1. 执行过程"></a>3.1. 执行过程</h3><p><img src="https://blog.idbeny.com/io5ec.png@normal" alt=""></p>
+<p>如上图，源头是A，一共8条边，假设每次松弛操作的顺序是：DC、DF、BC、ED、EF、BE、AE、AB（注意：图的边是用<code>HashSet</code>存储的，取出的顺序和添加的顺序是不一样的，但只要没有做添加和移除操作，每次取出的顺序都是一样的，也就导致有可能松弛顺序就是这样的）。</p>
+<p><strong>能否松弛成功就看起点的最短路径是否已经存在，如果不存在肯定松弛失败。</strong></p>
+<p><strong>第1次松弛</strong>：由于源头是A，所以只有AE、AB松弛成功。</p>
+<p><img src="https://blog.idbeny.com/99sj1.png@normal" alt=""></p>
+<p><strong>第2次松弛</strong>：BE优先AE做松弛操作，ABE路径长度是5，AE路径长度是8，所以AE松弛操作失败。AB无变化（蓝色表示）。</p>
+<p><img src="https://blog.idbeny.com/393k0.png@normal" alt=""></p>
+<p><strong>第3次松弛</strong>：更新最短路径和长度。</p>
+<p><img src="https://blog.idbeny.com/72wos.png@normal" alt=""></p>
+<p><strong>第4次松弛</strong>：</p>
+<p><img src="https://blog.idbeny.com/tqd00.png@normal" alt=""></p>
+<p>不难分析出，经过4次松弛操作之后，已经计算出了A到其他所有顶点的最短路径（及时后面还有更多次，结果也是一样的）。</p>
+<h3 id="3-2-具体实现"><a href="#3-2-具体实现" class="headerlink" title="3.2. 具体实现"></a>3.2. 具体实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;V, PathInfo&lt;V, E&gt;&gt; bellmanFord(V begin) &#123;</span><br><span class="line">  Vertex&lt;V, E&gt; beginVertex = vertices.get(begin);</span><br><span class="line">  <span class="keyword">if</span> (beginVertex == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  Map&lt;V, PathInfo&lt;V, E&gt;&gt; selectedPaths = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">  selectedPaths.put(begin, <span class="keyword">new</span> PathInfo&lt;&gt;(weightManager.zero()));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> count = vertices.size() - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123; <span class="comment">// v - 1 次</span></span><br><span class="line">    <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : edges) &#123;</span><br><span class="line">      <span class="comment">// 获取起点的最短路径信息</span></span><br><span class="line">      PathInfo&lt;V, E&gt; fromPath = selectedPaths.get(edge.from.value);</span><br><span class="line">      <span class="comment">// begin到from的最短路径可能是空的</span></span><br><span class="line">      <span class="keyword">if</span> (fromPath == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">      relax(edge, fromPath, selectedPaths);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断是否有负权环</span></span><br><span class="line">  <span class="comment">// V-1次操作后，还能进行松弛操作说明是有负权环的（每次都能找到最短路径）</span></span><br><span class="line">  <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : edges) &#123;</span><br><span class="line">    PathInfo&lt;V, E&gt; fromPath = selectedPaths.get(edge.from.value);</span><br><span class="line">    <span class="keyword">if</span> (fromPath == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    <span class="keyword">if</span> (relax(edge, fromPath, selectedPaths)) &#123;</span><br><span class="line">      System.out.println(<span class="string">"有负权环"</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  selectedPaths.remove(begin);</span><br><span class="line">  <span class="keyword">return</span> selectedPaths;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 松弛（和dijkstra松弛代码不一样的是paths存放的key不同）</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> edge     需要进行松弛的边</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> fromPath edge的from的最短路径信息</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> paths    存放着其他点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">relax</span><span class="params">(Edge&lt;V, E&gt; edge, PathInfo&lt;V, E&gt; fromPath, Map&lt;V, PathInfo&lt;V, E&gt;&gt; paths)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 新的可选择的最短路径：beginVertex到edge.from的最短路径 + edge.weight</span></span><br><span class="line">  E newWeight = weightManager.add(fromPath.weight, edge.weight);</span><br><span class="line">  <span class="comment">// 以前的最短路径：beginVertex到edge.to的最短路径</span></span><br><span class="line">  PathInfo&lt;V, E&gt; oldPath = paths.get(edge.to.value);</span><br><span class="line">  <span class="keyword">if</span> (oldPath != <span class="keyword">null</span> &amp;&amp; weightManager.compare(newWeight, oldPath.weight) &gt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (oldPath == <span class="keyword">null</span>) &#123;</span><br><span class="line">    oldPath = <span class="keyword">new</span> PathInfo&lt;&gt;();</span><br><span class="line">    paths.put(edge.to.value, oldPath);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    oldPath.edges.clear();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  oldPath.weight = newWeight;</span><br><span class="line">  oldPath.edges.addAll(fromPath.edges);</span><br><span class="line">  oldPath.edges.add(edge);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、Floyd"><a href="#四、Floyd" class="headerlink" title="四、Floyd"></a>四、Floyd</h2><p>Floyd属于多源最短路径算法，能够求出任意2个顶点之间的最短路径，支持负权边。</p>
+<p><strong>时间复杂度</strong>：<code>O(V^3)</code>，效率比执行<code>V</code>次Dijkstra算法要好（每个顶点都作为源点执行一遍Dijkstra算法。<code>V</code>是顶点数量）。</p>
+<h3 id="4-1-算法原理"><a href="#4-1-算法原理" class="headerlink" title="4.1. 算法原理"></a>4.1. 算法原理</h3><p>从任意顶点<code>i</code>到任意顶点<code>j</code>的最短路径不外乎两种可能：</p>
+<ol>
+<li>直接从<code>i</code>到<code>j</code>；</li>
+<li>从<code>i</code>经过若干个顶点到<code>j</code>。</li>
+</ol>
+<p>假设<code>dist(i，j)</code>为顶点<code>i</code>到顶点<code>j</code>的最短路径的距离，对于每一个顶点<code>k</code>，检查<code>dist(i，k) + dist(k，j) &lt; dist(i，j)</code>是否成立。</p>
+<ul>
+<li>如果成立，证明从<code>i</code>到<code>k</code>再到<code>j</code>的路径比<code>i</code>直接到<code>j</code>的路径短，设置 <code>dist(i，j) = dist(i，k) + dist(k，j)</code></li>
+<li>当我们遍历完所有节点<code>k</code>，<code>dist(i，j)</code>中记录的便是<code>i</code>到<code>j</code>的最短路径的距离（每个节点都会成为<code>i、j、k</code>）</li>
+</ul>
+<p>伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; V; k++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; i &lt; V; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; j &lt; V; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (dist(i, k) + dist(k, j) &lt; dist(i, j)) &#123;</span><br><span class="line">        dist(i, j) = dist(i, k) + dist(k, j);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-具体实现"><a href="#4-2-具体实现" class="headerlink" title="4.2. 具体实现"></a>4.2. 具体实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回的是任意两个顶点之间的路径信息</span></span><br><span class="line"><span class="keyword">public</span> Map&lt;V, Map&lt;V, PathInfo&lt;V, E&gt;&gt;&gt; shortestPath() &#123;</span><br><span class="line">  Map&lt;V, Map&lt;V, PathInfo&lt;V, E&gt;&gt;&gt; paths = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">  <span class="comment">// 初始化</span></span><br><span class="line">  <span class="keyword">for</span> (Edge&lt;V, E&gt; edge : edges) &#123;</span><br><span class="line">    Map&lt;V, PathInfo&lt;V, E&gt;&gt; map = paths.get(edge.from.value);</span><br><span class="line">    <span class="keyword">if</span> (map == <span class="keyword">null</span>) &#123;</span><br><span class="line">      map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">      paths.put(edge.from.value, map);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    PathInfo&lt;V, E&gt; pathInfo = <span class="keyword">new</span> PathInfo&lt;&gt;(edge.weight);</span><br><span class="line">    pathInfo.edges.add(edge);</span><br><span class="line">    map.put(edge.to.value, pathInfo);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  vertices.forEach((V v2, Vertex&lt;V, E&gt; vertex2) -&gt; &#123;</span><br><span class="line">    vertices.forEach((V v1, Vertex&lt;V, E&gt; vertex1) -&gt; &#123;</span><br><span class="line">      vertices.forEach((V v3, Vertex&lt;V, E&gt; vertex3) -&gt; &#123;</span><br><span class="line">        <span class="comment">// 同一个点不需要做任何操作</span></span><br><span class="line">        <span class="keyword">if</span> (v1.equals(v2) || v2.equals(v3) || v1.equals(v3)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// v1 -&gt; v2</span></span><br><span class="line">        PathInfo&lt;V, E&gt; path12 = getPathInfo(v1, v2, paths);</span><br><span class="line">        <span class="keyword">if</span> (path12 == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// v2 -&gt; v3</span></span><br><span class="line">        PathInfo&lt;V, E&gt; path23 = getPathInfo(v2, v3, paths);</span><br><span class="line">        <span class="keyword">if</span> (path23 == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// v1 -&gt; v3</span></span><br><span class="line">        PathInfo&lt;V, E&gt; path13 = getPathInfo(v1, v3, paths);</span><br><span class="line"></span><br><span class="line">        E newWeight = weightManager.add(path12.weight, path23.weight);</span><br><span class="line">        <span class="keyword">if</span> (path13 != <span class="keyword">null</span> &amp;&amp; weightManager.compare(newWeight, path13.weight) &gt;= <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (path13 == <span class="keyword">null</span>) &#123;</span><br><span class="line">          path13 = <span class="keyword">new</span> PathInfo&lt;V, E&gt;();</span><br><span class="line">          paths.get(v1).put(v3, path13);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          path13.edges.clear();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        path13.weight = newWeight;</span><br><span class="line">        path13.edges.addAll(path12.edges);</span><br><span class="line">        path13.edges.addAll(path23.edges);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> paths;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> PathInfo&lt;V, E&gt; <span class="title">getPathInfo</span><span class="params">(V from, V to, Map&lt;V, Map&lt;V, PathInfo&lt;V, E&gt;&gt;&gt; paths)</span> </span>&#123;</span><br><span class="line">  Map&lt;V, PathInfo&lt;V, E&gt;&gt; map = paths.get(from);</span><br><span class="line">  <span class="keyword">return</span> map == <span class="keyword">null</span> ? <span class="keyword">null</span> : map.get(to);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://blog.idbeny.com/guanzhu.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/11/19/datastructure-graph-shortpath/" title="【数据结构与算法】系列三十二 - 图（最短路径）">http://idbeny.com/2019/11/19/datastructure-graph-shortpath/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E5%9B%BE/" rel="tag"># 图</a>
+          
+            <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" rel="tag"># 最短路径</a>
+          
+            <a href="/tags/Dijkstra/" rel="tag"># Dijkstra</a>
+          
+            <a href="/tags/Bellman-Ford/" rel="tag"># Bellman-Ford</a>
+          
+            <a href="/tags/Floyd/" rel="tag"># Floyd</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/12/datastructure-graph-ts-mst/" rel="next" title="【数据结构与算法】系列三十一 - 图（拓扑排序/最小生成树）">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列三十一 - 图（拓扑排序/最小生成树）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/24/datastructure-recursion/" rel="prev" title="【数据结构与算法】系列三十三 - 递归">
+                【数据结构与算法】系列三十三 - 递归 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、最短路径"><span class="nav-number">1.</span> <span class="nav-text">一、最短路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-有权图"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 有权图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-无权图"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 无权图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-负权"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 负权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-负权边"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1. 负权边</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-负权环"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2. 负权环</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Dijkstra"><span class="nav-number">2.</span> <span class="nav-text">二、Dijkstra</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-执行过程"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-具体实现"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Bellman-Ford"><span class="nav-number">3.</span> <span class="nav-text">三、Bellman-Ford</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-执行过程"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-具体实现"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Floyd"><span class="nav-number">4.</span> <span class="nav-text">四、Floyd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-算法原理"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 算法原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-具体实现"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 具体实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

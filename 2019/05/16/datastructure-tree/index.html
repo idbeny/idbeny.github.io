@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,算法," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构与算法】系列七 - 二叉树">
+<meta property="og:url" content="http://idbeny.com/2019/05/16/datastructure-tree/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="……">
+<meta property="og:image" content="https://blog.idbeny.com/sn7la.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3wjuo.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/siikt.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/trje9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/216ow.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3guwb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lhjkr.png@normal">
+<meta property="article:published_time" content="2019-05-16T13:11:32.000Z">
+<meta property="article:modified_time" content="2021-04-29T15:07:14.236Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/sn7la.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2019/05/16/datastructure-tree/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【数据结构与算法】系列七 - 二叉树 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2019/05/16/datastructure-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="idbeny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数据结构与算法】系列七 - 二叉树</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T21:11:32+08:00">
+                2019-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%8C%E5%8F%89%E6%A0%91/" itemprop="url" rel="index">
+                    <span itemprop="name">二叉树</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>……</p>
+<a id="more"></a>
+
+<h2 id="一、树的基本概念"><a href="#一、树的基本概念" class="headerlink" title="一、树的基本概念"></a>一、树的基本概念</h2><p><img src="https://blog.idbeny.com/sn7la.png@normal" alt=""></p>
+<p>树（<em>Tree</em>）有节点、根节点、父节点、子节点、兄弟节点。</p>
+<p>一棵树可以没有任何节点，称为<strong>空树</strong>。</p>
+<p>一棵树可以只有1个节点，也就是只有根节点。</p>
+<p>每个节点下的树称为子树，二叉树有左子树和右子树。</p>
+<p><img src="https://blog.idbeny.com/3wjuo.png@normal" alt=""></p>
+<p>如图：</p>
+<ul>
+<li>1是根节点</li>
+<li>2的父节点是1</li>
+<li>1的子节点是2、3、4、5、6</li>
+<li>21和22的父节点都是2，21和22是兄弟节点（22和31不是兄弟节点）</li>
+</ul>
+<p><strong>节点的度（<em>degree</em>）</strong>：子树的个数（例：上图中节点2的度是2，节点3的度是1）。</p>
+<p><strong>树的度</strong>：所有节点度中的最大值（例：上图中子树最多的是根节点1的子节点，所以树的度是5）。</p>
+<p><strong>叶子节点（<em>leaf</em>）</strong>：度为 0 的节点（例：上图中的4、21、221等节点）。</p>
+<p><strong>非叶子节点</strong>：度不为 0 的节点（例：上图中的22、5等节点）。</p>
+<p><strong>层数（level）</strong>：根节点在第 1 层，根节点的子节点在第 2 层，以此类推（有些资料也从第 0 层开始计算）（例：上图中节点22的层数是3，节点5的层数是2）。</p>
+<p><strong>节点的深度（<em>depth</em>）</strong>：从根节点到当前节点的唯一路径上的节点总数（例：上图中节点51的深度是3）。</p>
+<p><strong>节点的高度（<em>height</em>）</strong>：从当前节点到最远叶子节点的路径上的节点总数（例：上图中节点2的高度是3）。</p>
+<p><strong>树的深度</strong>：所有节点深度中的最大值（例：上图中节点深度最大值是节点221，深度是4）。</p>
+<p><strong>树的高度</strong>：所有节点高度中的最大值（例：上图中节点高度最大值是节点1，高度是4）。</p>
+<p><strong>有序树</strong>：树中任意节点的子节点之间有顺序关系。</p>
+<p><strong>无序树</strong>：树中任意节点的子节点之间没有顺序关系，也称为“自由树”。</p>
+<p><strong>森林</strong>：由<code>m（m ≥ 0）</code>棵互不相交的树组成的集合。</p>
+<blockquote>
+<p>树的深度<strong>等于</strong>树的高度。</p>
+</blockquote>
+<h2 id="二、二叉树"><a href="#二、二叉树" class="headerlink" title="二、二叉树"></a>二、二叉树</h2><h3 id="2-1-二叉树的特点"><a href="#2-1-二叉树的特点" class="headerlink" title="2.1. 二叉树的特点"></a>2.1. 二叉树的特点</h3><ul>
+<li>每个节点的度最大为 2（最多拥有 2 棵子树），最小为0</li>
+<li>左子树和右子树是有顺序的</li>
+<li>即使某节点只有一棵子树，也要区分左右子树</li>
+</ul>
+<p><img src="https://blog.idbeny.com/siikt.png@normal" alt=""></p>
+<blockquote>
+<p>疑问：二叉树是有序树还是无序树？有序树。</p>
+</blockquote>
+<h3 id="2-2-二叉树的性质"><a href="#2-2-二叉树的性质" class="headerlink" title="2.2. 二叉树的性质"></a>2.2. 二叉树的性质</h3><ol>
+<li><p>非空二叉树的第<code>i</code>层，最多有<code>2^(i − 1)</code>个节点（ i ≥ 1 ）。</p>
+</li>
+<li><p>在高度为<code>h</code>的二叉树上最多有<code>2^h − 1</code>个结点（ h ≥ 1 ）。</p>
+</li>
+<li><p>对于任何一棵非空二叉树，如果叶子节点个数为<code>n0</code>，度为 2 的节点个数为 <code>n2</code>，则有:<code>n0 = n2 + 1</code>。</p>
+<ul>
+<li>假设度为 1 的节点个数为<code>n1</code>，那么二叉树的节点总数<code>n = n0 + n1 + n2</code></li>
+<li>二叉树的边数<code>T = n1 + 2 * n2</code>，除了根节点的其他节点头部都有一条边，所以边数也可以是总节点数减去根节点，即<code>T = n - 1</code>。所以<code>T = n1 + 2 * n2 = n0 + n1 + n2 – 1</code></li>
+<li>因此<code>n0 = n2 + 1</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="2-3-真二叉树（Proper-Binary-Tree）"><a href="#2-3-真二叉树（Proper-Binary-Tree）" class="headerlink" title="2.3. 真二叉树（Proper Binary Tree）"></a>2.3. 真二叉树（<em>Proper Binary Tree</em>）</h3><p>真二叉树：所有节点的<strong>度</strong>都要么为 0，要么为 2。换句话：所有非叶子节点的度都为 2。</p>
+<p><img src="https://blog.idbeny.com/trje9.png@normal" alt=""></p>
+<h3 id="2-4-满二叉树（Full-Binary-Tree）"><a href="#2-4-满二叉树（Full-Binary-Tree）" class="headerlink" title="2.4. 满二叉树（Full Binary Tree）"></a>2.4. 满二叉树（<em>Full Binary Tree</em>）</h3><p>满二叉树：最后一层节点的度都为 0，其他节点的度都为 2。换句话：所有非叶子节点的度都为 2，且所有的叶子节点都在最后一层</p>
+<ul>
+<li><p>在同样高度的二叉树中，满二叉树的叶子节点数量最多、总节点数量最多。 </p>
+</li>
+<li><p>满二叉树一定是真二叉树，真二叉树不一定是满二叉树。</p>
+</li>
+</ul>
+<p><img src="https://blog.idbeny.com/216ow.png@normal" alt=""></p>
+<p>假设满二叉树的高度为<code>h（ h ≥ 1 ）</code>，那么：</p>
+<ul>
+<li>第 i 层的节点数量：<code>2^(i − 1)</code></li>
+<li>叶子节点（第h层）数量：<code>2^(h − 1)</code></li>
+<li>总节点数量：<code>n = 2^h − 1 = 2^0 + 2^1 + 2^2 + ⋯ + 2^(h−1)</code></li>
+<li>高度：<code>h = log2(n+1)</code></li>
+</ul>
+<h3 id="2-5-完全二叉树（Complete-Binary-Tree）"><a href="#2-5-完全二叉树（Complete-Binary-Tree）" class="headerlink" title="2.5. 完全二叉树（Complete Binary Tree）"></a>2.5. 完全二叉树（<em>Complete Binary Tree</em>）</h3><p>完全二叉树：对节点从上至下、左至右开始编号，其所有编号都能与相同高度的满二叉树中的编号对应。叶子节点只会出现最后 2 层，最后 1 层的叶子结点都靠左对齐。并且从根结点至倒数第 2 层是一棵满二叉树。</p>
+<p><strong>满二叉树：</strong></p>
+<p><img src="https://blog.idbeny.com/3guwb.png@normal" alt=""></p>
+<p><strong>完全二叉树：</strong></p>
+<p><img src="https://blog.idbeny.com/lhjkr.png@normal" alt=""></p>
+<p>满二叉树一定是完全二叉树，完全二叉树不一定是满二叉树。</p>
+<h4 id="2-5-1-完全二叉树的性质"><a href="#2-5-1-完全二叉树的性质" class="headerlink" title="2.5.1. 完全二叉树的性质"></a>2.5.1. 完全二叉树的性质</h4><ol>
+<li><p>度为 1 的节点只有左子树（因为左对齐）</p>
+</li>
+<li><p>度为 1 的节点要么是 1 个，要么是 0 个（因为从上至下，从左至右原则）</p>
+</li>
+<li><p>同样节点数量的二叉树，完全二叉树的高度最小（因为从上至下，从左至右原则）</p>
+</li>
+<li><p>假设完全二叉树的高度为<code>h（ h ≥ 1 ）</code>，那么：</p>
+<ul>
+<li>至少有<code>2^0 + 2^1 + 2^2 + ⋯ + 2^(h−2) + 1 = 2^(h − 1)</code>个节点</li>
+<li>最多有<code>2^0 + 2^1 + 2^2 + ⋯ + 2^(h−1)= 2^h − 1</code>个节点（满二叉树）</li>
+<li>总节点数量为<code>n</code>:<ul>
+<li><code>2^(h − 1) ≤ n &lt; 2^h</code></li>
+<li><code>h − 1 ≤ log2n &lt; h</code></li>
+<li><code>h = floor(log2n) + 1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>一棵有<code>n</code>个节点的完全二叉树<code>（n &gt; 0）</code>，从上到下、从左到右对节点从<code>1</code> 开始进行编号，对任意第<code>i</code>个节点：</p>
+<ul>
+<li>如果<code>i = 1</code>，它是根节点</li>
+<li>如果<code>i &gt; 1</code>，它的父节点编号为<code>floor(i / 2)</code></li>
+<li>如果<code>2i ≤ n</code>，它的左子节点编号为<code>2i</code></li>
+<li>如果<code>2i &gt; n</code>，它无左子节点</li>
+<li>如果<code>2i + 1 ≤ n</code>，它的右子节点编号为<code>2i + 1</code></li>
+<li>如果<code>2i + 1 &gt; n</code>，它无右子节点</li>
+</ul>
+</li>
+<li><p>一棵有<code>n</code>个节点的完全二叉树<code>（n &gt; 0）</code>，从上到下、从左到右对节点从<code>0</code>开始进行编号，对任意第<code>i</code>个节点：</p>
+<ul>
+<li>如果<code>i = 0</code>，它是根节点</li>
+<li>如果<code>i &gt; 0</code>，它的父节点编号为<code>floor((i – 1) / 2)</code></li>
+<li>如果<code>2i + 1 ≤ n – 1</code>，它的左子节点编号为<code>2i + 1</code></li>
+<li>如果<code>2i + 1 &gt; n – 1</code>，它无左子节点</li>
+<li>如果<code>2i + 2 ≤ n – 1</code>，它的右子节点编号为<code>2i + 2</code></li>
+<li>如果<code>2i + 2 &gt; n – 1</code>，它无右子节点</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-5-2-完全二叉树的面试题"><a href="#2-5-2-完全二叉树的面试题" class="headerlink" title="2.5.2. 完全二叉树的面试题"></a>2.5.2. 完全二叉树的面试题</h4><p><strong>题目：</strong> 如果一棵完全二叉树有 768 个节点，求叶子节点的个数。</p>
+<p><strong>解答：</strong></p>
+<p>假设叶子节点个数为 n0，度为 1 的节点个数为 n1，度为 2 的节点个数为 n2。</p>
+<ul>
+<li>总结点个数<code>n = n0 + n1 + n2</code>，</li>
+<li>由于<code>n0 = n2 + 1</code>，所以<code>n = 2n0 + n1 – 1</code>。</li>
+</ul>
+<p>由于完全二叉树的 n1 要么为 0，要么为 1。所以：</p>
+<ul>
+<li>n1为1时，<code>n = 2n0</code>，n 必然是偶数<ul>
+<li>叶子节点个数<code>n0 = n / 2</code>，非叶子节点个数<code>n1 + n2 = n / 2</code></li>
+</ul>
+</li>
+<li>n1为0时，<code>n = 2n0 – 1</code>，n 必然是奇数<ul>
+<li>叶子节点个数<code>n0 = (n + 1) / 2</code>，非叶子节点个数<code>n1 + n2 = (n – 1) / 2</code></li>
+</ul>
+</li>
+</ul>
+<p>综上得出：</p>
+<ul>
+<li>叶子节点个数<code>n0 = floor( (n + 1) / 2 ) = ceiling( n / 2 )</code>，编程时由于n0和n是int类型，可以这样写：<code>n0 = (n + 1) &gt;&gt; 1</code></li>
+<li>非叶子节点个数<code>n1 + n2 = floor( n / 2 ) = ceiling( (n – 1) / 2 )</code></li>
+<li>因此叶子节点个数为 384</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2019/05/16/datastructure-tree/" title="【数据结构与算法】系列七 - 二叉树">http://idbeny.com/2019/05/16/datastructure-tree/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/12/datastructure-queue/" rel="next" title="【数据结构与算法】系列六 - 队列">
+                <i class="fa fa-chevron-left"></i> 【数据结构与算法】系列六 - 队列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/20/datastructure-binary-search-tree/" rel="prev" title="【数据结构与算法】系列八 - 二叉搜索树">
+                【数据结构与算法】系列八 - 二叉搜索树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="idbeny" />
+          <p class="site-author-name" itemprop="name">idbeny</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">155</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、树的基本概念"><span class="nav-number">1.</span> <span class="nav-text">一、树的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、二叉树"><span class="nav-number">2.</span> <span class="nav-text">二、二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-二叉树的特点"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 二叉树的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-二叉树的性质"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 二叉树的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-真二叉树（Proper-Binary-Tree）"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 真二叉树（Proper Binary Tree）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-满二叉树（Full-Binary-Tree）"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 满二叉树（Full Binary Tree）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-完全二叉树（Complete-Binary-Tree）"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. 完全二叉树（Complete Binary Tree）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-完全二叉树的性质"><span class="nav-number">2.5.1.</span> <span class="nav-text">2.5.1. 完全二叉树的性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-完全二叉树的面试题"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.5.2. 完全二叉树的面试题</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
