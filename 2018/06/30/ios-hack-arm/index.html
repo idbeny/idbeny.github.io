@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="汇编,iOS,ARM64," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="当我们使用Xcode断点调试APP时，手动开启汇编模式下是会进入汇编模式的（异常情况下也会自动跳到汇编代码错误位置），如果了解汇编会提高我们调试APP的效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS逆向系列九 - ARM">
+<meta property="og:url" content="http://idbeny.com/2018/06/30/ios-hack-arm/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="当我们使用Xcode断点调试APP时，手动开启汇编模式下是会进入汇编模式的（异常情况下也会自动跳到汇编代码错误位置），如果了解汇编会提高我们调试APP的效率。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/si4uq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lktd7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tcnsj.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tlid3.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/zg8p4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7y9ku.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/va0d1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/4bemo.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tc0fj.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0mxv1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tqiz7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/8owtf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/8ej1q.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/n7isn.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/v1eaz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/p97yr.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/x950l.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ejne1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/raqt5.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/t8xtc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/cqq7q.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/cwvsk.png@normal">
+<meta property="article:published_time" content="2018-06-30T07:27:41.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.794Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="汇编">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="ARM64">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/si4uq.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/06/30/ios-hack-arm/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】iOS逆向系列九 - ARM | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/06/30/ios-hack-arm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】iOS逆向系列九 - ARM</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-30T15:27:41+08:00">
+                2018-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当我们使用Xcode断点调试APP时，手动开启汇编模式下是会进入汇编模式的（异常情况下也会自动跳到汇编代码错误位置），如果了解汇编会提高我们调试APP的效率。</p>
+<span id="more"></span>
+
+<p>以iPhone5s（含）为分界点，之前是armv7、armv7s，之后就是arm64，会向下兼容。iOS汇编分为真机和模拟器，真机采用的是arm64架构（GNU汇编），模拟器采用的是x86架构（AT&amp;T汇编），由于汇编是依赖机器的，机器不一样（不同架构）汇编指令可能不一样，因此我们主要研究真机的汇编代码。</p>
+<h2 id="一、ARM"><a href="#一、ARM" class="headerlink" title="一、ARM"></a>一、ARM</h2><p>ARM(Advanced RISC Machines)，既可以认为是一个公司的名字，也可以认为是对一类微处理器的通称，还可以认为是一种技术的名字。</p>
+<blockquote>
+<p><strong>精简指令集计算机</strong>（英语：<strong>reduced instruction set computer</strong>，缩写：<strong>RISC</strong>）或简译为<strong>精简指令集</strong>，是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%9B%BB%E5%AD%90%E8%A8%88%E7%AE%97%E6%A9%9F">计算机</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%A4%AE%E8%99%95%E7%90%86%E5%99%A8">中央处理器</a>的一种设计模式。</p>
+</blockquote>
+<p>采用 RISC 架构的 ARM 微处理器一般具有如下特点: </p>
+<ol>
+<li>体积小、低功耗、低成本、高性能;</li>
+<li>支持 Thumb(16 位)&#x2F;ARM(32 位)双指令集，能很好的兼容 8 位&#x2F;16 位器件; </li>
+<li>大量使用寄存器，指令执行速度更快; </li>
+<li>大多数数据操作都在寄存器中完成;</li>
+<li>寻址方式灵活简单，执行效率高;</li>
+<li>指令长度固定;</li>
+</ol>
+<blockquote>
+<p>ARM体系结构可以用两种方法存储字数据，称之为大端格式和小端格式。</p>
+</blockquote>
+<h3 id="1-1-ARM-微处理器的寄存器结构"><a href="#1-1-ARM-微处理器的寄存器结构" class="headerlink" title="1.1. ARM 微处理器的寄存器结构"></a>1.1. ARM 微处理器的寄存器结构</h3><p>ARM微处理器共有37个32位寄存器，其中31个为<strong>通用寄存器</strong>（包括程序计数器–PC 指针），6个为<strong>状态寄存器</strong>（用以标识 CPU 的工作状态及程序的运行状态）。但是这些寄存器不能被同时访问，具体哪些寄存器是可编程访问的，取决微处理器的工作状态及具体的运行模 式。但在任何时候，通用寄存器R14~R0、程序计数器PC、一个或两个状态寄存器都是可访问的。</p>
+<p>64位的ARM有x0<del>x28个通用寄存器，32位的ARM有w0</del>w28个通用寄存器（属于x0<del>x28的低32位）。x0</del>x7通常用来存放函数的参数，更多的参数使用堆栈来传递。x0通常用来存放函数的返回值。</p>
+<p>程序计数器（pc：<em>Program Counter</em>）其实就是记录CPU当前指令的是哪⼀条指令，存储着当前CPU正在执⾏的指令的地址。</p>
+<p>链接寄存器（lr：<em>Link Register</em>），也就是x30，存储着函数的返回地址。例：执行bl指令前会将下一条指令的地址存储到lr寄存器中，然后会跳转到标记处开始执⾏代码。标记处的代码执行完成后（ret），会把lr寄存器存储的值取出来赋值给pc。</p>
+<h3 id="1-2-程序状态寄存器"><a href="#1-2-程序状态寄存器" class="headerlink" title="1.2. 程序状态寄存器"></a>1.2. 程序状态寄存器</h3><p>ARM体系结构包含一个当前程序状态寄存器(<em>Current Program Status Register</em>，缩写：CPSR)和五个备份的程序状态寄存器(<em>Saved Program Status Register</em>，缩写：SPSRs)。 备份的程序状态寄存器用来进行异常处理，其功能包括：保存ALU中的当前操作信息、控制允许和禁止中断、设置处理器的运行模式。</p>
+<p>程序状态寄存器的每一位的安排如图所示：</p>
+<p><img src="https://blog.idbeny.com/si4uq.png@normal"></p>
+<p><strong>条件码标志(Condition Code Flags)：</strong>N、Z、C、V均为条件码标志位。它们的内容可被算术或逻辑运算的结果所改变，并且可以决定某条指令是否被执行。 在ARM状态下，绝大多数的指令都是有条件执行的。 </p>
+<p>条件码标志各位的具体含义如表所示:</p>
+<p><img src="https://blog.idbeny.com/lktd7.png@normal"></p>
+<p><strong>控制位：</strong>PSR的低8位(包括I、F、T和M[4:0])称为控制位，当发生异常时这些位可以被改变。如果处理器运行特权模式，这些位也可以由程序修改。</p>
+<p><strong>保留位：</strong>PSR中的其余位为保留位，当改变PSR中的条件码标志位或者控制位时，保留位不要被改变，在程序中也不要使用保留位来存储数据。保留位将用于ARM版本的扩展。</p>
+<h3 id="1-3-ARM-微处理器的指令的分类与格式"><a href="#1-3-ARM-微处理器的指令的分类与格式" class="headerlink" title="1.3. ARM 微处理器的指令的分类与格式"></a>1.3. ARM 微处理器的指令的分类与格式</h3><p>ARM微处理器的指令集是加载&#x2F;存储型的，也即指令集仅能处理寄存器中的数据，而且处理结果都要放回寄存器中，而对系统存储器的访问则需要通过专门的加载&#x2F;存储指令来完成。</p>
+<p>ARM微处理器的指令集可以分为跳转指令、数据处理指令、程序状态寄存器(PSR)处理指令、 加载&#x2F;存储指令、协处理器指令和异常产生指令六大类，具体的指令及功能如表所示(表中指令为基本ARM指令，不包括派生的ARM指令)。</p>
+<p><img src="https://blog.idbeny.com/tcnsj.png@normal"></p>
+<h3 id="1-4-指令的条件域"><a href="#1-4-指令的条件域" class="headerlink" title="1.4. 指令的条件域"></a>1.4. 指令的条件域</h3><p>当处理器工作在ARM状态时，几乎所有的指令均根据CPSR中条件码的状态和指令的条件域有条件的执行。当指令的执行条件满足时，指令被执行，否则指令被忽略。</p>
+<p>每一条ARM指令包含4位的条件码，位于指令的最高4位[31:28]。条件码共有16种，每种条件码可用两个字符表示，这两个字符可以添加在指令助记符的后面和指令同时使用。例如，跳转指令B 可以加上后缀EQ变为BEQ表示“相等则跳转”，即当CPSR中的Z标志置位时发生跳转。</p>
+<p>在16种条件标志码中，只有15种可以使用，如表所示，第16种(1111)为系统保留，暂时不能使用。</p>
+<p><img src="https://blog.idbeny.com/tlid3.png@normal"></p>
+<h3 id="1-5-ARM-指令的寻址方式"><a href="#1-5-ARM-指令的寻址方式" class="headerlink" title="1.5. ARM 指令的寻址方式"></a>1.5. ARM 指令的寻址方式</h3><p>所谓寻址方式就是处理器根据指令中给出的地址信息来寻找物理地址的方式。目前ARM指令系统支持如下几种常见的寻址方式。</p>
+<h4 id="1-5-1-立即寻址"><a href="#1-5-1-立即寻址" class="headerlink" title="1.5.1. 立即寻址"></a>1.5.1. 立即寻址</h4><p><img src="https://blog.idbeny.com/zg8p4.png@normal"></p>
+<h4 id="1-5-2-寄存器寻址"><a href="#1-5-2-寄存器寻址" class="headerlink" title="1.5.2. 寄存器寻址"></a>1.5.2. 寄存器寻址</h4><p><img src="https://blog.idbeny.com/7y9ku.png@normal"></p>
+<h4 id="1-5-3-寄存器间接寻址"><a href="#1-5-3-寄存器间接寻址" class="headerlink" title="1.5.3. 寄存器间接寻址"></a>1.5.3. 寄存器间接寻址</h4><p><img src="https://blog.idbeny.com/va0d1.png@normal"></p>
+<h4 id="1-5-4-基址变址寻址"><a href="#1-5-4-基址变址寻址" class="headerlink" title="1.5.4. 基址变址寻址"></a>1.5.4. 基址变址寻址</h4><p><img src="https://blog.idbeny.com/4bemo.png@normal"></p>
+<h4 id="1-5-5-多寄存器寻址"><a href="#1-5-5-多寄存器寻址" class="headerlink" title="1.5.5. 多寄存器寻址"></a>1.5.5. 多寄存器寻址</h4><p><img src="https://blog.idbeny.com/tc0fj.png@normal"></p>
+<h4 id="1-5-6-相对寻址"><a href="#1-5-6-相对寻址" class="headerlink" title="1.5.6. 相对寻址"></a>1.5.6. 相对寻址</h4><p><img src="https://blog.idbeny.com/0mxv1.png@normal"></p>
+<h4 id="1-5-7-堆栈寻址"><a href="#1-5-7-堆栈寻址" class="headerlink" title="1.5.7. 堆栈寻址"></a>1.5.7. 堆栈寻址</h4><p><img src="https://blog.idbeny.com/tqiz7.png@normal"></p>
+<h2 id="二、常见的指令"><a href="#二、常见的指令" class="headerlink" title="二、常见的指令"></a>二、常见的指令</h2><ul>
+<li>MOV</li>
+</ul>
+<p><img src="https://blog.idbeny.com/8owtf.png@normal"></p>
+<ul>
+<li>ADD</li>
+</ul>
+<p><img src="https://blog.idbeny.com/8ej1q.png@normal"></p>
+<ul>
+<li>SUB</li>
+</ul>
+<p><img src="https://blog.idbeny.com/n7isn.png@normal"></p>
+<ul>
+<li>CMP</li>
+</ul>
+<p><img src="https://blog.idbeny.com/v1eaz.png@normal"></p>
+<ul>
+<li>B</li>
+</ul>
+<p><img src="https://blog.idbeny.com/p97yr.png@normal"></p>
+<ul>
+<li>BL</li>
+</ul>
+<p><img src="https://blog.idbeny.com/x950l.png@normal"></p>
+<ul>
+<li>LDR</li>
+</ul>
+<p><img src="https://blog.idbeny.com/ejne1.png@normal"></p>
+<ul>
+<li>STR</li>
+</ul>
+<p><img src="https://blog.idbeny.com/raqt5.png@normal"></p>
+<ul>
+<li>LDR</li>
+</ul>
+<p><img src="https://blog.idbeny.com/t8xtc.png@normal"></p>
+<p>LDR用在正数寻址，LDUR用在负数寻址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldr w0, [x1, #0x10] ; 把（x1 + 0x10）的内存地址给寄存器w0</span><br><span class="line">ldur w0, [x1, #-0x20] ; 把（x1 + (-0x20) == x1 - 0x20）的内存地址给寄存器w0</span><br></pre></td></tr></table></figure>
+
+<p>LDP是从内存中读取数据，放到一对寄存器中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldp w0, w1, [x2, #0x10] ; 把（x2 + 0x10）的内存地址前4个字节放到寄存器w0中，再往后4个高地址字节给w1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>STR</li>
+</ul>
+<p><img src="https://blog.idbeny.com/cqq7q.png@normal"></p>
+<p>STR用在正数写入，STUR用在负数写入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str w0, [x1, #0x10] ; 把寄存器w0的数据写入到（x1 + 0x10）的内存地址</span><br><span class="line">stur w0, [x1, #-0x20] ; 把寄存器w0的数据写入到（x1 + (-0x20) == x1 - 0x20）的内存地址</span><br></pre></td></tr></table></figure>
+
+<p>STP是把一对寄存器的地址放到内存地址中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sdp w0, w1, [x2, #0x10] ; 把寄存器w0的数据写入到（x2 + 0x10）内存地址的前4个字节，寄存器w1的数据写入到（x2 + 0x10）内存地址的后4个字节</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>补充</li>
+</ul>
+<p>在Xcode调试的时候可能在汇编模式下看到wzr和xzr，这两个代表的是零寄存器（里面存储的值是0），在LLDB控制台是无法直接访问的。wzr（<em>word zero register</em>）是32位，xzr是64位。</p>
+<h3 id="2-1-编写汇编代码"><a href="#2-1-编写汇编代码" class="headerlink" title="2.1. 编写汇编代码"></a>2.1. 编写汇编代码</h3><p>使用Xcode创建一个<code>arm.s</code>文件（<code>.s</code>是汇编（<em>Assembly</em>）语言源程序的扩展名，全称是<code>asm</code>）。</p>
+<p>在汇编中，使用<code>;</code>表示注释。<code>.text</code>表示汇编代码存放在代码段中。<code>.global</code>可以指定函数访问权限是公开的（函数默认是私有访问），否则编译时会提示找不到对应的函数。函数使用下划线开头冒号结尾的形式，<code>ret</code>表示函数的返回，如果不写会穿透执行。立即数建议使用<code>#</code>前缀的十六进制进行表示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">.text ; 代码段</span><br><span class="line"></span><br><span class="line">.global _test ; 扩大_test的访问权限</span><br><span class="line"></span><br><span class="line">_test: ; 指令标记（汇编中没有函数的概念，但是可以按照函数进行理解）</span><br><span class="line"></span><br><span class="line">mov x0, #0x8 ; 把立即数8赋值给x0</span><br><span class="line">mov x1, #0x2 ; 把立即数2赋值给x1</span><br><span class="line">add x2, x0, x1 ; x0 + x1的结果给x2</span><br><span class="line"></span><br><span class="line">b code ; 跳转到code标签</span><br><span class="line">mov x0, #0x3 ; 由于上面的b指令，导致此处不会执行，直接往下顺序执行</span><br><span class="line">code: ; 标签code</span><br><span class="line">mov x1, #0x1</span><br><span class="line"></span><br><span class="line">cmp x0, x1 </span><br><span class="line">beq code2 ; 如果x0 == x1，就跳转到code2，否则继续往下顺序执行</span><br><span class="line">mov x0, #0x1</span><br><span class="line">code2:</span><br><span class="line">mov x1, #0x2</span><br><span class="line"></span><br><span class="line">ret ; 返回</span><br></pre></td></tr></table></figure>
+
+<p>创建一个<code>arm.h</code>头文件，用来做函数声明使用，并作为C函数调用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-LLDB寄存器读写"><a href="#2-2-LLDB寄存器读写" class="headerlink" title="2.2. LLDB寄存器读写"></a>2.2. LLDB寄存器读写</h3><p>在Xcode的LLDB控制台，可以通过register命令进行单个寄存器的读写操作。</p>
+<p><strong>写：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式：register write 寄存器 地址</span><br><span class="line">例子：register write x0 0x000000016fd1fa4c（把地址0x000000016fd1fa4c放到寄存器x0）</span><br></pre></td></tr></table></figure>
+
+<p><strong>读：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">格式：register read 寄存器（如果不写寄存器，代表读取所有通用寄存器）</span><br><span class="line">例子：register read x0（读取寄存器x0存放的内容）</span><br></pre></td></tr></table></figure>
+
+
+
+<p>OC的方法调用本质是消息转发机制，所以寄存器x0、x1并不是存储方法参数的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">objc_msgSend</span><span class="params">(<span class="type">void</span> <span class="comment">/* id self, SEL op, ... */</span> )</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一个参数是消息接收的对象实例</li>
+<li>第二个参数是执行的方法</li>
+<li>后面都是方法的参数</li>
+</ul>
+<p><img src="https://blog.idbeny.com/cwvsk.png@normal"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend(obj, @selector(show:at:), superView, indexPath);</span><br></pre></td></tr></table></figure>
+
+<p><code>po $x0</code>：打印方法调用者<br><code>x/s $x1</code>：打印方法名<br><code>po $x2</code>：打印参数（以此类推，x3、x4也可能是参数）</p>
+<p>如果是非arm64，寄存器就是r0、r1、r2。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/06/30/ios-hack-arm/" title="【iOS】iOS逆向系列九 - ARM">http://idbeny.com/2018/06/30/ios-hack-arm/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/ARM64/" rel="tag"># ARM64</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/23/ios-hack-lldb/" rel="next" title="【iOS】iOS逆向系列八 - 动态调试">
+                <i class="fa fa-chevron-left"></i> 【iOS】iOS逆向系列八 - 动态调试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/05/ios-hack-sign-01/" rel="prev" title="【iOS】iOS逆向系列十 - 签名机制（一）">
+                【iOS】iOS逆向系列十 - 签名机制（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81ARM"><span class="nav-number">1.</span> <span class="nav-text">一、ARM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-ARM-%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. ARM 微处理器的寄存器结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%A8%8B%E5%BA%8F%E7%8A%B6%E6%80%81%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 程序状态寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-ARM-%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8%E7%9A%84%E6%8C%87%E4%BB%A4%E7%9A%84%E5%88%86%E7%B1%BB%E4%B8%8E%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. ARM 微处理器的指令的分类与格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%9F%9F"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 指令的条件域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-ARM-%E6%8C%87%E4%BB%A4%E7%9A%84%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. ARM 指令的寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-1-%E7%AB%8B%E5%8D%B3%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.5.1. 立即寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-2-%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.2.</span> <span class="nav-text">1.5.2. 寄存器寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-3-%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.3.</span> <span class="nav-text">1.5.3. 寄存器间接寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-4-%E5%9F%BA%E5%9D%80%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.4.</span> <span class="nav-text">1.5.4. 基址变址寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-5-%E5%A4%9A%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.5.</span> <span class="nav-text">1.5.5. 多寄存器寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-6-%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.6.</span> <span class="nav-text">1.5.6. 相对寻址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-7-%E5%A0%86%E6%A0%88%E5%AF%BB%E5%9D%80"><span class="nav-number">1.5.7.</span> <span class="nav-text">1.5.7. 堆栈寻址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">二、常见的指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%BC%96%E5%86%99%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 编写汇编代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-LLDB%E5%AF%84%E5%AD%98%E5%99%A8%E8%AF%BB%E5%86%99"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. LLDB寄存器读写</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

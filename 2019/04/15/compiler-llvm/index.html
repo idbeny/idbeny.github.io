@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="LLVM," />
+  <meta name="keywords" content="LLVM,Clang," />
 
 
 
@@ -96,33 +96,34 @@
 
 
 
-<meta name="description" content="什么是LLVM？官网：https:&#x2F;&#x2F;llvm.org原文：The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines. T">
+<meta name="description" content="什么是LLVM？官网：https:&#x2F;&#x2F;llvm.org 翻译：LLVM项目是模块化和可重用的编译器和工具链技术的集合。尽管名为LLVM，但它与传统虚拟机几乎没有什么关系。“LLVM”这个名字本身不是一个缩写词；它是项目的全称。 创始人：Chris Lattner，也是Swift之父。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【LLVM】认识LLVM">
+<meta property="og:title" content="【LLVM】LLVM系列一 - 初识LLVM">
 <meta property="og:url" content="http://idbeny.com/2019/04/15/compiler-llvm/index.html">
 <meta property="og:site_name" content="1024星球">
-<meta property="og:description" content="什么是LLVM？官网：https:&#x2F;&#x2F;llvm.org原文：The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines. T">
+<meta property="og:description" content="什么是LLVM？官网：https:&#x2F;&#x2F;llvm.org 翻译：LLVM项目是模块化和可重用的编译器和工具链技术的集合。尽管名为LLVM，但它与传统虚拟机几乎没有什么关系。“LLVM”这个名字本身不是一个缩写词；它是项目的全称。 创始人：Chris Lattner，也是Swift之父。">
 <meta property="og:locale">
-<meta property="og:image" content="http://blog.idbeny.com/194sg.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/194sg.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/6epr5.png@normal">
 <meta property="og:image" content="http://blog.idbeny.com/zdzwv.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/tl8fw.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/nnzy7.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/agwoh.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/j7ugl.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/ftzhn.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/5o9it.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/foxuz.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/r9z3z.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/bakiw.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/ylxbq.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/ke2kw.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tl8fw.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/nnzy7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/agwoh.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/j7ugl.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ftzhn.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5o9it.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/foxuz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/r9z3z.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/bakiw.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ylxbq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ke2kw.png@normal">
 <meta property="article:published_time" content="2019-04-15T08:52:52.000Z">
-<meta property="article:modified_time" content="2020-06-03T13:30:44.563Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.793Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="LLVM">
+<meta property="article:tag" content="Clang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.idbeny.com/194sg.png@normal">
+<meta name="twitter:image" content="https://blog.idbeny.com/194sg.png@normal">
 
 
 
@@ -170,7 +171,7 @@
         border-left-color: #1E92FB;    /*左边框颜色*/
     }
 </style>
-  <title>【LLVM】认识LLVM | 1024星球</title>
+  <title>【LLVM】LLVM系列一 - 初识LLVM | 1024星球</title>
   
 
 
@@ -374,7 +375,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【LLVM】认识LLVM</h2>
+          <h2 class="post-title" itemprop="name headline">【LLVM】LLVM系列一 - 初识LLVM</h2>
         
 
         <div class="post-meta">
@@ -441,7 +442,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.6k 字
+                  1.7k 字
                 </span>
               
 
@@ -478,12 +479,12 @@
       
 
       
-        <h2 id="什么是LLVM？"><a href="#什么是LLVM？" class="headerlink" title="什么是LLVM？"></a>什么是<a target="_blank" rel="noopener" href="https://llvm.org/">LLVM</a>？</h2><h3 id="官网：https-llvm-org"><a href="#官网：https-llvm-org" class="headerlink" title="官网：https://llvm.org"></a>官网：<a target="_blank" rel="noopener" href="https://llvm.org/">https://llvm.org</a></h3><p>原文：<br><img src="http://blog.idbeny.com/194sg.png@normal"><br>The LLVM Project is a collection of modular and reusable <font style="color:red">compiler</font> and <font style="color:red">toolchain</font> technologies. Despite its name, LLVM has little to do with traditional virtual machines. The name “LLVM” itself is not an acronym; it is the full name of the project.</p>
+        <p>什么是<a target="_blank" rel="noopener" href="https://llvm.org/">LLVM</a>？官网：<a target="_blank" rel="noopener" href="https://llvm.org/">https://llvm.org</a><br><img src="https://blog.idbeny.com/194sg.png@normal"></p>
+<p>翻译：LLVM项目是模块化和可重用的编译器和工具链技术的集合。尽管名为LLVM，但它与传统虚拟机几乎没有什么关系。“LLVM”这个名字本身不是一个缩写词；它是<font style="color:red">项目的全称</font>。</p>
+<p>创始人：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%8B%E9%87%8C%E6%96%AF%C2%B7%E6%8B%89%E7%89%B9%E7%BA%B3/14187836?fr=aladdin">Chris Lattner</a>，也是<a target="_blank" rel="noopener" href="https://developer.apple.com/cn/swift/">Swift</a>之父。</p>
 <span id="more"></span>
 
-<p>翻译：LLVM项目是模块化和可重用的编译器和工具链技术的集合。尽管名为LLVM，但它与传统虚拟机几乎没有什么关系。“LLVM”这个名字本身不是一个缩写词；它是<font style="color:red">项目的全称</font>。</p>
-<p>创始人：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%8B%E9%87%8C%E6%96%AF%C2%B7%E6%8B%89%E7%89%B9%E7%BA%B3/14187836?fr=aladdin">Chris Lattner</a>，也是<a target="_blank" rel="noopener" href="https://developer.apple.com/cn/swift/">Swift</a>之父</p>
-<h3 id="一、传统的编译器架构："><a href="#一、传统的编译器架构：" class="headerlink" title="一、传统的编译器架构："></a>一、传统的编译器架构：</h3><p><img src="http://blog.idbeny.com/6epr5.png@normal"></p>
+<h2 id="一、LLVM架构"><a href="#一、LLVM架构" class="headerlink" title="一、LLVM架构"></a>一、LLVM架构</h2><h3 id="1-1-传统的编译器架构"><a href="#1-1-传统的编译器架构" class="headerlink" title="1.1. 传统的编译器架构"></a>1.1. 传统的编译器架构</h3><p><img src="http://blog.idbeny.com/6epr5.png@normal"></p>
 <ul>
 <li><p>Frontend： 前端</p>
 <ul>
@@ -501,62 +502,72 @@
 </ul>
 </li>
 </ul>
-<h3 id="二、LLVM架构"><a href="#二、LLVM架构" class="headerlink" title="二、LLVM架构"></a>二、LLVM架构</h3><p><img src="http://blog.idbeny.com/zdzwv.png@normal"></p>
+<h3 id="1-2-LLVM架构"><a href="#1-2-LLVM架构" class="headerlink" title="1.2. LLVM架构"></a>1.2. LLVM架构</h3><p>不管是什么语言，只要遵守LLVM架构规范，最终生成的中间代码格式（LLVM IR）是一样的。</p>
+<p><img src="http://blog.idbeny.com/zdzwv.png@normal"></p>
 <ul>
-<li>不同的前端后端使用同一的中间代码LLVM Intermedicate Representation（LLVM IR）</li>
-<li>如果需要支持一种新的编程语言，那么只需要实现一个新的前端</li>
-<li>如果需要支持一种新的硬件设备，那么只需要实现一个新的后端</li>
-<li>优化阶段是一个通用的阶段，它针对的是统一的LLVM IR，不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段做修改</li>
-<li>相比之下，GCC的前端和后端没分的太开，前端后端耦合在了一起，所以GCC为了支持一门新的语言，或者为了支持一个新的目标平台，就变得特别困难（排列组合形式）</li>
-<li>LLVM现在被作为实现各种静态和运行时编译语言的通用基础结构（GCC家族、Java、.NET、Python、Ruby、Scheme、Haskell、D等）</li>
+<li>不同的前端和后端使用统一的中间代码LLVM Intermedicate Representation（简称：LLVM IR）。</li>
+<li>如果需要支持一种新的编程语言，那么只需要实现一个新的前端。</li>
+<li>如果需要支持一种新的硬件设备，那么只需要实现一个新的后端。</li>
+<li>优化阶段是一个通用的阶段，它针对的是统一的LLVM IR，不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段做修改。</li>
 </ul>
-<h3 id="三、什么是Clang？"><a href="#三、什么是Clang？" class="headerlink" title="三、什么是Clang？"></a>三、什么是Clang？</h3><ul>
-<li><p>Clang是LLVM项目的一个子项目</p>
+<p>相比之下，GCC的前端和后端没分的太开，前端后端耦合在了一起，所以GCC为了支持一门新的语言，或者为了支持一个新的目标平台，就变得特别困难（排列组合形式）。</p>
+<p>LLVM现在被作为实现各种静态和运行时编译语言的通用基础结构（GCC家族、Java、.NET、Python、Ruby、Scheme、Haskell、D等）。</p>
+<h2 id="二、Clang"><a href="#二、Clang" class="headerlink" title="二、Clang"></a>二、Clang</h2><p>Clang是LLVM项目的一个子项目（官网：<a target="_blank" rel="noopener" href="http://clang.llvm.org/%EF%BC%89%EF%BC%8C%E6%98%AF%E5%9F%BA%E4%BA%8ELLVM%E6%9E%B6%E6%9E%84%E7%9A%84C/C++/Objective-C%E7%BC%96%E8%AF%91%E5%99%A8">http://clang.llvm.org/），是基于LLVM架构的C/C++/Objective-C编译器</a><font style="color:red">前端</font>。</p>
+<p>相比于GCC、Clang具有如下优点：</p>
 <ul>
-<li>给予LLVM架构的C&#x2F;C++&#x2F;Objective-C编译器<font style="color:blue">前端</font></li>
-<li>官网：<a target="_blank" rel="noopener" href="http://clang.llvm.org/">http://clang.llvm.org/</a></li>
+<li><strong>编译速度快：</strong> 在某些平台上，Clang的编译速度显著的快过GCC（Debug模式下编译OC速度比GCC快3倍）。</li>
+<li><strong>占用内存小：</strong> Clang生成的AST所占用的内存是GCC的五分之一左右。</li>
+<li><strong>模块化设计：</strong> Clang采用基于库的模块化设计，易于IDE集成及其他用途的重用。</li>
+<li><strong>诊断信息可读性强：</strong> 在编译过程中，Clang创建并保留了大量详细的元数据（metadata），有利于调试和错误定位。</li>
+<li><strong>设计清晰简单，容易理解，易于扩展增强</strong>。</li>
 </ul>
-</li>
-<li><p>相比于GCC、Clang具有如下优点：</p>
+<h3 id="2-1-Clang与LLVM"><a href="#2-1-Clang与LLVM" class="headerlink" title="2.1. Clang与LLVM"></a>2.1. Clang与LLVM</h3><p><img src="https://blog.idbeny.com/tl8fw.png@normal"></p>
 <ul>
-<li><strong>编译速度快：</strong> 在某些平台上，Clang的编译速度显著的快过GCC（Debug模式下编译OC速度比GCC快3倍）</li>
-<li><strong>占用内存小：</strong> Clang生成的AST所占用的内存是GCC的五分之一左右</li>
-<li><strong>模块化设计：</strong> Clang采用基于库的模块化设计，易于IDE集成及其他用途的重用</li>
-<li><strong>诊断信息可读性强：</strong> 在编译过程中，Clang创建并保留了大量详细的元数据（metadata），有利于调试和错误定位</li>
-<li><strong>设计清晰简单，容易理解，易于扩展增强</strong></li>
-</ul>
+<li><p><strong>广义的LLVM：</strong> 整个LLVM架构（前端和后端）。</p>
+</li>
+<li><p><strong>狭义的LLVM：</strong> LLVM后端（代码优化、目标代码生成等）。</p>
 </li>
 </ul>
-<h3 id="四、Clang与LLVM"><a href="#四、Clang与LLVM" class="headerlink" title="四、Clang与LLVM"></a>四、Clang与LLVM</h3><p><img src="http://blog.idbeny.com/tl8fw.png@normal"><br><img src="http://blog.idbeny.com/nnzy7.png@normal"></p>
-<ul>
-<li><p><strong>广义的LLVM：</strong> 整个LLVM架构</p>
-</li>
-<li><p><strong>狭义的LLVM：</strong> LLVM后端（代码优化、目标代码生成等）</p>
-</li>
-</ul>
-<h3 id="五、OC源文件的编译过程"><a href="#五、OC源文件的编译过程" class="headerlink" title="五、OC源文件的编译过程"></a>五、OC源文件的编译过程</h3><ol>
-<li><p>尝试编译main.m<br><img src="http://blog.idbeny.com/agwoh.png@normal"></p>
-</li>
-<li><p>命令行查看编译的过程：<code>$ clang -ccc-pring-phases main.m</code><br><img src="http://blog.idbeny.com/j7ugl.png@normal"></p>
-</li>
+<p>如果想要自己优化中间代码，只需要插入一段Pass就可以。</p>
+<p><img src="https://blog.idbeny.com/nnzy7.png@normal"></p>
+<h3 id="2-2-OC源文件的编译过程"><a href="#2-2-OC源文件的编译过程" class="headerlink" title="2.2. OC源文件的编译过程"></a>2.2. OC源文件的编译过程</h3><ol>
+<li>尝试编译<code>main.m</code></li>
 </ol>
+<p><img src="https://blog.idbeny.com/agwoh.png@normal"></p>
+<ol start="2">
+<li>命令行查看编译的过程：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -ccc-pring-phases main.m</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://blog.idbeny.com/j7ugl.png@normal"></p>
 <ul>
 <li><strong>input：</strong> 输入源文件</li>
 <li><strong>preprocessor：</strong> 预处理器（把import、include、define等替换掉）</li>
 <li><strong>compiler：</strong> 编译成中间代码（IR）</li>
-<li><strong>backend：</strong> 汇编生成目标代码</li>
-<li><strong>assembler：</strong> 目标代码</li>
+<li><strong>backend：</strong> 生成汇编代码</li>
+<li><strong>assembler：</strong> 生成目标代码</li>
 <li><strong>linker：</strong> 链接动态库和静态库</li>
 <li><strong>bind-arch：</strong> 生成适合对应架构的机器码</li>
 </ul>
 <ol start="3">
-<li><p>查看preprocessor（预处理）的结果，为了方边查看，我们把main文件改造下<br><img src="http://blog.idbeny.com/ftzhn.png@normal"></p>
+<li><p>查看preprocessor（预处理）的结果，为了方边查看，我们把main文件改造下<br><img src="https://blog.idbeny.com/ftzhn.png@normal"></p>
 </li>
-<li><p>控制台输入命令：<code>$ clang -E main.m</code><br><img src="http://blog.idbeny.com/5o9it.png@normal"><br>可以看到，已经把宏定义的AGE自动替换了</p>
+<li><p>控制台输入命令后就可以看到，已经把宏定义的AGE自动替换了。</p>
 </li>
 </ol>
-<h3 id="六、词法分析"><a href="#六、词法分析" class="headerlink" title="六、词法分析"></a>六、词法分析</h3><p>词法分析，其实就是把代码生成一个个token：<code>$ clang -fmodules -E -Xclang -dump-tokens main.m</code><br><img src="http://blog.idbeny.com/foxuz.png@normal"></p>
-<h3 id="七、语法树-AST"><a href="#七、语法树-AST" class="headerlink" title="七、语法树-AST"></a>七、语法树-AST</h3><p>语法分析，生成语法树（AST，Abstract Syntax Tree）：<code>$ clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</code><br><img src="http://blog.idbeny.com/r9z3z.png@normal"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -E main.m</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/5o9it.png@normal"></p>
+<h3 id="2-3-词法分析"><a href="#2-3-词法分析" class="headerlink" title="2.3. 词法分析"></a>2.3. 词法分析</h3><p>词法分析，其实就是把代码生成一个个token。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -fmodules -E -Xclang -dump-tokens main.m</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://blog.idbeny.com/foxuz.png@normal"></p>
+<h3 id="2-4-语法树"><a href="#2-4-语法树" class="headerlink" title="2.4. 语法树"></a>2.4. 语法树</h3><p>语法分析，生成语法树（<em>Abstract Syntax Tree</em>，缩写：AST），其实就是把词法分析的结果拼接起来。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -fmodules -fsyntax-only -Xclang -ast-dump main.m</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/r9z3z.png@normal"></p>
 <ul>
 <li><strong>FunctionDecl：</strong> 函数声明</li>
 <li><strong>ParmVarDecl：</strong> 参数声明</li>
@@ -564,69 +575,78 @@
 <li><strong>VarDecl：</strong> 变量声明</li>
 <li><strong>BinaryOperator：</strong> 操作符</li>
 </ul>
-<h3 id="八、LLVM-IR"><a href="#八、LLVM-IR" class="headerlink" title="八、LLVM IR"></a>八、LLVM IR</h3><p>LLVM IR有3中表示形式（但本质是等价的，就好比水可以有气体、液体、固体3种形态）</p>
+<h3 id="2-5-LLVM-IR"><a href="#2-5-LLVM-IR" class="headerlink" title="2.5. LLVM IR"></a>2.5. LLVM IR</h3><p>LLVM IR有3中表示形式（但本质是等价的，就好比水可以有气体、液体、固体3种形态）：</p>
 <ul>
-<li>text：便于阅读的文本格式，类似于汇编语言，扩展名<code>.ll</code>（<code>$ clang -S -emit-llvm main.m</code>）</li>
-<li>memory：内存格式</li>
-<li>bitcode：二进制格式，扩展名<code>.bc</code>（<code>$clang -c -emit-llvm main.m</code>）</li>
-</ul>
-<p>源代码<br><img src="http://blog.idbeny.com/bakiw.png@normal"><br>命令：<code>$ clang -S -emit-llvm main.m</code><br>生成main.ll文件<br><img src="http://blog.idbeny.com/ylxbq.png@normal"></p>
-<p><strong>IR基本语法</strong></p>
-<ul>
-<li>注释以分号;开头</li>
-<li>全局标识符以@开头，局部标识符以%开头</li>
-<li>alloca，在当前函数栈帧中分配内存</li>
-<li>i32，32bit，4个字节的意思</li>
-<li>align，内存对齐</li>
-<li>store，写入数据</li>
-<li>load，读取数据</li>
-</ul>
-<p><strong>官方语法参考</strong><br><a target="_blank" rel="noopener" href="https://llvm.org/docs/LangRef.html">https://llvm.org/docs/LangRef.html</a></p>
-<h3 id="九、源码下载"><a href="#九、源码下载" class="headerlink" title="九、源码下载"></a>九、源码下载</h3><ol>
-<li><p>下载LLVM（大小795MB，仅供参考）：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:<span class="regexp">//gi</span>t.llvm.org<span class="regexp">/git/</span>llvm.git/</span><br></pre></td></tr></table></figure>
+<li><p><strong>text</strong>：便于阅读的文本格式，类似于汇编语言，扩展名<code>.ll</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -S -emit-llvm main.m</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>下载Clang（一定要等到LLVM下载完成后再操作，大小272.4MB，仅供参考）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm/tools</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://git.llvm.org/git/clang.git/</span></span><br></pre></td></tr></table></figure>
+<li><p><strong>memory</strong>：内存格式</p>
 </li>
-<li><p>Clang没有下载的时候，为什么也能使用？是因为Xcode内置了该工具<br><img src="http://blog.idbeny.com/ke2kw.png@normal"><br>之所以再次下载，是为了我们能够编译成自己需要的Clang（定制化）</p>
+<li><p><strong>bitcode</strong>：二进制格式，扩展名<code>.bc</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">clang -c -emit-llvm main.m</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li><p>编写<code>main.m</code>源代码<br><img src="https://blog.idbeny.com/bakiw.png@normal"></p>
+</li>
+<li><p>输入命令，生成<code>main.ll</code>文件</p>
 </li>
 </ol>
-<h3 id="十、源码编译"><a href="#十、源码编译" class="headerlink" title="十、源码编译"></a>十、源码编译</h3><ol>
-<li>安装cmake和ninja（先安装brew，<a target="_blank" rel="noopener" href="https://brew.sh/%EF%BC%89">https://brew.sh/）</a><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">brew </span><span class="keyword">install </span>cmake</span><br><span class="line">$ <span class="keyword">brew </span><span class="keyword">install </span>ninja</span><br></pre></td></tr></table></figure></li>
-</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">clang -S -emit-llvm main.m</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://blog.idbeny.com/ylxbq.png@normal"></p>
+<p><strong>IR基本语法：</strong></p>
 <ul>
-<li>ninja如果安装失败，可以直接从<a target="_blank" rel="noopener" href="https://github.com/ninja-build/ninja/release">Github</a>获取release版本放入<code>/usr/local/bin</code></li>
+<li>注释以分号<code>;</code>开头</li>
+<li>全局标识符以<code>@</code>开头，局部标识符以<code>%</code>开头</li>
+<li><code>alloca</code>：在当前函数栈帧中分配内存（创建局部变量）</li>
+<li><code>i32</code>，<code>32bit</code>：4个字节</li>
+<li><code>align</code>：内存对齐</li>
+<li><code>store</code>：写入数据</li>
+<li><code>load</code>：读取数据</li>
 </ul>
+<p><strong>官方语法参考</strong>：<a target="_blank" rel="noopener" href="https://llvm.org/docs/LangRef.html">https://llvm.org/docs/LangRef.html</a></p>
+<h2 id="三、源码"><a href="#三、源码" class="headerlink" title="三、源码"></a>三、源码</h2><h3 id="3-1-源码下载"><a href="#3-1-源码下载" class="headerlink" title="3.1. 源码下载"></a>3.1. 源码下载</h3><ol>
+<li><p>下载LLVM（大概795MB）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://git.llvm.org/git/llvm.git/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载Clang（一定要等到LLVM下载完成后再操作，因为Clang要在LLVM项目下面的tools文件夹中下载。大概272.4MB）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm/tools</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://git.llvm.org/git/clang.git/</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>Clang没有下载的时候，为什么也能使用？是因为Xcode内置了该工具。之所以再次下载，是为了能够编译出自己的编译器（定制化）。</p>
+<p><img src="https://blog.idbeny.com/ke2kw.png@normal"></p>
+<h3 id="3-2-源码编译"><a href="#3-2-源码编译" class="headerlink" title="3.2. 源码编译"></a>3.2. 源码编译</h3><ol>
+<li><p>安装cmake和ninja（先安装brew，<a target="_blank" rel="noopener" href="https://brew.sh/%EF%BC%89%EF%BC%8C%E8%BF%99%E4%B8%AA%E5%B7%A5%E5%85%B7%E6%98%AF%E4%B8%BA%E4%BA%86%E5%BF%AB%E9%80%9F%E7%BC%96%E8%AF%91LLVM%E3%80%82">https://brew.sh/），这个工具是为了快速编译LLVM。</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">brew install cmake</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">brew install ninja</span></span><br></pre></td></tr></table></figure>
+<p>如果ninja安装失败，可以直接从<a target="_blank" rel="noopener" href="https://github.com/ninja-build/ninja/release">Github</a>获取release版本，然后放入<code>/usr/local/bin</code>。</p>
+</li>
+<li><p>生成模板：在LLVM源码同级目录下新建一个<code>llvm_build</code>目录（最终会在<code>llvm_build</code>目录下生成<code>build.ninja</code>）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm_build</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cmake -G Ninja ../llvm -DCMAKE_INSTALL_PREFIX=最终LLVM的安装路径（比如：../llvm_release）</span></span><br></pre></td></tr></table></figure>
+<p>更多cmake相关选项，可以参考：<a target="_blank" rel="noopener" href="https://llvm.org/docs/CMake.html%E3%80%82">https://llvm.org/docs/CMake.html。</a></p>
+</li>
+<li><p>执行编译指令（编译完毕后，<code>llvm_build</code>目录大概21.05GB）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ninja</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行安装指令（生成的文件在<code>llvm_release</code>目录，安装完毕后，安装目录大概11.92GB）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ninja install</span></span><br></pre></td></tr></table></figure>
+<p>完成之后在可以看到clang执行文件（<code>llvm_release/bin/clang</code>）。</p>
+</li>
+</ol>
+<p><strong>另外一种编译方式（使用Xcode）</strong>：</p>
+<ol>
+<li>生成Xcode项目（速度很慢很慢很慢……）。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm_xcode</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cmake -G XCODE ../llvm -DCMAKE_INSTALL_PREFIX=最终LLVM的安装路径（比如：../llvm_xcode）</span></span><br></pre></td></tr></table></figure>
 <ol start="2">
-<li>生成模板：在LLVM源码同级目录下新建一个<code>llvm_build</code>目录（最终会在<code>llvm_build</code>目录下生成<code>build.ninja</code>）<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm_build</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cmake -G Ninja ../llvm -DCMAKE_INSTALL_PREFIX=LLVM的安装路径</span></span><br></pre></td></tr></table></figure></li>
+<li>生成之后，可以看到执行文件，用Xcode打开之后选择Scheme名称为<code>ALL_BUILD</code>的项目，开始编译，之后在<code>llvm_xcode/Debug/bin</code>可以看到编译后的文件。</li>
 </ol>
+<h2 id="四、应用与实践"><a href="#四、应用与实践" class="headerlink" title="四、应用与实践"></a>四、应用与实践</h2><p><strong>LLVM相关工具：</strong>libclang、libTooling</p>
 <ul>
-<li>更多cmake相关选项，可以参考：<a target="_blank" rel="noopener" href="https://llvm.org/docs/CMake.html">https://llvm.org/docs/CMake.html</a></li>
-</ul>
-<ol start="3">
-<li><p>执行编译指令（编译完毕后，<code>llvm_build</code>目录大概21.05GB（仅供参考））</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>ninja</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行安装指令（在<code>llvm_build</code>同级目录创建一个<code>llvm_release</code>目录，安装完毕后，安装目录大概11.92GB（仅供参考））</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ninja <span class="keyword">install</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li>完成之后在可以看到clang执行文件（<code>llvm_release/bin/clang</code>）</li>
-</ul>
-<hr>
-<ol start="5">
-<li>另外一种编译方式：生成Xcode项目，然后用Xcode编译（速度很慢很慢很慢~）<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm_build</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cmake -G Ninja ../llvm -DCMAKE_INSTALL_PREFIX=LLVM的安装路径</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li>新建<code>llvm_xcode</code>目录<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm_xcode</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cmake -G XCODE ../llvm -DCMAKE_INSTALL_PREFIX=LLVM的安装路径</span></span><br></pre></td></tr></table></figure></li>
-<li>生成之后，可以看到执行文件，用Xcode打开之后选择Scheme<code>ALL_BUILD</code>，开始编译，之后在<code>llvm_xcode/Debug/bin</code>可以看到编译后的文件。</li>
-</ul>
-<h3 id="十一、应用与实践"><a href="#十一、应用与实践" class="headerlink" title="十一、应用与实践"></a>十一、应用与实践</h3><h4 id="LLVM相关工具：libclang、libTooling"><a href="#LLVM相关工具：libclang、libTooling" class="headerlink" title="LLVM相关工具：libclang、libTooling"></a>LLVM相关工具：libclang、libTooling</h4><ul>
 <li>官方参考：<a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/Tooling.html">https://clang.llvm.org/docs/Tooling.html</a></li>
 <li>应用场景：语法树分析、语言转换等</li>
 </ul>
-<h4 id="Clang插件开发"><a href="#Clang插件开发" class="headerlink" title="Clang插件开发"></a>Clang插件开发</h4><ul>
+<p><strong>Clang插件开发：</strong></p>
+<ul>
 <li>官方参考【如何开发一个Clang插件】：<ul>
 <li><a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/ClangPlugins.html">https://clang.llvm.org/docs/ClangPlugins.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/ExternalClangExamples.html">https://clang.llvm.org/docs/ExternalClangExamples.html</a></li>
@@ -635,7 +655,8 @@
 </li>
 <li>应用场景：代码检查（命名规范，代码规范）等</li>
 </ul>
-<h4 id="Pass开发"><a href="#Pass开发" class="headerlink" title="Pass开发"></a>Pass开发</h4><ul>
+<p><strong>Pass开发：</strong></p>
+<ul>
 <li>官方参考【如何进行代码优化】：<a target="_blank" rel="noopener" href="https://llvm.org/docs/WritingAnLLVMPass.html">https://llvm.org/docs/WritingAnLLVMPass.html</a></li>
 <li>应用场景：代码优化，代码混淆等</li>
 <li>开发新的编程语言<ul>
@@ -664,7 +685,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://idbeny.com/2019/04/15/compiler-llvm/" title="【LLVM】认识LLVM">http://idbeny.com/2019/04/15/compiler-llvm/</a>
+    <a href="http://idbeny.com/2019/04/15/compiler-llvm/" title="【LLVM】LLVM系列一 - 初识LLVM">http://idbeny.com/2019/04/15/compiler-llvm/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -681,6 +702,8 @@
           
             <a href="/tags/LLVM/" rel="tag"># LLVM</a>
           
+            <a href="/tags/Clang/" rel="tag"># Clang</a>
+          
         </div>
       
 
@@ -692,8 +715,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/07/ios-loadview/" rel="next" title="【iOS】loadView原理">
-                <i class="fa fa-chevron-left"></i> 【iOS】loadView原理
+              <a href="/2018/10/26/ios-oc-performance/" rel="next" title="【iOS】OC底层系列十八 - 性能优化">
+                <i class="fa fa-chevron-left"></i> 【iOS】OC底层系列十八 - 性能优化
               </a>
             
           </div>
@@ -702,8 +725,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/16/compiler-llvm-clang/" rel="prev" title="【LLVM】clang插件开发">
-                【LLVM】clang插件开发 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/16/compiler-llvm-clang/" rel="prev" title="【LLVM】LLVM系列二 - Clang插件开发">
+                【LLVM】LLVM系列二 - Clang插件开发 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -781,7 +804,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-count">197</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -792,7 +815,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -803,7 +826,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-count">285</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -873,7 +896,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFLLVM%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是LLVM？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E7%BD%91%EF%BC%9Ahttps-llvm-org"><span class="nav-number">1.1.</span> <span class="nav-text">官网：https:&#x2F;&#x2F;llvm.org</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BC%A0%E7%BB%9F%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">一、传统的编译器架构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81LLVM%E6%9E%B6%E6%9E%84"><span class="nav-number">1.3.</span> <span class="nav-text">二、LLVM架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFClang%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">三、什么是Clang？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81Clang%E4%B8%8ELLVM"><span class="nav-number">1.5.</span> <span class="nav-text">四、Clang与LLVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81OC%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.6.</span> <span class="nav-text">五、OC源文件的编译过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">1.7.</span> <span class="nav-text">六、词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E8%AF%AD%E6%B3%95%E6%A0%91-AST"><span class="nav-number">1.8.</span> <span class="nav-text">七、语法树-AST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E3%80%81LLVM-IR"><span class="nav-number">1.9.</span> <span class="nav-text">八、LLVM IR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.10.</span> <span class="nav-text">九、源码下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91"><span class="nav-number">1.11.</span> <span class="nav-text">十、源码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.12.</span> <span class="nav-text">十一、应用与实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LLVM%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7%EF%BC%9Alibclang%E3%80%81libTooling"><span class="nav-number">1.12.1.</span> <span class="nav-text">LLVM相关工具：libclang、libTooling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Clang%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">1.12.2.</span> <span class="nav-text">Clang插件开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pass%E5%BC%80%E5%8F%91"><span class="nav-number">1.12.3.</span> <span class="nav-text">Pass开发</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81LLVM%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">一、LLVM架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%BC%A0%E7%BB%9F%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8%E6%9E%B6%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 传统的编译器架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-LLVM%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. LLVM架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Clang"><span class="nav-number">2.</span> <span class="nav-text">二、Clang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Clang%E4%B8%8ELLVM"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. Clang与LLVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-OC%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. OC源文件的编译过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E8%AF%AD%E6%B3%95%E6%A0%91"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 语法树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-LLVM-IR"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. LLVM IR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%BA%90%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">三、源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 源码下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 源码编译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">四、应用与实践</span></a></li></ol></div>
             
 
           </div>

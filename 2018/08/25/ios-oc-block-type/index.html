@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,底层,block,block的类型," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="一、block的类型block既然有isa指针，那就说明block是一个OC对象，而isa也会指向block所属的对象类型。 block有3种类型，可以通过调用class方法或者isa指针查看具体类型，最终都是继承自NSBlock类型，同时NSBlock又继承自NSObject（block中的isa本质上就是继承自NSObject的isa）。  __NSGlobalBlock__ （ _NSC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】OC底层系列六 - block的类型">
+<meta property="og:url" content="http://idbeny.com/2018/08/25/ios-oc-block-type/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="一、block的类型block既然有isa指针，那就说明block是一个OC对象，而isa也会指向block所属的对象类型。 block有3种类型，可以通过调用class方法或者isa指针查看具体类型，最终都是继承自NSBlock类型，同时NSBlock又继承自NSObject（block中的isa本质上就是继承自NSObject的isa）。  __NSGlobalBlock__ （ _NSC">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/qf83r.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3e375.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/o43u1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/fnu4r.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/u57p5.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pgcwr.png@normal">
+<meta property="article:published_time" content="2018-08-25T03:03:50.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.803Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层">
+<meta property="article:tag" content="block">
+<meta property="article:tag" content="block的类型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/qf83r.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/08/25/ios-oc-block-type/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】OC底层系列六 - block的类型 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/25/ios-oc-block-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】OC底层系列六 - block的类型</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-25T11:03:50+08:00">
+                2018-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <span id="more"></span>
+
+<h2 id="一、block的类型"><a href="#一、block的类型" class="headerlink" title="一、block的类型"></a>一、block的类型</h2><p>block既然有isa指针，那就说明block是一个OC对象，而isa也会指向block所属的对象类型。</p>
+<p>block有3种类型，可以通过调用<code>class</code>方法或者<code>isa</code>指针查看具体类型，最终都是继承自<code>NSBlock</code>类型，同时<code>NSBlock</code>又继承自<code>NSObject</code>（block中的isa本质上就是继承自NSObject的isa）。</p>
+<ul>
+<li><strong><code>__NSGlobalBlock__</code></strong> （<code> _NSConcreteGlobalBlock</code>）</li>
+<li><strong><code>__NSStackBlock__</code></strong> （<code> _NSConcreteStackBlock</code>）</li>
+<li><strong><code>__NSMallocBlock__</code></strong> （<code>_NSConcreteMallocBlock</code>）</li>
+</ul>
+<p>不同类型的block存储的内存区域也不一样。<code>_NSConcreteGlobalBlock</code>存储在数据段（也叫全局区），<code>_NSConcreteMallocBlock</code>存储在堆段中，<code>_NSConcreteStackBlock</code>存放在栈段中。</p>
+<p><img src="https://blog.idbeny.com/qf83r.png@normal"></p>
+<p>为了方便研究block的真实类型，我们把ARC关掉。因为ARC会帮助我们处理很多逻辑，导致无法看到block的真实类型。</p>
+<p><img src="https://blog.idbeny.com/3e375.png@normal"></p>
+<p>环境不同会造成block类型有所差异。</p>
+<p><img src="https://blog.idbeny.com/o43u1.png@normal"></p>
+<h3 id="3-1-NSGlobalBlock"><a href="#3-1-NSGlobalBlock" class="headerlink" title="3.1. NSGlobalBlock"></a>3.1. NSGlobalBlock</h3><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">int b = 20;</span><br><span class="line">static int c = 30;</span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // 1. 没有访问任何外部变量</span><br><span class="line">        void (^block)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block.&quot;);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 2. 访问静态局部变量</span><br><span class="line">        static int a = 10;</span><br><span class="line">        void (^block1)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. a = %d&quot;, a);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block1 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 3. 访问全局变量</span><br><span class="line">        void (^block2)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. b = %d&quot;, b);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block2 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 4. 访问静态全局变量</span><br><span class="line">        void (^block3)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. c = %d&quot;, c);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block3 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">    &#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面示例代码中的block有3种情况：没有访问任何外部变量、访问的是静态局部变量、访问的是全局变量。最终显示block的类型是<code>__NSGlobalBlock__</code>。</p>
+<p><strong>总结：没有访问auto变量的block类型是<code>__NSGlobalBlock__</code>。</strong></p>
+<h3 id="3-2-NSStackBlock"><a href="#3-2-NSStackBlock" class="headerlink" title="3.2. NSStackBlock"></a>3.2. NSStackBlock</h3><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // 访问局部变量</span><br><span class="line">      	int a = 10;</span><br><span class="line">        void (^block)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. a = %d&quot;, a);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">      	// 输出：__NSStackBlock__</span><br><span class="line">		&#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：上面的代码在MRC环境下显示block的类型是<code>__NSStackBlock__</code>，ARC环境下的block类型是<code>__NSMallocBlock__</code>，因为访问auto变量的block被一个强指针所引用，会自动进行copy操作。</p>
+</blockquote>
+<p>上面示例代码中的block是<code>__NSStackBlock__</code>类型，也就是放在栈段中的。</p>
+<p>疑问：栈中的block不会被释放么？看下面的示例代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void);</span><br><span class="line">void test() &#123;</span><br><span class="line">    int a = 10;</span><br><span class="line">    block = ^&#123;</span><br><span class="line">        NSLog(@&quot;a = %d&quot;, a);</span><br><span class="line">    &#125;;</span><br><span class="line">  	NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">  	// 输出：__NSStackBlock__</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        test();</span><br><span class="line">        block();</span><br><span class="line">      	// 输出：a = -272632776</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>栈中的数据会随着函数调用的结束而释放内存，当执行test函数时，外部的block变量指向test函数中定义的block，而block的执行体本质上是一个被封装的函数地址，而block又被定义在栈中，所以test函数执行结束后，定义的block是会被释放的，外部的block变量指向的就是一块被释放的内存地址。</p>
+<p>为了避免栈中的block被释放导致程序错误，我们可以尝试把栈中的block放到堆中，让block成为<code>__NSMallocBlock__</code>类型。</p>
+<h3 id="3-3-NSMallocBlock"><a href="#3-3-NSMallocBlock" class="headerlink" title="3.3. NSMallocBlock"></a>3.3. NSMallocBlock</h3><p>只要把<code>__NSStackBlock__</code>类型的block进行<code>copy</code>操作，block就会变成<code>__NSMallocBlock__</code>类型（放到堆段）。</p>
+<p>修改test函数中的block：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void test() &#123;</span><br><span class="line">    int a = 10;</span><br><span class="line">    block = [^&#123;</span><br><span class="line">        NSLog(@&quot;a = %d&quot;, a);</span><br><span class="line">    &#125; copy];</span><br><span class="line">  	NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">  	// 输出：__NSMallocBlock__</span><br><span class="line">&#125;</span><br><span class="line">// 调用block输出：a = 10</span><br></pre></td></tr></table></figure>
+
+<p>上面函数中的block进行copy操作后变成了<code>__NSMallocBlock__</code>类型。</p>
+<blockquote>
+<p>注意：如果是MRC情况下进行的copy，需要手动进行释放操作。ARC环境下会自动释放。</p>
+</blockquote>
+<h2 id="二、block的copy"><a href="#二、block的copy" class="headerlink" title="二、block的copy"></a>二、block的copy</h2><p>只有<code>__NSStackBlock__</code>类型的block进行copy后会变成<code>__NSMallocBlock__</code>类型，其他类型的block进行copy后基本保持原样不动。</p>
+<p><img src="https://blog.idbeny.com/fnu4r.png@normal"></p>
+<p>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上，比如以下情况：</p>
+<ul>
+<li>block作为函数返回值时</li>
+<li>将block赋值给<code>__strong</code>指针时</li>
+<li>block作为Cocoa API中方法名含有usingBlock的方法参数时（例如，数组排序的方法）</li>
+<li>block作为GCD API的方法参数时</li>
+</ul>
+<p>MRC下block属性的建议写法（只有使用copy修饰符才能让栈上的block被copy到堆上）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (copy, nonatomic) void (^block)(void);</span><br></pre></td></tr></table></figure>
+
+<p>ARC下block属性的建议写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (strong, nonatomic) void (^block)(void);</span><br><span class="line">@property (copy, nonatomic) void (^block)(void);</span><br></pre></td></tr></table></figure>
+
+<p>虽然在ARC环境下block使用<code>strong</code>和<code>copy</code>进行修饰基本没有区别，但为了统一写法，建议使用<code>copy</code>修饰符。</p>
+<h3 id="2-1-对象类型的auto变量"><a href="#2-1-对象类型的auto变量" class="headerlink" title="2.1. 对象类型的auto变量"></a>2.1. 对象类型的auto变量</h3><p>当block内部访问了对象类型的auto变量时：</p>
+<ul>
+<li>如果block是在栈上，将不会对auto变量产生强引用。</li>
+<li>如果block被拷贝到堆上，会自动调用block内部的copy函数，copy函数内部会调用<code>_Block_object_assign</code>函数，<code>_Block_object_assign</code>函数会根据auto变量的修饰符（<code>__strong</code>、<code>__weak</code>、<code>__unsafe_unretained</code>）做出相应的操作，形成强引用（retain）或者弱引用。</li>
+<li>如果block从堆上移除，会自动调用block内部的<code>dispose</code>函数，<code>dispose</code>函数内部会调用<code>_Block_object_dispose</code>函数，<code>_Block_object_dispose</code>函数会自动释放引用的auto变量（release）。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/u57p5.png@normal"></p>
+<p>默认引用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;        </span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">            NSLog(@&quot;1&quot;);</span><br><span class="line">            block = ^&#123;</span><br><span class="line">                NSLog(@&quot;this is a block. person.name = %@&quot;, person.name);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        NSLog(@&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">  </span><br><span class="line">    /* </span><br><span class="line">     输出：</span><br><span class="line">     1</span><br><span class="line">     2</span><br><span class="line">     DBPerson dealloc</span><br><span class="line">     3</span><br><span class="line">     */</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下或使用<code>__strong</code>时，block会对person进行强引用，直到block的出了作用域，person才会被释放。主要是因为block被外面的block指针强引用了，导致block暂时不会被释放，直到block所在作用域结束后才会释放block，紧接着person会被释放。</p>
+<p>使用<code>__weak</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;        </span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">            __weak DBPerson *weakPerson = person;</span><br><span class="line">            NSLog(@&quot;1&quot;);</span><br><span class="line">            block = ^&#123;</span><br><span class="line">                NSLog(@&quot;this is a block. person.name = %@&quot;, weakPerson.name);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">      	block();</span><br><span class="line">        NSLog(@&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">    </span><br><span class="line">    /* </span><br><span class="line">     输出：</span><br><span class="line">     1</span><br><span class="line">     DBPerson dealloc</span><br><span class="line">     this is a block. person.name = (null)</span><br><span class="line">     2</span><br><span class="line">     3</span><br><span class="line">     */</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>转C++：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> impl;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span>* Desc;</span><br><span class="line">  DBPerson *__weak weakPerson;</span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, <span class="keyword">struct</span> __main_block_desc_0 *desc, DBPerson *__weak _weakPerson, <span class="type">int</span> flags=<span class="number">0</span>) : <span class="built_in">weakPerson</span>(_weakPerson) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_func_0(<span class="keyword">struct</span> __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  DBPerson *__weak weakPerson = __cself-&gt;weakPerson; <span class="comment">// bound by copy</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_2, ((NSString *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)weakPerson, <span class="built_in">sel_registerName</span>(<span class="string">&quot;name&quot;</span>)));</span><br><span class="line">            &#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_copy_0(<span class="keyword">struct</span> __main_block_impl_0*dst, <span class="keyword">struct</span> __main_block_impl_0*src) &#123;_Block_object_assign((<span class="type">void</span>*)&amp;dst-&gt;weakPerson, (<span class="type">void</span>*)src-&gt;weakPerson, <span class="number">3</span><span class="comment">/*BLOCK_FIELD_IS_OBJECT*/</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_dispose_0(<span class="keyword">struct</span> __main_block_impl_0*src) &#123;_Block_object_dispose((<span class="type">void</span>*)src-&gt;weakPerson, <span class="number">3</span><span class="comment">/*BLOCK_FIELD_IS_OBJECT*/</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span> &#123;</span><br><span class="line">  <span class="type">size_t</span> reserved;</span><br><span class="line">  <span class="type">size_t</span> Block_size;</span><br><span class="line">  <span class="built_in">void</span> (*copy)(<span class="keyword">struct</span> __main_block_impl_0*, <span class="keyword">struct</span> __main_block_impl_0*);</span><br><span class="line">  <span class="built_in">void</span> (*dispose)(<span class="keyword">struct</span> __main_block_impl_0*);</span><br><span class="line">&#125; __main_block_desc_0_DATA = &#123; <span class="number">0</span>, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = ((DBPerson *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)((DBPerson *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)<span class="built_in">objc_getClass</span>(<span class="string">&quot;DBPerson&quot;</span>), <span class="built_in">sel_registerName</span>(<span class="string">&quot;alloc&quot;</span>)), <span class="built_in">sel_registerName</span>(<span class="string">&quot;init&quot;</span>));</span><br><span class="line">            ((<span class="built_in">void</span> (*)(id, SEL, NSString * _Nonnull))(<span class="type">void</span> *)objc_msgSend)((id)person, <span class="built_in">sel_registerName</span>(<span class="string">&quot;setName:&quot;</span>), (NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_0);</span><br><span class="line">            __attribute__((<span class="built_in">objc_ownership</span>(weak))) DBPerson *weakPerson = person;</span><br><span class="line">            <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_1);</span><br><span class="line">            block = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA, weakPerson, <span class="number">570425344</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line">        <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_3);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_4);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新创建的<code>weakPerson</code>指针使用<code>__weak</code>修饰，在block内部引用的<code>person</code>也是使用<code>weak</code>修饰的（弱引用），所以出了<code>person</code>所在作用域后<code>person</code>就会被释放，因为没有任何指针强引用它，此时执行block就会找不到<code>person</code>。</p>
+<p>注意：如果OC代码含有<code>__weak</code>，在使用clang转换为C++代码时，可能会遇到以下问题：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cannot <span class="keyword">create</span> __weak <span class="keyword">reference</span> <span class="keyword">in</span> file <span class="keyword">using</span> manual <span class="keyword">reference</span></span><br></pre></td></tr></table></figure>
+
+<p>解决方案：支持ARC、指定运行时系统版本，比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-8.0.0 main.m</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、-block修饰符"><a href="#三、-block修饰符" class="headerlink" title="三、__block修饰符"></a>三、__block修饰符</h2><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">block();</span><br></pre></td></tr></table></figure>
+
+<p>疑问：可以在block执行体内修改外面变量age的值么？</p>
+<p>解答：不可以。首先编译器会报错。其次，在block内部是把age传入当做值传入的，和外面的age不是同一个变量（不是同一个内存地址）。</p>
+<p>如果要想在block内部修改age的值，可以把变量修改为静态变量，如<code>static int age = 10</code>，或者把age变为全局变量。因为这样的做法会让block内部的变量和外部变量是同一个内存地址。</p>
+<p>但是有时候使用上面的做法会让代码变得难以维护，有其他更好的办法么？有，在变量前面加上修饰符<code>__block</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__block int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">		age = 20;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">block();</span><br><span class="line">// 输出：age is 20</span><br></pre></td></tr></table></figure>
+
+<p><code>__block</code>可以用于解决block内部无法修改auto变量值的问题。<code>__block</code>不能修饰全局变量、静态变量（static）。编译器会将<code>__block</code>变量包装成一个对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// age被包装成对象</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_age_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_age_0 *__forwarding; <span class="comment">// 指向的是自己</span></span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="type">int</span> age; <span class="comment">// 原来的age值</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> impl;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span>* Desc;</span><br><span class="line">  <span class="comment">// 捕获的是包装后的age</span></span><br><span class="line">  __Block_byref_age_0 *age; <span class="comment">// by ref</span></span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, <span class="keyword">struct</span> __main_block_desc_0 *desc, __Block_byref_age_0 *_age, <span class="type">int</span> flags=<span class="number">0</span>) : <span class="built_in">age</span>(_age-&gt;__forwarding) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_func_0(<span class="keyword">struct</span> __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  __Block_byref_age_0 *age = __cself-&gt;age; <span class="comment">// bound by ref</span></span><br><span class="line">	<span class="comment">// 修改age的值是先获取__main_block_impl_0中的age对象，然后再获取__forwarding的age值</span></span><br><span class="line">  <span class="comment">// 效果等同于 age-&gt;age</span></span><br><span class="line">	(age-&gt;__forwarding-&gt;age) = <span class="number">20</span>;</span><br><span class="line">	<span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_b5d6e0_mi_0, (age-&gt;__forwarding-&gt;age));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用__block修饰的age被转成__Block_byref_age_0类型</span></span><br><span class="line">        __attribute__((__blocks__(byref))) __Block_byref_age_0 age = &#123;(<span class="type">void</span>*)<span class="number">0</span>,(__Block_byref_age_0 *)&amp;age, <span class="number">0</span>, <span class="built_in">sizeof</span>(__Block_byref_age_0), <span class="number">10</span>&#125;;</span><br><span class="line">                  </span><br><span class="line">        <span class="comment">// 后面使用的age都是__Block_byref_age_0类型的age，不是原来定义的age</span></span><br><span class="line">        DBBlock block = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_age_0 *)&amp;age, <span class="number">570425344</span>));</span><br><span class="line">                            </span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_b5d6e0_mi_1);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>转成C++后，发现<code>int age</code>被包装成了<code>__Block_byref_age_0 age</code>。<code>__Block_byref_age_0</code>是一个对象，内部有isa和age的真正类型。而且结构体<code>__main_block_impl_0</code>内部捕获的变量age是包装后的类型<code>__Block_byref_age_0</code>。</p>
+<p>结构体<code>__Block_byref_age_0</code>中的<code>__forwarding</code>变量指向的是自己，<code>int age</code>传入的是原来定义的age的值（即代码中的10）。</p>
+<p><img src="https://blog.idbeny.com/pgcwr.png@normal"></p>
+<p>疑问：使用<code>__block</code>修饰后，后面访问的age是结构体<code>__Block_byref_age_0</code>中的age，还是<code>__main_block_impl_0</code>中的age？</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">__block int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">		age = 20;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;%p&quot;, &amp;age);</span><br><span class="line"></span><br><span class="line">// 把上面代码转为结构体实现（模拟C++）</span><br><span class="line">struct __Block_byref_age_0 &#123;</span><br><span class="line">    void *__isa;</span><br><span class="line">    struct __Block_byref_age_0 *__forwarding;</span><br><span class="line">    int __flags;</span><br><span class="line">    int __size;</span><br><span class="line">    int age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __main_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">  void (*copy)(void);</span><br><span class="line">  void (*dispose)(void);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __block_impl &#123;</span><br><span class="line">  void *isa;</span><br><span class="line">  int Flags;</span><br><span class="line">  int Reserved;</span><br><span class="line">  void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __main_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* Desc;</span><br><span class="line">  struct __Block_byref_age_0 *age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int age = 10;</span><br><span class="line">        DBBlock block = ^&#123;</span><br><span class="line">            age = 20;</span><br><span class="line">            NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">        struct __main_block_impl_0 *blockImpl = (struct __main_block_impl_0 *)block;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%p&quot;, &amp;age); // 输出：0x7ffeefbff478</span><br><span class="line">        NSLog(@&quot;%p&quot;, blockImpl-&gt;age); // 输出：0x7ffeefbff460</span><br><span class="line">        NSLog(@&quot;%p&quot;, &amp;(blockImpl-&gt;age-&gt;age)); // 输出：0x7ffeefbff478</span><br><span class="line">    &#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过对比内存地址可以发现，<code>__block</code>修饰后的age地址和<code>__Block_byref_age_0</code>结构体中的age地址是同一个。</p>
+<p>一个<code>__Block_byref_age_0</code>占用28个字节，通过每一个变量的偏移地址也可以计算出age的地址（0x7ffeefbff460 + 24 &#x3D; 0x7ffeefbff460 + 16 + 8 &#x3D; 0x7ffeefbff478）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_age_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa; <span class="comment">// 指针，占用8个字节</span></span><br><span class="line">__Block_byref_age_0 *__forwarding; <span class="comment">// 指针，占用8个字节</span></span><br><span class="line"> <span class="type">int</span> __flags; <span class="comment">// 占用4个字节</span></span><br><span class="line"> <span class="type">int</span> __size; <span class="comment">// 占用4个字节</span></span><br><span class="line"> <span class="type">int</span> age; <span class="comment">// 占用4个字节</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>请注意下方的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">    [array addObject:@&quot;1&quot;];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>array需要加上<code>__block</code>么？不需要，因为这里只是使用了array指针，并没有修改array（就像只访问age变量，但没有修改age的值）。虽然加上<code>__block</code>也没有问题，但是通过上面的讲解可以看到，能不加<code>__block</code>就不加，因为block内部会重新创建一个对象，并做一些内存管理的操作。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/08/25/ios-oc-block-type/" title="【iOS】OC底层系列六 - block的类型">http://idbeny.com/2018/08/25/ios-oc-block-type/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%BA%95%E5%B1%82/" rel="tag"># 底层</a>
+          
+            <a href="/tags/block/" rel="tag"># block</a>
+          
+            <a href="/tags/block%E7%9A%84%E7%B1%BB%E5%9E%8B/" rel="tag"># block的类型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/ios-oc-block-var/" rel="next" title="【iOS】OC底层系列五 - block的变量捕获">
+                <i class="fa fa-chevron-left"></i> 【iOS】OC底层系列五 - block的变量捕获
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/27/ios-oc-block-memory/" rel="prev" title="【iOS】OC底层系列七 - block的内存管理">
+                【iOS】OC底层系列七 - block的内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81block%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">一、block的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-NSGlobalBlock"><span class="nav-number">1.1.</span> <span class="nav-text">3.1. NSGlobalBlock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-NSStackBlock"><span class="nav-number">1.2.</span> <span class="nav-text">3.2. NSStackBlock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-NSMallocBlock"><span class="nav-number">1.3.</span> <span class="nav-text">3.3. NSMallocBlock</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81block%E7%9A%84copy"><span class="nav-number">2.</span> <span class="nav-text">二、block的copy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E7%9A%84auto%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 对象类型的auto变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-block%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">三、__block修饰符</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

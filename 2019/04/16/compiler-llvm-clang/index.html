@@ -96,34 +96,33 @@
 
 
 
-<meta name="description" content="接上一篇LLVM的介绍，我们认识了LLVM，现在可以尝试用前端-clang自定义我们需要的东西了。">
+<meta name="description" content="接上一篇LLVM的介绍，我们认识了LLVM，现在可以尝试用前端-clang自定义我们需要的东西了。 注意：编写插件需要有C++基础。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【LLVM】clang插件开发">
+<meta property="og:title" content="【LLVM】LLVM系列二 - Clang插件开发">
 <meta property="og:url" content="http://idbeny.com/2019/04/16/compiler-llvm-clang/index.html">
 <meta property="og:site_name" content="1024星球">
-<meta property="og:description" content="接上一篇LLVM的介绍，我们认识了LLVM，现在可以尝试用前端-clang自定义我们需要的东西了。">
+<meta property="og:description" content="接上一篇LLVM的介绍，我们认识了LLVM，现在可以尝试用前端-clang自定义我们需要的东西了。 注意：编写插件需要有C++基础。">
 <meta property="og:locale">
-<meta property="og:image" content="http://blog.idbeny.com/usz7q.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/lb3rn.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/ckd0u.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/vmedy.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/009dl.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/yhmrk.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/pnemt.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/la3hp.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/lqzre.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/0kciy.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/6m218.png@normal">
-<meta property="og:image" content="http://blog.idbeny.com/r4nc7.png@normal">
-<meta property="og:image" content="http://idbeny.com/compiler-start.png">
+<meta property="og:image" content="https://blog.idbeny.com/usz7q.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lb3rn.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ckd0u.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/vmedy.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/009dl.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/yhmrk.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pnemt.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/la3hp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/lqzre.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0kciy.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/6m218.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/r4nc7.png@normal">
 <meta property="article:published_time" content="2019-04-16T12:00:01.000Z">
-<meta property="article:modified_time" content="2020-06-03T13:30:44.562Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.793Z">
 <meta property="article:author" content="idbeny">
 <meta property="article:tag" content="LLVM">
 <meta property="article:tag" content="clang">
 <meta property="article:tag" content="compiler">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog.idbeny.com/usz7q.png@normal">
+<meta name="twitter:image" content="https://blog.idbeny.com/usz7q.png@normal">
 
 
 
@@ -171,7 +170,7 @@
         border-left-color: #1E92FB;    /*左边框颜色*/
     }
 </style>
-  <title>【LLVM】clang插件开发 | 1024星球</title>
+  <title>【LLVM】LLVM系列二 - Clang插件开发 | 1024星球</title>
   
 
 
@@ -375,7 +374,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【LLVM】clang插件开发</h2>
+          <h2 class="post-title" itemprop="name headline">【LLVM】LLVM系列二 - Clang插件开发</h2>
         
 
         <div class="post-meta">
@@ -410,8 +409,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tool/" itemprop="url" rel="index">
-                    <span itemprop="name">Tool</span>
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
                   </a>
                 </span>
 
@@ -421,8 +420,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
                   </a>
                 </span>
 
@@ -453,7 +452,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  614 字
+                  607 字
                 </span>
               
 
@@ -491,58 +490,69 @@
 
       
         <p>接上一篇LLVM的介绍，我们认识了LLVM，现在可以尝试用前端-<code>clang</code>自定义我们需要的东西了。</p>
+<p>注意：编写插件需要有C++基础。</p>
 <span id="more"></span>
-<h3 id="插件目录"><a href="#插件目录" class="headerlink" title="插件目录"></a>插件目录</h3><ol>
-<li><p>新建插件文件夹（例：<code>yb-plugin</code>）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm/tools/clang/tools/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> yb-plugin</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://blog.idbeny.com/usz7q.png@normal"></p>
-</li>
-<li><p>打开<code>CMakeLists.txt</code>（路径：<code>llvm/tools/clang/tools/CMakeLists.txt</code>），把要加载的插件加入到里面<br><img src="http://blog.idbeny.com/lb3rn.png@normal"></p>
-</li>
-</ol>
-<h3 id="插件必要文件"><a href="#插件必要文件" class="headerlink" title="插件必要文件"></a>插件必要文件</h3><p>在<code>yb-plugin</code>目录下编写插件（插件是用C++编写的，有基础的同学会比较好理解）</p>
-<ul>
-<li>新建<code>CMakeLists.txt</code>，文件内容是：<code>add_llvm_library(YBPlugin MODULE BUILDTREE_ONLY YBPlugin.cpp)</code>，</li>
-<li>YBPlugin是插件名，YBPlugin.cpp是源代码文件<br><img src="http://blog.idbeny.com/ckd0u.png@normal"></li>
-</ul>
-<h3 id="编译插件"><a href="#编译插件" class="headerlink" title="编译插件"></a>编译插件</h3><ul>
-<li><p>利用cmake生成的Xcode项目来编译插件(第一次编写完插件，需要利用cmake重新生成一下Xcode项目: <code>$ cmake -G Xcode ../llvm</code>)<br><img src="http://blog.idbeny.com/vmedy.png@normal"><br>打开工程，选择<code>Automatically Create Schemes</code><br><img src="http://blog.idbeny.com/009dl.png@normal"></p>
-</li>
-<li><p>插件源代码在<code>Sources/Loadable modules</code>目录下可以找到，这样就可以直接在Xcode里编写插件代码<br><img src="http://blog.idbeny.com/yhmrk.png@normal"></p>
-</li>
-<li><p>编写插件<code>YBPlugin.cpp</code><br><img src="http://blog.idbeny.com/pnemt.png@normal"></p>
-</li>
-<li><p>选择YBPlugin这个target进行编译，编译完会生成一个动态库文件（路径：<code>llvm_xcode/Debug/lib/YBPlugin.dylib</code>）<br><img src="http://blog.idbeny.com/la3hp.png@normal"></p>
-</li>
-</ul>
-<h3 id="加载插件"><a href="#加载插件" class="headerlink" title="加载插件"></a>加载插件</h3><ul>
-<li>在Xcode项目中指定加载插件动态库:<code>BuildSettings &gt; Other C Flags</code></li>
-<li><code>-Xclang -load -Xclang 动态库路径 -Xclang -add-plugin -Xclang 插件名称</code><br><img src="http://blog.idbeny.com/lqzre.png@normal"></li>
-<li>编译（报错是因为Xcode默认的编译器不允许使用插件，做法请看下面）<br><img src="http://blog.idbeny.com/0kciy.png@normal"></li>
-</ul>
-<h3 id="修改自定义编译器（Hack-Xcode）"><a href="#修改自定义编译器（Hack-Xcode）" class="headerlink" title="修改自定义编译器（Hack Xcode）"></a>修改自定义编译器（Hack Xcode）</h3><ol>
-<li><p>首先要对Xcode进行Hack，才能修改默认的编译器</p>
-</li>
-<li><p>下载<code>XcodeHacking.zip</code>，解压，修改<code>HackedClang.xcplugin/Contents/Resources/HackedClang.xcspec</code>的内容，设<br>置一下自己编译好的clang的路径（之前安装好的<code>llvm_release/bin/clang</code>）<br><img src="http://blog.idbeny.com/6m218.png@normal"></p>
-</li>
-<li><p>然后在XcodeHacking目录下进行命令行，将XcodeHacking的内容剪切到Xcode内部</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mv HackedClang.xcplugin `xcode-select -<span class="keyword">print</span>-path`<span class="regexp">/../</span>PlugIns<span class="regexp">/Xcode3Core.ideplugin/</span>Contents<span class="regexp">/SharedSupport/</span>Developer<span class="regexp">/Library/</span>Xcode/Plug-ins</span><br><span class="line"></span><br><span class="line">$ sudo mv HackedBuildSystem.xcspec `xcode-select -<span class="keyword">print</span>-path`<span class="regexp">/Platforms/i</span>PhoneSimulator.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Specifications</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启Xcode，选择编译器<br><img src="http://blog.idbeny.com/r4nc7.png@normal"></p>
-</li>
-<li><p>开始编译（编译项目后，会在编译日志看到YBPlugin插件的打印信息(如果插件更新了，最好先Clean一下项目)）<br><img src="/./compiler-start.png" alt="compiler-start"></p>
-</li>
-</ol>
-<h3 id="提示警告、错误信息"><a href="#提示警告、错误信息" class="headerlink" title="提示警告、错误信息"></a>提示警告、错误信息</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="constructor">YBASTConsumer(CompilerInstance &amp;<span class="params">ci</span>)</span> &#123;</span><br><span class="line">  DiagnosticsEngine &amp;D = ci.get<span class="constructor">Diagnostics()</span>; </span><br><span class="line">  D.<span class="constructor">Report(D.<span class="params">getCustomDiagID</span>(DiagnosticsEngine::Warning, <span class="string">&quot;1024星球警告信息&quot;</span>)</span>); </span><br><span class="line">  D.<span class="constructor">Report(D.<span class="params">getCustomDiagID</span>(DiagnosticsEngine::Error, <span class="string">&quot;1024星球错误信息&quot;</span>)</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h3><ul>
-<li>想要实现更复杂的插件功能，就需要利用clang的API针对语法树(AST)进行相应的分析和处理</li>
-<li>关于AST的资料<ul>
+<h2 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h2><ol>
+<li><p>在<code>clang/tools</code>目录下新建插件文件夹（例：<code>yb-plugin</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> llvm/tools/clang/tools/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> yb-plugin</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://blog.idbeny.com/usz7q.png@normal"></p>
+</li>
+<li><p>打开<code>CMakeLists.txt</code>（路径：<code>llvm/tools/clang/tools/CMakeLists.txt</code>），把要加载的插件加入到里面</p>
+</li>
+</ol>
+<p><img src="https://blog.idbeny.com/lb3rn.png@normal"></p>
+<h3 id="1-1-新建文件"><a href="#1-1-新建文件" class="headerlink" title="1.1. 新建文件"></a>1.1. 新建文件</h3><p>在<code>yb-plugin</code>目录下编写插件（插件是用C++编写的）：</p>
+<ul>
+<li>新建<code>CMakeLists.txt</code>，目的是让llvm加载插件中哪些C++文件。文件内容：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">add_llvm_library</span>(YBPlugin MODULE BUILDTREE_ONLY YBPlugin.cpp)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>YBPlugin是插件名，YBPlugin.cpp是源代码文件。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/ckd0u.png@normal"></p>
+<h3 id="1-2-编译插件"><a href="#1-2-编译插件" class="headerlink" title="1.2. 编译插件"></a>1.2. 编译插件</h3><ol>
+<li>利用cmake生成的Xcode项目来编译插件（第一次编写完插件，需要利用cmake重新生成一下Xcode项目: <code>$ cmake -G Xcode ../llvm</code>）。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/vmedy.png@normal"></p>
+<ol start="2">
+<li>打开工程，选择<code>Automatically Create Schemes</code>。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/009dl.png@normal"></p>
+<ol start="3">
+<li>插件源代码在<code>Sources/Loadable modules</code>目录下可以找到，这样就可以直接在Xcode里编写插件代码。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/yhmrk.png@normal"></p>
+<h2 id="二、编写插件"><a href="#二、编写插件" class="headerlink" title="二、编写插件"></a>二、编写插件</h2><p><img src="https://blog.idbeny.com/pnemt.png@normal"></p>
+<p>选择YBPlugin这个target进行编译，编译完会生成一个动态库文件（路径：<code>llvm_xcode/Debug/lib/YBPlugin.dylib</code>）</p>
+<p><img src="https://blog.idbeny.com/la3hp.png@normal"></p>
+<h2 id="三、加载插件"><a href="#三、加载插件" class="headerlink" title="三、加载插件"></a>三、加载插件</h2><h3 id="3-1-新增加载项"><a href="#3-1-新增加载项" class="headerlink" title="3.1. 新增加载项"></a>3.1. 新增加载项</h3><p>在Xcode项目中指定加载插件动态库：在<code>BuildSettings &gt; Other C Flags</code>里面添加<code>-Xclang -load -Xclang 动态库路径 -Xclang -add-plugin -Xclang 插件名称</code>。</p>
+<p><img src="https://blog.idbeny.com/lqzre.png@normal"></p>
+<h3 id="3-2-修改自定义编译器（Hack-Xcode）"><a href="#3-2-修改自定义编译器（Hack-Xcode）" class="headerlink" title="3.2. 修改自定义编译器（Hack Xcode）"></a>3.2. 修改自定义编译器（Hack Xcode）</h3><p>编译后发现报错，是因为Xcode默认的编译器不允许使用插件，需要修改自定义编译器。</p>
+<p><img src="https://blog.idbeny.com/0kciy.png@normal"></p>
+<ol>
+<li>首先要对Xcode进行Hack，才能修改默认的编译器。</li>
+<li>下载<code>XcodeHacking.zip</code>，解压，修改<code>HackedClang.xcplugin/Contents/Resources/HackedClang.xcspec</code>的内容，设置一下自己编译好的clang的路径（之前安装好的<code>llvm_release/bin/clang</code>）。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/6m218.png@normal"></p>
+<ol start="3">
+<li><p>然后在XcodeHacking目录下输入命令（将XcodeHacking的内容剪切到Xcode内部）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">mv</span> HackedClang.xcplugin `xcode-select -print-path`/../PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer/Library/Xcode/Plug-ins</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">mv</span> HackedBuildSystem.xcspec `xcode-select -print-path`/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启Xcode，选择编译器。</p>
+</li>
+</ol>
+<p><img src="https://blog.idbeny.com/r4nc7.png@normal"></p>
+<ol start="5">
+<li>开始编译（编译项目后，会在编译日志看到YBPlugin插件的相关打印信息，如果插件更新了，最好先Clean一下项目）。</li>
+</ol>
+<p>想要实现更复杂的插件功能，就需要利用clang的API针对语法树(AST)进行相应的分析和处理。</p>
+<p>关于AST的资料：</p>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://clang.llvm.org/doxygen/namespaceclang.html">https://clang.llvm.org/doxygen/namespaceclang.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://clang.llvm.org/doxygen/classclang_1_1Decl.html">https://clang.llvm.org/doxygen/classclang_1_1Decl.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://clang.llvm.org/doxygen/classclang_1_1Stmt.html">https://clang.llvm.org/doxygen/classclang_1_1Stmt.html</a></li>
-</ul>
-</li>
 </ul>
 
       
@@ -564,7 +574,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://idbeny.com/2019/04/16/compiler-llvm-clang/" title="【LLVM】clang插件开发">http://idbeny.com/2019/04/16/compiler-llvm-clang/</a>
+    <a href="http://idbeny.com/2019/04/16/compiler-llvm-clang/" title="【LLVM】LLVM系列二 - Clang插件开发">http://idbeny.com/2019/04/16/compiler-llvm-clang/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -596,8 +606,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/15/compiler-llvm/" rel="next" title="【LLVM】认识LLVM">
-                <i class="fa fa-chevron-left"></i> 【LLVM】认识LLVM
+              <a href="/2019/04/15/compiler-llvm/" rel="next" title="【LLVM】LLVM系列一 - 初识LLVM">
+                <i class="fa fa-chevron-left"></i> 【LLVM】LLVM系列一 - 初识LLVM
               </a>
             
           </div>
@@ -685,7 +695,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-count">197</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -696,7 +706,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -707,7 +717,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-count">285</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -777,7 +787,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">插件目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%BF%85%E8%A6%81%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">插件必要文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E6%8F%92%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">编译插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%8F%92%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">加载插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%88Hack-Xcode%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">修改自定义编译器（Hack Xcode）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AD%A6%E5%91%8A%E3%80%81%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">提示警告、错误信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A"><span class="nav-number">7.</span> <span class="nav-text">更多</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">一、准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 新建文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%BC%96%E8%AF%91%E6%8F%92%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 编译插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BC%96%E5%86%99%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">二、编写插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8A%A0%E8%BD%BD%E6%8F%92%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">三、加载插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%96%B0%E5%A2%9E%E5%8A%A0%E8%BD%BD%E9%A1%B9"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 新增加载项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BF%AE%E6%94%B9%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%88Hack-Xcode%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 修改自定义编译器（Hack Xcode）</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -342,7 +342,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/09/15/ios-thread/">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/09/08/ios-oc-runtime-class/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -361,7 +361,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/15/ios-thread/" itemprop="url">【iOS】多线程系列二 - NSThread的使用</a></h2>
+                <a class="post-title-link" href="/2018/09/08/ios-oc-runtime-class/" itemprop="url">【iOS】OC底层系列九 - runtime-Class</a></h2>
         
 
         <div class="post-meta">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-15T20:15:39+08:00">
-                2017-09-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-08T15:58:17+08:00">
+                2018-09-08
               </time>
             
 
@@ -398,6 +398,17 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/iOS/" itemprop="url" rel="index">
                     <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
                   </a>
                 </span>
 
@@ -428,7 +439,196 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2.5k 字
+                  1.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>类对象存储着isa、superclass、属性、对象方法、协议、成员变量等信息。元类对象存储着isa、superclass、类方法等信息。类对象和元类对象存储的信息有点相似，而且两者都是<code>objc_class</code>类型，因此可以把元类对象称作是类对象的一种特殊对象。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/08/ios-oc-runtime-class/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/09/02/ios-oc-runtime-isa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/02/ios-oc-runtime-isa/" itemprop="url">【iOS】OC底层系列八 - runtime</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T15:23:09+08:00">
+                2018-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.8k 字
                 </span>
               
 
@@ -466,10 +666,11 @@
 
       
         
-          <p><strong>C</strong>语言中的<code>pthread</code>和<strong>OC</strong>中的<code>NSThread</code>有什么联系？如何使用呢？</p>
+          <p>Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同。</p>
+<p>Objective-C的动态性是由Runtime API来支撑的。Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/09/15/ios-thread/#more" rel="contents">
+            <a class="btn" href="/2018/09/02/ios-oc-runtime-isa/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -520,7 +721,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/09/10/ios-process-thread/">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/27/ios-oc-block-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -539,7 +740,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/10/ios-process-thread/" itemprop="url">【iOS】多线程系列一 - 进程和线程</a></h2>
+                <a class="post-title-link" href="/2018/08/27/ios-oc-block-memory/" itemprop="url">【iOS】OC底层系列七 - block的内存管理</a></h2>
         
 
         <div class="post-meta">
@@ -551,8 +752,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-10T15:32:21+08:00">
-                2017-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-27T12:59:03+08:00">
+                2018-08-27
               </time>
             
 
@@ -576,362 +777,6 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/iOS/" itemprop="url" rel="index">
                     <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  1.1k 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  3 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>进程和线程在开发中经常会遇到，他们的本质什么？有什么区别呢？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/10/ios-process-thread/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/09/05/ios-nscoding/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/05/ios-nscoding/" itemprop="url">【iOS】归档</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-05T23:09:53+08:00">
-                2017-09-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  880 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  3 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数组和字典都可以保存对象，如果把包含自定义对象的数组以写入到本地沙盒能保存成功么？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/05/ios-nscoding/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/08/21/js-regix/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/21/js-regix/" itemprop="url">【JavaScript】常用正则表达式</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T21:40:42+08:00">
-                2017-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/H5/" itemprop="url" rel="index">
-                    <span itemprop="name">H5</span>
                   </a>
                 </span>
 
@@ -941,8 +786,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JS/" itemprop="url" rel="index">
-                    <span itemprop="name">JS</span>
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
                   </a>
                 </span>
 
@@ -973,7 +818,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  535 字
+                  2.1k 字
                 </span>
               
 
@@ -989,7 +834,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  8 分钟
                 </span>
               
             </div>
@@ -1011,10 +856,602 @@
 
       
         
-          <p>验证数字：<code>^[0-9]*$</code><br>验证n位的数字：<code>^\d&#123;n&#125;$</code><br>验证至少n位数字：<code>^\d&#123;n,&#125;$</code></p>
+          
+            <span id="more"></span>
+
+<h2 id="一、block的内存管理"><a href="#一、block的内存管理" class="headerlink" title="一、block的内存管理"></a>一、block的内存管理</h2><ul>
+<li>当block在栈上时，并不会对<code>__block</code>变量产生强引用。</li>
+<li>当block被copy到堆时，会调用block内部的copy函数，copy函数内部会调用<code>_Block_object_assign</code>函数，<code>_Block_object_assign</code>函数会对<code>__block</code>变量形成强引用（retain）</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__block int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">    age = 20;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">block();</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，变量age和定义的block都是在栈上的，由于是ARC环境，定义的block被变量block强引用，block自动从栈copy到堆。当block被copy到堆时，会把block内部用到的变量也从栈copy到堆。</p>
+<p><img src="https://blog.idbeny.com/gx7uo.png@normal"></p>
+<p>注意：如果多个block内部捕获的是同一个变量，该变量copy到堆中时只会copy一份，内部操作的是引用计数。</p>
+<ul>
+<li>当block从堆中移除时，会调用block内部的dispose函数，dispose函数内部会调用<code>_Block_object_dispose</code>函数，<code>_Block_object_dispose</code>函数会自动释放引用的<code>__block</code>变量（release）。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/y6013.png@normal"></p>
+<h3 id="1-1-block变量、对象类型的auto变量"><a href="#1-1-block变量、对象类型的auto变量" class="headerlink" title="1.1. __block变量、对象类型的auto变量"></a>1.1. <code>__block</code>变量、对象类型的auto变量</h3><ul>
+<li><p>当block在栈上时，对它们都不会产生强引用。</p>
+</li>
+<li><p>当block拷贝到堆上时，都会通过copy函数来处理它们</p>
+<ul>
+<li><code>__block</code>变量（假设变量名叫做a）<ul>
+<li><code>_Block_object_assign((void*)&amp;dst-&gt;a, (void*)src-&gt;a, 8/*BLOCK_FIELD_IS_BYREF*/);</code></li>
+</ul>
+</li>
+<li>对象类型的auto变量（假设变量名叫做p）<ul>
+<li><code>_Block_object_assign((void*)&amp;dst-&gt;p, (void*)src-&gt;p, 3/*BLOCK_FIELD_IS_OBJECT*/);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当block从堆上移除时，都会通过dispose函数来释放它们</p>
+<ul>
+<li><code>__block</code>变量（假设变量名叫做a）<ul>
+<li><code>_Block_object_dispose((void*)src-&gt;a, 8/*BLOCK_FIELD_IS_BYREF*/);</code></li>
+</ul>
+</li>
+<li>对象类型的auto变量（假设变量名叫做p）<ul>
+<li><code>_Block_object_dispose((void*)src-&gt;p, 3/*BLOCK_FIELD_IS_OBJECT*/);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.idbeny.com/2622r.png@normal"></p>
+<h3 id="1-2-被-block修饰的对象类型"><a href="#1-2-被-block修饰的对象类型" class="headerlink" title="1.2. 被__block修饰的对象类型"></a>1.2. 被<code>__block</code>修饰的对象类型</h3><ul>
+<li>当<code>__block</code>变量在栈上时，不会对指向的对象产生强引用。</li>
+<li>当<code>__block</code>变量被copy到堆时，会调用<code>__block</code>变量内部的copy函数，copy函数内部会调用<code>_Block_object_assign</code>函数，<code>_Block_object_assign</code>函数会根据所指向对象的修饰符（<code>__strong</code>、<code>__weak</code>、<code>__unsafe_unretained</code>）做出相应的操作，形成强引用（retain）或者弱引用（注意：这里仅限于ARC时会retain，MRC时不会retain）。</li>
+<li>如果<code>__block</code>变量从堆上移除，会调用<code>__block</code>变量内部的dispose函数，dispose函数内部会调用<code>_Block_object_dispose</code>函数，<code>_Block_object_dispose</code>函数会自动释放指向的对象（release）。</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@interface DBPerson : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">@implementation DBPerson</span><br><span class="line">  </span><br><span class="line">- (void)dealloc &#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            __block DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">            block = ^&#123;</span><br><span class="line">                NSLog(@&quot;%@&quot;, person);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        block();</span><br><span class="line">      	NSLog(@&quot;block stop&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> 输出：</span><br><span class="line"> &lt;DBPerson: 0x10073a940&gt;</span><br><span class="line"> block finished.</span><br><span class="line"> -[DBPerson dealloc]</span><br><span class="line"> */ </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_person_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_person_0 *__forwarding;</span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="built_in">void</span> (*__Block_byref_id_object_copy)(<span class="type">void</span>*, <span class="type">void</span>*);</span><br><span class="line"> <span class="built_in">void</span> (*__Block_byref_id_object_dispose)(<span class="type">void</span>*);</span><br><span class="line"> DBPerson *__strong person;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中的person对象使用<code>__block</code>修饰，并且person对象是在block被释放后才开始释放的。因此，block内部对<code>__Block_byref_weakPerson_0</code>类型的person进行的是强引用，而且person转成的结构体对象<code>__Block_byref_weakPerson_0</code>中的person也是强引用。</p>
+<blockquote>
+<p>只要使用<code>__block</code>修饰对象，转成的结构体对象被copy到堆时都会生成一个copy和dispose函数，用来进行内存管理。</p>
+</blockquote>
+<p>如果把上面的person对象使用<code>__weak</code>修饰会怎么样？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">__block __weak DBPerson *weakPerson = person;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> 输出：</span><br><span class="line"> -[DBPerson dealloc]</span><br><span class="line"> (null)</span><br><span class="line"> block finished.</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_weakPerson_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_weakPerson_0 *__forwarding;</span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="built_in">void</span> (*__Block_byref_id_object_copy)(<span class="type">void</span>*, <span class="type">void</span>*);</span><br><span class="line"> <span class="built_in">void</span> (*__Block_byref_id_object_dispose)(<span class="type">void</span>*);</span><br><span class="line"> DBPerson *__weak weakPerson;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>person被提前释放了，说明使用<code>__weak</code>修饰后，person转成的结构体对象<code>__Block_byref_weakPerson_0</code>中的person是弱引用，但是impl中的<code>__Block_byref_weakPerson_0</code>类型的person是强引用。</p>
+<p>从上面的案例可以看出，<code>__weak</code>仅针对变量转为结构体后，对结构体内部的变量进行弱引用。如果不使用<code>__weak</code>，在ARC环境下就是强引用。在MRC环境下，不管是否使用<code>__weak</code>，最终都是弱引用，如果想要强引用，就不能加上<code>__block</code>，相当于block直接捕获外部对象。</p>
+<h3 id="1-3-block的-forwarding指针"><a href="#1-3-block的-forwarding指针" class="headerlink" title="1.3. __block的__forwarding指针"></a>1.3. <code>__block</code>的<code>__forwarding</code>指针</h3><p>经过前面的了解我们知道，<code>__block</code>修饰的变量会被封装成一个结构体对象，而且操作这个变量时，访问的是<code>__forwarding</code>中的变量，那么这个结构体中的<code>__forwarding</code>指针为什么要指向自己呢？主要是防止block被copy到堆后，操作的还是栈上的block，<code>__forwarding</code>能够保证操作的一定是堆上的数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// age被包装成对象</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_age_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_age_0 *__forwarding;</span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="type">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用：age-&gt;__forwarding-&gt;age</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://blog.idbeny.com/z7rbq.png@normal"></p>
+<h2 id="二、block的循环引用"><a href="#二、block的循环引用" class="headerlink" title="二、block的循环引用"></a>二、block的循环引用</h2><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line"></span><br><span class="line">@interface DBPerson : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy) NSString *name;</span><br><span class="line">@property (nonatomic, copy) DBBlock block;</span><br><span class="line">- (void)test;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">@implementation DBPerson</span><br><span class="line">  </span><br><span class="line">- (void)test &#123;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;, self.name);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc &#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">        person.name = @&quot;daben&quot;;</span><br><span class="line">        [person test];</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;111111&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 输出：111111</span><br></pre></td></tr></table></figure>
+
+<p>疑问：为什么DBPerson类的<code>dealloc</code>方法没有执行？</p>
+<p>因为person类中的成员变量block和self形成了循环引用。在main方法中创建了person对象（person对象引用计数是1），在test方法中，block内部捕获了局部变量self（person对象引用计数是2），而self又持有成员变量block。当person出了作用域后就会被释放一次（此时person对象引用计数是1），由于block内部强引用了self（self就是person对象），因此不会执行<code>dealloc</code>。</p>
+<p><img src="https://blog.idbeny.com/sck65.png@normal"></p>
+<h3 id="2-1-解决循环引用"><a href="#2-1-解决循环引用" class="headerlink" title="2.1. 解决循环引用"></a>2.1. 解决循环引用</h3><p>用<code>__weak</code>、<code>__unsafe_unretained</code>可以解决block的循环引用问题。</p>
+<p>如上面的示例代码可以修改如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)test &#123;    </span><br><span class="line">    /*</span><br><span class="line">     __weak id weakSelf = self;</span><br><span class="line">     __weak DBPerson *weakSelf = self;</span><br><span class="line">     上面两句代码和下面的代码是等价的</span><br><span class="line">     typeof(self) 返回的是DBPerson * const，由于不容易出错，所以建议开发时这样写</span><br><span class="line">     */</span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;, weakSelf.name);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> 输出：</span><br><span class="line"> -[DBPerson dealloc]</span><br><span class="line"> 111111</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/50mcy.png@normal"></p>
+<p>使用<code>__weak</code>修饰self后，person对象被完全正常释放了，因为block中的self是弱引用。</p>
+<p><code>__unsafe_unretained</code>字面意思是不安全、不会产生强引用。和<code>__weak</code>的使用效果是一样的，唯一区别：使用<code>__weak</code>修饰的对象被block引用后，当对象释放后，指向对象的**指针会指向<code>nil</code><strong>。使用<code>__unsafe_unretained</code>修饰的对象最终被释放后，指向对象的指针</strong>不会指向<code>nil</code>**，依旧指向原来对象的内存（已经被释放），此时的指针也叫作野指针。</p>
+<p>用<code>__block</code>也可以解决循环引用问题（必须要调用block）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (void)test &#123;</span><br><span class="line">    __block DBPerson *weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;, weakSelf.name);</span><br><span class="line">        weakSelf = nil;</span><br><span class="line">    &#125;;</span><br><span class="line">    self.block();</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> 输出：</span><br><span class="line"> daben</span><br><span class="line"> -[DBPerson dealloc]</span><br><span class="line"> 111111</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<p>上面代码如果不调用block，三个对象（<code>__block</code>生成的结构体对象、person对象、block结构体对象）就会形成相互引用。</p>
+<p><img src="https://blog.idbeny.com/gjcn7.png@normal"></p>
+<p>调用block后就会打破这种强引用关系：让<code>__block</code>结构体对象弱引用person对象，在block执行体中加上<code>weakSelf = nil</code>就可以断掉<code>__block</code>变量对person对象的强引用关系。</p>
+<p><img src="https://blog.idbeny.com/rusnf.png@normal"></p>
+<blockquote>
+<p>如果是MRC环境，不支持<code>__weak</code>，使用<code>__unsafe_unretained</code>解决循环引用。但是使用<code>__block</code>也能够解决循环引用，因为在MRC环境，<code>__block</code>生成的结构体对象内部不会对原来的对象产生强引用。</p>
+</blockquote>
+<p>思考：如果在block内部使用强指针引用block外部的弱指针，会出现什么情况？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)test &#123;</span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        __strong typeof(weakSelf) strongSelf = weakSelf;</span><br><span class="line">        NSLog(@&quot;%@&quot;, strongSelf-&gt;_name);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> 输出：</span><br><span class="line"> -[DBPerson dealloc]</span><br><span class="line"> 111111</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码打印后显示person对象被释放，也就是没有产生循环引用。而且在block内部不能使用<code>weakSelf</code>访问成员变量<code>_name</code>，因为<code>weakSelf</code>指向的对象可能会被提前释放。如果使用<code>__strong</code>修饰一个弱引用指针，<code>weakSelf</code>就不会立即被释放。</p>
+<hr>
+<p><strong>面试题1：</strong>block的原理是怎样的？本质是什么？</p>
+<p><strong>解答：</strong>封装了函数调用以及调用环境的OC对象。</p>
+<p><strong>面试题2：</strong><code>__block</code>的作用是什么？有什么使用注意点？</p>
+<p><strong>解答：</strong> <code>__block</code>主要是为了在ARC环境下能够在block内部修改外部的变量。使用时需要注意循环引用。</p>
+<p><strong>面试题3：</strong>block的属性修饰词为什么是copy？使用block有哪些使用注意？<br><strong>解答：</strong>block一旦没有进行copy操作，就不会在堆上（堆上的目的：自由控制block的生命周期）。使用注意：循环引用问题。</p>
+<p><strong>面试题4：</strong>block在修改NSMutableArray，需不需要添加<code>__block</code>？</p>
+<p><strong>解答：</strong>不需要。因为操作的是array指针，不是对象。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/25/ios-oc-block-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/25/ios-oc-block-type/" itemprop="url">【iOS】OC底层系列六 - block的类型</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-25T11:03:50+08:00">
+                2018-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <span id="more"></span>
+
+<h2 id="一、block的类型"><a href="#一、block的类型" class="headerlink" title="一、block的类型"></a>一、block的类型</h2><p>block既然有isa指针，那就说明block是一个OC对象，而isa也会指向block所属的对象类型。</p>
+<p>block有3种类型，可以通过调用<code>class</code>方法或者<code>isa</code>指针查看具体类型，最终都是继承自<code>NSBlock</code>类型，同时<code>NSBlock</code>又继承自<code>NSObject</code>（block中的isa本质上就是继承自NSObject的isa）。</p>
+<ul>
+<li><strong><code>__NSGlobalBlock__</code></strong> （<code> _NSConcreteGlobalBlock</code>）</li>
+<li><strong><code>__NSStackBlock__</code></strong> （<code> _NSConcreteStackBlock</code>）</li>
+<li><strong><code>__NSMallocBlock__</code></strong> （<code>_NSConcreteMallocBlock</code>）</li>
+</ul>
+<p>不同类型的block存储的内存区域也不一样。<code>_NSConcreteGlobalBlock</code>存储在数据段（也叫全局区），<code>_NSConcreteMallocBlock</code>存储在堆段中，<code>_NSConcreteStackBlock</code>存放在栈段中。</p>
+<p><img src="https://blog.idbeny.com/qf83r.png@normal"></p>
+<p>为了方便研究block的真实类型，我们把ARC关掉。因为ARC会帮助我们处理很多逻辑，导致无法看到block的真实类型。</p>
+<p><img src="https://blog.idbeny.com/3e375.png@normal"></p>
+<p>环境不同会造成block类型有所差异。</p>
+<p><img src="https://blog.idbeny.com/o43u1.png@normal"></p>
+<h3 id="3-1-NSGlobalBlock"><a href="#3-1-NSGlobalBlock" class="headerlink" title="3.1. NSGlobalBlock"></a>3.1. NSGlobalBlock</h3><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">int b = 20;</span><br><span class="line">static int c = 30;</span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // 1. 没有访问任何外部变量</span><br><span class="line">        void (^block)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block.&quot;);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 2. 访问静态局部变量</span><br><span class="line">        static int a = 10;</span><br><span class="line">        void (^block1)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. a = %d&quot;, a);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block1 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 3. 访问全局变量</span><br><span class="line">        void (^block2)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. b = %d&quot;, b);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block2 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">        </span><br><span class="line">        // 4. 访问静态全局变量</span><br><span class="line">        void (^block3)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. c = %d&quot;, c);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block3 class]);</span><br><span class="line">        // 输出：__NSGlobalBlock__</span><br><span class="line">    &#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面示例代码中的block有3种情况：没有访问任何外部变量、访问的是静态局部变量、访问的是全局变量。最终显示block的类型是<code>__NSGlobalBlock__</code>。</p>
+<p><strong>总结：没有访问auto变量的block类型是<code>__NSGlobalBlock__</code>。</strong></p>
+<h3 id="3-2-NSStackBlock"><a href="#3-2-NSStackBlock" class="headerlink" title="3.2. NSStackBlock"></a>3.2. NSStackBlock</h3><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // 访问局部变量</span><br><span class="line">      	int a = 10;</span><br><span class="line">        void (^block)(void) = ^&#123;</span><br><span class="line">            NSLog(@&quot;this is a block. a = %d&quot;, a);</span><br><span class="line">        &#125;;</span><br><span class="line">        NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">      	// 输出：__NSStackBlock__</span><br><span class="line">		&#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：上面的代码在MRC环境下显示block的类型是<code>__NSStackBlock__</code>，ARC环境下的block类型是<code>__NSMallocBlock__</code>，因为访问auto变量的block被一个强指针所引用，会自动进行copy操作。</p>
+</blockquote>
+<p>上面示例代码中的block是<code>__NSStackBlock__</code>类型，也就是放在栈段中的。</p>
+<p>疑问：栈中的block不会被释放么？看下面的示例代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void);</span><br><span class="line">void test() &#123;</span><br><span class="line">    int a = 10;</span><br><span class="line">    block = ^&#123;</span><br><span class="line">        NSLog(@&quot;a = %d&quot;, a);</span><br><span class="line">    &#125;;</span><br><span class="line">  	NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">  	// 输出：__NSStackBlock__</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        test();</span><br><span class="line">        block();</span><br><span class="line">      	// 输出：a = -272632776</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>栈中的数据会随着函数调用的结束而释放内存，当执行test函数时，外部的block变量指向test函数中定义的block，而block的执行体本质上是一个被封装的函数地址，而block又被定义在栈中，所以test函数执行结束后，定义的block是会被释放的，外部的block变量指向的就是一块被释放的内存地址。</p>
+<p>为了避免栈中的block被释放导致程序错误，我们可以尝试把栈中的block放到堆中，让block成为<code>__NSMallocBlock__</code>类型。</p>
+<h3 id="3-3-NSMallocBlock"><a href="#3-3-NSMallocBlock" class="headerlink" title="3.3. NSMallocBlock"></a>3.3. NSMallocBlock</h3><p>只要把<code>__NSStackBlock__</code>类型的block进行<code>copy</code>操作，block就会变成<code>__NSMallocBlock__</code>类型（放到堆段）。</p>
+<p>修改test函数中的block：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void test() &#123;</span><br><span class="line">    int a = 10;</span><br><span class="line">    block = [^&#123;</span><br><span class="line">        NSLog(@&quot;a = %d&quot;, a);</span><br><span class="line">    &#125; copy];</span><br><span class="line">  	NSLog(@&quot;%@&quot;, [block class]);</span><br><span class="line">  	// 输出：__NSMallocBlock__</span><br><span class="line">&#125;</span><br><span class="line">// 调用block输出：a = 10</span><br></pre></td></tr></table></figure>
+
+<p>上面函数中的block进行copy操作后变成了<code>__NSMallocBlock__</code>类型。</p>
+<blockquote>
+<p>注意：如果是MRC情况下进行的copy，需要手动进行释放操作。ARC环境下会自动释放。</p>
+</blockquote>
+<h2 id="二、block的copy"><a href="#二、block的copy" class="headerlink" title="二、block的copy"></a>二、block的copy</h2><p>只有<code>__NSStackBlock__</code>类型的block进行copy后会变成<code>__NSMallocBlock__</code>类型，其他类型的block进行copy后基本保持原样不动。</p>
+<p><img src="https://blog.idbeny.com/fnu4r.png@normal"></p>
+<p>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上，比如以下情况：</p>
+<ul>
+<li>block作为函数返回值时</li>
+<li>将block赋值给<code>__strong</code>指针时</li>
+<li>block作为Cocoa API中方法名含有usingBlock的方法参数时（例如，数组排序的方法）</li>
+<li>block作为GCD API的方法参数时</li>
+</ul>
+<p>MRC下block属性的建议写法（只有使用copy修饰符才能让栈上的block被copy到堆上）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (copy, nonatomic) void (^block)(void);</span><br></pre></td></tr></table></figure>
+
+<p>ARC下block属性的建议写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (strong, nonatomic) void (^block)(void);</span><br><span class="line">@property (copy, nonatomic) void (^block)(void);</span><br></pre></td></tr></table></figure>
+
+<p>虽然在ARC环境下block使用<code>strong</code>和<code>copy</code>进行修饰基本没有区别，但为了统一写法，建议使用<code>copy</code>修饰符。</p>
+<h3 id="2-1-对象类型的auto变量"><a href="#2-1-对象类型的auto变量" class="headerlink" title="2.1. 对象类型的auto变量"></a>2.1. 对象类型的auto变量</h3><p>当block内部访问了对象类型的auto变量时：</p>
+<ul>
+<li>如果block是在栈上，将不会对auto变量产生强引用。</li>
+<li>如果block被拷贝到堆上，会自动调用block内部的copy函数，copy函数内部会调用<code>_Block_object_assign</code>函数，<code>_Block_object_assign</code>函数会根据auto变量的修饰符（<code>__strong</code>、<code>__weak</code>、<code>__unsafe_unretained</code>）做出相应的操作，形成强引用（retain）或者弱引用。</li>
+<li>如果block从堆上移除，会自动调用block内部的<code>dispose</code>函数，<code>dispose</code>函数内部会调用<code>_Block_object_dispose</code>函数，<code>_Block_object_dispose</code>函数会自动释放引用的auto变量（release）。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/u57p5.png@normal"></p>
+<p>默认引用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;        </span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">            NSLog(@&quot;1&quot;);</span><br><span class="line">            block = ^&#123;</span><br><span class="line">                NSLog(@&quot;this is a block. person.name = %@&quot;, person.name);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        NSLog(@&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">  </span><br><span class="line">    /* </span><br><span class="line">     输出：</span><br><span class="line">     1</span><br><span class="line">     2</span><br><span class="line">     DBPerson dealloc</span><br><span class="line">     3</span><br><span class="line">     */</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下或使用<code>__strong</code>时，block会对person进行强引用，直到block的出了作用域，person才会被释放。主要是因为block被外面的block指针强引用了，导致block暂时不会被释放，直到block所在作用域结束后才会释放block，紧接着person会被释放。</p>
+<p>使用<code>__weak</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^DBBlock)(void);</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;        </span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">            __weak DBPerson *weakPerson = person;</span><br><span class="line">            NSLog(@&quot;1&quot;);</span><br><span class="line">            block = ^&#123;</span><br><span class="line">                NSLog(@&quot;this is a block. person.name = %@&quot;, weakPerson.name);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">      	block();</span><br><span class="line">        NSLog(@&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">    </span><br><span class="line">    /* </span><br><span class="line">     输出：</span><br><span class="line">     1</span><br><span class="line">     DBPerson dealloc</span><br><span class="line">     this is a block. person.name = (null)</span><br><span class="line">     2</span><br><span class="line">     3</span><br><span class="line">     */</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>转C++：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> impl;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span>* Desc;</span><br><span class="line">  DBPerson *__weak weakPerson;</span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, <span class="keyword">struct</span> __main_block_desc_0 *desc, DBPerson *__weak _weakPerson, <span class="type">int</span> flags=<span class="number">0</span>) : <span class="built_in">weakPerson</span>(_weakPerson) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_func_0(<span class="keyword">struct</span> __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  DBPerson *__weak weakPerson = __cself-&gt;weakPerson; <span class="comment">// bound by copy</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_2, ((NSString *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)weakPerson, <span class="built_in">sel_registerName</span>(<span class="string">&quot;name&quot;</span>)));</span><br><span class="line">            &#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_copy_0(<span class="keyword">struct</span> __main_block_impl_0*dst, <span class="keyword">struct</span> __main_block_impl_0*src) &#123;_Block_object_assign((<span class="type">void</span>*)&amp;dst-&gt;weakPerson, (<span class="type">void</span>*)src-&gt;weakPerson, <span class="number">3</span><span class="comment">/*BLOCK_FIELD_IS_OBJECT*/</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_dispose_0(<span class="keyword">struct</span> __main_block_impl_0*src) &#123;_Block_object_dispose((<span class="type">void</span>*)src-&gt;weakPerson, <span class="number">3</span><span class="comment">/*BLOCK_FIELD_IS_OBJECT*/</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span> &#123;</span><br><span class="line">  <span class="type">size_t</span> reserved;</span><br><span class="line">  <span class="type">size_t</span> Block_size;</span><br><span class="line">  <span class="built_in">void</span> (*copy)(<span class="keyword">struct</span> __main_block_impl_0*, <span class="keyword">struct</span> __main_block_impl_0*);</span><br><span class="line">  <span class="built_in">void</span> (*dispose)(<span class="keyword">struct</span> __main_block_impl_0*);</span><br><span class="line">&#125; __main_block_desc_0_DATA = &#123; <span class="number">0</span>, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        DBBlock block;</span><br><span class="line">        &#123;</span><br><span class="line">            DBPerson *person = ((DBPerson *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)((DBPerson *(*)(id, SEL))(<span class="type">void</span> *)objc_msgSend)((id)<span class="built_in">objc_getClass</span>(<span class="string">&quot;DBPerson&quot;</span>), <span class="built_in">sel_registerName</span>(<span class="string">&quot;alloc&quot;</span>)), <span class="built_in">sel_registerName</span>(<span class="string">&quot;init&quot;</span>));</span><br><span class="line">            ((<span class="built_in">void</span> (*)(id, SEL, NSString * _Nonnull))(<span class="type">void</span> *)objc_msgSend)((id)person, <span class="built_in">sel_registerName</span>(<span class="string">&quot;setName:&quot;</span>), (NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_0);</span><br><span class="line">            __attribute__((<span class="built_in">objc_ownership</span>(weak))) DBPerson *weakPerson = person;</span><br><span class="line">            <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_1);</span><br><span class="line">            block = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA, weakPerson, <span class="number">570425344</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line">        <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_3);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_a9851b_mi_4);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新创建的<code>weakPerson</code>指针使用<code>__weak</code>修饰，在block内部引用的<code>person</code>也是使用<code>weak</code>修饰的（弱引用），所以出了<code>person</code>所在作用域后<code>person</code>就会被释放，因为没有任何指针强引用它，此时执行block就会找不到<code>person</code>。</p>
+<p>注意：如果OC代码含有<code>__weak</code>，在使用clang转换为C++代码时，可能会遇到以下问题：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cannot <span class="keyword">create</span> __weak <span class="keyword">reference</span> <span class="keyword">in</span> file <span class="keyword">using</span> manual <span class="keyword">reference</span></span><br></pre></td></tr></table></figure>
+
+<p>解决方案：支持ARC、指定运行时系统版本，比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-8.0.0 main.m</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、-block修饰符"><a href="#三、-block修饰符" class="headerlink" title="三、__block修饰符"></a>三、__block修饰符</h2><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">block();</span><br></pre></td></tr></table></figure>
+
+<p>疑问：可以在block执行体内修改外面变量age的值么？</p>
+<p>解答：不可以。首先编译器会报错。其次，在block内部是把age传入当做值传入的，和外面的age不是同一个变量（不是同一个内存地址）。</p>
+<p>如果要想在block内部修改age的值，可以把变量修改为静态变量，如<code>static int age = 10</code>，或者把age变为全局变量。因为这样的做法会让block内部的变量和外部变量是同一个内存地址。</p>
+<p>但是有时候使用上面的做法会让代码变得难以维护，有其他更好的办法么？有，在变量前面加上修饰符<code>__block</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__block int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">		age = 20;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">block();</span><br><span class="line">// 输出：age is 20</span><br></pre></td></tr></table></figure>
+
+<p><code>__block</code>可以用于解决block内部无法修改auto变量值的问题。<code>__block</code>不能修饰全局变量、静态变量（static）。编译器会将<code>__block</code>变量包装成一个对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// age被包装成对象</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_age_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_age_0 *__forwarding; <span class="comment">// 指向的是自己</span></span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="type">int</span> age; <span class="comment">// 原来的age值</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__main_block_impl_0</span> &#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__block_impl</span> impl;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">__main_block_desc_0</span>* Desc;</span><br><span class="line">  <span class="comment">// 捕获的是包装后的age</span></span><br><span class="line">  __Block_byref_age_0 *age; <span class="comment">// by ref</span></span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, <span class="keyword">struct</span> __main_block_desc_0 *desc, __Block_byref_age_0 *_age, <span class="type">int</span> flags=<span class="number">0</span>) : <span class="built_in">age</span>(_age-&gt;__forwarding) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __main_block_func_0(<span class="keyword">struct</span> __main_block_impl_0 *__cself) &#123;</span><br><span class="line">  __Block_byref_age_0 *age = __cself-&gt;age; <span class="comment">// bound by ref</span></span><br><span class="line">	<span class="comment">// 修改age的值是先获取__main_block_impl_0中的age对象，然后再获取__forwarding的age值</span></span><br><span class="line">  <span class="comment">// 效果等同于 age-&gt;age</span></span><br><span class="line">	(age-&gt;__forwarding-&gt;age) = <span class="number">20</span>;</span><br><span class="line">	<span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_b5d6e0_mi_0, (age-&gt;__forwarding-&gt;age));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用__block修饰的age被转成__Block_byref_age_0类型</span></span><br><span class="line">        __attribute__((__blocks__(byref))) __Block_byref_age_0 age = &#123;(<span class="type">void</span>*)<span class="number">0</span>,(__Block_byref_age_0 *)&amp;age, <span class="number">0</span>, <span class="built_in">sizeof</span>(__Block_byref_age_0), <span class="number">10</span>&#125;;</span><br><span class="line">                  </span><br><span class="line">        <span class="comment">// 后面使用的age都是__Block_byref_age_0类型的age，不是原来定义的age</span></span><br><span class="line">        DBBlock block = ((<span class="built_in">void</span> (*)())&amp;__main_block_impl_0((<span class="type">void</span> *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_age_0 *)&amp;age, <span class="number">570425344</span>));</span><br><span class="line">                            </span><br><span class="line">        ((<span class="built_in">void</span> (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_pd_jwwkpqcj59x_76sp1yzr_9p80000gp_T_main_b5d6e0_mi_1);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>转成C++后，发现<code>int age</code>被包装成了<code>__Block_byref_age_0 age</code>。<code>__Block_byref_age_0</code>是一个对象，内部有isa和age的真正类型。而且结构体<code>__main_block_impl_0</code>内部捕获的变量age是包装后的类型<code>__Block_byref_age_0</code>。</p>
+<p>结构体<code>__Block_byref_age_0</code>中的<code>__forwarding</code>变量指向的是自己，<code>int age</code>传入的是原来定义的age的值（即代码中的10）。</p>
+<p><img src="https://blog.idbeny.com/pgcwr.png@normal"></p>
+<p>疑问：使用<code>__block</code>修饰后，后面访问的age是结构体<code>__Block_byref_age_0</code>中的age，还是<code>__main_block_impl_0</code>中的age？</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">__block int age = 10;</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">		age = 20;</span><br><span class="line">    NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">&#125;;</span><br><span class="line">NSLog(@&quot;%p&quot;, &amp;age);</span><br><span class="line"></span><br><span class="line">// 把上面代码转为结构体实现（模拟C++）</span><br><span class="line">struct __Block_byref_age_0 &#123;</span><br><span class="line">    void *__isa;</span><br><span class="line">    struct __Block_byref_age_0 *__forwarding;</span><br><span class="line">    int __flags;</span><br><span class="line">    int __size;</span><br><span class="line">    int age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __main_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">  void (*copy)(void);</span><br><span class="line">  void (*dispose)(void);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __block_impl &#123;</span><br><span class="line">  void *isa;</span><br><span class="line">  int Flags;</span><br><span class="line">  int Reserved;</span><br><span class="line">  void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __main_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* Desc;</span><br><span class="line">  struct __Block_byref_age_0 *age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        </span><br><span class="line">        __block int age = 10;</span><br><span class="line">        DBBlock block = ^&#123;</span><br><span class="line">            age = 20;</span><br><span class="line">            NSLog(@&quot;age is %d&quot;, age);</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">        struct __main_block_impl_0 *blockImpl = (struct __main_block_impl_0 *)block;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%p&quot;, &amp;age); // 输出：0x7ffeefbff478</span><br><span class="line">        NSLog(@&quot;%p&quot;, blockImpl-&gt;age); // 输出：0x7ffeefbff460</span><br><span class="line">        NSLog(@&quot;%p&quot;, &amp;(blockImpl-&gt;age-&gt;age)); // 输出：0x7ffeefbff478</span><br><span class="line">    &#125;</span><br><span class="line">  	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过对比内存地址可以发现，<code>__block</code>修饰后的age地址和<code>__Block_byref_age_0</code>结构体中的age地址是同一个。</p>
+<p>一个<code>__Block_byref_age_0</code>占用28个字节，通过每一个变量的偏移地址也可以计算出age的地址（0x7ffeefbff460 + 24 &#x3D; 0x7ffeefbff460 + 16 + 8 &#x3D; 0x7ffeefbff478）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__Block_byref_age_0</span> &#123;</span><br><span class="line">  <span class="type">void</span> *__isa; <span class="comment">// 指针，占用8个字节</span></span><br><span class="line">__Block_byref_age_0 *__forwarding; <span class="comment">// 指针，占用8个字节</span></span><br><span class="line"> <span class="type">int</span> __flags; <span class="comment">// 占用4个字节</span></span><br><span class="line"> <span class="type">int</span> __size; <span class="comment">// 占用4个字节</span></span><br><span class="line"> <span class="type">int</span> age; <span class="comment">// 占用4个字节</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>请注意下方的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">DBBlock block = ^&#123;</span><br><span class="line">    [array addObject:@&quot;1&quot;];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>array需要加上<code>__block</code>么？不需要，因为这里只是使用了array指针，并没有修改array（就像只访问age变量，但没有修改age的值）。虽然加上<code>__block</code>也没有问题，但是通过上面的讲解可以看到，能不加<code>__block</code>就不加，因为block内部会重新创建一个对象，并做一些内存管理的操作。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/22/ios-oc-block-var/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/22/ios-oc-block-var/" itemprop="url">【iOS】OC底层系列五 - block的变量捕获</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T19:51:02+08:00">
+                2018-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>面试题：</p>
+<ol>
+<li>block的原理是怎样的？本质是什么？</li>
+<li><code>__block</code>的作用是什么？有什么使用注意点？</li>
+<li>block的属性修饰词为什么是copy？使用block有哪些注意点？</li>
+<li>block在修改NSMutableArray，需不需要添加<code>__block</code>？</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/21/js-regix/#more" rel="contents">
+            <a class="btn" href="/2018/08/22/ios-oc-block-var/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1065,7 +1502,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/07/19/ios-collection-plain/">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/16/ios-oc-category/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1084,7 +1521,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/19/ios-collection-plain/" itemprop="url">【iOS】UICollectionView区头停留</a></h2>
+                <a class="post-title-link" href="/2018/08/16/ios-oc-category/" itemprop="url">【iOS】OC底层系列四 - Category</a></h2>
         
 
         <div class="post-meta">
@@ -1096,8 +1533,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T19:15:30+08:00">
-                2017-07-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-16T16:01:37+08:00">
+                2018-08-16
               </time>
             
 
@@ -1121,6 +1558,17 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/iOS/" itemprop="url" rel="index">
                     <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
                   </a>
                 </span>
 
@@ -1151,7 +1599,584 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.2k 字
+                  3.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>面试题：</p>
+<ol>
+<li>Category的实现原理？</li>
+<li>Category和Class Extension的区别是什么？</li>
+<li>Category能否添加成员变量？如果可以，如何给Category添加成员变量？</li>
+<li>load、initialize方法的区别什么？</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/16/ios-oc-category/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/10/ios-oc-kvo-kvc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/10/ios-oc-kvo-kvc/" itemprop="url">【iOS】OC底层系列三 - KVO和KVC</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-10T21:12:51+08:00">
+                2018-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>面试题：</p>
+<ol>
+<li>iOS用什么方式实现对一个对象的KVO？（KVO的本质）</li>
+<li>KVC的赋值和取值过程是怎样的？原理是什么？</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/10/ios-oc-kvo-kvc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/08/03/ios-oc-isa-superclass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/03/ios-oc-isa-superclass/" itemprop="url">【iOS】OC底层系列二 - 对象的分类</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T14:03:32+08:00">
+                2018-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>面试题：对象的isa指针指向哪里？OC的类信息存放在哪里？</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/03/ios-oc-isa-superclass/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/07/30/ios-oc-object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/30/ios-oc-object/" itemprop="url">【iOS】OC底层系列一 - 对象的本质</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T20:36:17+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.5k 字
                 </span>
               
 
@@ -1189,10 +2214,10 @@
 
       
         
-          <p><code>UITableView</code>系统提供了两种常用样式(<code>UITableViewStylePlain</code>和<code>UITableViewStyleGrouped</code>)，<code>UITableViewStylePlain</code>可以让区头停留在顶部，但是<code>UICollectionView</code>没有直接提供这样的样式，如果需要我们只能重写<code>UICollectionViewFlowLayout</code>，直接上代码：</p>
+          <p>面试题：一个NSObject对象占用多少内存？</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/19/ios-collection-plain/#more" rel="contents">
+            <a class="btn" href="/2018/07/30/ios-oc-object/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1243,7 +2268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/07/07/ios-device-info/">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/07/16/ios-hack-guard/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1262,7 +2287,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/07/ios-device-info/" itemprop="url">【iOS】获取设备信息</a></h2>
+                <a class="post-title-link" href="/2018/07/16/ios-hack-guard/" itemprop="url">【iOS】iOS逆向系列十二 - 代码混淆</a></h2>
         
 
         <div class="post-meta">
@@ -1274,364 +2299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T19:06:49+08:00">
-                2017-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  3.7k 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  21 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在项目中经常会遇到要向服务端提交设备相关信息的需求(设备型号、版本号、DeviceToken等等)，于是把当前用到的相关函数整理成一个工具类和大家分享</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/07/ios-device-info/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/06/23/ios-armv-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/23/ios-armv-config/" itemprop="url">【iOS】 Build Active Architecture Only</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-23T19:59:24+08:00">
-                2017-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  415 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>前两天运营部门提出一个问题：为什么我们的APP不支持iPhone5s以下机型(我们APP最低支持系统版本8.0)？我也是一脸懵，平时都是不支持哪个系统版本的，我还是头一次听说不支持机型的呢！直觉告诉我问题出在<code>armv64</code>、<code>armv7</code>等系统架构上面……</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/23/ios-armv-config/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/05/29/alcatraz-install-used/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/29/alcatraz-install-used/" itemprop="url">【Alcatraz】如何安装和使用Alcatraz</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T15:20:32+08:00">
-                2017-05-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T19:13:25+08:00">
+                2018-07-16
               </time>
             
 
@@ -1664,8 +2333,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Xcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Xcode</span>
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
                   </a>
                 </span>
 
@@ -1696,363 +2365,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  329 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  1 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>开发过程中为了提高开发效率我们经常会使用到很多Xcode插件，有时候为了方便能不能出个像<code>cocoapods</code>那样的插件管理工具呢？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/29/alcatraz-install-used/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/05/25/ios-avplayer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/25/ios-avplayer/" itemprop="url">【iOS】AVQueuePlayer讲解</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T22:10:15+08:00">
-                2017-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  703 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  2 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近在做的项目中使用<code>AVPlayer</code>进行视频播放，因为第一次做功能点这样庞大的视频播放项目，所以在带着团队<code>review</code>代码的时候发现有些地方还是值得优化的，很经典的一块就是按照集数顺序播放，当时做的是思路如下：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/25/ios-avplayer/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2017/05/16/ios-image-gif/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="1024星球">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/16/ios-image-gif/" itemprop="url">【iOS】UIImageView支持GIF动画</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T18:17:13+08:00">
-                2017-05-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  634 字
+                  820 字
                 </span>
               
 
@@ -2090,10 +2403,10 @@
 
       
         
-          <p>项目中经常会用到<code>SDWebImage</code>来缓存图片，但是最新版本的<code>SDWebImage</code>似乎对<code>GIF</code>分类做出了改变，仅支持<code>NSData</code>，但把图片文件转换为<code>NSData</code>后再用<code>SDWebImage</code>提供的<code>GIF</code>方法，貌似并不管用(没有动画效果)，现在把之前的<code>GIF</code>分类贴上来，供大家参考使用：</p>
+          <p>什么是加固？加固是为了增加应用的安全性，防止应用被破解、盗版、二次打包、注入、反编译等。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/16/ios-image-gif/#more" rel="contents">
+            <a class="btn" href="/2018/07/16/ios-hack-guard/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2135,7 +2448,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/14/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/page/12/">&lt;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/14/">&gt;</a>
   </nav>
 
 
@@ -2181,7 +2494,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">156</span>
+                <span class="site-state-item-count">197</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2192,7 +2505,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2203,7 +2516,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">225</span>
+                <span class="site-state-item-count">285</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

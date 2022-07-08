@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,逆向,越狱," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="逆向系列文章所用设备是一台iPhone 6s（建议至少iPhone 5s，因为从5s开始支持arm64架构），并且已完美越狱。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS逆向系列一 - 越狱环境搭建">
+<meta property="og:url" content="http://idbeny.com/2018/05/05/ios-hack-env/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="逆向系列文章所用设备是一台iPhone 6s（建议至少iPhone 5s，因为从5s开始支持arm64架构），并且已完美越狱。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/13q7y.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ljcln.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/tlwvk.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7obyb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/f1rrl.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/vr3b6.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ui35v.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/vv0wf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/89ocp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pp3wl.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/vnkur.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/56lzm.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/2l7cb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5994v.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/proho.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/2mt70.png@normal">
+<meta property="article:published_time" content="2018-05-05T13:06:17.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.795Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="越狱">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/13q7y.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/05/05/ios-hack-env/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】iOS逆向系列一 - 越狱环境搭建 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/05/05/ios-hack-env/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】iOS逆向系列一 - 越狱环境搭建</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T21:06:17+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>逆向系列文章所用设备是一台iPhone 6s（建议至少iPhone 5s，因为从5s开始支持arm64架构），并且已完美越狱。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="一、iOS-Jailbreak（iOS越狱）"><a href="#一、iOS-Jailbreak（iOS越狱）" class="headerlink" title="一、iOS Jailbreak（iOS越狱）"></a>一、iOS Jailbreak（iOS越狱）</h2><p>什么是<em>iOS Jailbreak</em>？利用iOS系统的漏洞，获取iOS系统的最高权限（Root），解开之前的各种限制（合法行为）。</p>
+<p><img src="https://blog.idbeny.com/13q7y.png@normal"></p>
+<h3 id="1-1-越狱的优点"><a href="#1-1-越狱的优点" class="headerlink" title="1.1. 越狱的优点"></a>1.1. 越狱的优点</h3><ul>
+<li>打造个性化、与众不同的iPhone<ul>
+<li>自由安装各种实用的插件、主题、APP</li>
+<li>修改系统APP的一些默认行为</li>
+</ul>
+</li>
+<li>自由安装非AppSore来源的APP<ul>
+<li>“付费APP”秒变“免费APP”</li>
+<li>未越狱iPhone安装APP的途径：AppStore、真机调试、通过证书打包签名ipa安装</li>
+</ul>
+</li>
+<li>灵活管理文件系统，让iPhone可以像U盘那样灵活</li>
+<li>给开发者提供了逆向工程的环境</li>
+</ul>
+<h3 id="1-2-越狱的缺点"><a href="#1-2-越狱的缺点" class="headerlink" title="1.2. 越狱的缺点"></a>1.2. 越狱的缺点</h3><ul>
+<li>不予保修</li>
+<li>费电，越狱后的iOS系统会常驻一些进程，耗电速度约提升10%~20%</li>
+<li>在新的iOS固件版本出来的时候，不能及时地进行更新<ul>
+<li>每个新版本的固件，都会修复上一个版本的越狱漏洞，使越狱失效</li>
+<li>如果需要保持越狱状态，要等待新的越狱程序发布时，才能升级相应的固件版本</li>
+</ul>
+</li>
+<li>不再受iOS系统默认的安全保护，容易被恶意软件攻击，个人隐私有被窃取的风险</li>
+<li>如果安装了不稳定的插件，容易让系统变得不稳定、变慢，甚至出现“白苹果”等问题</li>
+</ul>
+<h3 id="1-3-完美越狱和不完美越狱"><a href="#1-3-完美越狱和不完美越狱" class="headerlink" title="1.3. 完美越狱和不完美越狱"></a>1.3. 完美越狱和不完美越狱</h3><p>完美越狱：越狱后的iPhone可以正常关机和重启。</p>
+<p>不完美越狱：iPhone一旦关机后再开机时，屏幕就会一直停留在启动画面，也就是“白苹果”状态。或者能正常开机，但已经安装的破解软件都无法正常使用，需要将设备与PC连接后，使用软件进行引导才能使用。</p>
+<p>一般说来，在苹果发布新的iOS固件后，针对该固件的不完美越狱会先发布，随后完美越狱才可能发布。一般较新的系统版本，均为不完美越狱。</p>
+<p>越狱方法推荐：<a target="_blank" rel="noopener" href="http://jailbreak.25pp.com/">PP助手</a>、<a target="_blank" rel="noopener" href="https://www.i4.cn/">爱思助手</a></p>
+<h3 id="1-4-如何判断是否越狱成功？"><a href="#1-4-如何判断是否越狱成功？" class="headerlink" title="1.4. 如何判断是否越狱成功？"></a>1.4. 如何判断是否越狱成功？</h3><ol>
+<li><p>桌面是否有Cydia<br><img src="https://blog.idbeny.com/ljcln.png@normal"></p>
+</li>
+<li><p>通过PP助手工具 或 爱思助手工具<br><img src="https://blog.idbeny.com/tlwvk.png@normal"></p>
+</li>
+</ol>
+<h2 id="二、Cydia"><a href="#二、Cydia" class="headerlink" title="二、Cydia"></a>二、Cydia</h2><p>Cydia就是越狱后的“App Store”，可以在Cydia中安装各种第三方的软件（插件、补丁、APP）。</p>
+<p><strong>安装步骤：</strong></p>
+<ol>
+<li><p>添加软件源（不同软件的软件源可能不同）<br><img src="https://blog.idbeny.com/7obyb.png@normal"></p>
+</li>
+<li><p>进入软件源找到对应的软件，开始安装<br><img src="https://blog.idbeny.com/f1rrl.png@normal"></p>
+</li>
+<li><p>如果软件源中的软件太多，可以搜索查找<br><img src="https://blog.idbeny.com/vr3b6.png@normal"></p>
+</li>
+</ol>
+<p>有时候通过Cydia安装完插件后，可能会出现以下界面：</p>
+<p><img src="https://blog.idbeny.com/ui35v.png@normal"></p>
+<p>SpringBoard就是iOS的桌面，因此不需要担心，点击重启即可。</p>
+<h3 id="2-1-Apple-File-Conduit-“2”"><a href="#2-1-Apple-File-Conduit-“2”" class="headerlink" title="2.1. Apple File Conduit “2”"></a>2.1. Apple File Conduit “2”</h3><p>Apple File Conduit “2”补丁的作用是<strong>可以访问整个iOS设备的文件系统</strong>。类似的补丁还有afc2、afc2add。</p>
+<p><img src="https://blog.idbeny.com/vv0wf.png@normal"></p>
+<p>软件源：<a target="_blank" rel="noopener" href="http://apt.saurik.com、http//apt.25pp.com">http://apt.saurik.com、http://apt.25pp.com</a></p>
+<h3 id="2-2-AppSync-Unified"><a href="#2-2-AppSync-Unified" class="headerlink" title="2.2. AppSync Unified"></a>2.2. AppSync Unified</h3><p>AppSync Unified补丁的作用是<strong>可以绕过系统验证，随意安装、运行破解的ipa安装包</strong>。</p>
+<p><img src="https://blog.idbeny.com/89ocp.png@normal"></p>
+<p>软件源：<a target="_blank" rel="noopener" href="http://apt.25pp.com/">http://apt.25pp.com</a></p>
+<h3 id="2-3-iFile"><a href="#2-3-iFile" class="headerlink" title="2.3. iFile"></a>2.3. iFile</h3><p>iFile的作用是<strong>可以在iPhone上自由访问iOS文件系统</strong>。类似的还有Filza File Manager、File Browser。</p>
+<p><img src="https://blog.idbeny.com/pp3wl.png@normal"></p>
+<p>软件源：<a target="_blank" rel="noopener" href="http://apt.thebigboss.org/repofiles/cydia">http://apt.thebigboss.org/repofiles/cydia</a></p>
+<h3 id="2-4-PP助手"><a href="#2-4-PP助手" class="headerlink" title="2.4. PP助手"></a>2.4. PP助手</h3><p>可以利用PP助手自由安装海量APP。</p>
+<p><img src="https://blog.idbeny.com/vnkur.png@normal"></p>
+<p>软件源：<a target="_blank" rel="noopener" href="http://apt.25pp.com/">http://apt.25pp.com/</a></p>
+<h3 id="2-5-Mac必备"><a href="#2-5-Mac必备" class="headerlink" title="2.5. Mac必备"></a>2.5. Mac必备</h3><p>iFunBox是一个管理文件系统。</p>
+<p>PP助手可以自由安装海量APP、卸载APP、备份APP为ipa安装包（iOS9开始，不再支持备份APP）。</p>
+<p><img src="https://blog.idbeny.com/56lzm.png@normal"></p>
+<h3 id="2-6-建议安装顺序"><a href="#2-6-建议安装顺序" class="headerlink" title="2.6. 建议安装顺序"></a>2.6. 建议安装顺序</h3><p><img src="https://blog.idbeny.com/2l7cb.png@normal"></p>
+<p>通常情况下：</p>
+<ul>
+<li>通过Cydia安装的安装包是deb格式的（结合软件包管理工具apt）</li>
+<li>通过PP助手安装的安装包是ipa格式的</li>
+</ul>
+<p>如果通过Cydia源安装deb失败：</p>
+<ul>
+<li>可以先从网上下载deb格式的安装包</li>
+<li>然后将deb安装包放到<code>/var/root/Media/Cydia/AutoInstall</code></li>
+<li>重启手机，Cydia就会自动安装deb</li>
+</ul>
+<p>比如，下图是iFile 2.2.0-1所需的deb安装包：</p>
+<p><img src="https://blog.idbeny.com/5994v.png@normal"></p>
+<p><img src="https://blog.idbeny.com/proho.png@normal"></p>
+<p><img src="https://blog.idbeny.com/2mt70.png@normal"></p>
+<p><em>思考：如何在iOS代码中判断设备是否越狱？</em></p>
+<p>针对不同iOS版本的判断方法可能不一样，而最简单的一种方法就是判断手机上是否安装了Cydia。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (BOOL)isJailbreak &#123;</span><br><span class="line">    return [[NSFileManager defaultManager] fileExistsAtPath:@&quot;/Applications/Cydia.app&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/05/05/ios-hack-env/" title="【iOS】iOS逆向系列一 - 越狱环境搭建">http://idbeny.com/2018/05/05/ios-hack-env/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E9%80%86%E5%90%91/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/%E8%B6%8A%E7%8B%B1/" rel="tag"># 越狱</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/25/assembly-at&t/" rel="next" title="【汇编】汇编系列七 - AT&T汇编">
+                <i class="fa fa-chevron-left"></i> 【汇编】汇编系列七 - AT&T汇编
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/12/ios-hack-ssh/" rel="prev" title="【iOS】iOS逆向系列二 - SSH">
+                【iOS】iOS逆向系列二 - SSH <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81iOS-Jailbreak%EF%BC%88iOS%E8%B6%8A%E7%8B%B1%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、iOS Jailbreak（iOS越狱）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%B6%8A%E7%8B%B1%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 越狱的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%B6%8A%E7%8B%B1%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 越狱的缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%AE%8C%E7%BE%8E%E8%B6%8A%E7%8B%B1%E5%92%8C%E4%B8%8D%E5%AE%8C%E7%BE%8E%E8%B6%8A%E7%8B%B1"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 完美越狱和不完美越狱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E8%B6%8A%E7%8B%B1%E6%88%90%E5%8A%9F%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 如何判断是否越狱成功？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Cydia"><span class="nav-number">2.</span> <span class="nav-text">二、Cydia</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Apple-File-Conduit-%E2%80%9C2%E2%80%9D"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. Apple File Conduit “2”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-AppSync-Unified"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. AppSync Unified</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-iFile"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. iFile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-PP%E5%8A%A9%E6%89%8B"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. PP助手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-Mac%E5%BF%85%E5%A4%87"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. Mac必备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E5%BB%BA%E8%AE%AE%E5%AE%89%E8%A3%85%E9%A1%BA%E5%BA%8F"><span class="nav-number">2.6.</span> <span class="nav-text">2.6. 建议安装顺序</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,底层,多线程,线程安全," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="多线程安全在开发中是难点，但更是重点。平时生活中的卖票、存取钱等问题都和多线程安全有关。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】OC底层系列十四 - 多线程-线程安全">
+<meta property="og:url" content="http://idbeny.com/2018/10/03/ios-oc-dispatch-safety/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="多线程安全在开发中是难点，但更是重点。平时生活中的卖票、存取钱等问题都和多线程安全有关。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/6z4cs.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3q5s1.png@normal">
+<meta property="article:published_time" content="2018-10-03T14:36:07.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.804Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="线程安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/6z4cs.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/10/03/ios-oc-dispatch-safety/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】OC底层系列十四 - 多线程-线程安全 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/10/03/ios-oc-dispatch-safety/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】OC底层系列十四 - 多线程-线程安全</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-03T22:36:07+08:00">
+                2018-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>多线程安全在开发中是难点，但更是重点。平时生活中的卖票、存取钱等问题都和多线程安全有关。</p>
+<span id="more"></span>
+
+<h2 id="一、多线程安全分析"><a href="#一、多线程安全分析" class="headerlink" title="一、多线程安全分析"></a>一、多线程安全分析</h2><p><strong>卖票示例代码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 卖票</span><br><span class="line">- (void)ticketTest &#123;</span><br><span class="line">    self.ticketsCount = 15;</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">             [self saleTicket];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            [self saleTicket];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            [self saleTicket];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 卖1张票</span><br><span class="line">- (void)saleTicket &#123;</span><br><span class="line">    int oldTicketsCount = self.ticketsCount;</span><br><span class="line">    sleep(.2);</span><br><span class="line">    oldTicketsCount--;</span><br><span class="line">    self.ticketsCount = oldTicketsCount;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;还剩%d张票 - %@&quot;, oldTicketsCount, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终卖出的票比实际票数还多。</p>
+<p><strong>存取钱示例代码</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 存钱、取钱</span><br><span class="line">- (void)moneyTest &#123;</span><br><span class="line">    self.money = 100;</span><br><span class="line">    </span><br><span class="line">    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            [self saveMoney];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            [self drawMoney];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 存钱</span><br><span class="line">- (void)saveMoney &#123;</span><br><span class="line">    int oldMoney = self.money;</span><br><span class="line">    sleep(.2);</span><br><span class="line">    oldMoney += 50;</span><br><span class="line">    self.money = oldMoney;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;存50，还剩%d元 - %@&quot;, oldMoney, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 取钱</span><br><span class="line">- (void)drawMoney &#123;</span><br><span class="line">    int oldMoney = self.money;</span><br><span class="line">    sleep(.2);</span><br><span class="line">    oldMoney -= 20;</span><br><span class="line">    self.money = oldMoney;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;取20，还剩%d元 - %@&quot;, oldMoney, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>账户上的钱（变量money）和实际存取的数对应不上。</p>
+<p><strong>多线程安全隐患分析</strong>：</p>
+<p><img src="https://blog.idbeny.com/6z4cs.png@normal"></p>
+<p>内存中有一个数值17。线程A先把数值17读出来，并做加1操作，然后把结果18写到内存中。在线程A把最新的结果写入内存前，线程B也从内存中把数值读出来了（此处内存中的数值还是17），然后也做了加1操作，把最新的结果写到内存中（最新结果是18）。线程A和线程B都做了加1操作，理论上内存中的值应该是19，但是由于数值没有同步的问题导致数值只被加了一次。</p>
+<p><strong>解决方案</strong>：使用线程同步技术（同步，就是协同步调，按预定的先后次序进行）。常见的线程同步技术是：加锁。</p>
+<p><img src="https://blog.idbeny.com/3q5s1.png@normal"></p>
+<p>如果在线程A读写内存中的数值时<strong>对数据加锁</strong>，其他线程就无法读写内存中的数据。等线程A把数据写到内存中并<strong>对数据解锁</strong>后，其他线程才可以对数据进行读写（加锁&#x2F;解锁）操作，这样就能够保证多线程安全。</p>
+<h2 id="二、线程同步方案"><a href="#二、线程同步方案" class="headerlink" title="二、线程同步方案"></a>二、线程同步方案</h2><p>在iOS中线程同步方案有很多种：</p>
+<ul>
+<li><code>OSSpinLock</code>（自旋锁）</li>
+<li><code>os_unfair_lock</code>（用于取代<code>OSSpinLock</code>）</li>
+<li><code>pthread_mutex</code>（互斥锁）</li>
+<li><code>dispatch_semaphore</code>（信号量）</li>
+<li><code>dispatch_queue(DISPATCH_QUEUE_SERIAL)</code>（串行队列）</li>
+<li><code>NSLock</code>（对<code>pthread_mutex-普通锁</code>的OC版本封装）</li>
+<li><code>NSRecursiveLock</code>（对<code>pthread_mutex-递归锁</code>的OC版本封装）</li>
+<li><code>NSCondition</code>（对<code>pthread_mutex-条件</code>的OC版本封装）</li>
+<li><code>NSConditionLock</code>（对<code>NSCondition</code>的高级封装）</li>
+<li><code>@synchronized</code>（对<code>pthread_mutex-递归锁</code>的OC版本封装，代码非常简洁，但性能不太好）</li>
+</ul>
+<p>加锁的前提：访问的是同一份资源时必须是同一把锁，否则会出现线程不同步。</p>
+<h3 id="2-1-OSSpinLock"><a href="#2-1-OSSpinLock" class="headerlink" title="2.1. OSSpinLock"></a>2.1. OSSpinLock</h3><p><code>OSSpinLock</code>叫做自旋锁，等待锁的线程会处于忙等（<em>busy-wait</em>）状态，一直占用着CPU资源。</p>
+<p>目前已经不再安全，可能会出现优先级反转问题。如果等待锁的线程优先级较高，它会一直占用着CPU资源，优先级低的线程就无法释放锁。</p>
+<p>需要导入头文件<code>#import &lt;libkern/OSAtomic.h&gt;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 初始化</span><br><span class="line">OSSpinLock lock = OS_SPINLOCK_INIT;</span><br><span class="line">// 尝试加锁（如果需要等待就不加锁，直接返回false代表加锁失败；如果不需要等待就加锁，返回true代表加锁成功）</span><br><span class="line">bool result = OSSpinLockTry(lock);</span><br><span class="line">// 加锁</span><br><span class="line">OSSpinLockLock(&amp;lock);</span><br><span class="line">// 业务逻辑</span><br><span class="line">// 解锁</span><br><span class="line">OSSpinLockUnlock(&amp;lock);</span><br></pre></td></tr></table></figure>
+
+<p>加锁后一定要解锁，否则会形成死锁（其他线程拿不到锁）。</p>
+<blockquote>
+<p>自旋锁的内部其实就是一个while循环，让线程一直处在循环中等待上一个线程解锁，因此线程并没有在休眠状态。</p>
+</blockquote>
+<h3 id="2-2-os-unfair-lock"><a href="#2-2-os-unfair-lock" class="headerlink" title="2.2. os_unfair_lock"></a>2.2. os_unfair_lock</h3><p><code>OSSpinLock</code>在iOS10.0已经被废弃，官方使用<code>os_unfair_lock</code>取代不安全的<code>OSSpinLock</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef int32_t OSSpinLock OSSPINLOCK_DEPRECATED_REPLACE_WITH(os_unfair_lock);</span><br></pre></td></tr></table></figure>
+
+<p>从底层调用看，等待<code>os_unfair_lock</code>锁的线程会处于休眠状态，并非忙等，所以会节省CPU资源。<code>os_unfair_lock</code>的本质其实是一个互斥锁，因为线程等待时会处于休眠状态。</p>
+<p>需要导入头文件<code>#import &lt;os/lock.h&gt;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 初始化</span><br><span class="line">os_unfair_lock lock = OS_UNFAIR_LOCK_INIT;</span><br><span class="line">// 尝试加锁</span><br><span class="line">os_unfair_lock_trylock(&amp;lock);</span><br><span class="line">// 加锁</span><br><span class="line">os_unfair_lock_lock(&amp;lock);</span><br><span class="line">// 业务逻辑</span><br><span class="line">// 解锁</span><br><span class="line">os_unfair_lock_unlock(&amp;lock);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-pthread-mutex"><a href="#2-3-pthread-mutex" class="headerlink" title="2.3. pthread_mutex"></a>2.3. pthread_mutex</h3><p><code>mutex</code>叫做互斥锁，等待锁的线程会处于休眠状态，不会占用CPU资源。</p>
+<p>需要导入头文件<code>#import &lt;pthread.h&gt;</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 初始化锁的属性</span><br><span class="line">pthread_mutexattr_t attr;</span><br><span class="line">pthread_mutexattr_init(&amp;attr);</span><br><span class="line">pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_NORMAL);</span><br><span class="line">// 初始化锁</span><br><span class="line">pthread_mutex_t mutex;</span><br><span class="line">pthread_mutex_init(&amp;mutex, &amp;attr);</span><br><span class="line">// 尝试加锁</span><br><span class="line">pthread_mutex_trylock(&amp;mutex);</span><br><span class="line">// 加锁</span><br><span class="line">pthread_mutex_lock(&amp;mutex);</span><br><span class="line">// 解锁</span><br><span class="line">pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">// 销毁相关资源</span><br><span class="line">pthread_mutexattr_destroy(&amp;attr);</span><br><span class="line">pthread_mutex_destroy(&amp;mutex);</span><br></pre></td></tr></table></figure>
+
+<p>互斥锁的类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * Mutex type attributes</span><br><span class="line"> */</span><br><span class="line">#define PTHREAD_MUTEX_NORMAL	  	0 										// 普通锁</span><br><span class="line">#define PTHREAD_MUTEX_ERRORCHECK	1											// 错误检查</span><br><span class="line">#define PTHREAD_MUTEX_RECURSIVE		2											// 递归锁</span><br><span class="line">#define PTHREAD_MUTEX_DEFAULT		  PTHREAD_MUTEX_NORMAL  // 默认锁（普通锁）</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-3-1-pthread-mutex-–-递归锁"><a href="#2-3-1-pthread-mutex-–-递归锁" class="headerlink" title="2.3.1. pthread_mutex – 递归锁"></a>2.3.1. pthread_mutex – 递归锁</h4><p>如果上面的加锁代码有递归就会发生死锁，因此需要递归锁解决死锁的问题（递归锁：允许同一个线程对一把锁进行重复加锁，所以多线程访问不会造成加锁无效）。</p>
+<p><code>pthread_mutexattr_settype</code>传入<code>PTHREAD_MUTEX_NORMAL</code>就是递归锁。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 初始化锁的属性</span><br><span class="line">pthread_mutexattr_t attr;</span><br><span class="line">pthread_mutexattr_init(&amp;attr);</span><br><span class="line">pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE);</span><br><span class="line">// 初始化锁</span><br><span class="line">pthread_mutex_t mutex;</span><br><span class="line">pthread_mutex_init(&amp;mutex, &amp;attr);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-3-2-pthread-mutex-–-条件"><a href="#2-3-2-pthread-mutex-–-条件" class="headerlink" title="2.3.2. pthread_mutex – 条件"></a>2.3.2. pthread_mutex – 条件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 初始化锁</span><br><span class="line">pthread_mutex_t mutex;</span><br><span class="line">// NULL代表使用默认属性</span><br><span class="line">pthread_mutex_init(&amp;mutex, NULL);</span><br><span class="line">// 初始化条件</span><br><span class="line">pthread_cond_t condition;</span><br><span class="line">pthread_cond_init(&amp;condition, NULL);</span><br><span class="line">// 等待条件（进入休眠，会自动放开mutex锁；被唤醒后，会再次对mutex加锁，并继续执行下面的逻辑）</span><br><span class="line">pthread_cond_wait(&amp;condition, &amp;mutex);</span><br><span class="line">// 激活一个等待该条件的线程</span><br><span class="line">pthread_cond_signal(&amp;condition);</span><br><span class="line">// 激活所有等待该条件的线程</span><br><span class="line">pthread_cond_broadcast(&amp;condition);</span><br><span class="line">// 销毁资源</span><br><span class="line">pthread_mutex_destroy(&amp;mutex);</span><br><span class="line">pthread_cond_destroy(&amp;condition);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>需求示例：先进入删除数组中的元素的线程时，有可能数组中没有元素，此时应该让线程处于等待状态，往数组添加元素的线程执行完后，可以让删除元素的线程继续执行删除操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">@interface DBThreadMutex()</span><br><span class="line">  </span><br><span class="line">@property (assign, nonatomic) pthread_mutex_t mutex;</span><br><span class="line">@property (assign, nonatomic) pthread_cond_t cond;</span><br><span class="line">@property (strong, nonatomic) NSMutableArray *data;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DBThreadMutex</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    if (self = [super init]) &#123;</span><br><span class="line">        // 初始化属性</span><br><span class="line">        pthread_mutexattr_t attr;</span><br><span class="line">        pthread_mutexattr_init(&amp;attr);</span><br><span class="line">        pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE);</span><br><span class="line">        // 初始化锁</span><br><span class="line">        pthread_mutex_init(&amp;_mutex, &amp;attr);</span><br><span class="line">        // 销毁属性</span><br><span class="line">        pthread_mutexattr_destroy(&amp;attr);</span><br><span class="line">        </span><br><span class="line">        // 初始化条件</span><br><span class="line">        pthread_cond_init(&amp;_cond, NULL);</span><br><span class="line">        </span><br><span class="line">        self.data = [NSMutableArray array];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试入口</span><br><span class="line">- (void)entryTest &#123;</span><br><span class="line">    [[[NSThread alloc] initWithTarget:self selector:@selector(remove) object:nil] start];</span><br><span class="line">    </span><br><span class="line">    [[[NSThread alloc] initWithTarget:self selector:@selector(add) object:nil] start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 线程1</span><br><span class="line">// 删除数组中的元素</span><br><span class="line">- (void)remove &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    </span><br><span class="line">    if (self.data.count == 0) &#123;</span><br><span class="line">        // 等待</span><br><span class="line">        pthread_cond_wait(&amp;_cond, &amp;_mutex);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [self.data removeLastObject];</span><br><span class="line">    </span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 线程2</span><br><span class="line">// 往数组中添加元素</span><br><span class="line">- (void)add &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    </span><br><span class="line">    sleep(1);</span><br><span class="line">    </span><br><span class="line">    [self.data addObject:@&quot;Test&quot;];</span><br><span class="line">    </span><br><span class="line">    pthread_cond_signal(&amp;_cond);</span><br><span class="line">    </span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc &#123;</span><br><span class="line">    pthread_mutex_destroy(&amp;_mutex);</span><br><span class="line">    pthread_cond_destroy(&amp;_cond);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p><code>pthread_cond_signal</code>执行结束后，<code>pthread_cond_wait</code>并不会马上自动加锁，而是要等到解锁后才能加锁。</p>
+<h3 id="2-4-NSLock、NSRecursiveLock"><a href="#2-4-NSLock、NSRecursiveLock" class="headerlink" title="2.4. NSLock、NSRecursiveLock"></a>2.4. NSLock、NSRecursiveLock</h3><p><code>NSLock</code>是对<code>mutex普通锁</code>的封装。</p>
+<p>官方定义的<code>NSLock</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@protocol NSLocking</span><br><span class="line"></span><br><span class="line">- (void)lock;</span><br><span class="line">- (void)unlock;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">@interface NSLock : NSObject &lt;NSLocking&gt; &#123;</span><br><span class="line"></span><br><span class="line">// 线程不会等待</span><br><span class="line">- (BOOL)tryLock;</span><br><span class="line">// 线程在时间到期前还是拿不到锁，就会加锁失败（返回NO）</span><br><span class="line">- (BOOL)lockBeforeDate:(NSDate *)limit;</span><br><span class="line"></span><br><span class="line">@property (nullable, copy) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>NSLock</code>初始化锁和初始化普通对象一样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSLock *lock = [[NSLock alloc] init];</span><br></pre></td></tr></table></figure>
+
+<p><code>NSRecursiveLock</code>是对<code>mutex递归锁</code>的封装，API跟<code>NSLock</code>基本一致。</p>
+<h3 id="2-5-NSCondition"><a href="#2-5-NSCondition" class="headerlink" title="2.5. NSCondition"></a>2.5. NSCondition</h3><p><code>NSCondition</code>是对<code>mutex</code>和<code>cond</code>的封装。</p>
+<p>官方定义的<code>NSCondition</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@interface NSCondition : NSObject &lt;NSLocking&gt; &#123;</span><br><span class="line">  </span><br><span class="line">- (void)wait;</span><br><span class="line">- (BOOL)waitUntilDate:(NSDate *)limit;</span><br><span class="line">- (void)signal;</span><br><span class="line">- (void)broadcast;</span><br><span class="line"></span><br><span class="line">@property (nullable, copy) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-6-NSConditionLock"><a href="#2-6-NSConditionLock" class="headerlink" title="2.6. NSConditionLock"></a>2.6. NSConditionLock</h3><p><code>NSConditionLock</code>是对<code>NSCondition</code>的进一步封装，可以设置具体的条件值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@interface NSConditionLock : NSObject &lt;NSLocking&gt; &#123;</span><br><span class="line"></span><br><span class="line">// 初始化条件（条件值默认是0）</span><br><span class="line">- (instancetype)initWithCondition:(NSInteger)condition NS_DESIGNATED_INITIALIZER;</span><br><span class="line"></span><br><span class="line">@property (readonly) NSInteger condition;</span><br><span class="line">// 当条件成立的时候加锁</span><br><span class="line">- (void)lockWhenCondition:(NSInteger)condition;</span><br><span class="line">- (BOOL)tryLock;</span><br><span class="line">- (BOOL)tryLockWhenCondition:(NSInteger)condition;</span><br><span class="line">// 解锁并设条件值（通过这个方法可以设置线程依赖）</span><br><span class="line">- (void)unlockWithCondition:(NSInteger)condition;</span><br><span class="line">- (BOOL)lockBeforeDate:(NSDate *)limit;</span><br><span class="line">- (BOOL)lockWhenCondition:(NSInteger)condition beforeDate:(NSDate *)limit;</span><br><span class="line"></span><br><span class="line">@property (nullable, copy) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-7-dispatch-semaphore"><a href="#2-7-dispatch-semaphore" class="headerlink" title="2.7. dispatch_semaphore"></a>2.7. dispatch_semaphore</h3><p><code>semaphore</code>叫做信号量。信号量的初始值，可以用来控制线程并发访问的最大数量。信号量的初始值为1，代表同时只允许1条线程访问资源，保证线程同步。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 信号量的初始值</span><br><span class="line">int value = 1;</span><br><span class="line">// 初始化信号量</span><br><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(value);</span><br><span class="line">// 如果信号量的值&lt;=0，当前线程就会进入休眠等待（直到信号量的值&gt;0）</span><br><span class="line">// 如果信号量的值&gt;0，就减1，然后往下执行后面的代码</span><br><span class="line">dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">// 让信号量的值加1</span><br><span class="line">dispatch_semaphore_signal(semaphore);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-8-dispatch-queue"><a href="#2-8-dispatch-queue" class="headerlink" title="2.8. dispatch_queue"></a>2.8. dispatch_queue</h3><p>直接使用GCD的串行队列，也是可以实现线程同步的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;lock_queue&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">   // 任务</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-9-synchronized"><a href="#2-9-synchronized" class="headerlink" title="2.9. @synchronized"></a>2.9. @synchronized</h3><p><code>@synchronized</code>是对<code>mutex递归锁</code>的封装。</p>
+<p>源码查看：objc中的<code>objc-sync.mm</code>文件。</p>
+<p><code>@synchronized(obj)</code>内部会生成obj对应的递归锁，然后自动进行加锁、解锁操作。由于性能不太好，所以不太建议使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@synchronized (obj) &#123;</span><br><span class="line">    // 任务</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、线程同步方案性能比较"><a href="#三、线程同步方案性能比较" class="headerlink" title="三、线程同步方案性能比较"></a>三、线程同步方案性能比较</h2><h3 id="3-1-性能从高到低排序"><a href="#3-1-性能从高到低排序" class="headerlink" title="3.1. 性能从高到低排序"></a>3.1. 性能从高到低排序</h3><ul>
+<li><code>os_unfair_lock</code>（用于取代<code>OSSpinLock</code>）</li>
+<li><code>OSSpinLock</code>（自旋锁）</li>
+<li><code>dispatch_semaphore</code>（信号量）</li>
+<li><code>pthread_mutex</code>（互斥锁）</li>
+<li><code>dispatch_queue(DISPATCH_QUEUE_SERIAL)</code>（串行队列）</li>
+<li><code>NSLock</code>（对<code>pthread_mutex-普通锁</code>的OC版本封装）</li>
+<li><code>NSCondition</code>（对<code>pthread_mutex-条件</code>的OC版本封装）</li>
+<li><code>pthread_mutex(recursive)</code>（递归锁）</li>
+<li><code>NSRecursiveLock</code>（对<code>pthread_mutex-递归锁</code>的OC版本封装）</li>
+<li><code>NSConditionLock</code>（对<code>NSCondition</code>的高级封装）</li>
+<li><code>@synchronized</code>（对<code>pthread_mutex-递归锁</code>的OC版本封装，代码非常简洁，但性能不太好）</li>
+</ul>
+<h3 id="3-2-自旋锁、互斥锁比较"><a href="#3-2-自旋锁、互斥锁比较" class="headerlink" title="3.2. 自旋锁、互斥锁比较"></a>3.2. 自旋锁、互斥锁比较</h3><p>什么情况使用自旋锁比较划算？</p>
+<ul>
+<li>预计线程等待锁的时间很短</li>
+<li>加锁的代码（临界区）经常被调用，但竞争情况很少发生</li>
+<li>CPU资源不紧张</li>
+<li>多核处理器</li>
+</ul>
+<p>什么情况使用互斥锁比较划算？</p>
+<ul>
+<li>预计线程等待锁的时间较长</li>
+<li>单核处理器</li>
+<li>临界区有IO操作</li>
+<li>临界区代码复杂或者循环量大</li>
+<li>临界区竞争非常激烈</li>
+</ul>
+<h2 id="四、读写安全方案"><a href="#四、读写安全方案" class="headerlink" title="四、读写安全方案"></a>四、读写安全方案</h2><h3 id="4-1-atomic"><a href="#4-1-atomic" class="headerlink" title="4.1. atomic"></a>4.1. atomic</h3><p><code>atomic</code>用于保证属性setter、getter的原子性操作，相当于在setter和getter内部加了线程同步的锁，可以参考源码objc的<code>objc-accessors.mm</code>。但它并不能保证使用属性的过程是线程安全的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@interface DBPerson : NSObject</span><br><span class="line"></span><br><span class="line">@property(atomic, strong) NSMutableArray *array;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">person.array = [NSMutableArray array];</span><br><span class="line"></span><br><span class="line">[person.array addObject:@&quot;1&quot;];</span><br><span class="line">[person.array addObject:@&quot;2&quot;];</span><br><span class="line">[person.array addObject:@&quot;3&quot;];</span><br></pre></td></tr></table></figure>
+
+<p>如上代码，array的setter和getter方法内部是线程安全的，但是<code>addObject:</code>方法并不是线程安全的。</p>
+<p><code>atomic</code>比较消耗CPU资源，所以一般情况下在iOS平台很少使用<code>atomic</code>修饰属性。如果对属性有线程安全的要求，完全可以在外部进行加锁和解锁，并且可控。</p>
+<h3 id="4-2-读写锁和栅栏函数"><a href="#4-2-读写锁和栅栏函数" class="headerlink" title="4.2. 读写锁和栅栏函数"></a>4.2. 读写锁和栅栏函数</h3><p>思考如何实现以下场景：</p>
+<ul>
+<li>同一时间，只能有1个线程进行写的操作</li>
+<li>同一时间，允许有多个线程进行读的操作</li>
+<li>同一时间，不允许既有写的操作，又有读的操作</li>
+</ul>
+<p>上面的场景就是典型的<strong>多读单写</strong>，经常用于文件等数据的读写操作，iOS中的实现方案有：</p>
+<ul>
+<li><code>pthread_rwlock</code>：读写锁</li>
+<li><code>dispatch_barrier_async</code>：异步栅栏调用</li>
+</ul>
+<h4 id="4-2-1-pthread-rwlock"><a href="#4-2-1-pthread-rwlock" class="headerlink" title="4.2.1. pthread_rwlock"></a>4.2.1. pthread_rwlock</h4><p>等待锁的线程会进入休眠。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 初始化锁</span><br><span class="line">pthread_rwlock_t lock;</span><br><span class="line">pthread_rwlock_init(&amp;lock, NULL);</span><br><span class="line">// 读-加锁</span><br><span class="line">pthread_rwlock_rdlock(&amp;lock);</span><br><span class="line">// 读-尝试加锁</span><br><span class="line">pthread_rwlock_tryrdlock(&amp;lock);</span><br><span class="line">// 写-加锁</span><br><span class="line">pthread_rwlock_wrlock(&amp;lock);</span><br><span class="line">// 写-尝试加锁</span><br><span class="line">pthread_rwlock_trywrlock(&amp;lock);</span><br><span class="line">// 解锁</span><br><span class="line">pthread_rwlock_unlock(&amp;lock);</span><br><span class="line">// 销毁</span><br><span class="line">pthread_rwlock_destroy(&amp;lock);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-2-2-dispatch-barrier-async"><a href="#4-2-2-dispatch-barrier-async" class="headerlink" title="4.2.2. dispatch_barrier_async"></a>4.2.2. dispatch_barrier_async</h4><p>这个函数传入的并发队列必须是自己通过<code>dispatch_queue_cretate</code>创建的，如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于<code>dispatch_async</code>函数的效果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 初始化队列</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;rw_queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">// 读</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line">// 写</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p><strong>面试题1</strong>：你理解的多线程？</p>
+<p><strong>面试题2</strong>：iOS的多线程方案有哪几种？你更倾向于哪一种？</p>
+<p><strong>面试题3</strong>：你在项目中用过 GCD 吗？</p>
+<p><strong>面试题4</strong>：GCD 的队列类型</p>
+<p><strong>面试题5</strong>：说一下 OperationQueue 和 GCD 的区别，以及各自的优势</p>
+<p><strong>面试题6</strong>：线程安全的处理手段有哪些？</p>
+<p><strong>面试题7</strong>：OC你了解的锁有哪些？在你回答基础上进行二次提问；</p>
+<ul>
+<li>追问一：自旋和互斥对比？</li>
+<li>追问二：使用以上锁需要注意哪些？</li>
+<li>追问三：用C&#x2F;OC&#x2F;C++，任选其一，实现自旋或互斥？口述即可！</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/10/03/ios-oc-dispatch-safety/" title="【iOS】OC底层系列十四 - 多线程-线程安全">http://idbeny.com/2018/10/03/ios-oc-dispatch-safety/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%BA%95%E5%B1%82/" rel="tag"># 底层</a>
+          
+            <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag"># 线程安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/26/ios-oc-dispatch-gcd/" rel="next" title="【iOS】OC底层系列十三 - 多线程-GCD">
+                <i class="fa fa-chevron-left"></i> 【iOS】OC底层系列十三 - 多线程-GCD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/10/ios-oc-memory-timer/" rel="prev" title="【iOS】OC底层系列十五 - 内存管理-定时器">
+                【iOS】OC底层系列十五 - 内存管理-定时器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">一、多线程安全分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">二、线程同步方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-OSSpinLock"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. OSSpinLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-os-unfair-lock"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. os_unfair_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-pthread-mutex"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. pthread_mutex</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-pthread-mutex-%E2%80%93-%E9%80%92%E5%BD%92%E9%94%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1. pthread_mutex – 递归锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-pthread-mutex-%E2%80%93-%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2. pthread_mutex – 条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-NSLock%E3%80%81NSRecursiveLock"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. NSLock、NSRecursiveLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-NSCondition"><span class="nav-number">2.5.</span> <span class="nav-text">2.5. NSCondition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-NSConditionLock"><span class="nav-number">2.6.</span> <span class="nav-text">2.6. NSConditionLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-dispatch-semaphore"><span class="nav-number">2.7.</span> <span class="nav-text">2.7. dispatch_semaphore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-dispatch-queue"><span class="nav-number">2.8.</span> <span class="nav-text">2.8. dispatch_queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-synchronized"><span class="nav-number">2.9.</span> <span class="nav-text">2.9. @synchronized</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83"><span class="nav-number">3.</span> <span class="nav-text">三、线程同步方案性能比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%80%A7%E8%83%BD%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%E6%8E%92%E5%BA%8F"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 性能从高到低排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E8%87%AA%E6%97%8B%E9%94%81%E3%80%81%E4%BA%92%E6%96%A5%E9%94%81%E6%AF%94%E8%BE%83"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 自旋锁、互斥锁比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%AF%BB%E5%86%99%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">四、读写安全方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-atomic"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. atomic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%AF%BB%E5%86%99%E9%94%81%E5%92%8C%E6%A0%85%E6%A0%8F%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 读写锁和栅栏函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-pthread-rwlock"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1. pthread_rwlock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-dispatch-barrier-async"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2. dispatch_barrier_async</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

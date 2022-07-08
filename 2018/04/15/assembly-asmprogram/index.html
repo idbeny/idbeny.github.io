@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机,汇编," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="–">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【汇编】汇编系列五 - 汇编程序">
+<meta property="og:url" content="http://idbeny.com/2018/04/15/assembly-asmprogram/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="–">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/c1cem.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/as7nv.png@normal">
+<meta property="article:published_time" content="2018-04-15T11:37:01.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.788Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/c1cem.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/04/15/assembly-asmprogram/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【汇编】汇编系列五 - 汇编程序 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/04/15/assembly-asmprogram/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【汇编】汇编系列五 - 汇编程序</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-15T19:37:01+08:00">
+                2018-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%87%E7%BC%96/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>–</p>
+<span id="more"></span>
+
+<h2 id="一、汇编语言"><a href="#一、汇编语言" class="headerlink" title="一、汇编语言"></a>一、汇编语言</h2><p>使用汇编语言编写一个完整的程序，步骤大致如下：</p>
+<ul>
+<li>编写源代码，文件名拓展名为<code>.asm</code></li>
+<li>编译、链接（可以使用微软的MASM编译器）</li>
+<li>调试、运行</li>
+</ul>
+<p><img src="https://blog.idbeny.com/c1cem.png@normal"></p>
+<h3 id="1-1-语言组成"><a href="#1-1-语言组成" class="headerlink" title="1.1. 语言组成"></a>1.1. 语言组成</h3><p>汇编语言由2类指令组成：</p>
+<ul>
+<li>汇编指令：如<code>mov</code>、<code>add</code>、<code>sub</code>等，有对应的机器指令，可以被编译为机器指令，最终被CPU执行。</li>
+<li>伪指令：如<code>assume</code>、 <code>segment</code>、<code>ends</code>、<code>end</code>等，没有对应的机器指令，由编译器解析，最终不被CPU执行，注释以分号开头。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code ; assume是声明一下code段是cs段（代码段），code是自己命名的</span><br><span class="line"></span><br><span class="line">; segment和ends的作用是定义一个段，两个必须配对使用</span><br><span class="line">code segment ; segment代表一个段的开始</span><br><span class="line">	mov ax, 1122h</span><br><span class="line">	mov bx, 3344h</span><br><span class="line">	add ax, bx</span><br><span class="line">	</span><br><span class="line">	; 注意：下面两行代码是退出程序指令（退出程序的固定写法）</span><br><span class="line">	mov ah, 4ch ; 等价于：mov ax 4c00h</span><br><span class="line">	int 21h ; 中断指令（int不是整形，这里的int是中断意思，英文全称：interrupt）</span><br><span class="line">code ends ; ends代表一个段的结束</span><br><span class="line"></span><br><span class="line">end ; 编译器遇到end时，就结束对源程序的编译</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-中断"><a href="#1-2-中断" class="headerlink" title="1.2. 中断"></a>1.2. 中断</h3><p>中断是由于软件的或硬件的信号，使得CPU暂停当前的任务，转而去执行另一段子程序。也就是说，在程序运行过程中，系统出现了一个必须由CPU立即处理的情况，此时，CPU暂时中止当前程序的执行转而处理这个新情况的过程就叫做中断。</p>
+<p>中断的分类：</p>
+<ul>
+<li>硬中断（外中断），由外部设备(比如网卡、硬盘)随机引发的，比如当网卡收到数据包的时候，就会发出一个中断。</li>
+<li>软中断（内中断），由执行中断指令产生的，可以通过程序控制触发。</li>
+</ul>
+<p>从本质上来讲，中断是一种电信号，当设备有某种事件发生时，它就会产生中断，通过总线把电信号发送给中断控制器。如果中断的线是激活的，中断控制器就把电信号发送给处理器的某个特定引脚。处理器于是立即停止自己正在做的事，跳到中断处理程序的入口点，进行中断处理。</p>
+<p>可以通过指令<code>int n</code>产生中断。<code>n</code>是中断码，内存中有一张中断向量表，用来存放中断码对应中断处理程序的入口地址。CPU在接收到中断信号后，暂停当前正在执行的程序，跳转到中断码对应的中断向量表地址处，去执行中断处理程序。</p>
+<p>常见中断指令：<br><code>int 10h</code>：用于执行BIOS中断。<br><code>int 3</code>：是“断点中断”，用于调试程序。<br><code>int 21h</code>：用于执行DOS系统功能调用，AH寄存器存储功能号。</p>
+<h3 id="1-3-DOS系统功能调用"><a href="#1-3-DOS系统功能调用" class="headerlink" title="1.3. DOS系统功能调用"></a>1.3. DOS系统功能调用</h3><p>DOS系统功能调用由DOS提供的一组实现特殊功能的子程序供程序员在编写自己的程序时调用，以减轻编程的工作量。涉及屏幕显示、文件管理、I&#x2F;O管理等等。</p>
+<p>每个子程序都有一个功能号，所有的功能调用的格式都是一致的。调用的步骤大致如下：</p>
+<ol>
+<li><p>系统功能号送到寄存器AH中；</p>
+</li>
+<li><p>入口参数送到指定的寄存器中；</p>
+</li>
+<li><p>用<code>INT 21H</code>指令执行功能调用；</p>
+</li>
+<li><p>根据出口参数分析功能调用执行情况。</p>
+</li>
+</ol>
+<p>如果将代码、数据、栈都放到一个段里面会显得混乱，编程时要随时注意何处是数据、何处是栈、何处是代码。一个段的大小&lt;&#x3D;64KB，这样就会让数据、代码、栈的大小受到极大的限制。所以，一般会考虑使用多个段来存放数据、代码、栈。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code, ds:data</span><br><span class="line">; ---数据段---</span><br><span class="line">data segment</span><br><span class="line">	string db &#x27;Hello World!$&#x27; ; $代表字符串结束位置, string是自己定义的标签</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">	; 设置ds为数据段，assume仅仅是给开发者看的，没有实际意义</span><br><span class="line">	mov ax, data</span><br><span class="line">  mov ds, ax </span><br><span class="line">  </span><br><span class="line">  mov dx, offset string ; 取出数据段中的字符串数据，offset string代表string的偏移地址，string会自动算出string之前定义的数据有多少</span><br><span class="line">  mov ah, 9h ; 功能号9h代表在屏幕显示字符串</span><br><span class="line">  int 21h ; 执行DOS系统功能调用</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-给数据起标号"><a href="#1-4-给数据起标号" class="headerlink" title="1.4. 给数据起标号"></a>1.4. 给数据起标号</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code, ds:data</span><br><span class="line"></span><br><span class="line">data segment</span><br><span class="line">		age1 dw 20	; 全局变量age1</span><br><span class="line">		age2 dw 30	; 全局变量age2</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">		mov ax, data</span><br><span class="line">		mov ds, ax</span><br><span class="line">		</span><br><span class="line">		mov ax, age1</span><br><span class="line">		add ax, age2	; 最终ax的值是50（32H）</span><br><span class="line">		</span><br><span class="line">		mov ah, 4ch</span><br><span class="line">		int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-5-在代码段中存放数据"><a href="#1-5-在代码段中存放数据" class="headerlink" title="1.5. 在代码段中存放数据"></a>1.5. 在代码段中存放数据</h3><p>如下，计算1122h、3344h、5566h的和，结果存放在ax中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">		dw 1122h, 3344h, 5566h</span><br><span class="line">		</span><br><span class="line">start:</span><br><span class="line">		mov ax, 0h</span><br><span class="line">		mov bx, 0h</span><br><span class="line">		mov cx, 3h</span><br><span class="line">s: 	add ax, cs:[bx]</span><br><span class="line">		add bx, 2</span><br><span class="line">		loop s</span><br><span class="line">		</span><br><span class="line">		mov ah, 4ch</span><br><span class="line">		int 21h</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>dw</code>（<em>define word</em>）：定义了3个字型数据，数据之间用逗号隔开。类似的还有<code>db</code>（<em>define byte</em>）、<code>dd</code>（<em>define double word</em>）。</li>
+<li><code>start</code>和<code>end start</code>是对应的，<code>end start</code>标记程序的执行入口（start之前是定义的数据）。</li>
+</ul>
+<p>对比高级语言的常量定义就可以发现，常量在编译的那一刻就已经确定了在内存中地址，因为常量最终是存放在数据段中的。</p>
+<h3 id="1-6-段前缀"><a href="#1-6-段前缀" class="headerlink" title="1.6. 段前缀"></a>1.6. 段前缀</h3><p><code>mov ax, [bx]</code>中bx的值是偏移地址，段地址默认在ds中。我们也可以明确地标明段地址，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax, ds:[bx]</span><br><span class="line">mov ax, cs:[bx]</span><br><span class="line">mov ax, ss:[bx]</span><br><span class="line">mov ax, es:[bx]</span><br></pre></td></tr></table></figure>
+
+<p>上面的<code>ds:</code>、<code>cs:</code>、<code>ss:</code>、<code>es:</code>称为段前缀，由于cs、ss都有自己的特殊用途，一般就使用es作为附加段寄存器。</p>
+<h3 id="1-7-loop指令"><a href="#1-7-loop指令" class="headerlink" title="1.7. loop指令"></a>1.7. loop指令</h3><p>loop指令和cx配合使用，用于循环执行重复的操作，类似于高级语言中的for、while循环。</p>
+<p><strong>使用格式：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov cx, 执行次数</span><br><span class="line">标号: 循环执行的程序段</span><br><span class="line">loop 标号</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行流程：</strong></p>
+<ol>
+<li>让cx的值减一，即<code>cx = cx – 1</code></li>
+<li>判断cx的值：<ul>
+<li>如果不为零转至标号处执行程序，然后重复1</li>
+<li>如果为零则执行loop后面的代码</li>
+</ul>
+</li>
+</ol>
+<p><strong>案例：</strong>计算$2^6$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; 不使用loop和cx</span><br><span class="line">mov ax, 2h</span><br><span class="line">add ax, ax</span><br><span class="line">add ax, ax</span><br><span class="line">add ax, ax</span><br><span class="line">add ax, ax</span><br><span class="line">add ax, ax</span><br><span class="line"></span><br><span class="line">; 使用loop和cx</span><br><span class="line">mov ax, 2h</span><br><span class="line">mov cx, 5</span><br><span class="line">5: add ax, ax</span><br><span class="line">loop 5</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-8-打印HelloWorld"><a href="#1-8-打印HelloWorld" class="headerlink" title="1.8. 打印HelloWorld"></a>1.8. 打印HelloWorld</h3><p>第一种方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code, ds:data</span><br><span class="line"></span><br><span class="line">data segment				; ---数据段---</span><br><span class="line">		string db &#x27;Hello World!$&#x27;</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">code segment				; ---代码段---</span><br><span class="line">start:</span><br><span class="line">		mov ax, data</span><br><span class="line">		mov ds, ax</span><br><span class="line">		</span><br><span class="line">		mov ah, 9h</span><br><span class="line">		mov dx, offset string</span><br><span class="line">		int 21h</span><br><span class="line">		</span><br><span class="line">		mov ah, 4ch</span><br><span class="line">		int 21h</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用<code>int 21h</code>显示的字符串必须要以<code>$</code>结尾。</li>
+<li>字符串可以用双引号或者单引号括住。</li>
+</ul>
+<p>第二种方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code, ds:data</span><br><span class="line"></span><br><span class="line">data segment						; ---数据段---</span><br><span class="line">		db &quot;Hello World!&quot;,0</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">code segment						; ---代码段---</span><br><span class="line">start:</span><br><span class="line">		mov ax, data</span><br><span class="line">		mov ds, ax</span><br><span class="line">		mov ax, 0b800h			; 显示缓冲区的段地址</span><br><span class="line">		mov es, ax</span><br><span class="line">		</span><br><span class="line">		mov bx, 0</span><br><span class="line">		mov si, 0</span><br><span class="line">		mov ch, 0</span><br><span class="line">print:</span><br><span class="line">		mov cl, ds:[si]			; 取出一个字符</span><br><span class="line">		jcxz exit						; 如果cx为0， 就直接退出程序</span><br><span class="line">		</span><br><span class="line">		mov es:[bx], cl			; 拷贝字符到显示缓存区</span><br><span class="line">		mov es:[bx+1], 11001111b	; 显示的属性：红底白字</span><br><span class="line">		</span><br><span class="line">		inc si</span><br><span class="line">		add bx, 2</span><br><span class="line">		loop print</span><br><span class="line">exit:</span><br><span class="line">		mov ah, 4ch</span><br><span class="line">		int 21h</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+<p>通过一个字节来显示字符的颜色。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 0			000			 0		000</span><br><span class="line">闪烁		 RGB	  高亮	 RGB</span><br><span class="line">			 背景色				 前景色</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、寻址"><a href="#二、寻址" class="headerlink" title="二、寻址"></a>二、寻址</h2><p><img src="https://blog.idbeny.com/as7nv.png@normal"></p>
+<p>8086指令能处理2种尺寸的数据：byte、word。</p>
+<p>思考：<code>mov [0], 20H</code>指令是否正确？<br><code>mov byte ptr [0], 20H</code>：将20H放入0位置内存的字节单元，占用1个字节。<br><code>mov word ptr [0], 20H</code>：将20H放入0位置内存的字单元，占用2个字节。</p>
+<p>很多指令都可以通过<code>byte ptr</code>或者<code>word ptr</code>来指明所需要操作内存的数据长度。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inc byte ptr [0]</span><br><span class="line">add word ptr [0], 2</span><br></pre></td></tr></table></figure>
+
+<p>有些指令有默认的操作数据长度，比如<code>push [0]</code>、<code>pop [0]</code>的操作数据长度只能是2个字节。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/04/15/assembly-asmprogram/" title="【汇编】汇编系列五 - 汇编程序">http://idbeny.com/2018/04/15/assembly-asmprogram/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+            <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/08/assembly-ds-stack/" rel="next" title="【汇编】汇编系列四 - DS和栈">
+                <i class="fa fa-chevron-left"></i> 【汇编】汇编系列四 - DS和栈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/20/assembly-func/" rel="prev" title="【汇编】汇编系列六 - 函数的调用过程">
+                【汇编】汇编系列六 - 函数的调用过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">一、汇编语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AF%AD%E8%A8%80%E7%BB%84%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 语言组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%B8%AD%E6%96%AD"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-DOS%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. DOS系统功能调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E7%BB%99%E6%95%B0%E6%8D%AE%E8%B5%B7%E6%A0%87%E5%8F%B7"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 给数据起标号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%AE%B5%E4%B8%AD%E5%AD%98%E6%94%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. 在代码段中存放数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E6%AE%B5%E5%89%8D%E7%BC%80"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. 段前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-loop%E6%8C%87%E4%BB%A4"><span class="nav-number">1.7.</span> <span class="nav-text">1.7. loop指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-%E6%89%93%E5%8D%B0HelloWorld"><span class="nav-number">1.8.</span> <span class="nav-text">1.8. 打印HelloWorld</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AF%BB%E5%9D%80"><span class="nav-number">2.</span> <span class="nav-text">二、寻址</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

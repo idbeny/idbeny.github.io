@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,底层,runtime,按位存储,位域,共用体," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同。 Objective-C的动态性是由Runtime API来支撑的。Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】OC底层系列八 - runtime">
+<meta property="og:url" content="http://idbeny.com/2018/09/02/ios-oc-runtime-isa/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同。 Objective-C的动态性是由Runtime API来支撑的。Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/3tdrp.png@normal">
+<meta property="article:published_time" content="2018-09-02T07:23:09.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.814Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="底层">
+<meta property="article:tag" content="runtime">
+<meta property="article:tag" content="按位存储">
+<meta property="article:tag" content="位域">
+<meta property="article:tag" content="共用体">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/3tdrp.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/09/02/ios-oc-runtime-isa/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】OC底层系列八 - runtime | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/09/02/ios-oc-runtime-isa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】OC底层系列八 - runtime</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T15:23:09+08:00">
+                2018-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Objective-C是一门动态性比较强的编程语言，跟C、C++等语言有着很大的不同。</p>
+<p>Objective-C的动态性是由Runtime API来支撑的。Runtime API提供的接口基本都是C语言的，源码由C\C++\汇编语言编写。</p>
+<span id="more"></span>
+
+<h2 id="一、isa详解"><a href="#一、isa详解" class="headerlink" title="一、isa详解"></a>一、isa详解</h2><p>要想学习Runtime，首先要了解它底层的一些常用数据结构，比如isa指针。</p>
+<p>前面的章节有简单介绍过isa指针，比如isa的指向（实例对象isa -&gt; 指向父类对象isa -&gt; 元类对象isa -&gt; 基类对象isa -&gt; 指向基类对象自己），以及64bit之前isa是直接指向内存的，64bit之后的isa指向地址是需要经过位运算得出的。</p>
+<p>在arm64架构之前，isa就是一个普通的指针，存储着Class、Meta-Class对象的内存地址。</p>
+<p>从arm64架构开始，对isa进行了优化，变成了一个共用体（union）结构，还使用位域来存储更多的信息。</p>
+<p>疑问：64bit后的isa为什么要经过位运算（<code>ISA&amp;ISA_MASK</code>）？这样设计的目的是什么？</p>
+<h3 id="1-1-按位存储"><a href="#1-1-按位存储" class="headerlink" title="1.1. 按位存储"></a>1.1. 按位存储</h3><p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@interface DBPerson : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign, getter=isRed) BOOL red;</span><br><span class="line">@property (nonatomic, assign) BOOL green;</span><br><span class="line">@property (nonatomic, assign) BOOL blue;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DBPerson</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        DBPerson *person = [[DBPerson alloc] init];</span><br><span class="line">        person.red = YES;</span><br><span class="line">        person.green = YES;</span><br><span class="line">        person.blue = YES;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%zu&quot;, class_getInstanceSize([person class]));</span><br><span class="line">        // 输出：16</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中的person对象至少需要16个字节（isa(8) + red(1) + green(1) + blue(1) &#x3D; 11，由于内存对齐是8，所以最终打印16个字节）。</p>
+<p>DBPerson类中有三个BOOL类型的属性，每一个属性的值只有0和1两种结果，但占用了1个字节。这种情况下1个二进制位就可以表示1个属性的值，三个BOOL类型属性只需要1个字节中的3个二进制位就可以表示各自的值，相比之下更加节省内存。按照这个思路，我们尝试改进上面的代码。</p>
+<p>char类型只占1个字节，因此使用char记录三个BOOL属性的值。例如：char类型变量<code>color</code>存储的二进制是<code>0b0000 0000</code>，三个属性的值在低二进制位存储，假设<code>red = 1，green = 0，blue = 1</code>，变量<code>color</code>最终存储的就是<code>0b0000 0110</code>。</p>
+<p>怎样操作二进制位呢？使用位运算可以让对应二进制位的值发生改变。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">@interface DBPerson : NSObject</span><br><span class="line"></span><br><span class="line">- (void)setRed:(BOOL)red;</span><br><span class="line">- (void)setBlue:(BOOL)blue;</span><br><span class="line">- (void)setGreen:(BOOL)green;</span><br><span class="line">- (BOOL)isRed;</span><br><span class="line">- (BOOL)isBlue;</span><br><span class="line">- (BOOL)isGreen;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">  </span><br><span class="line">// 掩码，一般用来进行按位与(&amp;)运算</span><br><span class="line">// 可以使用二/八/十/十六进制等，但是建议使用位移运算符(枚举会经常用到位移运算符)</span><br><span class="line">//#define DBRedMask 0b00000001 // 二进制</span><br><span class="line">//#define DBRedMask 1 // 十进制</span><br><span class="line">//#define DBRedMask 0x00000001 // 十六进制</span><br><span class="line">#define DBRedMask (1&lt;&lt;0)</span><br><span class="line">#define DBGreenMask (1&lt;&lt;1)</span><br><span class="line">#define DBBlueMask (1&lt;&lt;2)</span><br><span class="line"></span><br><span class="line">@interface DBPerson ()</span><br><span class="line">&#123;</span><br><span class="line">    char _color;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DBPerson</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        // 假设color的二进制是0000 0101，即：blue = 1，green = 0，red = 1</span><br><span class="line">        _color = 0b00000101;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 设置red的值</span><br><span class="line">  使用按位或(|)运算可以让指定位的值产生变化而不影响其他位的值</span><br><span class="line"> </span><br><span class="line">  如果red是YES：使用&quot;按位或&quot;可以让第1位变为1，其位不变</span><br><span class="line">  0000 0110（_color二进制）</span><br><span class="line">| 0000 0001（第1位代表red）</span><br><span class="line">-----------</span><br><span class="line">  0000 0111</span><br><span class="line"> </span><br><span class="line">  如果red是NO：使用&quot;按位与&quot;可以让第1位变为0，其位不变。按位取反（~）可以让0变1，1变0</span><br><span class="line">  0000 0111（_color二进制）</span><br><span class="line">&amp; 1111 1110（第1位代表red）</span><br><span class="line">-----------</span><br><span class="line">  0000 0110</span><br><span class="line"> */</span><br><span class="line">- (void)setRed:(BOOL)red &#123;</span><br><span class="line">    if (red) &#123;</span><br><span class="line">        _color |= DBRedMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color &amp;= ~DBRedMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 获取red的值</span><br><span class="line"> 使用按位与(&amp;)运算可以直接获取指定位的值是0还是1</span><br><span class="line">  0000 0110（_color二进制）</span><br><span class="line">&amp; 0000 0001（第1位代表red）</span><br><span class="line">-----------</span><br><span class="line">  0000 0001</span><br><span class="line"> </span><br><span class="line"> 结果只要有值就代表大于0（YES），否则就是NO</span><br><span class="line"> 使用取反符号&quot;!&quot;可以自动转为BOOL类型，使用两个取反符号&quot;!!&quot;就可以获得真实的BOOL结果</span><br><span class="line"> */</span><br><span class="line">- (BOOL)isRed &#123;</span><br><span class="line">    return !!(_color &amp; DBRedMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setGreen:(BOOL)green &#123;</span><br><span class="line">    if (green) &#123;</span><br><span class="line">        _color |= DBGreenMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color &amp;= ~DBGreenMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isGreen &#123;</span><br><span class="line">    return !!(_color &amp; DBGreenMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setBlue:(BOOL)blue &#123;</span><br><span class="line">    if (blue) &#123;</span><br><span class="line">        _color |= DBBlueMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color &amp;= ~DBBlueMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isBlue &#123;</span><br><span class="line">    return !!(_color &amp; DBBlueMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>上面代码就把三个变量值合在一个字节中存储了。</p>
+<blockquote>
+<p>注意：上面代码仅仅是为了研究isa底层，平时编写代码时不建议这样写，但是操作系统等底层源码会大量使用上面的写法，因为比较高效。</p>
+</blockquote>
+<h3 id="1-2-位域"><a href="#1-2-位域" class="headerlink" title="1.2. 位域"></a>1.2. 位域</h3><p>如果要存储的变量比较多，上面的代码就变得很难维护。使用<strong>位域</strong>可以解决这个问题，并且代码更加简洁。</p>
+<p>位域格式：变量类型 变量名 : 变量占用位数（注意：变量类型只是访问类型，和实际存储没有关系）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">char</span> red : <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> green : <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> blue : <span class="number">1</span>;</span><br><span class="line">&#125; _color;</span><br></pre></td></tr></table></figure>
+
+<p>如上定义的<code>_color</code>结构体里面有3个变量，分别占用1位，一共占用1个字节，变量在内存中的布局是<code>0b0000 0bgr</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@interface DBPerson ()</span><br><span class="line">&#123;</span><br><span class="line">    struct &#123;</span><br><span class="line">        char red : 1;</span><br><span class="line">        char green : 1;</span><br><span class="line">        char blue : 1;</span><br><span class="line">    &#125; _color;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DBPerson</span><br><span class="line"></span><br><span class="line">- (void)setRed:(BOOL)red &#123;</span><br><span class="line">    _color.red = red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isRed &#123;</span><br><span class="line">    return !!_color.red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setGreen:(BOOL)green &#123;</span><br><span class="line">    _color.green = green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isGreen &#123;</span><br><span class="line">    return !!_color.green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setBlue:(BOOL)blue &#123;</span><br><span class="line">    _color.blue = blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isBlue &#123;</span><br><span class="line">    return !!_color.blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>上方代码中<code>green</code>如果是YES，那么green的十六进制就是<code>0xff</code>，二进制是<code>0b11111111</code>，十进制是255，表示的是-1（有符号）。判断BOOL变量只需要判断是否有值即可，因此也需要加上<code>!!</code>。</p>
+<p>上面的代码使用位域可读性比较高，但是没有位运算的效率高。<strong>共用体</strong>不仅可以提高代码可读性&#x2F;可维护性，还能使用位运算提高运行效率。</p>
+<h3 id="1-3-共用体"><a href="#1-3-共用体" class="headerlink" title="1.3. 共用体"></a>1.3. 共用体</h3><p>共用体的意思就是结构体所有成员共享一段内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">Date</span> &#123;</span></span><br><span class="line">  	<span class="type">int</span> year;</span><br><span class="line">  	<span class="type">char</span> month;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">Date</span> <span class="title">date</span>;</span></span><br><span class="line">date.year = <span class="number">2018</span>;</span><br><span class="line">date.month = <span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+
+<p>int占用4个字节，char占用1个字节，所以共用体Date占用4个字节，成员year和month共用这4个字节。</p>
+<blockquote>
+<p>使用共用体需要注意：由于是共用一段内存，存储时会覆盖之前存储的内容。</p>
+</blockquote>
+<p>共用体结合位域：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="type">char</span> bits; <span class="comment">// 共用体成员变量</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="type">char</span> red : <span class="number">1</span>;</span><br><span class="line">        <span class="type">char</span> green : <span class="number">1</span>;</span><br><span class="line">        <span class="type">char</span> blue : <span class="number">1</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; _color; <span class="comment">// 共用体变量名</span></span><br></pre></td></tr></table></figure>
+
+<p>在共用体中，结构体的成员仅仅是为了可读性（red占1位，green占1位，blue占1位），没有任何实际意义（可以理解为：结构体仅仅是为了表示共用体的内存布局，可以不写），实际存储的内容还是自己控制的。</p>
+<p>上面代码的含义：创建一个共用体变量<code>_color</code>，里面有一个成员变量<code>char bits</code>，相当于整个共用体占用1个字节，内存布局是<code>0b0000 0bgr</code>。</p>
+<p>使用共用体把之前1.1中DBPerson的代码进行改写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#define DBRedMask (1&lt;&lt;0)</span><br><span class="line">#define DBGreenMask (1&lt;&lt;1)</span><br><span class="line">#define DBBlueMask (1&lt;&lt;2)</span><br><span class="line"></span><br><span class="line">@interface DBPerson ()</span><br><span class="line">&#123;</span><br><span class="line">    union &#123;</span><br><span class="line">        char bits;</span><br><span class="line">        struct &#123;</span><br><span class="line">            char red : 1;</span><br><span class="line">            char green : 1;</span><br><span class="line">            char blue : 1;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; _color;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation DBPerson</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setRed:(BOOL)red &#123;</span><br><span class="line">    if (red) &#123;</span><br><span class="line">        _color.bits |= DBRedMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color.bits &amp;= ~DBRedMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isRed &#123;</span><br><span class="line">    return !!(_color.bits &amp; DBRedMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setGreen:(BOOL)green &#123;</span><br><span class="line">	  if (green) &#123;</span><br><span class="line">        _color.bits |= DBGreenMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color.bits &amp;= ~DBGreenMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isGreen &#123;</span><br><span class="line">    return !!(_color.bits &amp; DBGreenMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setBlue:(BOOL)blue &#123;</span><br><span class="line">		if (blue) &#123;</span><br><span class="line">        _color.bits |= DBBlueMask;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _color.bits &amp;= ~DBBlueMask;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isBlue &#123;</span><br><span class="line">    return !!(_color.bits &amp; DBBlueMask);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在objc源码中，isa是<code>isa_t</code>类型的共用体。isa占用8个字节，在64bit之后，bits里面不仅存储着类、元类对象的内存地址，还有其他信息，这些信息共享这8个字节的内存（这就是64bit后isa的优化 — 充分利用存储空间）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="title class_">isa_t</span></span><br><span class="line">&#123;</span><br><span class="line">  	Class cls;</span><br><span class="line">  	<span class="type">uintptr_t</span> bits;</span><br><span class="line">  	<span class="keyword">struct</span> &#123;</span><br><span class="line">      	<span class="type">uintptr_t</span> nonpointer				: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> has_assoc					: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> has_cxx_dtor			: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> shiftcls					: <span class="number">33</span>; <span class="comment">/*MACH_VM_MAX_ADDRESS 0x1000000000*/</span></span><br><span class="line">      	<span class="type">uintptr_t</span> magic							: <span class="number">6</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> weakly_referenced	: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> deallocating			: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> has_sidetable_rc	: <span class="number">1</span>;</span><br><span class="line">      	<span class="type">uintptr_t</span> extra_rc					: <span class="number">19</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>nonpointer</code>：0代表普通的指针，bits存储着Class、Meta-Class对象的内存地址。1代表isa优化过，使用位域存储更多的信息。</li>
+<li><code>has_assoc</code>：是否有设置过关联对象（如果设置过，即使又被设为nil，也算设置过），如果没有，释放时会更快。</li>
+<li><code>has_cxx_dtor</code>：是否有C++的析构函数（.cxx_destruct，类似于OC类中的<code>dealloc</code>方法），如果没有，释放时会更快。</li>
+<li><code>shiftcls</code>：存储着Class、Meta-Class对象的内存地址信息。</li>
+<li><code>magic</code>：用于在调试时分辨对象是否未完成初始化。</li>
+<li><code>weakly_referenced</code>：是否有被弱引用指向过（如果被引用过，即使弱引用指针置为nil，也算被弱引用过），如果没有，释放时会更快。</li>
+<li><code>deallocating</code>：对象是否正在释放。</li>
+<li><code>has_sidetable_rc</code>：引用计数器是否过大导致无法存储在isa中。如果为1，那么引用计数会存储在一个叫SideTable的类的属性中。</li>
+<li><code>extra_rc</code>：里面存储的值是引用计数减1。</li>
+</ul>
+<h3 id="1-4-ISA-MASK"><a href="#1-4-ISA-MASK" class="headerlink" title="1.4. ISA_MASK"></a>1.4. ISA_MASK</h3><p>在64bit后，isa需要和ISA_MASK进行按位与(&amp;)计算才能获得真实的类&#x2F;元类地址。因为使用的是共用体的其中33位存储类、元类的地址值，所以需要进行按位运算才能取出（这也是使用ISA_MASK的原因）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ISA_MASK        0x0000000ffffffff8ULL</span></span><br></pre></td></tr></table></figure>
+
+<p>ISA_MASK对应的二进制：</p>
+<img src="https://blog.idbeny.com/3tdrp.png@normal" style="zoom:50%;" />
+
+<p>ISA_MASK的二进制中有33个1，这33位就是用来存储<code>shiftcls</code>的。最后3位是0，0和任意位进行按位与计算，结果都是0。所以<strong>在OC中，对象的二进制地址值最后三位一定是0</strong>（从共用体中结构体的定义也可以看出<code>shiftcls</code>前面有3个位存放其他信息）。</p>
+<p>假设一个对象的地址值是<code>0x10051f360</code>，由于1个16进制位代表4个二进制，所以后3位一定是0。假设一个元类对象的地址值是<code>0x100008228</code>，最后一位是8，十六进制的8对应的二进制就是1000，所以后3位也是0。</p>
+<hr>
+<p><strong>面试题</strong>：对isa的理解？</p>
+<p><strong>解答</strong>：isa是一个指针，实例对象isa指向类对象，类对象的isa指向元类对象，元类对象的isa指向基类对象。在arm64之前，isa就是一个普通的指针，直接存储了类和元类的地址。但是在arm64之后，对isa进行了优化，采用共用体结构把一个64bit的数据分开存储不同的信息，而其中的33位是用来存储类和元类的具体地址。如果要想取出类和元类的地址，就需要对isa的地址和ISA_MASK（ISA_MASK是isa的掩码，确定了类&#x2F;原来在共用体中存储的位置）进行按位运算，计算出的结果就是真实的类&#x2F;元类地址。另外由于isa在共用体中存储位置的原因，导致计算的二进制内存地址后3位一定是0（十六进制下以0和8结尾的内存地址）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/09/02/ios-oc-runtime-isa/" title="【iOS】OC底层系列八 - runtime">http://idbeny.com/2018/09/02/ios-oc-runtime-isa/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%BA%95%E5%B1%82/" rel="tag"># 底层</a>
+          
+            <a href="/tags/runtime/" rel="tag"># runtime</a>
+          
+            <a href="/tags/%E6%8C%89%E4%BD%8D%E5%AD%98%E5%82%A8/" rel="tag"># 按位存储</a>
+          
+            <a href="/tags/%E4%BD%8D%E5%9F%9F/" rel="tag"># 位域</a>
+          
+            <a href="/tags/%E5%85%B1%E7%94%A8%E4%BD%93/" rel="tag"># 共用体</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/27/ios-oc-block-memory/" rel="next" title="【iOS】OC底层系列七 - block的内存管理">
+                <i class="fa fa-chevron-left"></i> 【iOS】OC底层系列七 - block的内存管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/08/ios-oc-runtime-class/" rel="prev" title="【iOS】OC底层系列九 - runtime-Class">
+                【iOS】OC底层系列九 - runtime-Class <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81isa%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">一、isa详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%8C%89%E4%BD%8D%E5%AD%98%E5%82%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 按位存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%BD%8D%E5%9F%9F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 位域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%85%B1%E7%94%A8%E4%BD%93"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 共用体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-ISA-MASK"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. ISA_MASK</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

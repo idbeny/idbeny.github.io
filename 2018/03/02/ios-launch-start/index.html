@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,应用程序启动,UIWindow," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="iOS应用程序（App）从开始运行到界面展示经历了哪些方法？界面是怎么显示到屏幕上的？理解了这些对我们后续的开发很有帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】应用程序启动原理及UIWindow的使用">
+<meta property="og:url" content="http://idbeny.com/2018/03/02/ios-launch-start/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="iOS应用程序（App）从开始运行到界面展示经历了哪些方法？界面是怎么显示到屏幕上的？理解了这些对我们后续的开发很有帮助。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.idbeny.com/jje0g.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/3h1t3.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/qnvxr.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/t8d1d.png@normal">
+<meta property="og:image" content="http://blog.idbeny.com/8dzur.PNG@normal">
+<meta property="og:image" content="http://blog.idbeny.com/vi791.PNG@normal">
+<meta property="og:image" content="http://blog.idbeny.com/c1exa.PNG@normal">
+<meta property="article:published_time" content="2018-03-02T07:09:12.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.800Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="应用程序启动">
+<meta property="article:tag" content="UIWindow">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.idbeny.com/jje0g.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/03/02/ios-launch-start/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】应用程序启动原理及UIWindow的使用 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/03/02/ios-launch-start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】应用程序启动原理及UIWindow的使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T15:09:12+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>iOS应用程序（App）从开始运行到界面展示经历了哪些方法？界面是怎么显示到屏幕上的？理解了这些对我们后续的开发很有帮助。</p>
+<span id="more"></span>
+<p>App从启动到我们熟知的<code>AppDelegate</code>代理方法经历了一下几个步骤</p>
+<p><img src="http://blog.idbeny.com/jje0g.png@normal"></p>
+<h2 id="load方法"><a href="#load方法" class="headerlink" title="load方法"></a>load方法</h2><p>主要讲的是控制器的<code>load</code>方法，App执行<code>main</code>函数之前会优先执行<code>load</code>方法。我们可以在这里交换一些控制器的生命周期及方法，经常用到的埋点基本上都是通过该方式进行处理的。</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span> (<span class="keyword">void</span>)<span class="keyword">load</span> &#123;</span><br><span class="line">    <span class="comment">// 自定义处理</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><p><code>main</code>函数在工程根目录的<code>main.m</code>文件中。也是程序的唯一入口函数。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="built_in">NSString</span> * appDelegateClassName;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="comment">// Setup code that might create autoreleased objects goes here.</span></span><br><span class="line">        appDelegateClassName = <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, appDelegateClassName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看下<code>UIApplicationMain</code>的介绍。该函数的作用就是创建一个应用程序对象并设置代理，然后设置主事件循环。如果应用程序的<code>Info.plist</code>指定了一个<code>nib</code>作为程序主要入口，这个<code>nib</code>将会被加载到程序中。最后还补充到，尽管声明了返回类型，但该函数永远不会返回（这也意味着主循环是一个死循环，直到程序被杀死才会停止）。<br><img src="http://blog.idbeny.com/3h1t3.png@normal"></p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIKIT_EXTERN <span class="built_in">int</span> <span class="constructor">UIApplicationMain(<span class="params">int</span> <span class="params">argc</span>, <span class="params">char</span> <span class="operator">*</span> <span class="params">_Nullable</span> <span class="params">argv</span>[<span class="params">_Nonnull</span>], NSString <span class="operator">*</span> <span class="params">_Nullable</span> <span class="params">principalClassName</span>, NSString <span class="operator">*</span> <span class="params">_Nullable</span> <span class="params">delegateClassName</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>argc</code>： <code>argv</code>中参数的个数，通常是<code>main</code>对应的参数。</li>
+<li><code>argv</code>： 参数列表，通常也是<code>main</code>对应的参数。</li>
+<li><code>principalClassName</code>：<ul>
+<li><code>UIApplication</code>或子类名称</li>
+<li>如果设置为空，将会从<code>Info.plist</code>中查找是否指定了该值（查找key：<code>Main storyboard file base name</code>）。</li>
+<li>如果在<code>Info.plist</code>找到配置的值（即<code>Main</code>），就会创建一个<code>UIWindow</code>，把<code>Main.storyboard</code>中箭头指向的控制器view添加到<code>UIWindow</code>上；</li>
+<li>如果在<code>Info.plist</code>没有找到，将会直接使用<code>UIApplication</code>，同样会创建上面描述的<code>UIWindow</code>。</li>
+</ul>
+</li>
+<li><code>delegateClassName</code>：<code>principalClassName</code>的代理类名称，初始化<code>principalClassName</code>完成后代理类会被实例化（开始走<code>AppDelegate</code>的代理方法）。</li>
+</ul>
+<h2 id="UIWindow"><a href="#UIWindow" class="headerlink" title="UIWindow"></a>UIWindow</h2><p><code>UIWindow</code>是一个特殊的<code>UIView</code>，一般情况下一个应用程序至少有一个<code>UIWindow</code>。</p>
+<p>iOS程序启动结束后，会自动创建一个<code>UIWindow</code>，然后设置跟控制器，把跟控制器的<code>View</code>添加到这个<code>UIWindow</code>上，最后展示在屏幕上。<code>UIWindow</code>更像是一棵树的根节点，所有的子节点都从根节点或根的子节点出发。所以说如果没有<code>UIWindow</code>，用户就看不到任何界面。</p>
+<p>如果设置了<code>Main.storyboard</code>启动，程序就会把<code>Main.storyboard</code>中初始化箭头指向的控制器<code>view</code>添加到<code>UIWindow</code>上。<code>UIWindow</code>的跟控制器就不需要我们自己设置了，系统会自动关联。</p>
+<h3 id="UIWindow为什么要设置rootViewController"><a href="#UIWindow为什么要设置rootViewController" class="headerlink" title="UIWindow为什么要设置rootViewController?"></a><code>UIWindow</code>为什么要设置<code>rootViewController</code>?</h3><p>设置<code>rootViewController</code>从程序设计角度来讲会更加合理，并且能够起到解耦的效果。从内存角度看的话，就是一个强引用指针。</p>
+<h3 id="手动创建UIWindow"><a href="#手动创建UIWindow" class="headerlink" title="手动创建UIWindow"></a>手动创建<code>UIWindow</code></h3><ol>
+<li><p>把<code>Info.plist</code>中的<code>Main storyboard file base name</code>对应的value值<code>Main</code>清空，或者直接把这行移除。<br><img src="http://blog.idbeny.com/qnvxr.png@normal"></p>
+</li>
+<li><p>在<code>AppDelegate</code>加载完成的代理方法中创建<code>UIWindow</code>，并显示</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</span><br><span class="line">    <span class="comment">// 创建UIWindow</span></span><br><span class="line">    <span class="built_in">UIWindow</span> *window = [[<span class="built_in">UIWindow</span> alloc] init];</span><br><span class="line">    window.backgroundColor = [<span class="built_in">UIColor</span> blueColor];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置UIWindow的根控制器</span></span><br><span class="line">    <span class="built_in">UIViewController</span> *vc = [[<span class="built_in">UIViewController</span> alloc] init];</span><br><span class="line">    vc.view.backgroundColor = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">    window.rootViewController = vc;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 让当前window成为主window并显示到屏幕上</span></span><br><span class="line">    [window makeKeyAndVisible];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 强引用，否则会被释放</span></span><br><span class="line">    <span class="keyword">self</span>.window = window;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/t8d1d.png@normal"></p>
+</li>
+</ol>
+<h3 id="makeKeyAndVisible原理"><a href="#makeKeyAndVisible原理" class="headerlink" title="makeKeyAndVisible原理"></a>makeKeyAndVisible原理</h3><p><code>UIApplicaton</code>属性<code>keyWindow</code>指向的就是<code>makeKeyAndVisible</code>的最后一次调用者。</p>
+<p>我们通过<code>[UIApplication sharedApplication].keyWindow</code>查看下创建的<code>UIWindow</code>做了哪些操作。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</span><br><span class="line">    <span class="built_in">UIWindow</span> *window = [[<span class="built_in">UIWindow</span> alloc] init];</span><br><span class="line">    <span class="built_in">UIViewController</span> *vc = [[<span class="built_in">UIViewController</span> alloc] init];</span><br><span class="line">    window.rootViewController = vc;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;window:%@&quot;</span>, window);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;before:%@&quot;</span>, [<span class="built_in">UIApplication</span> sharedApplication].keyWindow);</span><br><span class="line">    </span><br><span class="line">    [window makeKeyAndVisible];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;after:%@&quot;</span>, [<span class="built_in">UIApplication</span> sharedApplication].keyWindow);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.window = window;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">控制台输出：</span><br><span class="line">window:&lt;<span class="built_in">UIWindow</span>: <span class="number">0x7f9d1c506eb0</span>; frame = (<span class="number">0</span> <span class="number">0</span>; <span class="number">375</span> <span class="number">667</span>); hidden = <span class="literal">YES</span>; gestureRecognizers = &lt;<span class="built_in">NSArray</span>: <span class="number">0x600002a42a90</span>&gt;; layer = &lt;<span class="built_in">UIWindowLayer</span>: <span class="number">0x60000244c800</span>&gt;&gt;</span><br><span class="line"></span><br><span class="line">before:(null)</span><br><span class="line"></span><br><span class="line">after:&lt;<span class="built_in">UIWindow</span>: <span class="number">0x7f9d1c506eb0</span>; frame = (<span class="number">0</span> <span class="number">0</span>; <span class="number">375</span> <span class="number">667</span>); gestureRecognizers = &lt;<span class="built_in">NSArray</span>: <span class="number">0x600002a42a90</span>&gt;; layer = &lt;<span class="built_in">UIWindowLayer</span>: <span class="number">0x60000244c800</span>&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>通过控制台输出可以看到，<code>keyWindow</code>和自己创建的<code>window</code>是同一个对象，只是调用<code>makeKeyAndVisible</code>之前<code>window</code>的<code>hidden</code>属性是<code>YES</code>，调用之后<code>hidden</code>属性没有了（其实就是<code>NO</code>）。</p>
+<p>总结<code>makeKeyAndVisible</code>作用：</p>
+<ul>
+<li>设置调用者<code>window</code>为当前应用程序的<code>keyWindow</code>；</li>
+<li>显示到屏幕上；</li>
+<li>把根控制器的<code>view</code>添加到自己上面。</li>
+</ul>
+<p>伪代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UIWindow.m</span></span><br><span class="line">- (<span class="type">void</span>)makeKeyAndVisible &#123;</span><br><span class="line">  [<span class="built_in">UIApplication</span> sharedApplication].keyWindow = <span class="keyword">self</span>;</span><br><span class="line">  <span class="keyword">self</span>.hidden = <span class="literal">NO</span>;</span><br><span class="line">  [<span class="keyword">self</span> addSubview:<span class="keyword">self</span>.rootViewController.view];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不调用<code>makeKeyAndVisible</code>，设置<code>window</code>的<code>hidden</code>为<code>NO</code>时也可以显示到屏幕，只是<code>keyWindow</code>为空</p>
+<p>伪代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UIWindow.m</span></span><br><span class="line">- (<span class="type">void</span>)setHidden:(<span class="type">BOOL</span>)hidden &#123;</span><br><span class="line">  _hidden = hidden;</span><br><span class="line">  <span class="keyword">if</span> (_hidden) &#123;</span><br><span class="line">    [<span class="keyword">self</span>.rootViewController.view removeFromSuperview];</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    [<span class="keyword">self</span> addSubview:<span class="keyword">self</span>.rootViewController.view];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>UIWindow</code>的根控制器必须设置且不能给空，否则报错。<code>iOS9</code>之后创建的<code>UIWindow</code>不需要设置<code>frame</code>了。</p>
+<h3 id="多个UIWindow"><a href="#多个UIWindow" class="headerlink" title="多个UIWindow"></a>多个UIWindow</h3><p>系统给我们提供<code>UIWindow</code>的<code>windowLevel</code>层级有三个常量：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="keyword">const</span> <span class="built_in">UIWindowLevel</span> <span class="built_in">UIWindowLevelNormal</span>;</span><br><span class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="keyword">const</span> <span class="built_in">UIWindowLevel</span> <span class="built_in">UIWindowLevelAlert</span>;</span><br><span class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="keyword">const</span> <span class="built_in">UIWindowLevel</span> <span class="built_in">UIWindowLevelStatusBar</span></span><br></pre></td></tr></table></figure>
+
+<p><code>windowLevel</code>是<code>CGFloat</code>类型，默认值是<code>0.0</code>，我们可以通过他设置多个window之间的层级。</p>
+<p>三个常量之间的层级优先级是：<code>UIWindowLevelNormal（值：0.0）</code> &gt; <code>UIWindowLevelStatusBar（值：1000.0）</code> &gt; <code>UIWindowLevelAlert（值：2000.0）</code></p>
+<ul>
+<li><code>UIWindowLevelNormal</code>：创建的window默认都是这个层级；</li>
+<li><code>UIWindowLevelStatusBar</code>：状态栏的层级；</li>
+<li><code>UIWindowLevelAlert</code>：键盘、系统弹框都属于这个层级。</li>
+</ul>
+<h4 id="新建window作为状态栏背景（UIWindowLevelNormal）"><a href="#新建window作为状态栏背景（UIWindowLevelNormal）" class="headerlink" title="新建window作为状态栏背景（UIWindowLevelNormal）"></a>新建window作为状态栏背景（<code>UIWindowLevelNormal</code>）</h4><p>不需要设置<code>windowLevel</code>，或设置<code>windowLevel</code>小于<code>UIWindowLevelStatusBar</code>即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">BOOL</span>)application:(<span class="type">UIApplication</span> <span class="operator">*</span>)application didFinishLaunchingWithOptions:(<span class="type">NSDictionary</span> <span class="operator">*</span>)launchOptions &#123;</span><br><span class="line">    <span class="keyword">self</span>.window <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    <span class="keyword">self</span>.window.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> blueColor];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>vc <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    vc.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> redColor];</span><br><span class="line">    <span class="keyword">self</span>.window.rootViewController <span class="operator">=</span> vc;</span><br><span class="line">    [<span class="keyword">self</span>.window makeKeyAndVisible];</span><br><span class="line">        </span><br><span class="line">    <span class="type">UIWindow</span> <span class="operator">*</span>statusBarWindow <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] initWithFrame:<span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, [<span class="type">UIScreen</span> mainScreen].bounds.size.width, <span class="number">20.0</span>)];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>statusBarVC <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    statusBarVC.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> yellowColor];</span><br><span class="line">    statusBarWindow.rootViewController <span class="operator">=</span> statusBarVC;</span><br><span class="line">    [statusBarWindow makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">self</span>.statusBarWindow <span class="operator">=</span> statusBarWindow;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/8dzur.PNG@normal"></p>
+<h4 id="新建window覆盖状态栏（UIWindowLevelStatusBar）"><a href="#新建window覆盖状态栏（UIWindowLevelStatusBar）" class="headerlink" title="新建window覆盖状态栏（UIWindowLevelStatusBar）"></a>新建window覆盖状态栏（<code>UIWindowLevelStatusBar</code>）</h4><p>只需设置<code>windowLevel</code>大于等于<code>UIWindowLevelStatusBar</code>即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">BOOL</span>)application:(<span class="type">UIApplication</span> <span class="operator">*</span>)application didFinishLaunchingWithOptions:(<span class="type">NSDictionary</span> <span class="operator">*</span>)launchOptions &#123;</span><br><span class="line">    <span class="keyword">self</span>.window <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    <span class="keyword">self</span>.window.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> blueColor];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>vc <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    vc.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> redColor];</span><br><span class="line">    <span class="keyword">self</span>.window.rootViewController <span class="operator">=</span> vc;</span><br><span class="line">    [<span class="keyword">self</span>.window makeKeyAndVisible];</span><br><span class="line">        </span><br><span class="line">    <span class="type">UIWindow</span> <span class="operator">*</span>statusBarWindow <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] initWithFrame:<span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, [<span class="type">UIScreen</span> mainScreen].bounds.size.width, <span class="number">20.0</span>)];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>statusBarVC <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    statusBarVC.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> yellowColor];</span><br><span class="line">    statusBarWindow.rootViewController <span class="operator">=</span> statusBarVC;</span><br><span class="line">    statusBarWindow.windowLevel <span class="operator">=</span> <span class="type">UIWindowLevelStatusBar</span>;</span><br><span class="line">    [statusBarWindow makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">self</span>.statusBarWindow <span class="operator">=</span> statusBarWindow;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/vi791.PNG@normal"></p>
+<h3 id="window覆盖（UIWindowLevelAlert）"><a href="#window覆盖（UIWindowLevelAlert）" class="headerlink" title="window覆盖（UIWindowLevelAlert）"></a>window覆盖（<code>UIWindowLevelAlert</code>）</h3><p>只需设置<code>windowLevel</code>大于等于<code>UIWindowLevelAlert</code>即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">BOOL</span>)application:(<span class="type">UIApplication</span> <span class="operator">*</span>)application didFinishLaunchingWithOptions:(<span class="type">NSDictionary</span> <span class="operator">*</span>)launchOptions &#123;</span><br><span class="line">    <span class="keyword">self</span>.window <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    <span class="keyword">self</span>.window.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> blueColor];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>vc <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    vc.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> redColor];</span><br><span class="line">    <span class="keyword">self</span>.window.rootViewController <span class="operator">=</span> vc;</span><br><span class="line">    [<span class="keyword">self</span>.window makeKeyAndVisible];</span><br><span class="line">        </span><br><span class="line">    <span class="type">UIWindow</span> <span class="operator">*</span>statusBarWindow <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] initWithFrame:<span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, [<span class="type">UIScreen</span> mainScreen].bounds.size.width, <span class="number">20.0</span>)];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>statusBarVC <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    statusBarVC.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> yellowColor];</span><br><span class="line">    statusBarWindow.rootViewController <span class="operator">=</span> statusBarVC;</span><br><span class="line">    statusBarWindow.windowLevel <span class="operator">=</span> <span class="type">UIWindowLevelStatusBar</span>;</span><br><span class="line">    [statusBarWindow makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">self</span>.statusBarWindow <span class="operator">=</span> statusBarWindow;</span><br><span class="line">    </span><br><span class="line">    <span class="type">UIWindow</span> <span class="operator">*</span>alertWindow <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] initWithFrame:<span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">10</span>, [<span class="type">UIScreen</span> mainScreen].bounds.size.width, <span class="number">200.0</span>)];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>alertVC <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    alertVC.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> blueColor];</span><br><span class="line">    alertWindow.rootViewController <span class="operator">=</span> alertVC;</span><br><span class="line">    alertWindow.windowLevel <span class="operator">=</span> <span class="type">UIWindowLevelAlert</span>;</span><br><span class="line">    [alertWindow makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">self</span>.alertWindow <span class="operator">=</span> alertWindow;</span><br><span class="line">    </span><br><span class="line">    <span class="type">UIWindow</span> <span class="operator">*</span>alertWindow2 <span class="operator">=</span> [[<span class="type">UIWindow</span> alloc] initWithFrame:<span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">100</span>, [<span class="type">UIScreen</span> mainScreen].bounds.size.width, <span class="number">200.0</span>)];</span><br><span class="line">    <span class="type">UIViewController</span> <span class="operator">*</span>alertVC2 <span class="operator">=</span> [[<span class="type">UIViewController</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    alertVC2.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> greenColor];</span><br><span class="line">    alertWindow2.rootViewController <span class="operator">=</span> alertVC2;</span><br><span class="line">    alertWindow2.windowLevel <span class="operator">=</span> <span class="type">UIWindowLevelAlert</span>;</span><br><span class="line">    [alertWindow2 makeKeyAndVisible];</span><br><span class="line">    <span class="keyword">self</span>.alertWindow2 <span class="operator">=</span> alertWindow2;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.idbeny.com/c1exa.PNG@normal"></p>
+<p>总结：如果多个<code>window</code>设置了同级别，后添加的会覆盖到之前添加的上面。在实际开发中，除了首次创建的视图载体<code>window</code>，建议直接使用<code>UIWindow</code>的<code>hidden</code>属性，少用<code>makeKeyAndVisible</code>，这样可以有效避免<code>UIApplication</code>属性<code>keyWindow</code>的混乱。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/03/02/ios-launch-start/" title="【iOS】应用程序启动原理及UIWindow的使用">http://idbeny.com/2018/03/02/ios-launch-start/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8/" rel="tag"># 应用程序启动</a>
+          
+            <a href="/tags/UIWindow/" rel="tag"># UIWindow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/ios-initnib/" rel="next" title="【iOS】initWithNibName原理">
+                <i class="fa fa-chevron-left"></i> 【iOS】initWithNibName原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/ios-loadview/" rel="prev" title="【iOS】loadView原理">
+                【iOS】loadView原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#load%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">load方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIWindow"><span class="nav-number">3.</span> <span class="nav-text">UIWindow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIWindow%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%BE%E7%BD%AErootViewController"><span class="nav-number">3.1.</span> <span class="nav-text">UIWindow为什么要设置rootViewController?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BAUIWindow"><span class="nav-number">3.2.</span> <span class="nav-text">手动创建UIWindow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#makeKeyAndVisible%E5%8E%9F%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">makeKeyAndVisible原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AAUIWindow"><span class="nav-number">3.4.</span> <span class="nav-text">多个UIWindow</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAwindow%E4%BD%9C%E4%B8%BA%E7%8A%B6%E6%80%81%E6%A0%8F%E8%83%8C%E6%99%AF%EF%BC%88UIWindowLevelNormal%EF%BC%89"><span class="nav-number">3.4.1.</span> <span class="nav-text">新建window作为状态栏背景（UIWindowLevelNormal）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAwindow%E8%A6%86%E7%9B%96%E7%8A%B6%E6%80%81%E6%A0%8F%EF%BC%88UIWindowLevelStatusBar%EF%BC%89"><span class="nav-number">3.4.2.</span> <span class="nav-text">新建window覆盖状态栏（UIWindowLevelStatusBar）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window%E8%A6%86%E7%9B%96%EF%BC%88UIWindowLevelAlert%EF%BC%89"><span class="nav-number">3.5.</span> <span class="nav-text">window覆盖（UIWindowLevelAlert）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

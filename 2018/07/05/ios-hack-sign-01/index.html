@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,签名机制,重签名," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="我们可以通过tweak注入动态库的形式修改APP的逻辑，也可以通过汇编直接修改APP的可执行文件，但是修改后的APP只能在越狱手机上运行，如果想安装到非越狱手机上就需要对APP进行重签名。 签名涉及到密码学，在了解签名之前先简单介绍一下相关加密解密算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS逆向系列十 - 签名机制（一）">
+<meta property="og:url" content="http://idbeny.com/2018/07/05/ios-hack-sign-01/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="我们可以通过tweak注入动态库的形式修改APP的逻辑，也可以通过汇编直接修改APP的可执行文件，但是修改后的APP只能在越狱手机上运行，如果想安装到非越狱手机上就需要对APP进行重签名。 签名涉及到密码学，在了解签名之前先简单介绍一下相关加密解密算法。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/gze8j.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/t20kc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/61jjh.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/f89pf.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/bl8e4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/6w8aq.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/psf2m.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/roxn0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/q4air.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/y6rbw.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/c0rgw.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/3asgg.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/o1h8d.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pfcdp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/442ef.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/2m94e.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/sp4xd.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/pu4u1.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/oibc0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/fibk7.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/71vr0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/6zz6z.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7uvt9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/8hvmj.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/sphn2.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/6mjex.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/odyr4.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/ora8m.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/v67ll.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/uim4i.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/y02dy.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/smk8i.png@normal">
+<meta property="article:published_time" content="2018-07-05T08:23:27.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.796Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="签名机制">
+<meta property="article:tag" content="重签名">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/gze8j.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/07/05/ios-hack-sign-01/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】iOS逆向系列十 - 签名机制（一） | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/07/05/ios-hack-sign-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】iOS逆向系列十 - 签名机制（一）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T16:23:27+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们可以通过tweak注入动态库的形式修改APP的逻辑，也可以通过汇编直接修改APP的可执行文件，但是修改后的APP只能在越狱手机上运行，如果想安装到非越狱手机上就需要对APP进行重签名。</p>
+<p>签名涉及到密码学，在了解签名之前先简单介绍一下相关加密解密算法。</p>
+<span id="more"></span>
+
+<h2 id="一、加密解密"><a href="#一、加密解密" class="headerlink" title="一、加密解密"></a>一、加密解密</h2><p>为了便于理解，设计4个虚拟人物：</p>
+<ul>
+<li>Alice、Bob：互相通信</li>
+<li>Eve：窃听者</li>
+<li>Mallory：主动攻击者</li>
+</ul>
+<p><img src="https://blog.idbeny.com/gze8j.png@normal"></p>
+<h3 id="1-1-如何防止被窃听？"><a href="#1-1-如何防止被窃听？" class="headerlink" title="1.1. 如何防止被窃听？"></a>1.1. 如何防止被窃听？</h3><ul>
+<li>信息发送者Alice对信息进行加密</li>
+</ul>
+<p><img src="https://blog.idbeny.com/t20kc.png@normal"></p>
+<ul>
+<li>信息接收者Bob对信息进行解密</li>
+</ul>
+<p><img src="https://blog.idbeny.com/61jjh.png@normal"></p>
+<ul>
+<li>此时窃听者Eve只能窃听到密文</li>
+</ul>
+<p><img src="https://blog.idbeny.com/f89pf.png@normal"></p>
+<h3 id="1-2-如何加密解密？"><a href="#1-2-如何加密解密？" class="headerlink" title="1.2. 如何加密解密？"></a>1.2. 如何加密解密？</h3><p>同一个密钥可以对信息进行加密解密。</p>
+<p><img src="https://blog.idbeny.com/bl8e4.png@normal"></p>
+<p><img src="https://blog.idbeny.com/6w8aq.png@normal"></p>
+<h3 id="1-3-密码的类型"><a href="#1-3-密码的类型" class="headerlink" title="1.3. 密码的类型"></a>1.3. 密码的类型</h3><p>根据密钥的使用方法，可以将密码分为2种：</p>
+<ul>
+<li><strong>对称密码</strong></li>
+</ul>
+<p><img src="https://blog.idbeny.com/psf2m.png@normal"></p>
+<ul>
+<li><strong>公钥密码（非对称密码）</strong></li>
+</ul>
+<p><img src="https://blog.idbeny.com/roxn0.png@normal"></p>
+<h2 id="二、对称密码"><a href="#二、对称密码" class="headerlink" title="二、对称密码"></a>二、对称密码</h2><p>在对称密码（<em>Symmetric Cryptography</em>）中，加密和解密时使用的是同一个密钥。</p>
+<p>常见的对称密码算法有：</p>
+<ul>
+<li>DES</li>
+<li>3DES</li>
+<li>AES</li>
+</ul>
+<p><img src="https://blog.idbeny.com/q4air.png@normal"></p>
+<h3 id="2-1-DES"><a href="#2-1-DES" class="headerlink" title="2.1. DES"></a>2.1. DES</h3><p>DES（<em>Data Encryption Standard</em>）是一种将64bit明文加密成64bit密文的对称密码算法。</p>
+<p>密钥长度是56bit。规格上来说，密钥长度是64bit，但每隔7bit会设置一个用于错误检查的bit，因此密钥长度实质上是56bit。由于DES每次只能加密64bit的数据，遇到比较大的数据，需要对DES加密进行迭代（反复）。</p>
+<p>目前已经可以在短时间内被破解，所以<strong>不建议使用</strong>。</p>
+<p><img src="https://blog.idbeny.com/y6rbw.png@normal"></p>
+<h3 id="2-2-3DES"><a href="#2-2-3DES" class="headerlink" title="2.2. 3DES"></a>2.2. 3DES</h3><p>3DES，将DES重复3次所得到的一种密码算法，也叫做3重DES。</p>
+<p>目前还被一些银行等机构使用，但处理速度不高，安全性逐渐暴露出问题。</p>
+<p><img src="https://blog.idbeny.com/c0rgw.png@normal"></p>
+<p>3个密钥都是不同的，也称为DES-EDE3。</p>
+<ul>
+<li>如果所有密钥都使用同一个，则结果与普通的DES是等价的。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/3asgg.png@normal"></p>
+<ul>
+<li>如果密钥1、密钥3相同，密钥2不同，称为DES-EDE2。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/o1h8d.png@normal"></p>
+<h3 id="2-3-AES"><a href="#2-3-AES" class="headerlink" title="2.3. AES"></a>2.3. AES</h3><p>AES（<em>Advanced Encryption Standard</em>）是取代DES成为新标准的一种对称密码算法，在2000年时选择Rijindael算法作为AES的实现。AES的密钥长度有128、192、256bit三种。目前AES已经逐步取代DES、3DES，成为<strong>首选的对称密码算法</strong>。</p>
+<p>一般来说，我们也不应该去使用任何自制的密码算法，而是应该使用AES，它经过了全世界密码学家所进行的高品质验证工作。</p>
+<h3 id="2-4-密钥配送"><a href="#2-4-密钥配送" class="headerlink" title="2.4. 密钥配送"></a>2.4. 密钥配送</h3><p>在使用对称密码时，一定会遇到密钥配送问题。</p>
+<p>假设，Alice将使用对称密码加密过的消息发给了Bob，只有将密钥发送给Bob，Bob才能完成解密，但在发送密钥过程中可能会被Eve窃取密钥，最后Eve也能完成解密。</p>
+<p><img src="https://blog.idbeny.com/pfcdp.png@normal"></p>
+<p><strong>如何解决密钥配送问题？</strong>有以下几种解决密钥配送的方法：</p>
+<ul>
+<li>事先共享密钥</li>
+<li>密钥分配中心</li>
+<li>Diffie-Hellman密钥交换</li>
+<li>公钥密码</li>
+</ul>
+<h2 id="三、公钥密码（非对称密码）"><a href="#三、公钥密码（非对称密码）" class="headerlink" title="三、公钥密码（非对称密码）"></a>三、公钥密码（非对称密码）</h2><p>公钥密码（<em>Public-key Cryptography</em>），也被称为<strong>非对称密码</strong>（<em>Asymmetric Cryptography</em>）。它的密钥分为<strong>加密密钥</strong>、<strong>解密密钥</strong>2种，它们并不是同一个密钥。</p>
+<p>特点：</p>
+<ul>
+<li>加密密钥，一般是公开的，因此该密钥称为公钥（<em>public key</em>）。</li>
+<li>解密密钥，由消息接收者自己保管的，不能公开，因此也称为私钥（<em>private key</em>）。</li>
+<li>公钥和私钥是一 一对应的，是不能单独生成的，一对公钥和密钥统称为密钥对（<em>key pair</em>）。</li>
+<li><strong>由公钥加密的密文，必须使用与该公钥对应的私钥才能解密</strong>。</li>
+<li><strong>由私钥加密的密文，必须使用与该私钥对应的公钥才能解密</strong>。</li>
+</ul>
+<p><img src="https://blog.idbeny.com/442ef.png@normal"></p>
+<p>目前使用最广泛的公钥密码算法是RSA。RSA的名字由它的3位开发者，即<font color='red'>R</font>on Rivest、Adi <font color='red'>S</font>hamir、Leonard <font color='red'>A</font>dleman的姓氏首字母组成。</p>
+<h3 id="3-1-解决密钥配送问题"><a href="#3-1-解决密钥配送问题" class="headerlink" title="3.1. 解决密钥配送问题"></a>3.1. 解决密钥配送问题</h3><p>由消息的接收者，生成一对公钥、私钥，将公钥发给消息的发送者，消息的发送者使用公钥加密消息。</p>
+<p><img src="https://blog.idbeny.com/2m94e.png@normal"></p>
+<h3 id="3-2-混合密码"><a href="#3-2-混合密码" class="headerlink" title="3.2. 混合密码"></a>3.2. 混合密码</h3><p>对称密码的缺点：不能很好地解决密钥配送问题。<br>公钥密码的缺点：加密解密速度比较慢（对称密码是位运算，公钥密码涉及到幂运算和模运算）。</p>
+<p>混合密码系统，是将对称密码和公钥密码的优势相结合的方法。解决了公钥密码速度慢的问题，并通过公钥密码解决了对称密码的密钥配送问题。网络上的密码通信所用的SSL&#x2F;TLS都运用了混合密码系统。</p>
+<h4 id="3-2-1-加密"><a href="#3-2-1-加密" class="headerlink" title="3.2.1. 加密"></a>3.2.1. 加密</h4><p>加密步骤（发送消息)：</p>
+<ol>
+<li>首先，消息发送者要拥有消息接收者的公钥；</li>
+<li>生成会话密钥，作为对称密码的密钥对消息进行加密；</li>
+<li>用消息接收者的公钥，加密会话密钥；</li>
+<li>把第2、3步的加密结果，一并发给消息接收者。发送出去的内容包括：<ul>
+<li>用会话密钥加密的消息（加密方法：对称密码）</li>
+<li>用公钥加密的会话密钥（加密方法：公钥密码）</li>
+</ul>
+</li>
+</ol>
+<p>会话密钥（<em>session key</em>）是本次通信随机生成的临时密钥。作为对称密码的密钥，用于加密消息，提高速度。</p>
+<p><img src="https://blog.idbeny.com/sp4xd.png@normal"></p>
+<p>发送过程（加密过程）：</p>
+<ol>
+<li>Bob生成一对公钥、私钥；</li>
+<li>Bob把公钥共享给Alice；</li>
+<li>Alice随机生成一个会话密钥（临时密钥）；</li>
+<li>Alice用会话密钥加密需要发送的消息（使用的是对称密码加密）；</li>
+<li>Alice用Bob的公钥加密会话密钥（使用的是公钥密码加密，也就是非对称密码加密）；</li>
+<li>Alice把第4、5步的加密结果，一并发送给Bob。</li>
+</ol>
+<h4 id="3-2-2-解密"><a href="#3-2-2-解密" class="headerlink" title="3.2.2. 解密"></a>3.2.2. 解密</h4><p>解密步骤（收到消息）：</p>
+<ol>
+<li>消息接收者用自己的私钥解密出会话密钥；</li>
+<li>再用第1步解密出来的会话密钥，解密消息。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/pu4u1.png@normal"></p>
+<p>接收过程（解密过程）：</p>
+<ol>
+<li>Bob利用自己的私钥解密会话密钥（使用的是公钥密码解密，也就是非对称密码解密）；</li>
+<li>Bob利用第1步解密后的会话密钥解密发送过来的消息（使用的是对称密码解密）。</li>
+</ol>
+<h2 id="四、单向散列函数"><a href="#四、单向散列函数" class="headerlink" title="四、单向散列函数"></a>四、单向散列函数</h2><p>单向散列函数（<em>One-way hash function</em>），又被称为<strong>消息摘要函数</strong>（<em>message digest function</em>），<strong>哈希函数</strong>。可以根据消息内容计算出散列值。输出的散列值，也被称为消息摘要（<em>message digest</em>）、指纹（<em>fingerprint</em>）。</p>
+<p>散列值的长度和消息的长度无关，无论消息是1bit、10M、100G，单向散列函数都会计算出固定长度的散列值。</p>
+<p><img src="https://blog.idbeny.com/oibc0.png@normal"></p>
+<h3 id="4-1-散列函数的特点"><a href="#4-1-散列函数的特点" class="headerlink" title="4.1. 散列函数的特点"></a>4.1. 散列函数的特点</h3><ul>
+<li>根据任意长度的消息，计算出固定长度的散列值</li>
+<li>计算速度快，能快速计算出散列值</li>
+<li>消息不同，散列值也不同</li>
+</ul>
+<p><img src="https://blog.idbeny.com/fibk7.png@normal"></p>
+<ul>
+<li>具备单向性</li>
+</ul>
+<p><img src="https://blog.idbeny.com/71vr0.png@normal"></p>
+<h3 id="4-2-常见的几种单向散列函数"><a href="#4-2-常见的几种单向散列函数" class="headerlink" title="4.2. 常见的几种单向散列函数"></a>4.2. 常见的几种单向散列函数</h3><ul>
+<li><p>MD4、MD5</p>
+<ul>
+<li><p>产生128bit的散列值，MD就是<em>Message Digest</em>的缩写，目前已经不安全</p>
+</li>
+<li><p>Mac终端上默认可以使用md5命令</p>
+</li>
+</ul>
+</li>
+<li><p>SHA-1</p>
+<ul>
+<li>产生160bit的散列值，目前已经不安全</li>
+</ul>
+</li>
+<li><p>SHA-2</p>
+<ul>
+<li>SHA-256、SHA-384、SHA-512，散列值长度分别是256bit、384bit、512bit。目前使用最广泛的散列函数（相对SHA-1比较安全）。</li>
+</ul>
+</li>
+<li><p>SHA-3</p>
+<ul>
+<li>全新标准</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-如何防止数据被篡改"><a href="#4-3-如何防止数据被篡改" class="headerlink" title="4.3. 如何防止数据被篡改"></a>4.3. 如何防止数据被篡改</h3><h4 id="4-3-1-案例一"><a href="#4-3-1-案例一" class="headerlink" title="4.3.1. 案例一"></a>4.3.1. 案例一</h4><p>如何确保两份文件是否一致（防止其他人修改）？</p>
+<p><img src="https://blog.idbeny.com/6zz6z.png@normal"></p>
+<p>按照普通用户的思路，可能先把昨天的文件拷贝一份保存到安全的地方，第二天把保存的副本和源文件进行一一比对，如果比对通过就说明没有被修改过。</p>
+<p><img src="https://blog.idbeny.com/7uvt9.png@normal"></p>
+<p>如果文件比较大而且比较多的情况下，文件比对的工作量就会非常大。如果使用单向散列函数对文件进行计算得出一个散列值，每次比较散列值是否相同就可以很快确认文件是否被修改。</p>
+<p><img src="https://blog.idbeny.com/8hvmj.png@normal"></p>
+<h4 id="4-3-2-案例二"><a href="#4-3-2-案例二" class="headerlink" title="4.3.2. 案例二"></a>4.3.2. 案例二</h4><p>平时在下载内容的时候，有些官方网站会把相关内容的散列值告诉用户，方便用户确认从其他地方下载的内容是否被修改过。</p>
+<p><img src="https://blog.idbeny.com/sphn2.png@normal"></p>
+<p><strong>散列函数的作用主要是为了防止数据被篡改。</strong></p>
+<h2 id="五、数字签名"><a href="#五、数字签名" class="headerlink" title="五、数字签名"></a>五、数字签名</h2><p>场景：Alice发送消息给Bob，Alice发的内容有可能是被篡改的，或者有人伪装成Alice发消息，或者就是Alice发的，但她可以否认。</p>
+<p>问题：Bob如何确定这段消息的真实性？如何识别篡改、伪装、否认？</p>
+<p>解决方案：数字签名。</p>
+<p>在数字签名技术中，有以下2种行为：</p>
+<ol>
+<li><p>生成签名：由消息的发送者完成，通过“签名密钥”生成。</p>
+</li>
+<li><p>验证签名：由消息的接收者完成，通过“验证密钥”验证。</p>
+</li>
+</ol>
+<p>在公钥密码中，任何人都可以使用公钥进行加密（如下图）。</p>
+<p><img src="https://blog.idbeny.com/6mjex.png@normal"></p>
+<p>在数字签名中，任何人都可以使用公钥验证签名（如下图）。</p>
+<p><img src="https://blog.idbeny.com/odyr4.png@normal"></p>
+<p>思考：如何能保证这个签名是消息发送者自己签的？</p>
+<p>答案：用消息发送者的<strong>私钥进行签名</strong>。</p>
+<h3 id="5-1-数字签名和公钥密码"><a href="#5-1-数字签名和公钥密码" class="headerlink" title="5.1. 数字签名和公钥密码"></a>5.1. 数字签名和公钥密码</h3><p>数字签名其实就是将公钥密码反过来使用。</p>
+<p><img src="https://blog.idbeny.com/ora8m.png@normal"></p>
+<p>注意：<strong>签名 ≠ 加密</strong>，通俗点说加密就是你哪怕看到了不该看到的东西，也理解不了。而签名就是你做了任何事，都抵赖不了。</p>
+<h3 id="5-2-数字签名的过程"><a href="#5-2-数字签名的过程" class="headerlink" title="5.2. 数字签名的过程"></a>5.2. 数字签名的过程</h3><ol>
+<li>Alice生成密钥对，提前把公钥给Bob；</li>
+<li>Alice用自己的私钥，把原消息内容和加密后的消息后发送给Bob；</li>
+<li>Bob收到签名后使用Alice的公钥进行解密；</li>
+<li>Bob将解密的消息和原消息内容进行比对，如果两者一致就代表签名验证成功。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/v67ll.png@normal"></p>
+<p>上面的流程虽然没有问题，但是效率比较低。在Alice发送消息时，可以先将消息使用散列函数生成散列值，使用私钥对散列值进行签名，最终把消息和签名一起发送给Bob。Bob收到消息后使用Alice的公钥进行解密，得到消息的散列值后，和原消息的散列值进行比对就可以得知签名是否验证成功。</p>
+<p><img src="https://blog.idbeny.com/uim4i.png@normal"></p>
+<h3 id="5-3-疑惑"><a href="#5-3-疑惑" class="headerlink" title="5.3. 疑惑"></a>5.3. 疑惑</h3><p>问题1：如果有人篡改了文件内容或者签名内容，会是什么结果？</p>
+<p>解答：签名验证失败，证明内容会篡改。</p>
+<p>问题2：数字签名不能保证机密性？</p>
+<p>解答：数字签名的作用不是为了保证机密性，仅仅是为了能够识别内容有没有被篡改。</p>
+<p>问题3：数字签名的作用是什么？</p>
+<p>解答：确认消息的完整性（是否被篡改），防止消息发送人否认（公钥和私钥是一一对应的）。</p>
+<h3 id="5-4-数字签名的问题"><a href="#5-4-数字签名的问题" class="headerlink" title="5.4. 数字签名的问题"></a>5.4. 数字签名的问题</h3><p>正确使用签名的前提是：用于验证签名的公钥必须属于真正的发送者。</p>
+<p>如果遭遇了中间人攻击，那么公钥将是伪造的，数字签名将失效（如下图）。</p>
+<p><img src="https://blog.idbeny.com/y02dy.png@normal"></p>
+<p>因此在验证签名之前，首先得验证公钥的合法性（公钥是否属于真正的发送者）。如何验证公钥的合法性？证书。</p>
+<h2 id="六、证书"><a href="#六、证书" class="headerlink" title="六、证书"></a>六、证书</h2><p>证书（<em>Certificate</em>），可能联想的是驾驶证、毕业证、英语四六级证等等，都是由权威机构认证的。密码学中的证书，全称叫公钥证书（<em>Public-key Certificate，PKC</em>），和驾驶证类似，里面有姓名、邮箱等个人信息，以及此人的公钥，并由认证机构（<em>Certificate Authority，CA</em>）施加数字签名。</p>
+<p>CA就是能够认定<strong>公钥确实属于此人</strong>并能够生成数字签名的个人或者组织。有国际性组织、政府设立的组织，也有通过提供认证服务来盈利的企业，个人也可以成立认证机构。</p>
+<p><img src="https://blog.idbeny.com/smk8i.png@normal"></p>
+<blockquote>
+<p> 变换理解：CA可以类比公安部（机构很安全），我们的身份证是公钥，出生或者办理身份证上传的指纹是私钥，公钥虽然不能完全保证你就是身份证本人，但是私钥一定可以匹配你就是身份证的所有者。每次需要证明你就是身份证本人的时候，到公安部进行申请验证，公安部出具一份证明材料并盖上公章（证书）就可以认定你就是身份证本人。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/07/05/ios-hack-sign-01/" title="【iOS】iOS逆向系列十 - 签名机制（一）">http://idbeny.com/2018/07/05/ios-hack-sign-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E7%AD%BE%E5%90%8D%E6%9C%BA%E5%88%B6/" rel="tag"># 签名机制</a>
+          
+            <a href="/tags/%E9%87%8D%E7%AD%BE%E5%90%8D/" rel="tag"># 重签名</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/30/ios-hack-arm/" rel="next" title="【iOS】iOS逆向系列九 - ARM">
+                <i class="fa fa-chevron-left"></i> 【iOS】iOS逆向系列九 - ARM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/12/ios-hack-sign-02/" rel="prev" title="【iOS】iOS逆向系列十一 - 签名机制（二）">
+                【iOS】iOS逆向系列十一 - 签名机制（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">一、加密解密</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E7%AA%83%E5%90%AC%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 如何防止被窃听？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%A6%82%E4%BD%95%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 如何加密解密？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%AF%86%E7%A0%81%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 密码的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">二、对称密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-DES"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3DES"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 3DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-AES"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. AES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%AF%86%E9%92%A5%E9%85%8D%E9%80%81"><span class="nav-number">2.4.</span> <span class="nav-text">2.4. 密钥配送</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%EF%BC%88%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、公钥密码（非对称密码）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%A7%A3%E5%86%B3%E5%AF%86%E9%92%A5%E9%85%8D%E9%80%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 解决密钥配送问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 混合密码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-%E5%8A%A0%E5%AF%86"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1. 加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-%E8%A7%A3%E5%AF%86"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2. 解密</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">四、单向散列函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 散列函数的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 常见的几种单向散列函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E6%95%B0%E6%8D%AE%E8%A2%AB%E7%AF%A1%E6%94%B9"><span class="nav-number">4.3.</span> <span class="nav-text">4.3. 如何防止数据被篡改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1-%E6%A1%88%E4%BE%8B%E4%B8%80"><span class="nav-number">4.3.1.</span> <span class="nav-text">4.3.1. 案例一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2-%E6%A1%88%E4%BE%8B%E4%BA%8C"><span class="nav-number">4.3.2.</span> <span class="nav-text">4.3.2. 案例二</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="nav-number">5.</span> <span class="nav-text">五、数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%92%8C%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">5.1. 数字签名和公钥密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text">5.2. 数字签名的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E7%96%91%E6%83%91"><span class="nav-number">5.3.</span> <span class="nav-text">5.3. 疑惑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">5.4.</span> <span class="nav-text">5.4. 数字签名的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%AF%81%E4%B9%A6"><span class="nav-number">6.</span> <span class="nav-text">六、证书</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

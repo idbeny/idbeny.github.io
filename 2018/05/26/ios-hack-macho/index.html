@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Mach-O," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="什么是Mach-O？可执行文件是怎么加载的？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS逆向系列四 - Mach-O">
+<meta property="og:url" content="http://idbeny.com/2018/05/26/ios-hack-macho/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="什么是Mach-O？可执行文件是怎么加载的？">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/0zmlb.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/t3rj9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/g98vz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/116tp.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/mn3ci.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/0fbb0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/5izhx.jpeg@normal">
+<meta property="article:published_time" content="2018-05-26T06:52:31.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.796Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Mach-O">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/0zmlb.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/05/26/ios-hack-macho/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】iOS逆向系列四 - Mach-O | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/05/26/ios-hack-macho/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】iOS逆向系列四 - Mach-O</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T14:52:31+08:00">
+                2018-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>什么是Mach-O？可执行文件是怎么加载的？</p>
+<span id="more"></span>
+
+<h2 id="一、APP分析"><a href="#一、APP分析" class="headerlink" title="一、APP分析"></a>一、APP分析</h2><h3 id="1-1-APP从开发到安装流程"><a href="#1-1-APP从开发到安装流程" class="headerlink" title="1.1. APP从开发到安装流程"></a>1.1. APP从开发到安装流程</h3><ol>
+<li><p>Objective-C或Swift代码、图片&#x2F;音视频等文件资源、info.plist配置、XIB、Storyboard等构成了APP的源代码。</p>
+</li>
+<li><p>通过编译、链接、签名操作后，代码会构建成一个<code>***.app</code>文件。而这个app文件中包含开发所用的到APP资源以及代码，代码经过编译后会压缩在同名文件中，这个<strong>文件格式就是Mach-O</strong>，是一个可执行文件。</p>
+</li>
+<li><p>通过对<code>***.app</code>压缩（文件放入<code>Payload</code>文件夹中，然后再压缩）得到最终的安装包（压缩后需要把后缀名修改为<code>ipa</code>）。</p>
+</li>
+<li><p>一般情况下都是直接把<code>***.ipa</code>上传到AppStore进行审核，审核通过后用户就可以到AppStore中进行正常下载。APP也通过PP助手、iFunBox、Xcode等工具进行安装。</p>
+</li>
+</ol>
+<h3 id="1-2-逆向APP的思路"><a href="#1-2-逆向APP的思路" class="headerlink" title="1.2. 逆向APP的思路"></a>1.2. 逆向APP的思路</h3><ol>
+<li><p>界面分析</p>
+<ul>
+<li>行为：查看界面相关元素之间的依赖关系</li>
+<li>工具：Cycript（代码层级结构）、Reveal（视图层级可视化结构）</li>
+</ul>
+</li>
+<li><p>代码分析</p>
+<ul>
+<li>行为：对Mach-O文件的静态分析</li>
+<li>工具：MachOView（MachO文件分析工具）、class-dump（MachO头文件导出命令）、Hopper Disassembler（MachO文件反编译成代码）、ida</li>
+</ul>
+</li>
+<li><p>动态调试</p>
+<ul>
+<li>行为：对运行中的APP进行代码调试</li>
+<li>工具：debugserver、LLDB</li>
+</ul>
+</li>
+<li><p>代码编写</p>
+<ul>
+<li>行为：注入代码到APP中</li>
+<li>必要时还可能需要重新签名、打包ipa</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-3-class-dump"><a href="#1-3-class-dump" class="headerlink" title="1.3. class-dump"></a>1.3. class-dump</h3><p>顾名思义，它的作用就是把Mach-O文件的class信息给dump出来（把类信息给导出来），生成对应的<code>.h</code>头文件。</p>
+<p><strong>官方地址</strong>：<a target="_blank" rel="noopener" href="http://stevenygard.com/projects/class-dump/">http://stevenygard.com/projects/class-dump/</a></p>
+<p>下载完工具包后将class-dump文件复制到Mac的<code>/usr/local/bin</code>目录，这样在终端就能识别class-dump命令了。</p>
+<blockquote>
+<p>注意：<code>usr/bin</code>系统已经不给用户写入权限了，后加入的指令都是放到<code>/usr/local/bin</code>目录中的。</p>
+</blockquote>
+<p><strong>常用格式：</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span>-<span class="keyword">dump</span>  -H  Mach-O文件路径  -o  头文件存放目录</span><br></pre></td></tr></table></figure>
+
+<p><code>-H</code>：表示要生成头文件。</p>
+<p><code>-o</code>：用于制定头文件的存放目录。</p>
+<h3 id="1-4-代码的编译过程"><a href="#1-4-代码的编译过程" class="headerlink" title="1.4. 代码的编译过程"></a>1.4. 代码的编译过程</h3><p>OC&#x2F;Swift语言通过<strong>编译</strong>生成汇编代码，汇编再<strong>编译</strong>后就是生成机器指令（Mach-O文件）。</p>
+<p>在同一种架构平台下，每一条汇编指令都有与之对应的唯一的机器指令。所以机器指令（即Mach-O文件）可以<strong>反编译</strong>出对应的汇编代码。</p>
+<p><img src="https://blog.idbeny.com/0zmlb.png@normal"></p>
+<p>但是汇编代码是不能反编译成OC&#x2F;Swift代码的，因为不同的源代码编译成的汇编代码可能是一样的。</p>
+<p><img src="https://blog.idbeny.com/t3rj9.png@normal"></p>
+<h3 id="1-5-Hopper-Disassmbler"><a href="#1-5-Hopper-Disassmbler" class="headerlink" title="1.5. Hopper Disassmbler"></a>1.5. Hopper Disassmbler</h3><p>Hopper Disassmbler能够将Mach-O文件的机器语言代码反编译成汇编代码、OC伪代码或者Swift伪代码。</p>
+<h2 id="二、动态库"><a href="#二、动态库" class="headerlink" title="二、动态库"></a>二、动态库</h2><h3 id="2-1-动态库共享缓存"><a href="#2-1-动态库共享缓存" class="headerlink" title="2.1. 动态库共享缓存"></a>2.1. 动态库共享缓存</h3><p>从iOS3.1开始，为了提高性能，绝大部分的系统动态库文件（比如UIKit、MapKit、CoreGraphics等）都打包存放到了一个缓存文件中（dyld shared cache）。</p>
+<p>缓存文件路径（iPhone）：<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armX</code></p>
+<blockquote>
+<p>扩展：以前是动态库的Mach-O文件在<code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework</code>里面可以看到，现在已经没有了。</p>
+</blockquote>
+<p><code>dyld_shared_cache_armX</code>的<code>X</code>代表ARM处理器指令集架构（所有指令集原则上都是向下兼容的）：</p>
+<ul>
+<li><p>v6</p>
+<figure class="highlight irpf90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iPhone、iPhone3G</span><br><span class="line">iPod <span class="keyword">Touch</span>、iPod Touch2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>v7</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">iPhone3GS</span>、<span class="variable">iPhone4</span>、<span class="variable">iPhone4S</span></span><br><span class="line"><span class="variable">iPad</span>、<span class="variable">iPad2</span>、<span class="function"><span class="title">iPad3</span>(<span class="variable">The</span> <span class="variable">New</span> <span class="variable">iPad</span>)</span></span><br><span class="line"><span class="variable">iPad</span> <span class="variable">mini</span></span><br><span class="line"><span class="variable">iPod</span> <span class="variable">Touch3G</span>、<span class="variable">iPod</span> <span class="variable">Touch4</span>、<span class="variable">iPod</span> <span class="variable">Touch5</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>v7s</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iPho<span class="symbol">ne5</span>、iPho<span class="symbol">ne5</span>C</span><br><span class="line">iPad<span class="number">4</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>arm64</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iPhone5S、iPhone6、iPhone6 <span class="keyword">Plus</span>、iPhone6S、iPhone6S <span class="keyword">Plus</span></span><br><span class="line">iPhoneSE、iPhone7、iPhone7 <span class="keyword">Plus</span>、iPhone8、iPhone8 <span class="keyword">Plus</span>、iPhoneX</span><br><span class="line">iPad5、iPad Air、iPad Air2、iPad Pro、iPad Pro2</span><br><span class="line">iPad mini with Retina display、iPad mini3、iPad mini4</span><br><span class="line">iPod Touch6</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>动态库共享缓存一个非常明显的好处是节省内存。现在的ida、Hopper反编译工具都可以识别动态库共享缓存。</p>
+<h3 id="2-2-动态库的加载"><a href="#2-2-动态库的加载" class="headerlink" title="2.2. 动态库的加载"></a>2.2. 动态库的加载</h3><p>在Mac&#x2F;iOS中，动态库是使用了<code>/usr/lib/dyld</code>程序来加载动态库。</p>
+<p>dyld，有多种叫法，最常见的是：</p>
+<ul>
+<li>dynamic link editor，动态链接编辑器</li>
+<li>dynamic loader，动态加载器</li>
+</ul>
+<p>dyld源码：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/dyld/">https://opensource.apple.com/tarballs/dyld/</a></p>
+<h3 id="2-3-从动态库共享缓存抽取动态库"><a href="#2-3-从动态库共享缓存抽取动态库" class="headerlink" title="2.3. 从动态库共享缓存抽取动态库"></a>2.3. 从动态库共享缓存抽取动态库</h3><p>动态库共享缓存文件中存放的是所有动态库，每次分析都需要加载很久（大概700MB左右），我们可以尝试把动态库分离出来，然后按需进行分析。</p>
+<p>可以使用dyld源码中的<code>launch-cache/dsc_extractor.cpp</code>。</p>
+<ol>
+<li><p>将<code>#if 0</code>前面的代码删除（包括<code>#if 0</code>），把最后面的<code>#endif也</code>删掉。</p>
+</li>
+<li><p>编译<code>dsc_extractor.cpp</code></p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">clang</span><span class="literal">++</span> <span class="literal">-</span><span class="comment">o dsc_extractor dsc_extractor</span><span class="string">.</span><span class="comment">cpp</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>dsc_extractor</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./dsc_extractor 动态库共享缓存文件的路径 用于存放抽取结果的文件夹</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>上面命令执行完成后，用于存放抽取结果的文件夹里就是动态库共享缓存中的所有动态库。</p>
+<blockquote>
+<p>注意：动态库共享缓存文件是在iPhone手机里（参考上面2.1），操作的时候需要把文件拷贝到电脑中。</p>
+</blockquote>
+<h2 id="三、Mach-O"><a href="#三、Mach-O" class="headerlink" title="三、Mach-O"></a>三、Mach-O</h2><p>Mach-O是<em>Mach object</em>的缩写，是Mac&#x2F;iOS上用于存储程序、库的标准格式。</p>
+<p>属于Mach-O格式的文件类型有：</p>
+<p><img src="https://blog.idbeny.com/g98vz.png@normal"></p>
+<p>可以在xnu源码中（<code>https://opensource.apple.com/tarballs/xnu/</code>），查看到Mach-O格式的详细定义（如下路径）：</p>
+<ul>
+<li><code>EXTERNAL_HEADERS/mach-o/fat.h</code></li>
+<li><code>EXTERNAL_HEADERS/mach-o/loader.h</code></li>
+</ul>
+<h3 id="3-1-常见的Mach-O文件类型"><a href="#3-1-常见的Mach-O文件类型" class="headerlink" title="3.1. 常见的Mach-O文件类型"></a>3.1. 常见的Mach-O文件类型</h3><ul>
+<li><p>MH_OBJECT</p>
+<ul>
+<li>目标文件（.o）</li>
+<li>静态库文件(.a），静态库其实就是N个.o合并在一起</li>
+</ul>
+</li>
+<li><p>MH_EXECUTE：可执行文件</p>
+<ul>
+<li>.app&#x2F;xx</li>
+</ul>
+</li>
+<li><p>MH_DYLIB：动态库文件</p>
+<ul>
+<li>.dylib</li>
+<li>.framework&#x2F;xx</li>
+</ul>
+</li>
+<li><p>MH_DYLINKER：动态链接编辑器</p>
+<ul>
+<li>&#x2F;usr&#x2F;lib&#x2F;dyld</li>
+</ul>
+</li>
+<li><p>MH_DSYM：存储着二进制文件符号信息的文件</p>
+<ul>
+<li>.dSYM&#x2F;Contents&#x2F;Resources&#x2F;DWARF&#x2F;xx（常用于分析APP的崩溃信息）</li>
+</ul>
+</li>
+</ul>
+<p>在Xcode中查看target的Mach-O类型：</p>
+<p><img src="https://blog.idbeny.com/116tp.png@normal"></p>
+<h3 id="3-2-Mach-O的基本结构"><a href="#3-2-Mach-O的基本结构" class="headerlink" title="3.2. Mach-O的基本结构"></a>3.2. Mach-O的基本结构</h3><p>官方描述：<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/0-Introduction/introduction.html">https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/MachOTopics/0-Introduction/introduction.html</a></p>
+<p>一个Mach-O文件包含3个主要区域：</p>
+<ul>
+<li><p>Header </p>
+<ul>
+<li>文件类型、目标架构类型等</li>
+</ul>
+</li>
+<li><p>Load commands</p>
+<ul>
+<li>描述文件在虚拟内存中的逻辑结构、布局</li>
+</ul>
+</li>
+<li><p>Raw segment data</p>
+<ul>
+<li>在Load commands中定义的Segment的原始数据</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.idbeny.com/mn3ci.png@normal"></p>
+<h3 id="3-3-窥探Mach-O的结构"><a href="#3-3-窥探Mach-O的结构" class="headerlink" title="3.3. 窥探Mach-O的结构"></a>3.3. 窥探Mach-O的结构</h3><h4 id="3-3-1-命令行工具"><a href="#3-3-1-命令行工具" class="headerlink" title="3.3.1. 命令行工具"></a>3.3.1. 命令行工具</h4><ul>
+<li><p>file：查看Mach-O的文件类型</p>
+<ul>
+<li><code>file 文件路径</code></li>
+</ul>
+</li>
+<li><p>otool：查看Mach-O特定部分和段的内容</p>
+</li>
+<li><p>lipo：常用于多架构Mach-O文件的处理</p>
+<ul>
+<li>查看架构信息：<code>lipo -info 文件路径</code></li>
+<li>导出某种特定架构：<code>lipo 文件路径 -thin 架构类型 -output 输出文件路径</code></li>
+<li>合并多种架构：<code>lipo 文件路径1 文件路径2 -output 输出文件路径</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="3-3-2-GUI工具"><a href="#3-3-2-GUI工具" class="headerlink" title="3.3.2. GUI工具"></a>3.3.2. GUI工具</h4><p>MachOView：<a target="_blank" rel="noopener" href="https://github.com/gdbinit/MachOView">https://github.com/gdbinit/MachOView</a></p>
+<h3 id="3-4-Universal-Binary"><a href="#3-4-Universal-Binary" class="headerlink" title="3.4. Universal Binary"></a>3.4. Universal Binary</h3><p>通用二进制文件，同时适用于多种架构的二进制文件，包含了多种不同架构的独立的二进制文件。</p>
+<p>在Xcode中（Target -&gt; Build Settings -&gt; Architectures）就可以修改应用或静态库支持哪几种架构（x86_64、armv6、armv7、armv7s、arm64）。</p>
+<p><img src="https://blog.idbeny.com/0fbb0.png@normal"></p>
+<p><strong>Architectures</strong>：通用的一些架构值。默认值是<code>$(ARCHS_STANDARD)</code>，这个默认值是Xcode内置的环境变量，不同版本的Xcode可能其值也不同。可以添加和删除架构类型。</p>
+<p><strong>Valid Architectures</strong>：当前应用支持的架构。可以添加和删除架构类型。</p>
+<p>最终支持哪几种架构是根据Architectures和Valid Architectures的交集确定的。</p>
+<p><strong>通用架构的特点</strong>：</p>
+<ul>
+<li><p>因为需要储存多种架构的代码，通用二进制文件通常比单一平台二进制的程序要大。</p>
+</li>
+<li><p>由于两种架构有共同的一些资源，所以并不会达到单一版本的两倍之多。</p>
+</li>
+<li><p>由于执行过程中，只调用一部分代码，运行起来也不需要额外的内存。</p>
+</li>
+<li><p>因为文件比原来的要大，也被称为“胖二进制文件”（Fat Binary）。</p>
+</li>
+</ul>
+<h3 id="3-5-dyld和Mach-O"><a href="#3-5-dyld和Mach-O" class="headerlink" title="3.5. dyld和Mach-O"></a>3.5. dyld和Mach-O</h3><p>dyld用于加载以下类型的Mach-O文件：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">MH_EXECUTE</span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">MH_DYLIB</span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">MH_BUNDLE</span></span><br></pre></td></tr></table></figure>
+
+<p>APP的可执行文件、动态库都是由dyld负责加载的。</p>
+<h2 id="四、扩展"><a href="#四、扩展" class="headerlink" title="四、扩展"></a>四、扩展</h2><p>Drawin、xnu、Mach、BSD之间的关系如下所示：</p>
+<p><img src="https://blog.idbeny.com/5izhx.jpeg@normal"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/05/26/ios-hack-macho/" title="【iOS】iOS逆向系列四 - Mach-O">http://idbeny.com/2018/05/26/ios-hack-macho/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Mach-O/" rel="tag"># Mach-O</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/20/ios-hack-cycript/" rel="next" title="【iOS】iOS逆向系列三 - Cycript">
+                <i class="fa fa-chevron-left"></i> 【iOS】iOS逆向系列三 - Cycript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/02/ios-hack-crack/" rel="prev" title="【iOS】iOS逆向系列五 - 脱壳">
+                【iOS】iOS逆向系列五 - 脱壳 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81APP%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">一、APP分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-APP%E4%BB%8E%E5%BC%80%E5%8F%91%E5%88%B0%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. APP从开发到安装流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E9%80%86%E5%90%91APP%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 逆向APP的思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-class-dump"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. class-dump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E4%BB%A3%E7%A0%81%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. 代码的编译过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Hopper-Disassmbler"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. Hopper Disassmbler</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8A%A8%E6%80%81%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">二、动态库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%8A%A8%E6%80%81%E5%BA%93%E5%85%B1%E4%BA%AB%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 动态库共享缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%8A%A8%E6%80%81%E5%BA%93%E7%9A%84%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 动态库的加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BB%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%85%B1%E4%BA%AB%E7%BC%93%E5%AD%98%E6%8A%BD%E5%8F%96%E5%8A%A8%E6%80%81%E5%BA%93"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 从动态库共享缓存抽取动态库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81Mach-O"><span class="nav-number">3.</span> <span class="nav-text">三、Mach-O</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%B8%B8%E8%A7%81%E7%9A%84Mach-O%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 常见的Mach-O文件类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Mach-O%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. Mach-O的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%AA%A5%E6%8E%A2Mach-O%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 窥探Mach-O的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1. 命令行工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-GUI%E5%B7%A5%E5%85%B7"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2. GUI工具</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-Universal-Binary"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. Universal Binary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-dyld%E5%92%8CMach-O"><span class="nav-number">3.5.</span> <span class="nav-text">3.5. dyld和Mach-O</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%89%A9%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">四、扩展</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

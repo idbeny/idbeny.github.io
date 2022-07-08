@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="lldb,iOS,动态调试,debugserver," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="什么叫动态调试？ 将程序运行起来，通过下断点、打印等⽅式，查看参数、返回值、函数调⽤流程等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS逆向系列八 - 动态调试">
+<meta property="og:url" content="http://idbeny.com/2018/06/23/ios-hack-lldb/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="什么叫动态调试？ 将程序运行起来，通过下断点、打印等⽅式，查看参数、返回值、函数调⽤流程等。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/w5sl0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7sy53.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/w2igp.png@normal">
+<meta property="article:published_time" content="2018-06-23T12:11:32.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.796Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="lldb">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="动态调试">
+<meta property="article:tag" content="debugserver">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/w5sl0.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/06/23/ios-hack-lldb/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【iOS】iOS逆向系列八 - 动态调试 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/06/23/ios-hack-lldb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【iOS】iOS逆向系列八 - 动态调试</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-23T20:11:32+08:00">
+                2018-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>什么叫动态调试？</p>
+<p>将程序运行起来，通过下断点、打印等⽅式，查看参数、返回值、函数调⽤流程等。</p>
+<span id="more"></span>
+
+<h2 id="一、Xcode的动态调试原理"><a href="#一、Xcode的动态调试原理" class="headerlink" title="一、Xcode的动态调试原理"></a>一、Xcode的动态调试原理</h2><p>Xcode内置了LLDB调试器，每次通过Xcode调试APP时，会启动iPhone中的debugserver（iPhone手机官方调试工具。用来协助调试APP）。</p>
+<blockquote>
+<p>LLDB全称Low Level Debugger ，并不是低水平的调试器，而是轻量级的高性能调试器。</p>
+</blockquote>
+<p>如果iPhone手机从未连接过Xcode，debugserver是不在手机上的。debugserver一开始存放在Mac的Xcode⾥面（<code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/De viceSupport/10.0/DeveloperDiskImage.dmg/usr/bin/debugserver</code>）。当Xcode识别到⼿机设备时，Xcode会⾃动将debugserver安装到iPhone上（<code>/Developer/usr/bin/debugserver</code>）。</p>
+<p>当Xcode把APP运行起来开始调试时，LLDB会发送指令给debugserver，debugserver监听到指令后会把指令执行到APP，APP再把指令信息反馈给debugserver，debugserver反馈给LLDB，最终LLDB会把反馈信息打印到Xcode的控制台。</p>
+<p><img src="https://blog.idbeny.com/w5sl0.png@normal"></p>
+<p>LLDB是通过数据线或TCP（同一个局域网）和debugserver进行交互的。</p>
+<p><strong>关于GCC、LLVM、GDB、LLDB：</strong></p>
+<ul>
+<li>Xcode的<strong>编译器</strong>发展历程：<a target="_blank" rel="noopener" href="https://www.gnu.org/software/gcc/">GCC</a> → <a target="_blank" rel="noopener" href="https://llvm.org/">LLVM</a></li>
+<li>Xcode的<strong>调试器</strong>发展历程：<a target="_blank" rel="noopener" href="https://www.gnu.org/software/gdb/">GDB</a> → <a target="_blank" rel="noopener" href="https://lldb.llvm.org/">LLDB</a></li>
+</ul>
+<p>Xcode调试的局限性：⼀般情况下，只能调试通过Xcode安装的APP。</p>
+<h2 id="二、动态调试任意APP"><a href="#二、动态调试任意APP" class="headerlink" title="二、动态调试任意APP"></a>二、动态调试任意APP</h2><p>既然Xcode有一定的局限性，我们则可以通过终端运行LLDB调试APP。但是我们需要解决的问题就是建立LLDB和debugserver的连接通道，并且能让debugserver和APP进行通信。</p>
+<p><img src="https://blog.idbeny.com/7sy53.png@normal"></p>
+<h3 id="2-1-环境搭建"><a href="#2-1-环境搭建" class="headerlink" title="2.1. 环境搭建"></a>2.1. 环境搭建</h3><h4 id="2-1-1-debugserver的权限问题"><a href="#2-1-1-debugserver的权限问题" class="headerlink" title="2.1.1. debugserver的权限问题"></a>2.1.1. debugserver的权限问题</h4><p>默认情况下，<code>/Developer/usr/bin/debugserver</code>缺少一定的权限，只能调试通过Xcode安装的APP，⽆法调试其他APP（⽐如来自App Store的APP）。</p>
+<p>如果希望调试其他APP，需要对debugserver重新签名，签上2个调试相关的权限（get-task-allow、task_for_pid-allow）。</p>
+<h4 id="2-1-2-debugserver重签权限"><a href="#2-1-2-debugserver重签权限" class="headerlink" title="2.1.2. debugserver重签权限"></a>2.1.2. debugserver重签权限</h4><ol>
+<li>iPhone上的<code>/Developer</code>⽬录是只读的，无法直接对<code>/Developer/usr/bin/debugserver</code>⽂件签名，需要先把debugserver复制到Mac，通过<strong>ldid</strong>命令导出文件以前的签名权限。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ldid -e debugserver &gt; debugserver.entitlements</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>给<code>debugserver.plist</code>⽂件加上<code>get-task-allow</code>和<code>task_for_pid-allow</code>权限。</li>
+</ol>
+<p><img src="https://blog.idbeny.com/w2igp.png@normal"></p>
+<ol start="3">
+<li>通过<strong>ldid</strong>命令重新签名。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ldid -Sdebugserver.entitlements debugserver</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>将已经签好权限的debugserver放到<code>/usr/bin</code>目录，便于找到debugserver指令（更重要的是以前的目录文件是只读的，无法进行覆盖）。</p>
+</li>
+<li><p>默认情况下，需要开启<code>/usr/bin/debugserver</code>的权限。</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">chmod</span> +x /usr/bin/debugserver</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>关于权限的签名，也可以使用<strong>codesign</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看权限信息</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">codesign -d --entitlements - debugserver</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">签名权限</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">codesign -f -s - --entitlements debugserver.entitlements debugserver</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者简写为</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">codesign -fs- --entitlements debugserver.entitlements debugserver</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-3-让debugserver附加到某个APP进程"><a href="#2-1-3-让debugserver附加到某个APP进程" class="headerlink" title="2.1.3. 让debugserver附加到某个APP进程"></a>2.1.3. 让debugserver附加到某个APP进程</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">debugserver *:端口号 -a 进程</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>*:端⼝号</code>：<code>*</code>代表主机地址。端口号意思是使用iPhone的某个端口启动debugserver服务（只要不是保留端口号就⾏）。</li>
+<li><code>-a:进程</code>：输⼊APP的进程信息（进程ID或者进程名称）。</li>
+</ul>
+<p>上面介绍的是debugserver连接运行时的APP，其实我们还可以通过debugserver启动APP：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">debugserver -x auto *:端⼝口号 APP的可执⾏行行⽂文件路路径</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-建立连接"><a href="#2-2-建立连接" class="headerlink" title="2.2. 建立连接"></a>2.2. 建立连接</h3><p>在<strong>Mac</strong>上启动<strong>LLDB</strong>，远程连接<strong>iPhone</strong>上的<strong>debugserver</strong>服务。</p>
+<ol>
+<li><p>启动LLDB</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">lldb</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接debugserver服务（可以通过usbmuxd把debugserver的端口映射到Mac，然后填写映射的IP地址和端口号，最终使用USB进行传输）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) process connect connect://⼿机IP地址:debugserver服务端口号</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认情况下，只要debugserver服务连接成功，对应的APP就会处于暂停状态（类似下了一个断点）。可以使用LLDB的c命令让程序继续运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) c</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="三、常见的LLDB指令"><a href="#三、常见的LLDB指令" class="headerlink" title="三、常见的LLDB指令"></a>三、常见的LLDB指令</h2><ul>
+<li><p>指令的格式：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;command&gt; [&lt;subcommand&gt; [&lt;subcommand&gt;...]] &lt;action&gt; [-options [option- value]] [argument [argument...]]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>command</code>：命令</li>
+<li><code>subcommand</code>：子命令</li>
+<li><code>action</code>：命令操作</li>
+<li><code>options</code>：命令选项</li>
+<li><code>argument</code>：命令参数</li>
+<li>⽐如给<code>test</code>函数设置断点 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">breakpoint <span class="built_in">set</span> -n <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>breakpoint</strong>是<code>command</code></li>
+<li><strong>set</strong>是<code>subcommand</code></li>
+<li><strong>-n</strong>是<code>options</code></li>
+<li><strong>test</strong>是<code>argument</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>**help <code>&lt;command&gt;</code>**：查看指令的⽤法（⽐如<code>help breakpoint</code>、<code>help breakpoint set</code>）</p>
+</li>
+<li><p>**expression <code>&lt;cmd-options&gt; -- &lt;expr&gt;</code>**：执行⼀个表达式</p>
+<ul>
+<li><code>cmd-options</code>：命令选项</li>
+<li><code>--</code>：命令选项结束符，表示所有的命令选项已经设置完毕，如果没有命令选项，<code>--</code>可以省略</li>
+<li><code>expr</code>：需要执行的表达式</li>
+<li>比如设置view的背景色： <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expression self<span class="selector-class">.view</span><span class="selector-class">.backgroundColor</span> = <span class="selector-attr">[UIColor redColor]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>expression</code>、<code>expression --</code>和指令<code>print</code>、<code>p</code>、<code>call</code>的效果⼀样</li>
+<li><code>expression -O --</code>（<code>-O</code>就是<code>--object description</code>的指令缩写，类似<code>NSLog(@&quot;%@&quot;, object)</code>）和指令<code>po</code>的效果⼀样</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>thread backtrace</strong>：打印线程的堆栈信息（和指令bt的效果一样）</p>
+</li>
+<li><p>**thread return []**：让函数直接返回某个值，不会执⾏断点后面的代码</p>
+</li>
+<li><p>**frame variable []**：打印当前栈帧的变量</p>
+</li>
+<li><p><strong>thread continue、continue、c</strong>：程序继续运⾏</p>
+</li>
+<li><p><strong>thread step-over、next、n</strong>：单步运行，把⼦函数当做整体⼀步执⾏</p>
+</li>
+<li><p><strong>thread step-in、step、s</strong>：单步运行，遇到子函数会进⼊子函数</p>
+</li>
+<li><p><strong>thread step-out、finish</strong>：直接执行完当前函数的所有代码，返回到上⼀个函数</p>
+</li>
+<li><p><strong>thread step-inst-over、nexti、ni</strong>：</p>
+</li>
+<li><p><strong>thread step-inst、stepi、si</strong>：</p>
+</li>
+<li><p><strong>si、ni和s、n类似</strong>：</p>
+<ul>
+<li><strong>s、n</strong>是源码级别</li>
+<li><strong>si、ni</strong>是汇编指令级别</li>
+</ul>
+</li>
+<li><p><strong>breakpoint set</strong>：设置断点</p>
+<ul>
+<li><strong>breakpoint set -a 函数地址</strong></li>
+<li><strong>breakpoint set -n 函数名</strong> <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">breakpoint</span> <span class="built_in">set</span> -n test</span><br><span class="line"><span class="built_in">breakpoint</span> <span class="built_in">set</span> -n touchesBegan:withEvent:</span><br><span class="line"><span class="built_in">breakpoint</span> <span class="built_in">set</span> -n <span class="string">&quot;-[ViewController touchesBegan:withEvent:]&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>breakpoint set -r 正则表达式</strong></li>
+<li><strong>breakpoint set -s 动态库 -n 函数名</strong></li>
+</ul>
+</li>
+<li><p><strong>breakpoint list</strong>：列出所有的断点(每个断点都有⾃己的编号)</p>
+</li>
+<li><p><strong>breakpoint disable 断点编号</strong>：禁⽤断点</p>
+</li>
+<li><p><strong>breakpoint enable 断点编号</strong>：启⽤断点</p>
+</li>
+<li><p><strong>breakpoint delete 断点编号</strong>：删除断点</p>
+</li>
+<li><p><strong>breakpoint command add 断点编号</strong>：给断点预先设置需要执行的命令，到触发断点时，就会按顺序执⾏</p>
+</li>
+<li><p><strong>breakpoint command list 断点编号</strong>：查看某个断点设置的命令</p>
+</li>
+<li><p><strong>breakpoint command delete 断点编号</strong>：删除某个断点设置的命令</p>
+</li>
+<li><p><strong>内存断点</strong>：在内存数据发生改变的时候触发</p>
+<ul>
+<li><strong>watchpoint set variable 变量</strong>：<code>watchpoint set variable self-&gt;age</code></li>
+<li><strong>watchpoint set expression 地址</strong>：<code>watchpoint set expression &amp;(self-&gt;_age)</code></li>
+<li><strong>watchpoint list</strong></li>
+<li><strong>watchpoint disable 断点编号</strong></li>
+<li><strong>watchpoint enable 断点编号</strong></li>
+<li><strong>watchpoint delete 断点编号</strong></li>
+<li><strong>watchpoint command add 断点编号</strong></li>
+<li><strong>watchpoint command list 断点编号</strong></li>
+<li><strong>watchpoint command delete 断点编号</strong></li>
+</ul>
+</li>
+<li><p><strong>image lookup</strong>：模块查找（image不是图片的意思）</p>
+<ul>
+<li><strong>image lookup -t 类型</strong>：查找某个类型的信息</li>
+<li><strong>image lookup -a 地址</strong>：根据内存地址查找在模块中的位置</li>
+<li><strong>image lookup -n 符号或者函数名</strong>：查找某个符号或者函数的位置</li>
+</ul>
+</li>
+<li><p><strong>image list</strong>：列出所加载的模块信息</p>
+<ul>
+<li><code>image list -o -f</code>：打印出模块的偏移地址、全路径</li>
+</ul>
+</li>
+</ul>
+<h2 id="四、ASLR"><a href="#四、ASLR" class="headerlink" title="四、ASLR"></a>四、ASLR</h2><p>iOS4.3开始引入了ASLR技术。</p>
+<p>什么是ASLR？<em>Address Space Layout Randomization</em>，地址空间布局随机化。是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。</p>
+<p>在调试其他APP时，是无法通过函数名下断点的（<code>breakpoint set -n 函数名</code>），而且通过函数地址下断点时（<code>breakpoint set -a 函数地址</code>），函数地址需要经过计算才能得出。</p>
+<h3 id="4-1-未使用ASLR"><a href="#4-1-未使用ASLR" class="headerlink" title="4.1. 未使用ASLR"></a>4.1. 未使用ASLR</h3><p>代码编译以后，虚拟内存地址基本都是固定的，<code>__PAGEZERO</code>起始内存地址是0，其他人员可以非法入侵任意APP。</p>
+<p><code>__PAGEZERO</code>是空指针指向的内存区域（安全），更多用途可自行查阅资料。</p>
+<h3 id="4-2-使用了ASLR"><a href="#4-2-使用了ASLR" class="headerlink" title="4.2. 使用了ASLR"></a>4.2. 使用了ASLR</h3><p>ASLR控制的是<code>__PAGEZERO</code>前面的一部分内存，随机产生的<code>Offset</code>，让<code>__PAGEZERO</code>的起始内存地址动态变化。</p>
+<p>函数的内存地址（VM Address） &#x3D; File Offset + ASLR Offset + __PAGEZERO Size</p>
+<p>Hopper、IDA等工具中的地址都是未使用ASLR的VM Address。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/06/23/ios-hack-lldb/" title="【iOS】iOS逆向系列八 - 动态调试">http://idbeny.com/2018/06/23/ios-hack-lldb/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/lldb/" rel="tag"># lldb</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/" rel="tag"># 动态调试</a>
+          
+            <a href="/tags/debugserver/" rel="tag"># debugserver</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/15/ios-hack-tweak/" rel="next" title="【iOS】iOS逆向系列七 - Tweak">
+                <i class="fa fa-chevron-left"></i> 【iOS】iOS逆向系列七 - Tweak
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/30/ios-hack-arm/" rel="prev" title="【iOS】iOS逆向系列九 - ARM">
+                【iOS】iOS逆向系列九 - ARM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81Xcode%E7%9A%84%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一、Xcode的动态调试原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E4%BB%BB%E6%84%8FAPP"><span class="nav-number">2.</span> <span class="nav-text">二、动态调试任意APP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-debugserver%E7%9A%84%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1. debugserver的权限问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-debugserver%E9%87%8D%E7%AD%BE%E6%9D%83%E9%99%90"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2. debugserver重签权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-%E8%AE%A9debugserver%E9%99%84%E5%8A%A0%E5%88%B0%E6%9F%90%E4%B8%AAAPP%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3. 让debugserver附加到某个APP进程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 建立连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84LLDB%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">三、常见的LLDB指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81ASLR"><span class="nav-number">4.</span> <span class="nav-text">四、ASLR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%9C%AA%E4%BD%BF%E7%94%A8ASLR"><span class="nav-number">4.1.</span> <span class="nav-text">4.1. 未使用ASLR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BD%BF%E7%94%A8%E4%BA%86ASLR"><span class="nav-number">4.2.</span> <span class="nav-text">4.2. 使用了ASLR</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机,汇编,AT&T," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="–">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【汇编】汇编系列七 - AT&amp;T汇编">
+<meta property="og:url" content="http://idbeny.com/2018/04/25/assembly-at&t/index.html">
+<meta property="og:site_name" content="1024星球">
+<meta property="og:description" content="–">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.idbeny.com/9rh4b.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/7spt0.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/8usp9.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/qsaoc.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/9ukej.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/j75gz.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/suuoo.png@normal">
+<meta property="og:image" content="https://blog.idbeny.com/gav7q.png@normal">
+<meta property="article:published_time" content="2018-04-25T12:26:51.000Z">
+<meta property="article:modified_time" content="2022-07-08T01:45:57.789Z">
+<meta property="article:author" content="idbeny">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="汇编">
+<meta property="article:tag" content="AT&amp;T">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.idbeny.com/9rh4b.png@normal">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://idbeny.com/2018/04/25/assembly-at&t/"/>
+
+
+
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+  <title>【汇编】汇编系列七 - AT&T汇编 | 1024星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">1024星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://idbeny.com/2018/04/25/assembly-at&t/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.idbeny.com/avatar.jpg@origin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="1024星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【汇编】汇编系列七 - AT&T汇编</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-25T20:26:51+08:00">
+                2018-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%87%E7%BC%96/" itemprop="url" rel="index">
+                    <span itemprop="name">汇编</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>–</p>
+<span id="more"></span>
+
+<h2 id="一、其他汇编"><a href="#一、其他汇编" class="headerlink" title="一、其他汇编"></a>一、其他汇编</h2><h3 id="1-1-Win32汇编-寄存器"><a href="#1-1-Win32汇编-寄存器" class="headerlink" title="1.1. Win32汇编 - 寄存器"></a>1.1. Win32汇编 - 寄存器</h3><p>如<code>eax</code>、<code>ebx</code>、<code>ecx</code>、<code>edx</code>、<code>eip</code>、<code>esp</code>、<code>ebp</code>、<code>esi</code>、<code>edi</code>等都是32位的寄存器（相比8086汇编只是在指令前面加了<code>e</code>前缀）。</p>
+<p>CPU段寄存器有两个不同的工作方式：实模式、保护模式。<br><strong>实模式</strong>：使用<code>段地址:偏移地址</code>的方式访问内存数据。<br><strong>保护模式</strong>：装入段寄存器的不再是段地址，而是段选择符（<em>Segment Selector</em>），在编程过程中，使用偏移地址直接寻址即可。</p>
+<p>除了8086使用的是实模式，其他汇编都是保护模式。</p>
+<h3 id="1-2-Win64汇编-寄存器"><a href="#1-2-Win64汇编-寄存器" class="headerlink" title="1.2. Win64汇编 - 寄存器"></a>1.2. Win64汇编 - 寄存器</h3><p>在Win64中，寄存器前缀是<code>R</code>，寄存器的数量也变多了。但是基本用法和8086没有太大差别。</p>
+<p><img src="https://blog.idbeny.com/9rh4b.png@normal"></p>
+<h2 id="二、AT-amp-T汇编"><a href="#二、AT-amp-T汇编" class="headerlink" title="二、AT&amp;T汇编"></a>二、AT&amp;T汇编</h2><h3 id="2-1-AT-amp-T汇编和Intel汇编的区别"><a href="#2-1-AT-amp-T汇编和Intel汇编的区别" class="headerlink" title="2.1. AT&amp;T汇编和Intel汇编的区别"></a>2.1. AT&amp;T汇编和Intel汇编的区别</h3><p>基于x86架构的处理器所使用的汇编指令一般有2种格式。</p>
+<ul>
+<li>Intel汇编<ul>
+<li>DOS（8086处理器）、Windows</li>
+<li>编译器：VC</li>
+</ul>
+</li>
+<li>AT&amp;T汇编<ul>
+<li>Linux、Unix、MacOS、iOS模拟器</li>
+<li>编译器：GCC（Xcode的LLVM编译器也是基于GCC）</li>
+</ul>
+</li>
+</ul>
+<p>AT&amp;T（American Telephone &amp; Telegraph的缩写，读作“AT and T”），是一家美国电信公司的名称。对应的AT&amp;T汇编指令就是这家公司制定的。</p>
+<p>作为iOS开发工程师，最主要的汇编语言是AT&amp;T汇编（iOS模拟器）和ARM汇编（iOS真机）。</p>
+<p><strong>指令的区别：</strong></p>
+<p><img src="https://blog.idbeny.com/7spt0.png@normal"></p>
+<p><strong>寻址方式的区别：</strong></p>
+<p><img src="https://blog.idbeny.com/8usp9.png@normal"></p>
+<p>AT&amp;T和ARM指令名称也不太一样：</p>
+<p><img src="https://blog.idbeny.com/qsaoc.png@normal"></p>
+<h3 id="2-2-寄存器"><a href="#2-2-寄存器" class="headerlink" title="2.2. 寄存器"></a>2.2. 寄存器</h3><p>64位AT&amp;T有16个常用64位寄存器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%rax、%rbx、%rcx 、%rdx、%rsi、%rdi、%rbp、%rsp</span><br><span class="line">%r8、%r9、%r10、%r11、%r12、%r13、%r14、%r15</span><br></pre></td></tr></table></figure>
+
+<p>寄存器的具体用途：</p>
+<ul>
+<li><code>%rax</code>作为函数返回值使用</li>
+<li><code>%rsp</code>指向栈顶，<code>%rbp</code>用于辅助栈操作</li>
+<li><code>%rdi</code>、<code>%rsi</code>、<code>%rdx</code>、<code>%rcx</code>、<code>%r8</code>、<code>%r9</code>、<code>%r10</code>等寄存器用于存放函数参数</li>
+</ul>
+<p><code>r</code>前缀的寄存器是64位寄存器，在代码中变量值会在编译时就确定使用64位、32位、16位、8位寄存器。比如一个数值很小的数，使用32位寄存器就可以满足，使用的就是<code>e</code>前缀，如果数值很大，32位寄存器满足不了时，就会使用64位寄存器，使用的是<code>r</code>前缀。如果寄存器不够用会使用栈。</p>
+<p><img src="https://blog.idbeny.com/9ukej.png@normal"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int sum(int a, int b) &#123;</span><br><span class="line">		return a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">		int c = sum(1, 2);</span><br><span class="line">		NSLog(@&quot;%d&quot;, c);</span><br><span class="line">		return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 汇编</span><br><span class="line">sum:</span><br><span class="line">	0x100000ef0 &lt;+0&gt; pushq %rbp							; 保护bp指针</span><br><span class="line">  0x100000ef1 &lt;+1&gt; movq %rsp %rbp					; 保护sp指针</span><br><span class="line">  0x100000ef4 &lt;+4&gt; movl %edi, -0x4(%rbp)	; 寄存器edi的值给局部变量（rbp-0x4）</span><br><span class="line">  0x100000ef7 &lt;+7&gt; movl %esi, -0x8(%rbp)	; 寄存器esi的值给局部变量（rbp-0x8）</span><br><span class="line">  0x100000efa &lt;+10&gt; movl -0x4(%rbp), %esi	; 局部变量（rbp-0x4）的值给寄存器esi</span><br><span class="line">  0x100000efd &lt;+13&gt; addl -0x8(%rbp), %esi	; 局部变量（rbp-0x8）的值和寄存器esi的值相加再赋值给esi</span><br><span class="line">  0x100000f00 &lt;+16&gt; movl %esi, %eax				; 寄存器esi的值给寄存器eax（函数返回值）</span><br><span class="line">  0x100000f02 &lt;+18&gt; popq %rbp							; 恢复bp</span><br><span class="line">  0x100000f03 &lt;+19&gt; retq									; 返回（退出函数）</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-栈帧"><a href="#2-3-栈帧" class="headerlink" title="2.3. 栈帧"></a>2.3. 栈帧</h3><p>AT&amp;T汇编和8086汇编的栈帧有点不太一样，但是本质都差不多。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="title function_">temp</span><span class="params">(<span class="type">long</span> a, <span class="type">long</span> b, <span class="type">long</span> c)</span> &#123;</span><br><span class="line">  	<span class="type">long</span> xx = a * b * c;</span><br><span class="line">  	<span class="type">long</span> yy = a + b + c;</span><br><span class="line">	  <span class="type">long</span> zz = xx + yy;</span><br><span class="line">  	<span class="type">long</span> sum = xx + yy + zz;</span><br><span class="line">  	<span class="keyword">return</span> sum + <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/j75gz.png@normal"></p>
+<p>因为temp函数仅有3个实参，调用它不要求栈使用，因为所有的实参都适用寄存器。另外，因为它是一个叶子函数，gcc选择对其所有局部变量使用红区。因此无需减少rsp来为这些数据分配空间。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="title function_">test</span><span class="params">(<span class="type">long</span> a, <span class="type">long</span> b, <span class="type">long</span> c, <span class="type">long</span> d, <span class="type">long</span> e, <span class="type">long</span> f, <span class="type">long</span> g, <span class="type">long</span> h)</span> &#123;</span><br><span class="line">		<span class="type">long</span> xx = a * b * c * d * e * f * g * h;</span><br><span class="line">		<span class="type">long</span> yy = a + b + c + d + e + f + g + h;</span><br><span class="line">		<span class="type">long</span> zz = temp(xx, yy, <span class="number">6</span>);</span><br><span class="line">		<span class="keyword">return</span> zz + <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.idbeny.com/suuoo.png@normal"></p>
+<p>由rsp指向位置以外128字节的区域被视为保留的，不应该被信号或中断处理句柄改写。因此，函数可以将这个区域用于无需跨越函数调用的临时数据。特别的，叶子函数可以将这个区域用作它们整个栈帧，而不是在prologue与epilogue中调整栈指针。这个区域称为红区。<br>简单地说，红区是一个优化。代码可以假定rsp以下128个字节不会被信号或中断处理句柄破坏，因此可以用于临时数据，无需显式地移动栈指针。最后一句是这个优化所在——递减rsp并保存它是在对数据使用红区时，可以被节省的两条指令（rsp减和rsp加）。<br>不过，记住红区将被函数调用破坏，因此它通常在叶子函数（不调用其他函数的函数）中最有用。</p>
+<p>总结：叶子函数在AT&amp;T汇编中是做了优化的，因为叶子函数中不会调用其他函数（没有新的栈帧），所以rsp不需要移动就可以保证当前栈帧的稳定性。</p>
+<h2 id="三、LLDB常用指令"><a href="#三、LLDB常用指令" class="headerlink" title="三、LLDB常用指令"></a>三、LLDB常用指令</h2><ul>
+<li><p>读取寄存器的值</p>
+<ul>
+<li>格式：<code>register read/格式 寄存器名称</code> </li>
+<li>例：<code>register read/x rax</code>，意思是读取寄存器的值，格式是十六进制。如果不写寄存器名称，会把所有寄存器都列出来。</li>
+</ul>
+</li>
+<li><p>修改寄存器的值</p>
+<ul>
+<li>格式：<code>register write 寄存器名称 数值</code></li>
+<li>例：<code>register write $rax 0</code></li>
+</ul>
+</li>
+<li><p>读取内存中的值</p>
+<ul>
+<li>格式：<code>x/数量-格式-字节大小 内存地址</code></li>
+<li>例：<code>x/3xw 0x0000010</code>，意思是：读取3组16进制形式展示的数据，每组4个字节</li>
+</ul>
+</li>
+<li><p>修改内存中的值</p>
+<ul>
+<li>格式：<code>memory write 内存地址 数值</code></li>
+<li>例：<code>memory write 0x0000010 10</code></li>
+</ul>
+</li>
+<li><p><code>expression 表达式</code>可以简写为<code>expr 表达式</code>，例如：<code>expression $rax</code>，<code>expression $rax = 1</code></p>
+</li>
+<li><p><code>p或print 表达式</code>：打印信息</p>
+</li>
+<li><p><code>po 表达式</code>：全拼：print-object，打印对象，该命令还可以执行一些函数</p>
+</li>
+<li><p><code>po/x $rax</code>：打印寄存器rax存储的内容（十六进制格式）。</p>
+</li>
+<li><p><code>po (int)$rax</code>：打印寄存器rax存储的内容（十进制）。</p>
+</li>
+<li><p>格式：</p>
+<ul>
+<li><code>x</code>：十六进制</li>
+<li><code>f</code>：浮点</li>
+<li><code>d</code>：十进制</li>
+</ul>
+</li>
+<li><p>字节大小：</p>
+<ul>
+<li><code>b</code>： byte，1字节</li>
+<li><code>h</code>：half word，2字节</li>
+<li><code>w</code>：word，4字节</li>
+<li><code>g</code>：giant word，8字节</li>
+</ul>
+</li>
+</ul>
+<p>更多指令参考 <code>help expression</code>。</p>
+<p><strong>代码调试运行指令：</strong></p>
+<ul>
+<li><p><code>thread step-over</code></p>
+<ul>
+<li>简写：<code>next</code> 和 <code>n</code></li>
+<li>单步运行，把子函数当做整体一步执行（源码级别）</li>
+</ul>
+</li>
+<li><p><code>thread step-in</code></p>
+<ul>
+<li>简写：<code>step</code> 和 <code>s</code></li>
+<li>单步运行，遇到子函数会进入子函数（源码级别）</li>
+</ul>
+</li>
+<li><p><code>thread step-inst-over</code></p>
+<ul>
+<li>简写：<code>nexti</code> 和 <code>ni</code></li>
+<li>单步运行，把子函数当做整体一步执行（汇编级别）</li>
+</ul>
+</li>
+<li><p><code>thread step-inst</code></p>
+<ul>
+<li>简写：<code>stepi</code> 和 <code>si</code></li>
+<li>单步运行，遇到子函数会进入子函数（汇编级别）</li>
+</ul>
+</li>
+<li><p><code>thread step-out</code></p>
+<ul>
+<li>简写：<code>finish</code></li>
+<li>直接执行完当前函数的所有代码，返回到上一个函数（遇到断点会卡主）</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.idbeny.com/gav7q.png@normal"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    idbeny
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://idbeny.com/2018/04/25/assembly-at&t/" title="【汇编】汇编系列七 - AT&T汇编">http://idbeny.com/2018/04/25/assembly-at&t/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          
+            <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          
+            <a href="/tags/AT-T/" rel="tag"># AT&T</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/assembly-func/" rel="next" title="【汇编】汇编系列六 - 函数的调用过程">
+                <i class="fa fa-chevron-left"></i> 【汇编】汇编系列六 - 函数的调用过程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/05/ios-hack-env/" rel="prev" title="【iOS】iOS逆向系列一 - 越狱环境搭建">
+                【iOS】iOS逆向系列一 - 越狱环境搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://blog.idbeny.com/avatar.jpg@origin"
+               alt="" />
+          <p class="site-author-name" itemprop="name"></p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">285</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/idbeny" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:idbeny@163.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/idbeny" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%85%B6%E4%BB%96%E6%B1%87%E7%BC%96"><span class="nav-number">1.</span> <span class="nav-text">一、其他汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Win32%E6%B1%87%E7%BC%96-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. Win32汇编 - 寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Win64%E6%B1%87%E7%BC%96-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. Win64汇编 - 寄存器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81AT-amp-T%E6%B1%87%E7%BC%96"><span class="nav-number">2.</span> <span class="nav-text">二、AT&amp;T汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-AT-amp-T%E6%B1%87%E7%BC%96%E5%92%8CIntel%E6%B1%87%E7%BC%96%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text">2.1. AT&amp;T汇编和Intel汇编的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%A0%88%E5%B8%A7"><span class="nav-number">2.3.</span> <span class="nav-text">2.3. 栈帧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81LLDB%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">三、LLDB常用指令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">idbeny</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
