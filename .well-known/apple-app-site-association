@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["KJMCD857JY.com.menusifu.plus"],
+        "paths": ["*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["KJMCD857JY.com.menusifu.plus"]
+  }
+}
